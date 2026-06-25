@@ -1,0 +1,63 @@
+---
+id: QS-001-event-processing-latency
+type: QualityScenario
+title: Event processing latency under normal load
+status: accepted
+owner: platform-architecture
+created: 2026-06-25
+reviewed: true
+summary: Business events should be available to consumers within a predictable latency target under normal load.
+tags:
+  - performance
+  - events
+  - latency
+relations:
+  - type: depends_on
+    target: ADR-001-use-kafka
+    status: accepted
+    rationale: The scenario assumes Kafka partitions and consumer groups as the event delivery mechanism.
+    reviewed: true
+---
+= QS-001: Event Processing Latency Under Normal Load
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+
+| Source
+| A domain service publishes a business event.
+
+| Stimulus
+| A valid event is appended to the event backbone during normal business load.
+
+| Environment
+| Normal operation, with expected daily traffic and no active platform incident.
+
+| Artifact
+| Event backbone and subscribed consumer services.
+
+| Response
+| Subscribed consumers can receive and start processing the event.
+
+| Response Measure
+| 95% of valid events are available to active consumer groups within 2 seconds of publication.
+|===
+
+== Rationale
+
+Several user-facing workflows depend on timely propagation of domain events. The
+latency target is intentionally modest for the sample project, but concrete
+enough to drive architecture decisions and operational monitoring.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+
+| `depends_on`
+| `ADR-001-use-kafka`
+| The scenario relies on Kafka as the selected event delivery mechanism.
+|===

@@ -1,0 +1,79 @@
+---
+id: RISK-001-event-backbone-coupling
+type: Risk
+title: Event backbone coupling
+status: proposed
+owner: platform-architecture
+created: 2026-06-25
+reviewed: true
+summary: A shared event backbone may couple teams through schemas, availability, and operational practices.
+tags:
+  - risk
+  - events
+  - coupling
+relations:
+  - type: depends_on
+    target: ADR-001-use-kafka
+    status: accepted
+    rationale: The risk exists because Kafka is selected as the shared event backbone.
+    reviewed: true
+  - type: affects
+    target: QS-001-event-processing-latency
+    status: accepted
+    rationale: Coupling and operational contention can affect event processing latency.
+    reviewed: true
+---
+= RISK-001: Event Backbone Coupling
+
+== Risk Statement
+
+Because multiple teams publish and consume events through a shared Kafka
+backbone, teams may become coupled through event schemas, partitioning choices,
+retention settings, and operational incidents, leading to slower change and
+reduced delivery independence.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+
+| Likelihood
+| Medium
+
+| Impact
+| Medium
+
+| Timeframe
+| Medium-term
+
+| Confidence
+| Medium
+|===
+
+== Mitigation Options
+
+* Define ownership for event schemas and compatibility rules.
+* Monitor consumer lag and publish operational dashboards per event stream.
+* Use topic naming and access conventions that make ownership visible.
+* Review high-volume or high-criticality event streams explicitly.
+
+== Decision or Acceptance
+
+The risk is accepted for the sample project with mitigation. It should remain
+visible while Kafka is used as the shared event backbone.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+
+| `depends_on`
+| `ADR-001-use-kafka`
+| The risk follows from the Kafka decision.
+
+| `affects`
+| `QS-001-event-processing-latency`
+| Operational contention can affect the latency quality scenario.
+|===

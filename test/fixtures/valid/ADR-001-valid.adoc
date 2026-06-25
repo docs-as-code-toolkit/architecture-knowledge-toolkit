@@ -1,0 +1,12 @@
+---
+id: ADR-001-valid
+type: ADR
+title: Valid decision
+status: accepted
+created: 2026-06-25
+relations:
+  - type: relates_to
+    target: QS-001-valid
+    status: accepted
+---
+= ADR-001: Valid Decision

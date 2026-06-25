@@ -1,0 +1,8 @@
+---
+id: QS-001-valid
+type: QualityScenario
+title: Valid quality scenario
+status: accepted
+created: 2026-06-25
+---
+= QS-001: Valid Quality Scenario

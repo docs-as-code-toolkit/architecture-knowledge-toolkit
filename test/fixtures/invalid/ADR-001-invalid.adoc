@@ -1,0 +1,12 @@
+---
+id: ADR-001-invalid
+type: ADR
+status: accepted
+created: 2026-06-25
+relations:
+  - type: relates_to
+    target: QS-999-missing
+    status: accepted
+    confidence: high
+---
+= ADR-001: Invalid Decision

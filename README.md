@@ -47,4 +47,45 @@ differs without an input change, that is a defect in the generator or environmen
 This is the initial repository skeleton. It intentionally does not include a full
 generator implementation yet. The first milestone is to stabilize the metamodel,
 templates, example content, and engine-independent skill contracts.
+## Validation
+
+The first deterministic validation step is available as a small Ruby CLI. It
+scans architecture artifacts with YAML front matter and validates the metadata
+and explicit relationships.
+
+Run the default validation against the sample project:
+
+```sh
+ruby scripts/validate-metamodel.rb
+```
+
+By default, the validator scans:
+
+```text
+examples/sample-project/docs
+```
+
+You can validate another artifact directory with:
+
+```sh
+ruby scripts/validate-metamodel.rb --docs path/to/docs
+```
+
+The validator checks that:
+
+- every `.adoc` file has YAML front matter between `---` markers;
+- required metadata fields exist: `id`, `type`, `title`, `status`, `created`;
+- artifact IDs are unique;
+- relation keys are known according to `metamodel/relations.schema.yaml`;
+- relation types are supported by the metamodel;
+- relation targets reference existing artifact IDs in the scanned document set.
+
+It prints a validation report and exits with a non-zero status if validation
+fails. It does not generate documentation and does not call any AI service.
+
+Run the validator tests with:
+
+```sh
+ruby -Itest test/validate_metamodel_test.rb
+```
 

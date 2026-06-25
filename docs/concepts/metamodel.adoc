@@ -1,0 +1,224 @@
+= Architecture Metamodel
+:toc:
+:toclevels: 2
+:id: DOC-003-metamodel
+:type: Document
+:status: draft
+:owner: architecture-knowledge-toolkit maintainers
+:created: 2026-06-25
+:reviewed: false
+
+== Purpose
+
+The architecture metamodel defines the small set of metadata fields and
+relationship types used by this repository. It keeps architecture knowledge
+reviewable as source text while still enabling deterministic generated views.
+
+The model is intentionally simple. Teams can add domain-specific conventions on
+top, but the shared core should remain stable, explicit, and easy to validate.
+
+== Source of Truth
+
+AsciiDoc files are the primary authoring format. Metadata is stored as YAML front
+matter at the top of each architecture artifact.
+
+[source,yaml]
+----
+---
+id: ADR-001-use-kafka
+type: ADR
+title: Use Kafka as the event backbone
+status: accepted
+owner: platform-architecture
+created: 2026-06-25
+reviewed: true
+tags:
+  - events
+relations:
+  - type: addresses
+    target: QS-001-event-processing-latency
+    status: accepted
+    rationale: Kafka supports partitioned processing for latency-sensitive flows.
+---
+----
+
+The repository owns the truth. AI-generated metadata or prose is only a
+suggestion until a reviewer accepts it.
+
+== Common Artifact Metadata
+
+[cols="1,1,3", options="header"]
+|===
+| Field | Required | Meaning
+
+| `id`
+| yes
+| Stable artifact identifier. It must not be reused after deletion or rename.
+
+| `type`
+| yes
+| Artifact type from the supported type list.
+
+| `title`
+| yes
+| Human-readable artifact title.
+
+| `status`
+| yes
+| Lifecycle state such as `draft`, `proposed`, `accepted`, or `superseded`.
+
+| `owner`
+| yes
+| Person, team, or role accountable for the artifact.
+
+| `created`
+| yes
+| Creation date in `YYYY-MM-DD` format.
+
+| `updated`
+| no
+| Last meaningful update date in `YYYY-MM-DD` format.
+
+| `reviewed`
+| no
+| `true` only after human review. AI suggestions should start as `false`.
+
+| `generated`
+| no
+| `true` only for derived output. Source artifacts should normally be `false`.
+
+| `summary`
+| no
+| Short summary suitable for indexes and generated overview pages.
+
+| `tags`
+| no
+| Lowercase tags for grouping and filtering.
+
+| `relations`
+| no
+| Explicit outgoing relationships to other artifacts.
+|===
+
+== Supported Artifact Types
+
+[cols="1,3", options="header"]
+|===
+| Type | Use
+
+| `ADR`
+| Architecture Decision Record. Captures a decision, considered options, and consequences.
+
+| `QualityScenario`
+| Concrete, measurable quality requirement or scenario.
+
+| `Risk`
+| Architecture risk with cause, event, impact, assessment, and mitigation options.
+
+| `Requirement`
+| Functional or non-functional requirement referenced by architecture work.
+
+| `Constraint`
+| Binding technical, organizational, legal, or operational limitation.
+
+| `Component`
+| Architecture building block or deployable element.
+
+| `Interface`
+| Contract or integration point between components or systems.
+
+| `Stakeholder`
+| Person, role, organization, or group with architecture concerns.
+
+| `Concept`
+| Reusable architecture concept, pattern, or definition.
+
+| `Document`
+| Supporting documentation that participates in traceability.
+|===
+
+== Relationship Types and Semantics
+
+Relationships are directed: `source --type--> target`. Relationship semantics
+should be read from the source artifact toward the target artifact.
+
+[cols="1,3", options="header"]
+|===
+| Relationship | Semantics
+
+| `addresses`
+| The source responds to, satisfies, or intentionally handles the target.
+
+| `depends_on`
+| The source requires the target to remain valid or implementable.
+
+| `constrains`
+| The source limits the design space of the target.
+
+| `refines`
+| The source adds detail to the target without replacing it.
+
+| `supersedes`
+| The source replaces the target as the current artifact.
+
+| `conflicts_with`
+| The source is in tension with the target and needs explicit resolution.
+
+| `mitigates`
+| The source reduces the likelihood or impact of the target risk.
+
+| `introduces_risk`
+| The source creates or increases the target risk.
+
+| `affects`
+| The source has a meaningful impact on the target, but no stronger relation applies.
+
+| `verifies`
+| The source provides evidence that the target is satisfied.
+
+| `documents`
+| The source documents, explains, or records the target.
+
+| `relates_to`
+| Weak relation for early capture. Prefer a more specific type after review.
+|===
+
+== Relationship Status
+
+[cols="1,3", options="header"]
+|===
+| Status | Meaning
+
+| `proposed`
+| Suggested but not reviewed. AI-generated relations should start here.
+
+| `reviewed`
+| Checked by a human but not necessarily accepted as architecture truth.
+
+| `accepted`
+| Accepted as part of the repository's architecture knowledge.
+
+| `rejected`
+| Considered and intentionally rejected.
+|===
+
+== Examples
+
+The sample project contains one ADR, one quality scenario, and one risk:
+
+* `examples/sample-project/docs/adr/ADR-001-use-kafka.adoc`
+* `examples/sample-project/docs/quality/QS-001-event-processing-latency.adoc`
+* `examples/sample-project/docs/risks/RISK-001-event-backbone-coupling.adoc`
+
+Together they show a minimal traceability chain: the ADR addresses the quality
+scenario and introduces a risk; the risk depends on the ADR and affects the same
+quality scenario.
+
+== Extension Rules
+
+* Add new artifact types only when existing types are insufficient.
+* Add new relationship types only when the semantics cannot be expressed clearly
+  with an existing type.
+* Keep generated fields out of source metadata unless they are explicit inputs.
+* Preserve stable IDs even when titles or filenames change.
+* Prefer explicit relation metadata over inferred links in prose.
