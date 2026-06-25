@@ -1,0 +1,21 @@
+= Architecture Decision Records
+:id: DOC-ADR-README-001
+:status: draft
+:owner: architecture-knowledge-toolkit maintainers
+
+This directory is reserved for Architecture Decision Records.
+
+Use `templates/adr.adoc` as the starting point for new decisions. Every ADR
+must have a stable ID and an explicit status such as `proposed`, `accepted`,
+`superseded`, or `rejected`.
+
+ADR relationships should be captured explicitly in metadata. Common relations
+include:
+
+* `supersedes`
+* `depends_on`
+* `constrains`
+* `mitigates`
+* `introduces_risk`
+* `addresses_quality`
+

@@ -1,0 +1,60 @@
+= Vision
+:id: DOC-VISION-001
+:status: draft
+:owner: architecture-knowledge-toolkit maintainers
+:revdate: 2026-06-25
+
+== Purpose
+
+`architecture-knowledge-toolkit` provides reusable assets for software
+architecture work. It helps teams capture architecture decisions, quality
+scenarios, risks, relationships, and review guidance as version-controlled
+knowledge.
+
+== Core Idea
+
+AI can help discover, draft, and challenge architecture knowledge, but it does
+not own the truth. The repository owns the truth through reviewed documents,
+explicit metadata, stable IDs, and deterministic generated views.
+
+== Goals
+
+* Make architecture work reproducible and reviewable.
+* Support Docs-as-Code workflows with AsciiDoc as the primary documentation
+  format.
+* Provide reusable templates for common architecture artifacts.
+* Define metadata schemas for traceability across decisions, risks, qualities,
+  components, stakeholders, and requirements.
+* Provide AI skills that are useful across engines and tools.
+* Keep engine-specific behavior isolated in adapters.
+
+== Non-Goals
+
+* Replacing architect judgment with generated content.
+* Inferring authoritative traceability solely from prose.
+* Building a full generator before the metamodel and templates stabilize.
+* Binding the toolkit to a single AI provider, editor, or runtime.
+
+== Architecture Knowledge Model
+
+Architecture knowledge is represented as reviewed source artifacts plus explicit
+relationships. Derived documentation can be generated from those sources, but
+generated output is not the primary editing surface.
+
+Every artifact should have:
+
+* A stable ID.
+* A type.
+* A title.
+* A lifecycle status.
+* An owner or accountable role.
+* Optional tags and relations.
+
+Every relation should identify:
+
+* A stable relation ID.
+* A source artifact.
+* A target artifact.
+* A relation type.
+* The evidence or rationale for the relation.
+

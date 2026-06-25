@@ -1,0 +1,36 @@
+= Sample Project
+:id: DOC-SAMPLE-PROJECT-001
+:status: draft
+:owner: architecture-knowledge-toolkit maintainers
+
+This sample project demonstrates how architecture artifacts and explicit
+traceability metadata can be organized.
+
+The sample is intentionally small. It exists to show conventions, not to model a
+complete system.
+
+== Example Artifact IDs
+
+* `ADR-PERSISTENCE-001`: Example decision about persistence.
+* `QS-LATENCY-001`: Example latency quality scenario.
+* `RISK-OPERABILITY-001`: Example operational risk.
+
+== Suggested Layout
+
+[source,text]
+----
+examples/sample-project/
+  README.adoc
+  artifacts.yaml
+  relations.yaml
+  adr/
+  quality-scenarios/
+  risks/
+----
+
+== Notes
+
+Future milestones should add concrete sample artifacts and validation commands.
+For now, this directory documents the intended shape without introducing a
+generator implementation.
+

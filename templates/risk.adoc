@@ -1,0 +1,47 @@
+= Architecture Risk: <Title>
+:id: RISK-AREA-001
+:type: risk
+:status: proposed
+:owner: <role-or-person>
+:created: <YYYY-MM-DD>
+:updated: <YYYY-MM-DD>
+:tags: risk
+
+== Risk Statement
+
+Because <cause>, <event> may occur, leading to <impact>.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | <low-medium-high-or-explicit-scale>
+| Impact | <low-medium-high-or-explicit-scale>
+| Timeframe | <near-medium-long-term>
+| Confidence | <low-medium-high>
+|===
+
+== Mitigation Options
+
+* <mitigation-option-1>
+* <mitigation-option-2>
+
+== Decision or Acceptance
+
+Describe whether the risk is mitigated, monitored, transferred, accepted, or
+still under analysis.
+
+== Traceability
+
+[cols="1,1,2", options="header"]
+|===
+| Relation | Target ID | Rationale
+| <relation-type> | <artifact-id> | <rationale>
+|===
+
+== Review Notes
+
+AI-suggested risks must remain `proposed` until reviewed by the accountable
+owner.
+

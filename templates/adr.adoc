@@ -1,0 +1,71 @@
+= Architecture Decision Record: <Title>
+:id: ADR-AREA-001
+:type: adr
+:status: proposed
+:owner: <role-or-person>
+:created: <YYYY-MM-DD>
+:updated: <YYYY-MM-DD>
+:tags: architecture,decision
+
+== Metadata
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| ID | `{id}`
+| Type | `{type}`
+| Status | `{status}`
+| Owner | `{owner}`
+|===
+
+== Context
+
+Describe the problem, forces, constraints, and relevant background.
+
+== Decision Drivers
+
+* <driver-1>
+* <driver-2>
+* <driver-3>
+
+== Considered Options
+
+=== Option 1: <name>
+
+Summary, benefits, costs, and risks.
+
+=== Option 2: <name>
+
+Summary, benefits, costs, and risks.
+
+== Decision
+
+We will <decision>.
+
+== Consequences
+
+=== Positive
+
+* <positive-consequence>
+
+=== Negative
+
+* <negative-consequence>
+
+=== Neutral or Follow-Up
+
+* <follow-up>
+
+== Traceability
+
+[cols="1,1,2", options="header"]
+|===
+| Relation | Target ID | Rationale
+| <relation-type> | <artifact-id> | <rationale>
+|===
+
+== Review Notes
+
+AI-generated or AI-assisted content must be reviewed before this ADR is marked
+`accepted`.
+

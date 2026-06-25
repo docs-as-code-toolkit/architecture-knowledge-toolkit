@@ -1,0 +1,40 @@
+# Risk Assessment Skill
+
+## Purpose
+
+Help identify and structure architecture risks. This skill supports review and
+prioritization; it does not decide risk acceptance.
+
+## Inputs
+
+- Architecture context.
+- Decisions, components, interfaces, constraints, or quality scenarios.
+- Known incidents, assumptions, or uncertainties.
+- Existing risk IDs where available.
+
+## Output
+
+Produce risk entries based on `templates/risk.adoc` with:
+
+- Stable proposed IDs.
+- Clear cause, event, and impact.
+- Likelihood and impact assessments.
+- Mitigation options.
+- Owner and review status.
+- Suggested relations to affected artifacts.
+
+## Rules
+
+- Separate risks from issues and decisions.
+- Call out uncertainty explicitly.
+- Avoid false precision in likelihood or impact.
+- Mark AI-suggested risks as `proposed` until reviewed.
+- Prefer actionable mitigations.
+
+## Review Checklist
+
+- The risk statement is specific.
+- Impact is tied to architecture outcomes.
+- Mitigations are realistic and owned.
+- Relations use stable artifact IDs.
+

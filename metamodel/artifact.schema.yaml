@@ -1,0 +1,78 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://architecture-knowledge-toolkit.example/metamodel/artifact.schema.yaml"
+title: Architecture Artifact
+type: object
+additionalProperties: false
+required:
+  - id
+  - type
+  - title
+  - status
+  - owner
+properties:
+  id:
+    type: string
+    description: Stable architecture artifact identifier.
+    pattern: "^[A-Z][A-Z0-9]+-[A-Z0-9]+-[0-9]{3,}$"
+    examples:
+      - ADR-PERSISTENCE-001
+      - QS-LATENCY-001
+      - RISK-OPERABILITY-001
+  type:
+    type: string
+    enum:
+      - adr
+      - quality-scenario
+      - risk
+      - requirement
+      - component
+      - interface
+      - constraint
+      - stakeholder
+      - concept
+      - document
+  title:
+    type: string
+    minLength: 1
+  status:
+    type: string
+    enum:
+      - draft
+      - proposed
+      - reviewed
+      - accepted
+      - rejected
+      - superseded
+      - deprecated
+  owner:
+    type: string
+    minLength: 1
+  source:
+    type: string
+    description: Repository-relative source path for the artifact.
+  summary:
+    type: string
+  tags:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      pattern: "^[a-z0-9][a-z0-9-]*$"
+  created:
+    type: string
+    format: date
+  updated:
+    type: string
+    format: date
+  reviewed:
+    type: boolean
+    description: True only when suggested content has been reviewed.
+    default: false
+  generated:
+    type: boolean
+    description: True when the artifact is derived output rather than source.
+    default: false
+  metadata_version:
+    type: string
+    default: "1.0"
+

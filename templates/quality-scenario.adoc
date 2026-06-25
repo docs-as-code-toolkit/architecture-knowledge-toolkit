@@ -1,0 +1,39 @@
+= Quality Scenario: <Title>
+:id: QS-ATTRIBUTE-001
+:type: quality-scenario
+:status: proposed
+:owner: <role-or-person>
+:created: <YYYY-MM-DD>
+:updated: <YYYY-MM-DD>
+:tags: quality
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | <who-or-what-initiates-the-stimulus>
+| Stimulus | <event-or-condition>
+| Environment | <normal-load-failure-maintenance-attack-etc>
+| Artifact | <system-component-interface-or-process>
+| Response | <observable-system-response>
+| Response Measure | <measurable-threshold-or-target>
+|===
+
+== Rationale
+
+Explain why this scenario matters and which stakeholder outcome it supports.
+
+== Traceability
+
+[cols="1,1,2", options="header"]
+|===
+| Relation | Target ID | Rationale
+| <relation-type> | <artifact-id> | <rationale>
+|===
+
+== Review Notes
+
+Mark this scenario as reviewed only after the response measure and stakeholder
+value are confirmed.
+

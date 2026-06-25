@@ -1,0 +1,68 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://architecture-knowledge-toolkit.example/metamodel/relations.schema.yaml"
+title: Architecture Artifact Relations
+type: object
+additionalProperties: false
+required:
+  - relations
+properties:
+  relations:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - source
+        - target
+        - type
+        - status
+      properties:
+        id:
+          type: string
+          description: Stable relation identifier.
+          pattern: "^REL-[A-Z0-9]+-[0-9]{3,}$"
+          examples:
+            - REL-PERSISTENCE-001
+        source:
+          type: string
+          description: Stable ID of the source artifact.
+        target:
+          type: string
+          description: Stable ID of the target artifact.
+        type:
+          type: string
+          enum:
+            - addresses
+            - depends_on
+            - constrains
+            - refines
+            - supersedes
+            - conflicts_with
+            - mitigates
+            - introduces_risk
+            - affects
+            - verifies
+            - documents
+        status:
+          type: string
+          enum:
+            - proposed
+            - reviewed
+            - accepted
+            - rejected
+        evidence:
+          type: string
+          description: Repository-relative evidence path, section, or rationale.
+        rationale:
+          type: string
+        created:
+          type: string
+          format: date
+        updated:
+          type: string
+          format: date
+        reviewed:
+          type: boolean
+          default: false
+
