@@ -89,3 +89,33 @@ Run the validator tests with:
 ruby -Itest test/validate_metamodel_test.rb
 ```
 
+## Traceability Matrix Generation
+
+The first documentation generator creates a deterministic AsciiDoc traceability
+matrix from validated architecture artifact metadata.
+
+Generate the sample project matrix with:
+
+```sh
+ruby scripts/validate-metamodel.rb --generate
+```
+
+The command validates the artifact metadata first. If validation fails, no matrix
+is generated and the command exits with a non-zero status.
+
+By default, the generated file is written to:
+
+```text
+examples/sample-project/docs/generated/traceability-matrix.adoc
+```
+
+You can choose another output path with:
+
+```sh
+ruby scripts/validate-metamodel.rb --generate --output path/to/traceability-matrix.adoc
+```
+
+The generator is deterministic and idempotent: running it multiple times with the
+same inputs produces identical output. Generated files under a `generated/`
+directory are ignored by the artifact scanner so derived documentation is not
+treated as source architecture knowledge.

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'date'
+require 'fileutils'
 require 'optparse'
 require 'pathname'
 require 'set'
@@ -12,7 +13,7 @@ class MetamodelValidator
 
   Artifact = Struct.new(:path, :metadata, keyword_init: true)
 
-  attr_reader :errors, :warnings
+  attr_reader :errors, :warnings, :root, :docs_dir
 
   def initialize(root:, docs_dir:, relations_schema:)
     @root = Pathname.new(root).expand_path
@@ -23,6 +24,9 @@ class MetamodelValidator
   end
 
   def validate
+    @errors = []
+    @warnings = []
+
     relation_schema = load_yaml(@relations_schema)
     relation_types = relation_schema.fetch('$defs').fetch('relationshipType').fetch('enum')
     relation_keys = relation_schema.fetch('$defs').fetch('relation').fetch('properties').keys
@@ -71,8 +75,14 @@ class MetamodelValidator
 
     Dir.glob(@docs_dir.join('**/*.adoc').to_s).sort.map do |path|
       artifact_path = Pathname.new(path)
+      next if generated_path?(artifact_path)
+
       Artifact.new(path: artifact_path, metadata: read_front_matter(artifact_path))
-    end
+    end.compact
+  end
+
+  def generated_path?(path)
+    path.expand_path.each_filename.include?('generated')
   end
 
   def validate_artifacts(artifacts)
@@ -188,12 +198,111 @@ class MetamodelValidator
   end
 end
 
+class TraceabilityMatrixGenerator
+  DEFAULT_OUTPUT = 'generated/traceability-matrix.adoc'
+
+  def initialize(root:, docs_dir:, output_path: nil)
+    @root = Pathname.new(root).expand_path
+    @docs_dir = Pathname.new(docs_dir).expand_path
+    @output_path = Pathname.new(output_path || @docs_dir.join(DEFAULT_OUTPUT)).expand_path
+  end
+
+  def write(artifacts)
+    content = render(artifacts)
+    FileUtils.mkdir_p(@output_path.dirname)
+    @output_path.write(content)
+    @output_path
+  end
+
+  def render(artifacts)
+    artifacts_by_id = artifacts.each_with_object({}) do |artifact, index|
+      index[artifact.metadata['id']] = artifact if artifact.metadata
+    end
+    incoming = incoming_relations(artifacts)
+    sorted = artifacts.sort_by { |artifact| [artifact.metadata['type'].to_s, artifact.metadata['id'].to_s] }
+
+    lines = []
+    lines << '= Traceability Matrix'
+    lines << ':toc:'
+    lines << ':toclevels: 1'
+    lines << ''
+    lines << '// Generated from architecture artifact metadata. Do not edit manually.'
+    lines << ''
+    lines << '[cols="1,1,2,1,3,3", options="header"]'
+    lines << '|==='
+    lines << '| Artifact ID | Type | Title | Status | Outgoing relations | Incoming relations'
+    lines << ''
+
+    sorted.each do |artifact|
+      metadata = artifact.metadata
+      id = metadata['id']
+      lines << "| #{artifact_link(artifact)}"
+      lines << "| #{cell(metadata['type'])}"
+      lines << "| #{cell(metadata['title'])}"
+      lines << "| #{cell(metadata['status'])}"
+      lines << "| #{relations_cell(metadata['relations'] || [], artifacts_by_id, :outgoing)}"
+      lines << "| #{relations_cell(incoming.fetch(id, []), artifacts_by_id, :incoming)}"
+      lines << ''
+    end
+
+    lines << '|==='
+    lines << ''
+    lines.join("\n")
+  end
+
+  private
+
+  def incoming_relations(artifacts)
+    artifacts.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |artifact, index|
+      source_id = artifact.metadata['id']
+      Array(artifact.metadata['relations']).each do |relation|
+        index[relation['target']] << relation.merge('source' => source_id)
+      end
+    end
+  end
+
+  def relations_cell(relations, artifacts_by_id, direction)
+    return '-' if relations.empty?
+
+    sorted = relations.sort_by do |relation|
+      other_id = direction == :outgoing ? relation['target'] : relation['source']
+      [relation['type'].to_s, other_id.to_s]
+    end
+
+    sorted.map do |relation|
+      if direction == :outgoing
+        "#{cell(relation['type'])} -> #{artifact_ref(relation['target'], artifacts_by_id)}"
+      else
+        "#{artifact_ref(relation['source'], artifacts_by_id)} -> #{cell(relation['type'])}"
+      end
+    end.join(" +\n")
+  end
+
+  def artifact_link(artifact)
+    target = artifact.path.expand_path.relative_path_from(@output_path.dirname).to_s
+    "xref:#{target}[#{cell(artifact.metadata['id'])}]"
+  end
+
+  def artifact_ref(id, artifacts_by_id)
+    artifact = artifacts_by_id[id]
+    return cell(id) unless artifact
+
+    artifact_link(artifact)
+  end
+
+  def cell(value)
+    value.to_s.gsub('|', '\|').gsub("\n", ' ')
+  end
+end
+
 
 if $PROGRAM_NAME == __FILE__
   root = Pathname.new(__dir__).join('..').expand_path
   options = {
     docs_dir: root.join('examples/sample-project/docs'),
-    relations_schema: root.join('metamodel/relations.schema.yaml')
+    relations_schema: root.join('metamodel/relations.schema.yaml'),
+    generate: false,
+    output: nil
   }
 
   OptionParser.new do |parser|
@@ -204,6 +313,12 @@ if $PROGRAM_NAME == __FILE__
     parser.on('--relations-schema FILE', 'Path to metamodel/relations.schema.yaml') do |value|
       options[:relations_schema] = Pathname.new(value)
     end
+    parser.on('--generate', 'Generate the AsciiDoc traceability matrix after successful validation') do
+      options[:generate] = true
+    end
+    parser.on('--output FILE', 'Generated traceability matrix path') do |value|
+      options[:output] = Pathname.new(value)
+    end
   end.parse!
 
   validator = MetamodelValidator.new(
@@ -213,5 +328,15 @@ if $PROGRAM_NAME == __FILE__
   )
   artifacts = validator.validate
   validator.print_report(artifacts)
-  exit(validator.errors.empty? ? 0 : 1)
+  exit(1) unless validator.errors.empty?
+
+  if options[:generate]
+    generator = TraceabilityMatrixGenerator.new(
+      root: root,
+      docs_dir: options[:docs_dir],
+      output_path: options[:output]
+    )
+    output_path = generator.write(artifacts)
+    puts "Generated traceability matrix: #{output_path.relative_path_from(root)}"
+  end
 end
