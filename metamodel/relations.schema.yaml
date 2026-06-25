@@ -1,6 +1,10 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://architecture-knowledge-toolkit.example/metamodel/relations.schema.yaml"
-title: Architecture Artifact Relations
+title: Architecture Relationship Metadata
+description: >-
+  Schema for explicit traceability relationships between architecture artifacts.
+  Relationships can be embedded in YAML front matter or collected in a separate
+  relation index.
 type: object
 additionalProperties: false
 required:
@@ -9,60 +13,100 @@ properties:
   relations:
     type: array
     items:
-      type: object
-      additionalProperties: false
-      required:
-        - id
-        - source
-        - target
-        - type
-        - status
-      properties:
-        id:
-          type: string
-          description: Stable relation identifier.
-          pattern: "^REL-[A-Z0-9]+-[0-9]{3,}$"
-          examples:
-            - REL-PERSISTENCE-001
-        source:
-          type: string
-          description: Stable ID of the source artifact.
-        target:
-          type: string
-          description: Stable ID of the target artifact.
-        type:
-          type: string
-          enum:
-            - addresses
-            - depends_on
-            - constrains
-            - refines
-            - supersedes
-            - conflicts_with
-            - mitigates
-            - introduces_risk
-            - affects
-            - verifies
-            - documents
-        status:
-          type: string
-          enum:
-            - proposed
-            - reviewed
-            - accepted
-            - rejected
-        evidence:
-          type: string
-          description: Repository-relative evidence path, section, or rationale.
-        rationale:
-          type: string
-        created:
-          type: string
-          format: date
-        updated:
-          type: string
-          format: date
-        reviewed:
-          type: boolean
-          default: false
-
+      $ref: "#/$defs/indexedRelation"
+$defs:
+  artifactId:
+    type: string
+    pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
+  relationshipType:
+    type: string
+    enum:
+      - addresses
+      - depends_on
+      - constrains
+      - refines
+      - supersedes
+      - conflicts_with
+      - mitigates
+      - introduces_risk
+      - affects
+      - verifies
+      - documents
+      - relates_to
+  relationshipStatus:
+    type: string
+    enum:
+      - proposed
+      - reviewed
+      - accepted
+      - rejected
+  relation:
+    type: object
+    additionalProperties: false
+    required:
+      - type
+      - target
+      - status
+    properties:
+      type:
+        $ref: "#/$defs/relationshipType"
+      target:
+        $ref: "#/$defs/artifactId"
+      status:
+        $ref: "#/$defs/relationshipStatus"
+      rationale:
+        type: string
+      evidence:
+        type: string
+        description: Repository-relative path or section reference supporting the relation.
+      reviewed:
+        type: boolean
+        default: false
+  indexedRelation:
+    type: object
+    additionalProperties: false
+    required:
+      - id
+      - source
+      - type
+      - target
+      - status
+    properties:
+      id:
+        type: string
+        description: Stable relationship identifier for relation index files.
+        pattern: "^REL-[0-9]{3,}(-[a-z0-9]+)*$"
+      source:
+        $ref: "#/$defs/artifactId"
+      type:
+        $ref: "#/$defs/relationshipType"
+      target:
+        $ref: "#/$defs/artifactId"
+      status:
+        $ref: "#/$defs/relationshipStatus"
+      rationale:
+        type: string
+      evidence:
+        type: string
+        description: Repository-relative path or section reference supporting the relation.
+      reviewed:
+        type: boolean
+        default: false
+examples:
+  - relations:
+      - id: REL-001-kafka-addresses-latency
+        source: ADR-001-use-kafka
+        type: addresses
+        target: QS-001-event-processing-latency
+        status: accepted
+        rationale: The decision supports partitioned event processing with measurable latency goals.
+        evidence: examples/sample-project/docs/adr/ADR-001-use-kafka.adoc#decision
+        reviewed: true
+      - id: REL-002-kafka-introduces-coupling-risk
+        source: ADR-001-use-kafka
+        type: introduces_risk
+        target: RISK-001-event-backbone-coupling
+        status: accepted
+        rationale: Kafka becomes a central integration dependency.
+        evidence: examples/sample-project/docs/risks/RISK-001-event-backbone-coupling.adoc
+        reviewed: true

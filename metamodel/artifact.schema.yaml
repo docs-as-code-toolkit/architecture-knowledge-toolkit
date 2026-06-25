@@ -1,6 +1,10 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://architecture-knowledge-toolkit.example/metamodel/artifact.schema.yaml"
-title: Architecture Artifact
+title: Architecture Artifact Metadata
+description: >-
+  Common YAML front matter metadata for reviewed architecture knowledge
+  artifacts. The metadata is intentionally small and extensible; prose remains
+  in the AsciiDoc body, while traceability is captured explicitly here.
 type: object
 additionalProperties: false
 required:
@@ -9,33 +13,36 @@ required:
   - title
   - status
   - owner
+  - created
 properties:
   id:
     type: string
-    description: Stable architecture artifact identifier.
-    pattern: "^[A-Z][A-Z0-9]+-[A-Z0-9]+-[0-9]{3,}$"
+    description: Stable architecture artifact identifier. IDs must not be reused.
+    pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
     examples:
-      - ADR-PERSISTENCE-001
-      - QS-LATENCY-001
-      - RISK-OPERABILITY-001
+      - ADR-001-use-kafka
+      - QS-001-event-processing-latency
+      - RISK-001-event-backbone-coupling
   type:
     type: string
+    description: Supported architecture artifact type.
     enum:
-      - adr
-      - quality-scenario
-      - risk
-      - requirement
-      - component
-      - interface
-      - constraint
-      - stakeholder
-      - concept
-      - document
+      - ADR
+      - QualityScenario
+      - Risk
+      - Requirement
+      - Constraint
+      - Component
+      - Interface
+      - Stakeholder
+      - Concept
+      - Document
   title:
     type: string
     minLength: 1
   status:
     type: string
+    description: Lifecycle state of the artifact.
     enum:
       - draft
       - proposed
@@ -47,17 +54,6 @@ properties:
   owner:
     type: string
     minLength: 1
-  source:
-    type: string
-    description: Repository-relative source path for the artifact.
-  summary:
-    type: string
-  tags:
-    type: array
-    uniqueItems: true
-    items:
-      type: string
-      pattern: "^[a-z0-9][a-z0-9-]*$"
   created:
     type: string
     format: date
@@ -66,13 +62,52 @@ properties:
     format: date
   reviewed:
     type: boolean
-    description: True only when suggested content has been reviewed.
+    description: True only after human review of the artifact content.
     default: false
   generated:
     type: boolean
-    description: True when the artifact is derived output rather than source.
+    description: True when the file is derived output rather than source content.
     default: false
+  summary:
+    type: string
+    description: Short human-readable summary for indexes and generated views.
+  tags:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      pattern: "^[a-z0-9][a-z0-9-]*$"
+  source:
+    type: string
+    description: Optional repository-relative source path when metadata is stored separately.
+  superseded_by:
+    type: string
+    description: Stable ID of the artifact that supersedes this one.
+  relations:
+    type: array
+    description: Explicit outgoing relationships from this artifact.
+    items:
+      $ref: "relations.schema.yaml#/$defs/relation"
   metadata_version:
     type: string
     default: "1.0"
-
+examples:
+  - id: ADR-001-use-kafka
+    type: ADR
+    title: Use Kafka as the event backbone
+    status: accepted
+    owner: platform-architecture
+    created: "2026-06-25"
+    reviewed: true
+    tags:
+      - events
+      - integration
+    relations:
+      - type: addresses
+        target: QS-001-event-processing-latency
+        status: accepted
+        rationale: Kafka supports partitioned processing for latency-sensitive event flows.
+      - type: introduces_risk
+        target: RISK-001-event-backbone-coupling
+        status: accepted
+        rationale: Centralizing events on Kafka creates platform coupling.
