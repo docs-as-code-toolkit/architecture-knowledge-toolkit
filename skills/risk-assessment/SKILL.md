@@ -14,7 +14,8 @@ prioritization; it does not decide risk acceptance.
 
 ## Output
 
-Produce risk entries based on `templates/risk.adoc` with:
+Produce risk entries based on `../../templates/risk.adoc` when invoked from
+this skill directory, or `templates/risk.adoc` from the repository root, with:
 
 - Stable proposed IDs.
 - Clear cause, event, and impact.
@@ -37,4 +38,3 @@ Produce risk entries based on `templates/risk.adoc` with:
 - Impact is tied to architecture outcomes.
 - Mitigations are realistic and owned.
 - Relations use stable artifact IDs.
-

@@ -23,6 +23,7 @@ relations:
     rationale: A shared event backbone can create operational and schema coupling between teams.
     reviewed: false
 ---
+[[adr-001-use-kafka]]
 = ADR-001: Use Kafka as the Event Backbone
 
 == Status
@@ -118,8 +119,8 @@ events in the sample architecture.
 
 * The team must confirm whether Kafka operational complexity is acceptable for
   the sample context.
-* The proposed risk `RISK-001-event-backbone-coupling` must stay visible while
-  the decision is under review.
+* The proposed risk xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]
+  must stay visible while the decision is under review.
 
 == Traceability
 
@@ -128,11 +129,11 @@ events in the sample architecture.
 | Relation | Target | Rationale
 
 | `addresses`
-| `QS-001-event-processing-latency`
+| xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency]
 | Partitioned processing supports the latency scenario.
 
 | `introduces_risk`
-| `RISK-001-event-backbone-coupling`
+| xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]
 | The shared backbone can create coupling through schemas and operations.
 |===
 

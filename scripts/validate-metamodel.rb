@@ -222,6 +222,7 @@ class TraceabilityMatrixGenerator
     sorted = artifacts.sort_by { |artifact| [artifact.metadata['type'].to_s, artifact.metadata['id'].to_s] }
 
     lines = []
+    lines << "[[#{anchor_for(@output_path)}]]"
     lines << '= Traceability Matrix'
     lines << ':toc:'
     lines << ':toclevels: 1'
@@ -280,7 +281,11 @@ class TraceabilityMatrixGenerator
 
   def artifact_link(artifact)
     target = artifact.path.expand_path.relative_path_from(@output_path.dirname).to_s
-    "xref:#{target}[#{cell(artifact.metadata['id'])}]"
+    "xref:#{target}##{anchor_for(artifact.path)}[#{cell(artifact.metadata['id'])}]"
+  end
+
+  def anchor_for(path)
+    path.basename(path.extname).to_s.downcase.gsub(/[^a-z0-9]/, '-')
   end
 
   def artifact_ref(id, artifacts_by_id)

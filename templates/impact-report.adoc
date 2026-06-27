@@ -1,0 +1,68 @@
+---
+id: IMPACT-000-short-title
+type: Document
+title: Short impact report title
+status: draft
+owner: architecture
+created: YYYY-MM-DD
+reviewed: false
+summary: Draft impact analysis for a proposed ADR.
+tags:
+  - impact
+  - decision
+---
+[[impact-000-short-title]]
+= Impact Report: Short Title
+
+== Scope
+
+Describe the proposed decision, inspected documentation, inspected source code,
+and analysis boundaries.
+
+== Proposed ADR
+
+* ID: `ADR-000-short-title`
+* Status: proposed
+* Summary: Short summary.
+
+== Existing Artifacts Reviewed
+
+[cols="1,1,3", options="header"]
+|===
+| Artifact ID | Type | Relevance
+| xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | QualityScenario | Explain relevance.
+| xref:risk.adoc#risk-000-short-title[RISK-000-short-title] | Risk | Explain relevance.
+|===
+
+== Impact Summary
+
+[cols="1,1,3", options="header"]
+|===
+| Artifact ID | Impact | Proposed action
+| xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | addressed | Add proposed relation from ADR.
+| xref:risk.adoc#risk-000-short-title[RISK-000-short-title] | introduced | Create or update risk relation.
+|===
+
+== Proposed Relations
+
+[cols="1,1,1,3", options="header"]
+|===
+| Source | Relation | Target | Rationale
+| xref:adr.adoc#adr-000-short-title[ADR-000-short-title] | `addresses` | xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | Explain rationale.
+|===
+
+== New Artifacts Needed
+
+[cols="1,1,3", options="header"]
+|===
+| Proposed ID | Type | Reason
+| xref:risk.adoc#risk-000-short-title[RISK-000-short-title] | Risk | Explain why no existing risk covers it.
+|===
+
+== Open Questions
+
+* Question for human review.
+
+== Validation Notes
+
+State which validator was run, or why validation was not available.

@@ -42,6 +42,13 @@ examples/      Sample projects showing expected usage.
 Generated output should be reproducible from committed inputs. If generated output
 differs without an input change, that is a defect in the generator or environment.
 
+## AI Skills
+
+Use `skills/adr` for Architecture Decision Records. The skill combines ADR
+drafting with impact analysis for related risks, quality scenarios, components,
+interfaces, and traceability metadata. AI-assisted decisions and relationships
+remain proposed until reviewed.
+
 ## Current Status
 
 This is the initial repository skeleton. It intentionally does not include a full

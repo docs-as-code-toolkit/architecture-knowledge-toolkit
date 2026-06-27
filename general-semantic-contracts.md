@@ -121,7 +121,7 @@ Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Mü
 - AsciiDoc as the format, PlantUML for inline diagrams, generated using docToolchain
 - Version-controlled, peer-reviewed and automatically generated
 - Plain English according to Strunk & White (or ‘Good German’ according to Wolf Schneider)
-- Projects following this convention include the `dtcw` wrapper and `docToolchainConfig.groovy` to ensure that PlantUML / AsciiDoc are actually rendered.
+- Every reference to a documentation artifact must be adressable by a asciidoc xref link. Therefore include a unique anchor on every generated chapter page, and use the anchor in the xref link. The anchor is generated from the file name, with all non-alphanumeric characters replaced by a dash (-) and all letters converted to lowercase. For example, a file named `src/docs/Chapter 1 - Introduction.adoc` would have the anchor `chapter-1-introduction`, and the xref link would be `xref:chapter-1-introduction[]`.
 
 ## Socratic Code Theory Reconstruction
 

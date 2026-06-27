@@ -1,11 +1,30 @@
-= Architecture Risk: <Title>
-:id: RISK-AREA-001
-:type: risk
-:status: proposed
-:owner: <role-or-person>
-:created: <YYYY-MM-DD>
-:updated: <YYYY-MM-DD>
-:tags: risk
+---
+id: RISK-000-short-title
+type: Risk
+title: Short risk title
+status: proposed
+owner: architecture
+created: YYYY-MM-DD
+reviewed: false
+summary: Proposed risk summary.
+tags:
+  - risk
+relations:
+  - type: depends_on
+    target: ADR-000-short-title
+    status: proposed
+    rationale: Explain why this risk exists because of the ADR.
+    reviewed: false
+---
+[[risk-000-short-title]]
+= RISK-000: Short Risk Title
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not decide
+risk acceptance.
 
 == Risk Statement
 
@@ -16,32 +35,35 @@ Because <cause>, <event> may occur, leading to <impact>.
 [cols="1,3", options="header"]
 |===
 | Field | Value
-| Likelihood | <low-medium-high-or-explicit-scale>
-| Impact | <low-medium-high-or-explicit-scale>
-| Timeframe | <near-medium-long-term>
-| Confidence | <low-medium-high>
+| Likelihood | Low, medium, or high.
+| Impact | Low, medium, or high.
+| Priority | Low, medium, or high.
+| Timeframe | Near-term, medium-term, or long-term.
+| Confidence | Low, medium, or high.
 |===
 
 == Mitigation Options
 
-* <mitigation-option-1>
-* <mitigation-option-2>
+* Mitigation option.
+* Monitoring or review option.
 
 == Decision or Acceptance
 
-Describe whether the risk is mitigated, monitored, transferred, accepted, or
-still under analysis.
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
 
 == Traceability
 
-[cols="1,1,2", options="header"]
+[cols="1,1,3", options="header"]
 |===
-| Relation | Target ID | Rationale
-| <relation-type> | <artifact-id> | <rationale>
+| Relation | Target | Rationale
+| `depends_on` | xref:adr.adoc#adr-000-short-title[ADR-000-short-title] | Explain the relation.
 |===
+
+== Open Questions
+
+* Question for risk owner.
 
 == Review Notes
 
-AI-suggested risks must remain `proposed` until reviewed by the accountable
-owner.
-
+State what must be confirmed before this risk can be marked reviewed or accepted.

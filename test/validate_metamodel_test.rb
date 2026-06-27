@@ -53,8 +53,8 @@ class ValidateMetamodelTest < Minitest::Test
 
     assert_equal first, second
     assert_includes first, '| Artifact ID | Type | Title | Status | Outgoing relations | Incoming relations'
-    assert_includes first, 'xref:../test/fixtures/valid/ADR-001-valid.adoc[ADR-001-valid]'
-    assert_includes first, 'relates_to -> xref:../test/fixtures/valid/QS-001-valid.adoc[QS-001-valid]'
-    assert_includes first, 'xref:../test/fixtures/valid/ADR-001-valid.adoc[ADR-001-valid] -> relates_to'
+    assert_includes first, 'xref:../test/fixtures/valid/ADR-001-valid.adoc#adr-001-valid[ADR-001-valid]'
+    assert_includes first, 'relates_to -> xref:../test/fixtures/valid/QS-001-valid.adoc#qs-001-valid[QS-001-valid]'
+    assert_includes first, 'xref:../test/fixtures/valid/ADR-001-valid.adoc#adr-001-valid[ADR-001-valid] -> relates_to'
   end
 end

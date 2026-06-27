@@ -1,3 +1,4 @@
+[[traceability-matrix]]
 = Traceability Matrix
 :toc:
 :toclevels: 1
@@ -8,29 +9,29 @@
 |===
 | Artifact ID | Type | Title | Status | Outgoing relations | Incoming relations
 
-| xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka]
+| xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
 | ADR
 | Use Kafka as the event backbone
 | proposed
-| addresses -> xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency] +
-introduces_risk -> xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling]
-| xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency] -> depends_on +
-xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling] -> depends_on
+| addresses -> xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] +
+introduces_risk -> xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]
+| xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] -> depends_on +
+xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling] -> depends_on
 
-| xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency]
+| xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency]
 | QualityScenario
 | Event processing latency under normal load
 | proposed
-| depends_on -> xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka]
-| xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka] -> addresses +
-xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling] -> affects
+| depends_on -> xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
+| xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka] -> addresses +
+xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling] -> affects
 
-| xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling]
+| xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]
 | Risk
 | Event backbone coupling
 | proposed
-| affects -> xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency] +
-depends_on -> xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka]
-| xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka] -> introduces_risk
+| affects -> xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] +
+depends_on -> xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
+| xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka] -> introduces_risk
 
 |===

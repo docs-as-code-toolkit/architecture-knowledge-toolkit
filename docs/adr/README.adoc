@@ -9,6 +9,15 @@ Use `templates/adr.adoc` as the starting point for new decisions. Every ADR
 must have a stable ID and an explicit status such as `proposed`, `accepted`,
 `superseded`, or `rejected`.
 
+Use `skills/adr` when an AI assistant drafts a decision or analyzes the impact
+of a decision on risks, quality scenarios, components, interfaces, or other
+architecture artifacts. AI-assisted ADRs remain `proposed` until human review.
+
+Every ADR page must define an AsciiDoc anchor derived from the file name. For
+example, `ADR-001-use-kafka.adoc` defines `[[adr-001-use-kafka]]`. Visible
+references to ADRs and other documentation artifacts should use anchor-based
+`xref` links.
+
 ADR relationships should be captured explicitly in metadata. Common relations
 include:
 
@@ -17,5 +26,4 @@ include:
 * `constrains`
 * `mitigates`
 * `introduces_risk`
-* `addresses_quality`
-
+* `addresses`

@@ -17,7 +17,8 @@ be concrete enough to review, prioritize, and trace to decisions or risks.
 ## Output
 
 Produce an AsciiDoc quality scenario based on
-`templates/quality-scenario.adoc` with:
+`../../templates/quality-scenario.adoc` when invoked from this skill directory,
+or `templates/quality-scenario.adoc` from the repository root, with:
 
 - A stable proposed ID.
 - Quality attribute.
@@ -43,4 +44,3 @@ Produce an AsciiDoc quality scenario based on
 - The environment is explicit.
 - The scenario has an accountable owner.
 - Relations to ADRs, risks, and requirements are explicit.
-

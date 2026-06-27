@@ -3,6 +3,8 @@
 :status: draft
 :owner: architecture-knowledge-toolkit maintainers
 
+[[readme]]
+
 This sample project demonstrates how architecture artifacts and explicit
 traceability metadata can be organized with the current repository guidance.
 
@@ -12,9 +14,9 @@ accepts them through version-controlled changes.
 
 == Example Artifact IDs
 
-* `ADR-001-use-kafka`: Proposed decision about Kafka as an event backbone.
-* `QS-001-event-processing-latency`: Proposed latency quality scenario.
-* `RISK-001-event-backbone-coupling`: Proposed risk introduced by the decision.
+* xref:docs/adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]: Proposed decision about Kafka as an event backbone.
+* xref:docs/quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency]: Proposed latency quality scenario.
+* xref:docs/risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]: Proposed risk introduced by the decision.
 
 == Layout
 

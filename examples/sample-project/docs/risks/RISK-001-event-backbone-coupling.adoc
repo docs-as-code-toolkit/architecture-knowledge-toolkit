@@ -23,6 +23,7 @@ relations:
     rationale: Coupling and operational contention can affect event processing latency.
     reviewed: false
 ---
+[[risk-001-event-backbone-coupling]]
 = RISK-001: Event Backbone Coupling
 
 == Status
@@ -84,11 +85,11 @@ acceptance requires explicit human review by the accountable owner.
 | Relation | Target | Rationale
 
 | `depends_on`
-| `ADR-001-use-kafka`
+| xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
 | The risk follows from the Kafka decision.
 
 | `affects`
-| `QS-001-event-processing-latency`
+| xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency]
 | Operational contention can affect the latency quality scenario.
 |===
 

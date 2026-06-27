@@ -18,6 +18,7 @@ relations:
     rationale: The scenario assumes Kafka partitions and consumer groups as the event delivery mechanism.
     reviewed: false
 ---
+[[qs-001-event-processing-latency]]
 = QS-001: Event Processing Latency Under Normal Load
 
 == Status
@@ -74,7 +75,7 @@ enough to drive architecture decisions and operational monitoring.
 | Relation | Target | Rationale
 
 | `depends_on`
-| `ADR-001-use-kafka`
+| xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
 | The scenario relies on Kafka as the selected event delivery mechanism.
 |===
 
