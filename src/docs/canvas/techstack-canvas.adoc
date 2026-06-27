@@ -5,8 +5,8 @@
 :owner: project maintainers
 :revdate: 2026-06-27
 
-This canvas captures the current assumed technical choices for the toolkit. It
-is a living document and must be updated when the implementation evolves.
+This canvas captures the current technical choices for the toolkit. It is a
+living document and must be updated when the implementation evolves.
 
 == Documentation
 
@@ -19,6 +19,9 @@ is a living document and must be updated when the implementation evolves.
 * Artifact metadata schema: YAML schema in `metamodel/artifact.schema.yaml`.
 * Relationship metadata schema: YAML schema in
   `metamodel/relations.schema.yaml`.
+* Metadata location for now: AsciiDoc front matter.
+* Deferred metadata option: sidecar YAML files if performance or usability
+  requires them.
 * Artifact IDs: stable, explicit, and not reused.
 
 == Implementation
@@ -30,12 +33,16 @@ is a living document and must be updated when the implementation evolves.
 == AI Assistance
 
 * Core skills: engine-independent files under `skills/`.
+* First-class version 1 skills: ADRs, quality scenarios, and risks.
+* Next-priority skills: stakeholders, requirements, and components.
 * Runtime integration: adapter-specific documentation under `adapters/`.
 * AI output status: suggestion until reviewed and committed.
 
 == Quality Gates
 
 * Metadata validation must pass.
+* Generated per-artifact relationship views must be deterministic.
+* Generated artifact-type indexes must be deterministic.
 * Generator output must be deterministic and idempotent.
 * Tests must cover validator and generator behavior.
 * Generated output must avoid timestamps, random values, and local paths unless
@@ -45,6 +52,4 @@ is a living document and must be updated when the implementation evolves.
 
 * Whether to keep Ruby as the long-term implementation language.
 * Whether generated documentation should be committed or produced by CI.
-* Whether metadata should stay in document front matter, move to sidecar YAML,
-  or support both.
 * Which documentation build toolchain should be the primary supported path.

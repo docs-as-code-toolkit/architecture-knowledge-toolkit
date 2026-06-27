@@ -52,6 +52,7 @@ Exit criteria:
 
 Goal: make architecture metadata trustworthy.
 
+* Use AsciiDoc front matter as the metadata location for now.
 * Validate artifact metadata against `metamodel/artifact.schema.yaml`.
 * Validate relation metadata against `metamodel/relations.schema.yaml`.
 * Validate cross references that are modeled as explicit relationships.
@@ -68,6 +69,8 @@ Exit criteria:
 Goal: make reviewed metadata useful in generated documentation.
 
 * Generate a traceability matrix from explicit relations.
+* Generate a relationship view for any given artifact.
+* Generate artifact-type indexes with links to individual artifacts.
 * Generate indexes by artifact type, status, owner, and tag.
 * Generate includable documentation fragments for CI/CD pipelines.
 * Add regression tests for generator output.
@@ -83,9 +86,11 @@ Exit criteria:
 
 Goal: make AI assistance reusable and auditable.
 
-* Refine reusable skills through real project use.
+* Harden first-class skills for ADRs, quality scenarios, and risks.
+* Prepare next-priority skills for stakeholders, requirements, and components.
 * Add skills that suggest architecture documentation updates during feature
   implementation and refactoring.
+* Refine reusable skills through real project use.
 * Add adapter-specific invocation examples.
 * Document how suggestions become reviewed source changes.
 * Keep engine-specific assumptions out of core skills.
@@ -97,8 +102,6 @@ Exit criteria:
 
 == Open Roadmap Decisions
 
-* Which artifact types are version 1 scope?
-* Which generated views should be built after the traceability matrix?
 * Which CI and publishing workflows should be supported first?
 * Which implementation language should be used for future generators?
 * Which SDLC skills are required first: feature implementation, refactoring, or

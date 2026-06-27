@@ -53,8 +53,11 @@ must still be reviewed with target users.
 * Guided arc42 documentation setup.
 * Inception canvases, vision and mission, roadmap, and open-question capture.
 * Metadata schemas for artifacts and relations.
+* AsciiDoc front matter metadata as the initial authoring model.
 * Cross-reference support for related architecture artifacts.
-* AI skills for ADRs, scenarios, risks, traceability review, feature work, and
+* First-class AI skills for ADRs, quality scenarios, risks, and traceability
+  review.
+* Later AI skills for stakeholders, requirements, components, feature work, and
   refactoring.
 * Validation and generation scripts.
 * Example project content.
@@ -75,6 +78,9 @@ must still be reviewed with target users.
 
 * Traceability matrices and other generated views make architecture knowledge
   easier to inspect and include in published documentation.
+* Per-artifact relationship views make the local impact of an artifact visible.
+* Artifact-type indexes help architects navigate ADRs, quality scenarios,
+  risks, and later artifact types.
 * Templates reduce the blank-page problem.
 * The project setup workflow provides value before validation, generators, and
   SDLC skills are adopted.

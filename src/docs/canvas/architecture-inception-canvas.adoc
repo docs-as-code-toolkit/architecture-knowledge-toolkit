@@ -5,8 +5,9 @@
 :owner: project maintainers
 :revdate: 2026-06-27
 
-This canvas is an initial architecture-inception draft. It contains assumptions
-that must be validated before architectural decisions are marked as accepted.
+This canvas is an initial architecture-inception draft. It incorporates reviewed
+workshop answers where available. Derived content still needs review before
+architectural decisions are marked as accepted.
 
 == Purpose
 
@@ -26,9 +27,13 @@ validation and generation.
 
 * Define architecture artifact metadata.
 * Validate artifact and relation metadata.
-* Provide templates for common architecture artifacts.
+* Provide templates and skills for ADRs, quality scenarios, and risks as the
+  first-class version 1 artifact workflow.
+* Prepare stakeholders, requirements, and components as the next-priority
+  artifact workflow.
 * Suggest architecture content through reusable AI skills.
-* Generate deterministic traceability views.
+* Generate deterministic traceability views, including per-artifact relationship
+  views and artifact-type indexes.
 * Demonstrate usage through sample projects.
 
 == System Boundary
@@ -63,6 +68,8 @@ Outside the project boundary:
 * PlantUML is preferred for architecture diagrams where diagrams are needed.
 * Generated output must be deterministic and idempotent.
 * Repository files are the source of truth after human review.
+* Artifact metadata lives in AsciiDoc front matter for now.
+* Sidecar YAML files are deferred until performance or usability requires them.
 * Engine-specific integration belongs under `adapters/`.
 
 == Risks
@@ -70,6 +77,8 @@ Outside the project boundary:
 * Metadata authoring may feel too heavy for small teams.
 * AI suggestions may be mistaken for reviewed architecture truth.
 * Early metamodel choices may constrain future artifact types.
+* Front matter metadata may become harder to work with if generated views need
+  more data than authors want to keep inside each document.
 * Generator behavior may drift without regression tests.
 
 == First Increment
@@ -77,7 +86,11 @@ Outside the project boundary:
 The first increment should remain a walking skeleton:
 
 * Keep the repository structure stable.
+* Provide the project setup workflow for an individual architect.
+* Keep ADRs, quality scenarios, and risks as the first artifact workflow after
+  setup.
 * Validate sample architecture artifacts.
-* Generate one deterministic traceability matrix.
+* Generate one deterministic traceability matrix, one per-artifact relationship
+  view, and one artifact-type index.
 * Document the new-project canvases and open questions.
 * Keep all inferred content in draft status.

@@ -126,21 +126,21 @@ Answer: [OPEN]
 Which architecture practices are mandatory for the toolkit: arc42, ADRs,
 quality scenarios, risk registers, ATAM, or others?
 
-Answer: [OPEN]
+Answer: arc42 is the mandatory architecture method. ADRs, quality scenarios, and risk registers are mandatory for version 1. ATAM and other practices are optional.
 
 === Q-SME-002: Traceability depth
 
 Which relationships must always be explicit for architecture review to be
 credible?
 
-Answer: [OPEN]
+Answer: All relationships between ADRs, quality scenarios, and risks must be explicit. Relationships between stakeholders, requirements, and components are optional for version 1. Relationships between components and ADRs, quality scenarios, and risks are mandatory for version 1.
 
 === Q-SME-003: Suggested content
 
 What visual or metadata marker should distinguish AI suggestions from reviewed
 architecture knowledge?
 
-Answer: [OPEN]
+Answer: There should be a visual marker in the generated documentation that clearly distinguishes AI suggestions from reviewed architecture knowledge. Additionally, metadata should indicate the status of each artifact, whether it is suggested, generated, or reviewed. Every AI suggestion should habe the status "suggested (AI)"
 
 == Open Questions For Operations
 
@@ -148,16 +148,16 @@ Answer: [OPEN]
 
 Should validation and generation run locally, in CI, or both?
 
-Answer: [OPEN]
+Answer: It should be possible to run validation and generation both locally and in CI. Local runs are useful for quick feedback during development, while CI runs ensure that the repository remains in a valid state and that generated documentation is up-to-date.
 
 === Q-OPS-002: Publishing
 
 Where should generated documentation be published, if anywhere?
 
-Answer: [OPEN]
+Answer: The generated documentation should be published to a location that is accessible to the development team and stakeholders. This could be a dedicated documentation server, a static site generator, or a cloud-based documentation platform. The publishing process should be automated as part of the CI/CD pipeline to ensure that the latest generated documentation is always available.
 
 === Q-OPS-003: Reproducibility
 
 Which environments must be supported for reproducible documentation generation?
 
-Answer: [OPEN]
+Answer: Github Actions and GitLab CI are the primary environments that must be supported for reproducible documentation generation. The toolkit should also provide guidance on how to set up local development environments to ensure that developers can reproduce the same results as in CI.
