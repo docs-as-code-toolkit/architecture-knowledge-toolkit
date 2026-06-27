@@ -83,20 +83,20 @@ useful on its own.
 Should artifact metadata live only in AsciiDoc front matter, only in sidecar
 YAML files, or in both forms?
 
-Answer: [OPEN]
+Answer: For now, only in AsciiDoc front matter. Sidecar YAML files may be added later if they are needed for performance or usability reasons.
 
 === Q-ARCH-002: First-class artifacts
 
 Which artifact types must be first-class for version 1?
 
-Answer: [OPEN]
+Answer: Skills for creating ADRs, quality scenarios, and risks must be first-class. Skills for creating stakeholders, requirements, and components are the next priority. Skills for creating other artifact types are lower priority.
 
 === Q-ARCH-003: Generated views
 
 Which generated views are required for useful architecture review beyond the
 traceability matrix?
 
-Answer: [OPEN]
+Answer: For sure, there must be a generated view that shows all relationships for a given artifact. This view should be available for all artifact types. A second useful generated view is a list of all artifacts of a given type, with links to the individual artifacts.
 
 == Open Questions For Developer
 
