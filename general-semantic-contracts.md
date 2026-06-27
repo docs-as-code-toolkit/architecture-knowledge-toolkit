@@ -29,7 +29,7 @@ On the main page of each chapter, we want a brief summary of the content created
 Each chapter on context, building blocks and runtime contains at least one diagram.
 Diagrams are created in PlantUML, not in Mermaid; for building blocks, C4 is used via the standard C4-PlantUML library integrated into PlantUML – in the form `!include <C4/...>` (pointy brackets), never via the remote URL `https://` and never via supplied file copies. No generic boxes.
 
-Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). If the rationale is unconfirmed, the ADR status is ‘Accepted (derived)’, and Pugh cells requiring assessment by the team are marked with `?` rather than making an assumption. The ‘consequences’ of each ADR identify the risks associated with the decision, referencing the risk IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in Chapter 11 either adds it there or notes the consequence as explicitly accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer back to the ADR that adopted them.
+Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). If the rationale is derived but not yet confirmed by a human reviewer, the ADR status is `Proposed (derived)`, and Pugh cells requiring assessment by the team are marked with `?` rather than making an assumption. Only human-reviewed decisions may become `Accepted` or `Accepted (derived)`. The ‘consequences’ of each ADR identify the risks associated with the decision, referencing the risk IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in Chapter 11 either adds it there or notes the consequence as explicitly accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer back to the ADR that adopted them.
 
 Cross-sectional traceability – arc42 templates do not enforce this, so the contract does:
 - Each quality objective from Chapter 1.2 is assigned to a named approach in Chapter 4.
@@ -39,9 +39,9 @@ Cross-sectional traceability – arc42 templates do not enforce this, so the con
 - Each building block from Chapter 5 specifies the responsibility, the interface and the storage location.
 - Every building block affected by one of the other chapters contains a link to the relevant document under the heading of the corresponding chapter, with the heading ‘Affected by …’
   Chapter 1.2 lists only the 3–5 most important quality objectives – those that determine architectural decisions. Chapter 10 may elaborate on further quality characteristics beyond these top-level objectives; this is correct, arc42, and not an error. The quality tree in Chapter 10 identifies each attribute either as a concretisation of a top-level objective from Chapter 1.2 or as a derived quality requirement, and every quality scenario in Chapter 10 refers back to the objective from Chapter 1.2 that it concretises (or is marked as ‘derived’).
-  Each scenario in Chapter 10 is written in the six-part format for quality attribute scenarios (source, stimulus, artefact, environment, response, response measure); the response measure contains a specific value, so that the requirement is testable and does not consist solely of an adjective.
+  Each scenario in Chapter 10 is written in the six-part format for quality attribute scenarios (source, stimulus, artefact, environment, response, response measure); the response measure contains a specific value, so that the requirement is testable and does not consist solely of an adjective. Draft scenarios may mark uncertain values as assumptions, but final arc42 documentation must not treat assumed or invented target values as answered evidence.
 
-Chapter 11 divides risks and technical debt into two subsections. Each risk is assigned a probability, an impact, a derived priority and a mitigation/action, which refers to an existing mitigation in Chapter 8 or, where applicable, to a quality scenario; the risks are ordered by priority. Each item of technical debt refers to the specific building block from Chapter 5 to which it relates.
+Chapter 11 divides risks and technical debt into two subsections. Each risk is assigned a qualitative probability, a qualitative impact, a derived qualitative priority and a mitigation/action, which refers to an existing mitigation in Chapter 8 or, where applicable, to a quality scenario; the risks are ordered by priority. Each item of technical debt refers to the specific building block from Chapter 5 to which it relates.
 
 ## Cross-cutting concepts
 
@@ -112,7 +112,8 @@ Quality assurance is carried out at three levels:
 - Code review using the Fagan inspection (structured, systematic, with defined phases)
 - Security review based on the OWASP Top 10
 - Architecture review using ATAM (scenario-based trade-off analysis with regard to quality objectives)
-- Use of a different AI model or a new session for reviews to avoid blind spots
+
+For AI-assisted reviews, use a different AI model or a new session to avoid blind spots.
 
 ## Docs-as-Code
 

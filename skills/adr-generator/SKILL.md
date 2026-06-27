@@ -12,7 +12,7 @@ suggest ADR content, but the result remains a proposal until reviewed.
 - Candidate options.
 - Known constraints.
 - Relevant quality scenarios, risks, requirements, or prior ADR IDs.
-- Desired decision status, usually `proposed`.
+- Desired decision status, usually `proposed`; use `Proposed (derived)` for derived ADRs until human acceptance is recorded.
 
 ## Output
 
@@ -32,6 +32,7 @@ Produce an AsciiDoc ADR based on `templates/adr.adoc` with:
 - Do not invent authoritative relationships. Mark suggested relations as
   `proposed`.
 - Preserve existing IDs and statuses.
+- Do not mark derived ADRs as accepted unless human acceptance is already recorded in the repository.
 - Prefer repository terms and artifact IDs over new vocabulary.
 - If evidence is missing, state the assumption instead of hiding it.
 - Keep the output engine-independent.

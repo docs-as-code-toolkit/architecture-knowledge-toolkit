@@ -32,6 +32,12 @@ When creating architecture content, mark it as a suggestion unless the user asks
 for a reviewed final artifact. Suggested output should identify assumptions,
 unknowns, and required human decisions.
 
+Even when the user asks for a reviewed final artifact, repository truth remains
+version-controlled source accepted through human review. Agents may prepare a
+review-ready artifact, but they must not mark architecture decisions, relations,
+risks, or requirements as human-accepted unless that acceptance is already
+recorded in the repository.
+
 ## Generator Expectations
 
 Future generators in this project must be deterministic and idempotent:

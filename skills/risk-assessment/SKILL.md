@@ -18,7 +18,7 @@ Produce risk entries based on `templates/risk.adoc` with:
 
 - Stable proposed IDs.
 - Clear cause, event, and impact.
-- Likelihood and impact assessments.
+- Qualitative likelihood and impact assessments.
 - Mitigation options.
 - Owner and review status.
 - Suggested relations to affected artifacts.
@@ -27,7 +27,7 @@ Produce risk entries based on `templates/risk.adoc` with:
 
 - Separate risks from issues and decisions.
 - Call out uncertainty explicitly.
-- Avoid false precision in likelihood or impact.
+- Avoid false precision in likelihood, impact, or priority; use qualitative ratings.
 - Mark AI-suggested risks as `proposed` until reviewed.
 - Prefer actionable mitigations.
 

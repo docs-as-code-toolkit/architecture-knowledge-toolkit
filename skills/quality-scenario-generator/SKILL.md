@@ -32,7 +32,8 @@ Produce an AsciiDoc quality scenario based on
 ## Rules
 
 - Prefer measurable response criteria over vague goals.
-- Mark uncertain values as assumptions.
+- Mark uncertain values as assumptions in drafts.
+- Do not treat assumed or invented target values as answered evidence in final arc42 documentation.
 - Do not turn aspirations into accepted requirements without review.
 - Keep generated scenarios concise and testable.
 
