@@ -1,3 +1,24 @@
+## New projects
+
+When we start a new project, we need to know the purpose of this project. Therefore we like to have a first version of the following canvases filled out:
+
+- Business Model Canvas (BMC)
+- Value Proposition Canvas (VPC)
+
+Based on that a vision and mission statement can be created, which is then used to create a product roadmap.
+
+Treat every canvas as a living document, which is updated as the project evolves. The canvases are not a replacement for a PRD, but they help to clarify the purpose of the project and to align the team on the goals.
+
+Write every canvas as a single asciidoc file below src/docs/canvas/, with a unique anchor for each canvas. For example, the BMC is written in `src/docs/canvas/business-model-canvas.adoc` and has the anchor `business-model-canvas`, so that it can be referenced from other documents as `xref:business-model-canvas[]`.
+
+Place the vision and mission statement in `src/docs/vision-mission.adoc` with the anchor `vision-mission`. Place the roadmap in `src/docs/roadmap.adoc` with the anchor `roadmap`. The roadmap is a living document, which is updated as the project evolves.
+
+Based on that information, we fill out further canvases, as the [Architecture Inception Canvas](https://canvas.arc42.org/architecture-inception-canvas) and the [https://canvas.arc42.org/architecture-communication-canvas](https://canvas.arc42.org/architecture-communication-canvas). Finally, we also like to have the [Techstack Canvas](https://techstackcanvas.io/) filled out, which is a living document that is updated as the project evolves.
+
+Place every canvas in `src/docs/canvas/` with a unique anchor for each canvas, so that it can be referenced from other documents.
+
+Ask questions in order to fill out every canvas. Keep the questions MECE and ask no more than 3 questions at a time. Keep asking questions until you have fully understood the purpose of the project. Keep the questions and answers in a separate file in `src/docs/canvas/` with the anchor `canvas-questions-and-answers`, so that they can be referenced from other documents or can be used for a workshop with the team. For example, the file is named `src/docs/canvas/questions-and-answers.adoc` and has the anchor `canvas-questions-and-answers`.
+
 ## Specification
 
 When we refer to a ‘specification’ or ‘spec’, we mean:
