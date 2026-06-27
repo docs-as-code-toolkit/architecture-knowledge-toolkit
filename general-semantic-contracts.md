@@ -1,0 +1,213 @@
+## Specification
+
+When we refer to a ‘specification’ or ‘spec’, we mean:
+- Persona use cases in the ‘Fully Dressed’ format as defined by Cockburn (primary actor, trigger, main success scenario, extensions, post-conditions) at the level of user goals, with business rules (BR-IDs)
+- System use cases for each technical interface (API endpoint, CLI command, event, file format): input/validation, processing, output/status codes, error responses
+- Activity diagrams for all workflows (not just the happy path)
+- Acceptance criteria in Gherkin format (Given/When/Then)
+- Individual requirements in EARS syntax, where applicable (When/While/If/Shall)
+- Supplementary specifications as required: entity model, state machines, interface contracts, validation rules
+
+## Requirements Elicitation
+
+Clarify requirements using the Socratic method:
+- Ask no more than 3 questions at a time; challenge assumptions
+- Use MECE to ensure that the questions cover all areas without overlapping
+- Keep asking questions until you have fully understood the requirements
+
+Define the scope before documenting it:
+- Impact mapping links outcomes to business objectives and stakeholders – this enables you to develop what drives an objective forward, rather than just what has been requested.
+- User Story Mapping organises stories along the user journey and highlights a coherent initial snapshot.
+
+Document the outcome as a PRD (Problem, Objectives, Personas, Success Criteria, Scope).
+
+## Architecture Documentation
+
+The architecture documentation follows arc42. Use the templates from https://github.com/arc42/arc42-template/raw/master/dist/arc42-template-DE-withhelp-asciidoc.zip and place them in `src/docs/`, rather than reproducing the chapter structure here – the help text for each chapter serves as its structural specification, which the process fills in and subsequently replaces.
+For each chapter, create a subfolder with the chapter’s name, within a file is created for each aspect, following the template for that chapter. The main pages of each chapter remain unchanged.
+On the main page of each chapter, we want a brief summary of the content created, written in clear, concise language, and a table with links to every individual page within the chapter.
+Each chapter on context, building blocks and runtime contains at least one diagram.
+Diagrams are created in PlantUML, not in Mermaid; for building blocks, C4 is used via the standard C4-PlantUML library integrated into PlantUML – in the form `!include <C4/...>` (pointy brackets), never via the remote URL `https://` and never via supplied file copies. No generic boxes.
+
+Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). If the rationale is unconfirmed, the ADR status is ‘Accepted (derived)’, and Pugh cells requiring assessment by the team are marked with `?` rather than making an assumption. The ‘consequences’ of each ADR identify the risks associated with the decision, referencing the risk IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in Chapter 11 either adds it there or notes the consequence as explicitly accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer back to the ADR that adopted them.
+
+Cross-sectional traceability – arc42 templates do not enforce this, so the contract does:
+- Each quality objective from Chapter 1.2 is assigned to a named approach in Chapter 4.
+- The external systems in Chapter 3 (Context) and the Level 1 building block view in Chapter 5 form the same set – each representing a system boundary in both.
+- Every building block from Chapter 5 appears in at least one runtime scenario from Chapter 6; Chapter 6 contains at least one failure/recovery scenario, not just the ‘happy path’.
+- Chapter 9 contains an internal ADR index (ADR | Title | Status), even though the ADRs are listed in a separate register.
+- Each building block from Chapter 5 specifies the responsibility, the interface and the storage location.
+- Every building block affected by one of the other chapters contains a link to the relevant document under the heading of the corresponding chapter, with the heading ‘Affected by …’
+  Chapter 1.2 lists only the 3–5 most important quality objectives – those that determine architectural decisions. Chapter 10 may elaborate on further quality characteristics beyond these top-level objectives; this is correct, arc42, and not an error. The quality tree in Chapter 10 identifies each attribute either as a concretisation of a top-level objective from Chapter 1.2 or as a derived quality requirement, and every quality scenario in Chapter 10 refers back to the objective from Chapter 1.2 that it concretises (or is marked as ‘derived’).
+  Each scenario in Chapter 10 is written in the six-part format for quality attribute scenarios (source, stimulus, artefact, environment, response, response measure); the response measure contains a specific value, so that the requirement is testable and does not consist solely of an adjective.
+
+Chapter 11 divides risks and technical debt into two subsections. Each risk is assigned a probability, an impact, a derived priority and a mitigation/action, which refers to an existing mitigation in Chapter 8 or, where applicable, to a quality scenario; the risks are ordered by priority. Each item of technical debt refers to the specific building block from Chapter 5 to which it relates.
+
+## Cross-cutting concepts
+
+arc42 leaves Chapter 8 open. We require five fundamental cross-cutting concepts in the following order:
+
+- 8.1 Threat model – STRIDE; threats are assigned IDs (T-001…).
+- 8.2 Security – each mitigation measure refers to the T-IDs it resolves.
+- 8.3 Testing – test pyramid; tests can be traced back to use cases and business rules.
+- 8.4 Observability – logs, metrics, traces, audit trails.
+- 8.5 Error handling – retry, circuit breaker, fallback, recovery.
+
+Only add further concepts from Chapter 8.x (persistence, i18n, accessibility, configuration, performance) if the system is actually affected by that aspect.
+
+## Layer boundaries
+
+At each layer boundary:
+- Expose only clearly defined DTOs and contracts – never domain entities
+- Use explicit mapping at every interface
+- Apply anti-corruption layers when integrating external systems
+- The direction of dependency points inwards (DIP)
+
+## Backlog Management
+
+Create EPICs and user stories as GitHub issues based on the specification.
+- User stories follow the INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
+- Prioritise using MoSCoW (Must/Should/Could/Won’t)
+- Highlight dependencies between issues
+- Maintain the backlog regularly as the project evolves
+
+## Vertical Slicing
+
+Create the first increment as a ‘walking skeleton’: a deployable end-to-end slice that connects all architectural layers and does almost nothing else.
+
+Extend the system in the form of thin vertical slices – each slice traverses all layers and delivers a small portion of the user value. Slices are ‘tracer bullets’: they are retained and refined, never discarded.
+
+If a technical unknown blocks a slice, first carry out a spike solution – a time-limited, disposable experiment that eliminates the risk. The spike code is discarded; only the insights gained from it are incorporated into the slice.
+
+## Next, implement
+
+For each ticket:
+- Create a feature branch for the EPIC
+- Select the next ticket from the backlog (taking dependencies into account)
+- Analyse the ticket and document the analysis as a comment on the ticket
+- Implement using TDD (following the London or Chicago school, as appropriate)
+- Each test refers to its use-case ID for traceability
+- Make a commit in accordance with the ‘Conventional Commits’ guidelines and specify the issue number
+- Check whether specifications or architecture documents need updating
+- When the EPIC is complete, create a pull request
+
+## Refactoring
+
+The aims of refactoring are to address specific ‘code smells’, not a vague urge to ‘tidy up’.
+
+For any refactoring task that cannot be completed in a single step, use the Mikado method: try the change, note down what no longer works as a result, revert the change and address the prerequisites first – never leave the build in a failed state whilst you are working on it.
+
+Refactoring commits must only change the structure. Behavioural changes are made in separate commits, and the test suite must pass with every commit.
+
+## Code quality
+
+Our code adheres to:
+- the SOLID principles
+- DRY, KISS
+- Ubiquitous Language from Domain-Driven Design (the same terms in the code as in the specification)
+
+## Quality Assurance
+
+Quality assurance is carried out at three levels:
+- Code review using the Fagan inspection (structured, systematic, with defined phases)
+- Security review based on the OWASP Top 10
+- Architecture review using ATAM (scenario-based trade-off analysis with regard to quality objectives)
+- Use of a different AI model or a new session for reviews to avoid blind spots
+
+## Docs-as-Code
+
+Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Müller:
+- AsciiDoc as the format, PlantUML for inline diagrams, generated using docToolchain
+- Version-controlled, peer-reviewed and automatically generated
+- Plain English according to Strunk & White (or ‘Good German’ according to Wolf Schneider)
+- Projects following this convention include the `dtcw` wrapper and `docToolchainConfig.groovy` to ensure that PlantUML / AsciiDoc are actually rendered.
+
+## Socratic Code Theory Reconstruction
+
+Reconstruction of a programme’s ‘theory’ (Naur 1985) from the source code through recursive refinement of questions.
+
+- Start with 5 core questions: Q1 Problem/User, Q2 Specification, Q3 Architecture, Q4 Quality Objectives, Q5 Risks.
+
+- The second level of the tree is FIXED; it cannot be freely chosen. Each pass outputs exactly these nodes in this order, even if the only leaf of a node is [OPEN] or [ANSWERED: not applicable]:
+- Q1.1–Q1.6: Product identity, primary users, channels, reason for development, key performance indicators, segment priority
+    - Q2.1–Q2.6: Stakeholders, use case catalogue, system specifications per interface, data/entity model, acceptance criteria, cross-cutting business rules
+    - Q3.1–Q3.12: the twelve arc42 chapters in the order specified by arc42
+- Q4.1–Q4.8: the eight characteristics according to ISO/IEC 25010; and Q4.9: Which characteristic takes priority
+- Q5.1–Q5.5: technical debt, security risks, operational risks, dependency/supply chain risks, scalability/performance risks
+
+- Below the defined second level, decomposition is adaptive and code-oriented; a node is only a leaf node if it can be resolved using specific evidence from ‘file:line’ (a directory is too coarse – decompose further) or is unambiguously marked as [OPEN]. The depth reflects the code density: A small, limited context results in a shallow tree, whilst a large one results in a deep tree, limited to four levels below a specified node. The depth varies between runs – this is to be expected.
+
+- Q-IDs are stable: Q3.7 is always the ‘Deployment View’ in every run, so that trees from different runs can be compared node by node.
+
+- Each leaf node is either [ANSWERED] (with evidence in file:line) or [OPEN] (with category, questioner’s role and an explanation of why it cannot be answered based on the code).
+
+- Quality is not solely a matter of team knowledge. Derive quality scenarios for the Q4 branch and arc42 Chapter 10 from measurable code behaviour – specific thresholds, timeouts, budgets, the threat catalogue and the test concept from Q3.8 – as [ANSWERED] with File:Line; never invent target values.
+  Only the ranking of the quality objectives (Q4.9) is [OPEN]. arc42 Chapter 10 contains the derivable scenarios; never include just an [OPEN] reference. Chapter 1.2 lists only the 3–5 most important quality objectives;
+
+Chapter 10 covers all eight characteristics – mark every entry in Chapter 10 as a specification of a top-level objective from Chapter 1.2 or as derived.
+
+- Open questions form the handover document: Always create one section per role (Product Owner, Architect, Developer, Subject Matter Expert, Operations), even if a section is empty (“No open questions for this role”).
+
+- Two-phase workflow: In Phase 1, the tree is constructed; the team answers the open questions; in Phase 2, the documentation is compiled from the tree filled with answers.
+
+## Concise answer (TLDR)
+
+Answers begin with the conclusion (BLUF). Stick to the key points. No filler words, no introduction. Use short sentences, the active voice and no unnecessary words (Strunk & White).
+
+## Simple explanation (ELI5)
+
+Explain complex concepts using simple language and everyday analogies. If you find it difficult to write the explanation, this indicates gaps in your understanding – address these areas first (Feynman Technique).
+
+## Explaining and Teaching
+
+If you’re asked to explain or teach something (including ‘Why does X…?’), act like a teacher engaged in a dialogue, rather than a lecturer giving a talk – your aim is for the learner to be able to apply what they’ve learnt afterwards, not simply for you to have conveyed the information.
+
+First, let the learner repeat what they already understand (Socratic method), so that you can fill in the gaps in their knowledge rather than covering the entire topic; adjust the level of detail as required (ELI5 / ELI-internal). Keep a short, ongoing checklist of the points the learner needs to understand – the problem and why it exists, the solution with its design decisions and edge cases, as well as the significance of the whole – a ‘Definition of Done’ for understanding, which is worked through point by point; if the explanation is lengthy or spans several sessions, save this checklist as a file so that it is retained even if context is lost and can be continued.
+
+Take one small step per round: fill the knowledge gap with questions, not answers; ask follow-up questions or explain the next smaller part in a few sentences and then check their understanding – then pause and wait. Never cram several steps into a single round. Start with the ‘why’ – why something is important – before delving into the mechanisms (4MAT), and keep probing for the ‘why’ behind the ‘why’ – the logic behind the design, not just its function (Naur); also address the ‘what’ and the ‘how’.
+
+Check what has been learnt by asking questions, never with ‘Does that make sense?’ – use open-ended or multiple-choice questions; when using multiple-choice questions, vary which option is correct, and only reveal the answer once the learner has made a choice. The most effective way to check understanding is to get learners to explain what they have learnt in their own words (the Feynman technique) or to apply it to a new scenario; use a concrete example (an example, code, a flowchart) if it helps. Respond to the actual answer: if the learner has understood, move on; if not, give a brief, targeted hint and ask again. ‘Understood’ means that the learner can apply what they have learnt to a new scenario, not that they can recite it from memory (Bloom’s ‘Application’, not ‘Recall’) – do not move on or end the exercise until the learner has demonstrated this.
+
+Do not announce the method you are using or go through it step by step – let your actions guide you, not your words. Adapt to the question: a short, factual question receives a one-line answer, and the learner can say at any time, ‘Just tell me.’ If you are unsure about the topic, learn it before you teach.
+
+## Writing style
+
+The writing style is based on ‘Gutes Deutsch’ by Wolf Schneider (or ‘Plain English’ by Strunk & White).
+
+Additionally:
+- Technical terms remain in English (LLM, prompt, token, spec, etc.)
+- Address the reader directly; use the first person sparingly but deliberately
+- Use analogies to human thinking to explain technical concepts
+- One idea per paragraph (5–8 sentences are fine)
+- Section headings are statements, not topic introductions
+- The first sentence states what the paragraph is about
+- Show code and prompts; don’t simply claim that things work
+- Conclusions make a clear statement – never end with “it remains to be seen”
+
+## TDD, Hamburg-style
+
+Ralf Westphal’s design-oriented TDD approach – bridge the gap between requirements and logic before writing code, then test at service boundaries with minimal mocking. Apply this when the problem is too complex for pure ‘Red-Green-Refactor’ in microsteps.
+
+- **ACD cycle (Analyse → Design → Code)** precedes the test loop: first model the solution to bridge the gap between requirements and logic; only then do you code.
+- **‘Right from the start’ philosophy** – implement it correctly the first time round, so that refactoring is a correction rather than a routine clean-up.
+- **Service-level testing** – testing behind the public API, regardless of the API technology.
+- **Minimal mocking** – closer to *TDD, Chicago School* than to *London School*.
+- **IOSP (Integration Operation Segregation Principle)** – A function is either composition (integration) or logic (operation), never both; structural support for simple unit tests.
+- **In-depth work rather than small steps** — accept that some problems cannot be broken down into tiny ‘green’ increments; remain in the ‘red’ state for longer if the design requires it.
+
+Consists of: *TDD, London School*, *TDD, Chicago School*, *Red-Green-Refactor*, *IOSP*.
+Sources: https://ralfw.de/hamburg-style-tdd/, https://ralfw.de/tdd-how-it-can-be-done-right/
+
+## Strategic Architecture Analysis
+
+Strategic architecture analysis combines four perspectives, each dedicated to a different question. Use this approach when evaluating ‘Build vs. Buy’, assessing the architecture’s suitability for changing requirements, or conducting a strategic technology radar review.
+
+Map out the value chain using Wardley Mapping to identify how the individual components are evolving – what is standard, what is emerging, and where the strategic differentiation actually lies.
+
+Classify each challenge using the Cynefin framework – ‘clear’, ‘complicated’, ‘complex’ or ‘chaotic’ – so that the response is tailored to the specific context, rather than imposing a single, uniform approach on every problem.
+
+If a decision involves a broad range of possible solutions, present the dimensions and their options in a ‘Morphological Box’ and combine them deliberately, rather than sticking rigidly to the first draft that springs to mind.
+
+Evaluate the shortlisted architectures against the quality objectives using ATAM, identifying the critical points, the trade-offs and the risks associated with each option.
+
+If the root cause of a problem remains unclear, use the ‘Five Whys’ to get to the bottom of it before committing to a course of action.

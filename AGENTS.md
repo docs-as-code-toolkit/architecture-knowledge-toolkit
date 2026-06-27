@@ -3,6 +3,9 @@
 This repository may be used with AI coding agents, architecture assistants, and
 documentation generators. The rules below apply to all automated contributors.
 
+## Semantic Contracts
+Unless otherwise specified or overridden here or any specific skill, the general semantic contracts from ./general-semantic-contracts.md apply.
+
 ## Source of Truth
 
 The repository owns the architecture truth. Agent output is advisory until a human
