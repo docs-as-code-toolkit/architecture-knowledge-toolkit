@@ -2,11 +2,11 @@
 id: ADR-001-use-kafka
 type: ADR
 title: Use Kafka as the event backbone
-status: accepted
+status: proposed
 owner: platform-architecture
 created: 2026-06-25
-reviewed: true
-summary: Use Kafka as the shared event backbone for asynchronous domain events.
+reviewed: false
+summary: Proposed use of Kafka as the shared event backbone for asynchronous domain events.
 tags:
   - events
   - integration
@@ -14,20 +14,23 @@ tags:
 relations:
   - type: addresses
     target: QS-001-event-processing-latency
-    status: accepted
+    status: proposed
     rationale: Kafka partitions allow event consumers to process business events within the latency target.
-    reviewed: true
+    reviewed: false
   - type: introduces_risk
     target: RISK-001-event-backbone-coupling
-    status: accepted
+    status: proposed
     rationale: A shared event backbone can create operational and schema coupling between teams.
-    reviewed: true
+    reviewed: false
 ---
 = ADR-001: Use Kafka as the Event Backbone
 
 == Status
 
-Accepted.
+Proposed.
+
+This ADR is an AI-assisted draft. It must not be treated as accepted architecture
+truth until a human reviewer confirms the decision and updates the metadata.
 
 == Context
 
@@ -62,24 +65,61 @@ internal persistence models and makes ownership unclear.
 Kafka provides durable event streams, consumer groups, partitions, replay, and a
 well-understood operational model for asynchronous event processing.
 
+== Pugh Matrix
+
+Scores use `+1` for better support, `0` for neutral support, and `-1` for weaker
+support. Cells marked `?` need human assessment before the ADR can be accepted.
+
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Direct synchronous APIs | Database polling | Kafka event backbone
+
+| Predictable latency under normal load
+| 0
+| -1
+| +1
+
+| Independent consumer scaling
+| -1
+| 0
+| +1
+
+| Replay for operational recovery
+| -1
+| 0
+| +1
+
+| Operational simplicity for the team
+| +1
+| ?
+| ?
+|===
+
 == Decision
 
-We will use Kafka as the shared event backbone for asynchronous domain events in
-the sample architecture.
+We propose to use Kafka as the shared event backbone for asynchronous domain
+events in the sample architecture.
 
 == Consequences
 
-Positive consequences:
+=== Positive
 
 * Consumers can scale independently through consumer groups.
 * Event streams can be replayed for selected recovery and reprocessing cases.
 * Event delivery and retention become explicit platform capabilities.
 
-Negative consequences:
+=== Negative
 
 * Kafka becomes a central operational dependency.
 * Event schema governance is required to avoid accidental coupling.
 * Teams need operational knowledge for partitions, retention, and consumer lag.
+
+=== Neutral or Follow-Up
+
+* The team must confirm whether Kafka operational complexity is acceptable for
+  the sample context.
+* The proposed risk `RISK-001-event-backbone-coupling` must stay visible while
+  the decision is under review.
 
 == Traceability
 
@@ -95,3 +135,14 @@ Negative consequences:
 | `RISK-001-event-backbone-coupling`
 | The shared backbone can create coupling through schemas and operations.
 |===
+
+== Open Questions
+
+* Which team owns Kafka topics, retention settings, and schema compatibility?
+* Which event streams need replay, and for how long?
+* Which monitoring signal proves that the latency scenario is met?
+
+== Review Notes
+
+Review the Pugh cells marked `?`, confirm the latency target, and update
+metadata to `reviewed: true` only after human review.

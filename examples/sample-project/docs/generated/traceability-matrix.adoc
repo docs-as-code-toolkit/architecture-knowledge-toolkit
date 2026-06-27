@@ -11,7 +11,7 @@
 | xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka]
 | ADR
 | Use Kafka as the event backbone
-| accepted
+| proposed
 | addresses -> xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency] +
 introduces_risk -> xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling]
 | xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency] -> depends_on +
@@ -20,7 +20,7 @@ xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coup
 | xref:../quality/QS-001-event-processing-latency.adoc[QS-001-event-processing-latency]
 | QualityScenario
 | Event processing latency under normal load
-| accepted
+| proposed
 | depends_on -> xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka]
 | xref:../adr/ADR-001-use-kafka.adoc[ADR-001-use-kafka] -> addresses +
 xref:../risks/RISK-001-event-backbone-coupling.adoc[RISK-001-event-backbone-coupling] -> affects

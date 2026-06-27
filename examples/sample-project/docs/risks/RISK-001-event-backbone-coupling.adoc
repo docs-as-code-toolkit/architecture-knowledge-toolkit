@@ -5,8 +5,8 @@ title: Event backbone coupling
 status: proposed
 owner: platform-architecture
 created: 2026-06-25
-reviewed: true
-summary: A shared event backbone may couple teams through schemas, availability, and operational practices.
+reviewed: false
+summary: Proposed risk that a shared event backbone may couple teams through schemas, availability, and operational practices.
 tags:
   - risk
   - events
@@ -14,16 +14,23 @@ tags:
 relations:
   - type: depends_on
     target: ADR-001-use-kafka
-    status: accepted
+    status: proposed
     rationale: The risk exists because Kafka is selected as the shared event backbone.
-    reviewed: true
+    reviewed: false
   - type: affects
     target: QS-001-event-processing-latency
-    status: accepted
+    status: proposed
     rationale: Coupling and operational contention can affect event processing latency.
-    reviewed: true
+    reviewed: false
 ---
 = RISK-001: Event Backbone Coupling
+
+== Status
+
+Proposed.
+
+This risk is an AI-assisted draft. It identifies a concern for review; it does
+not decide risk acceptance.
 
 == Risk Statement
 
@@ -51,6 +58,13 @@ reduced delivery independence.
 | Medium
 |===
 
+== Priority
+
+Medium.
+
+The priority is qualitative. It combines medium likelihood and medium impact
+without implying numeric precision.
+
 == Mitigation Options
 
 * Define ownership for event schemas and compatibility rules.
@@ -60,8 +74,8 @@ reduced delivery independence.
 
 == Decision or Acceptance
 
-The risk is accepted for the sample project with mitigation. It should remain
-visible while Kafka is used as the shared event backbone.
+The risk is still under analysis. The sample proposes mitigation options, but
+acceptance requires explicit human review by the accountable owner.
 
 == Traceability
 
@@ -77,3 +91,14 @@ visible while Kafka is used as the shared event backbone.
 | `QS-001-event-processing-latency`
 | Operational contention can affect the latency quality scenario.
 |===
+
+== Open Questions
+
+* Who owns schema compatibility rules for shared event contracts?
+* Which mitigation is mandatory before the Kafka decision can be accepted?
+* Which operational threshold turns this risk into an active issue?
+
+== Review Notes
+
+Keep this risk `proposed` until the owner confirms likelihood, impact, priority,
+and mitigation ownership.

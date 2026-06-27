@@ -4,33 +4,51 @@
 :owner: architecture-knowledge-toolkit maintainers
 
 This sample project demonstrates how architecture artifacts and explicit
-traceability metadata can be organized.
+traceability metadata can be organized with the current repository guidance.
 
 The sample is intentionally small. It exists to show conventions, not to model a
-complete system.
+complete system. The artifacts are AI-assisted suggestions until a human reviewer
+accepts them through version-controlled changes.
 
 == Example Artifact IDs
 
-* `ADR-PERSISTENCE-001`: Example decision about persistence.
-* `QS-LATENCY-001`: Example latency quality scenario.
-* `RISK-OPERABILITY-001`: Example operational risk.
+* `ADR-001-use-kafka`: Proposed decision about Kafka as an event backbone.
+* `QS-001-event-processing-latency`: Proposed latency quality scenario.
+* `RISK-001-event-backbone-coupling`: Proposed risk introduced by the decision.
 
-== Suggested Layout
+== Layout
 
 [source,text]
 ----
 examples/sample-project/
   README.adoc
-  artifacts.yaml
-  relations.yaml
-  adr/
-  quality-scenarios/
-  risks/
+  docs/
+    adr/
+      ADR-001-use-kafka.adoc
+    quality/
+      QS-001-event-processing-latency.adoc
+    risks/
+      RISK-001-event-backbone-coupling.adoc
+    generated/
+      traceability-matrix.adoc
 ----
+
+== Traceability Rules Demonstrated
+
+* Source artifacts carry YAML front matter with stable IDs.
+* Relationships are explicit metadata, not inferred from prose.
+* AI-suggested artifacts and relations stay `proposed` and `reviewed: false`.
+* Generated content is kept under `docs/generated/`.
+* Review notes and open questions make assumptions visible.
 
 == Notes
 
-Future milestones should add concrete sample artifacts and validation commands.
-For now, this directory documents the intended shape without introducing a
-generator implementation.
+Run the metamodel validator from the repository root after editing the sample:
 
+[source,sh]
+----
+ruby scripts/validate-metamodel.rb --docs examples/sample-project/docs --generate
+----
+
+The generated matrix should be deterministic. Re-running the command without
+input changes should not create a meaningful diff.
