@@ -1,0 +1,50 @@
+[[techstack-canvas]]
+= Techstack Canvas
+:id: CANVAS-TECH-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas captures the current assumed technical choices for the toolkit. It
+is a living document and must be updated when the implementation evolves.
+
+== Documentation
+
+* Format: AsciiDoc.
+* Diagram direction: PlantUML for architecture diagrams.
+* Documentation approach: Docs-as-Code.
+
+== Metadata
+
+* Artifact metadata schema: YAML schema in `metamodel/artifact.schema.yaml`.
+* Relationship metadata schema: YAML schema in
+  `metamodel/relations.schema.yaml`.
+* Artifact IDs: stable, explicit, and not reused.
+
+== Implementation
+
+* Current validator and generator language: Ruby.
+* Current validation entry point: `scripts/validate-metamodel.rb`.
+* Current tests: Ruby tests in `test/`.
+
+== AI Assistance
+
+* Core skills: engine-independent files under `skills/`.
+* Runtime integration: adapter-specific documentation under `adapters/`.
+* AI output status: suggestion until reviewed and committed.
+
+== Quality Gates
+
+* Metadata validation must pass.
+* Generator output must be deterministic and idempotent.
+* Tests must cover validator and generator behavior.
+* Generated output must avoid timestamps, random values, and local paths unless
+  those values are explicit inputs.
+
+== Open Technical Decisions
+
+* Whether to keep Ruby as the long-term implementation language.
+* Whether generated documentation should be committed or produced by CI.
+* Whether metadata should stay in document front matter, move to sidecar YAML,
+  or support both.
+* Which documentation build toolchain should be the primary supported path.

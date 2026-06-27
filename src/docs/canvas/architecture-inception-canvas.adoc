@@ -1,0 +1,83 @@
+[[architecture-inception-canvas]]
+= Architecture Inception Canvas
+:id: CANVAS-AIC-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas is an initial architecture-inception draft. It contains assumptions
+that must be validated before architectural decisions are marked as accepted.
+
+== Purpose
+
+The project provides a reusable toolkit for architecture knowledge work. It
+combines Docs-as-Code, explicit metadata, reusable AI skills, and deterministic
+validation and generation.
+
+== Stakeholders
+
+* Architecture maintainers.
+* Software architects.
+* Development teams.
+* Documentation maintainers.
+* AI assistant users and adapter maintainers.
+
+== Core Capabilities
+
+* Define architecture artifact metadata.
+* Validate artifact and relation metadata.
+* Provide templates for common architecture artifacts.
+* Suggest architecture content through reusable AI skills.
+* Generate deterministic traceability views.
+* Demonstrate usage through sample projects.
+
+== System Boundary
+
+Inside the project boundary:
+
+* Source documentation.
+* Metamodel schemas.
+* Templates.
+* Skills.
+* Validation and generation scripts.
+* Adapter documentation.
+
+Outside the project boundary:
+
+* Human review and acceptance.
+* AI runtime behavior.
+* Documentation publishing platforms.
+* Project-specific architecture decisions in consuming repositories.
+
+== Quality Drivers
+
+* Reproducibility: same committed inputs produce the same generated outputs.
+* Reviewability: architecture knowledge changes are small and traceable.
+* Portability: core skills avoid engine-specific assumptions.
+* Auditability: suggested, generated, and reviewed content are distinguishable.
+* Usability: templates and examples are practical for teams to adopt.
+
+== Constraints
+
+* AsciiDoc is the primary source format.
+* PlantUML is preferred for architecture diagrams where diagrams are needed.
+* Generated output must be deterministic and idempotent.
+* Repository files are the source of truth after human review.
+* Engine-specific integration belongs under `adapters/`.
+
+== Risks
+
+* Metadata authoring may feel too heavy for small teams.
+* AI suggestions may be mistaken for reviewed architecture truth.
+* Early metamodel choices may constrain future artifact types.
+* Generator behavior may drift without regression tests.
+
+== First Increment
+
+The first increment should remain a walking skeleton:
+
+* Keep the repository structure stable.
+* Validate sample architecture artifacts.
+* Generate one deterministic traceability matrix.
+* Document the new-project canvases and open questions.
+* Keep all inferred content in draft status.

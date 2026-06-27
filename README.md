@@ -22,12 +22,27 @@ Reviewed metadata and source documents are the authoritative record.
 
 ```text
 docs/          Human-authored architecture documentation.
+src/docs/      New-project inception docs, canvases, vision, and roadmap.
 metamodel/     Schemas for architecture artifacts and relations.
 skills/        Reusable AI skill instructions and review workflows.
 templates/     AsciiDoc templates for common architecture artifacts.
 adapters/      Engine-specific integration layers.
 examples/      Sample projects showing expected usage.
 ```
+
+## New Project Inception
+
+Start new-project clarification in `src/docs/`.
+
+- `src/docs/canvas/business-model-canvas.adoc`
+- `src/docs/canvas/value-proposition-canvas.adoc`
+- `src/docs/vision-mission.adoc`
+- `src/docs/roadmap.adoc`
+- `src/docs/canvas/questions-and-answers.adoc`
+
+The current inception files are drafts. They use this repository as a hint, not
+as proof. Review assumptions and answer the open questions before treating any
+canvas, roadmap item, or product statement as accepted project truth.
 
 ## Intended Workflow
 

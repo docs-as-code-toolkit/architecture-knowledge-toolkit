@@ -1,0 +1,105 @@
+[[roadmap]]
+= Roadmap
+:id: DOC-ROADMAP-NEW-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This roadmap is a suggested new-project roadmap. It uses the existing roadmap as
+a hint and incorporates reviewed workshop answers. Derived content still needs
+review before it becomes accepted project truth.
+
+== Milestone 0: Project Inception
+
+Goal: make the project purpose discussable and reviewable.
+
+* Create Business Model Canvas and Value Proposition Canvas.
+* Draft vision and mission.
+* Capture architecture, communication, and techstack canvases.
+* Record open questions by role.
+* Confirm individual architects as the first target user segment.
+* Confirm the initial success metric for guided arc42 Docs-as-Code setup.
+* Confirm project setup only as the first adoption slice.
+
+Exit criteria:
+
+* Product owner answers the first target-user, success-metric, and adoption
+  boundary questions.
+* Maintainers agree which assumptions can become reviewed project facts.
+
+== Milestone 1: Repository Foundation
+
+Goal: make the toolkit structure clear and usable for an individual architect
+starting a project.
+
+* Stabilize repository layout.
+* Keep reviewed source content separate from generated output.
+* Provide a guided initial setup path for arc42 Docs-as-Code documentation.
+* Include inception canvases, vision and mission, roadmap, and open-question
+  capture in the setup path.
+* Make cross-reference conventions visible in templates and examples.
+* Document contribution workflow.
+* Keep engine-specific integration under `adapters/`.
+* Maintain examples that demonstrate expected usage.
+
+Exit criteria:
+
+* An individual architect can create an initial project documentation skeleton
+  with inception canvases, vision and mission, roadmap, and open questions.
+* The README points to the new-project workflow.
+
+== Milestone 2: Metamodel Validation
+
+Goal: make architecture metadata trustworthy.
+
+* Validate artifact metadata against `metamodel/artifact.schema.yaml`.
+* Validate relation metadata against `metamodel/relations.schema.yaml`.
+* Validate cross references that are modeled as explicit relationships.
+* Document stable ID conventions.
+* Add focused tests for valid and invalid metadata.
+
+Exit criteria:
+
+* Broken metadata fails validation with actionable messages.
+* Valid sample artifacts pass without manual setup.
+
+== Milestone 3: Deterministic Views
+
+Goal: make reviewed metadata useful in generated documentation.
+
+* Generate a traceability matrix from explicit relations.
+* Generate indexes by artifact type, status, owner, and tag.
+* Generate includable documentation fragments for CI/CD pipelines.
+* Add regression tests for generator output.
+* Ensure generated files are ignored by artifact scanning.
+
+Exit criteria:
+
+* Re-running the generator without input changes produces no meaningful diff.
+* Generated views never become the primary editing surface.
+* Generated fragments can be included in published architecture documentation.
+
+== Milestone 4: Skill And Adapter Hardening
+
+Goal: make AI assistance reusable and auditable.
+
+* Refine reusable skills through real project use.
+* Add skills that suggest architecture documentation updates during feature
+  implementation and refactoring.
+* Add adapter-specific invocation examples.
+* Document how suggestions become reviewed source changes.
+* Keep engine-specific assumptions out of core skills.
+
+Exit criteria:
+
+* A user can tell which content is suggested, generated, or reviewed.
+* Adapter guidance remains thin and testable.
+
+== Open Roadmap Decisions
+
+* Which artifact types are version 1 scope?
+* Which generated views should be built after the traceability matrix?
+* Which CI and publishing workflows should be supported first?
+* Which implementation language should be used for future generators?
+* Which SDLC skills are required first: feature implementation, refactoring, or
+  architecture review?

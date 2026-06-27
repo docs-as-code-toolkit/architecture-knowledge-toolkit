@@ -1,0 +1,163 @@
+[[canvas-questions-and-answers]]
+= Canvas Questions And Answers
+:id: CANVAS-QA-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This file captures project-inception questions and answers. It is intentionally
+separate from the canvases so workshop input can be reviewed and traced.
+
+== Current Evidence
+
+The initial canvases use these files as hints only:
+
+* `README.md`
+* `docs/vision.adoc`
+* `docs/roadmap.adoc`
+* Existing repository structure
+
+These hints are not treated as proven product or architecture truth. Workshop
+answers in this file are treated as reviewed input for the next draft, but
+derived documents still need review before they become accepted project truth.
+
+== Assumptions
+
+* The project is a reusable toolkit rather than a single-project architecture
+  repository.
+* The first users are individual architects using Docs-as-Code.
+* The repository should support AI-assisted drafting without granting AI output
+  authoritative status.
+* Deterministic validation and generation are core differentiators.
+
+== Open Questions For Product Owner
+
+=== Q-PO-001: Target users
+
+Which user segment should be served first: individual architects, architecture
+review boards, development teams, or AI-tool maintainers?
+
+Answer: Individual architects.
+
+=== Q-PO-002: Success metric
+
+What measurable outcome proves the toolkit is useful in the first real project?
+
+Answer:
+
+With the help of the toolkit, an architect is guided through the initial setup
+of a project. The toolkit helps create structured Docs-as-Code architecture
+documentation based on arc42. It provides not only static text, but also cross
+references wherever they are needed.
+
+The provided AI skills should make it easy to create or update architectural
+artifacts and keep the documentation stable. Further AI skills should also keep
+the software development lifecycle clean: when a team implements a new feature
+or performs refactoring, the toolkit should suggest updates to architecture
+documentation, such as new ADRs, quality scenarios, and related artifacts.
+
+The toolkit should provide validators and generators for additional
+documentation, such as matrices that can be included in the documentation and
+used in a CI/CD pipeline.
+
+=== Q-PO-003: Adoption boundary
+
+What is the smallest useful workflow that a team should be able to adopt without
+adopting the whole toolkit?
+
+Answer:
+
+Start with project setup only. The first useful workflow should guide an
+individual architect through creating the initial arc42 Docs-as-Code
+documentation structure, the inception canvases, the vision and mission, the
+roadmap, and the first open questions.
+
+Artifact creation, validation, generation, and SDLC skills are added as later
+slices. They must build on the setup workflow, but the setup workflow should be
+useful on its own.
+
+== Open Questions For Architect
+
+=== Q-ARCH-001: Metadata strategy
+
+Should artifact metadata live only in AsciiDoc front matter, only in sidecar
+YAML files, or in both forms?
+
+Answer: [OPEN]
+
+=== Q-ARCH-002: First-class artifacts
+
+Which artifact types must be first-class for version 1?
+
+Answer: [OPEN]
+
+=== Q-ARCH-003: Generated views
+
+Which generated views are required for useful architecture review beyond the
+traceability matrix?
+
+Answer: [OPEN]
+
+== Open Questions For Developer
+
+=== Q-DEV-001: Implementation language
+
+Is Ruby the intended long-term implementation language for validators and
+generators?
+
+Answer: [OPEN]
+
+=== Q-DEV-002: Test strategy
+
+Which generator outputs should have golden-file regression tests?
+
+Answer: [OPEN]
+
+=== Q-DEV-003: Local workflow
+
+What command should a contributor run before opening a pull request?
+
+Answer: [OPEN]
+
+== Open Questions For Subject Matter Expert
+
+=== Q-SME-001: Architecture method fit
+
+Which architecture practices are mandatory for the toolkit: arc42, ADRs,
+quality scenarios, risk registers, ATAM, or others?
+
+Answer: [OPEN]
+
+=== Q-SME-002: Traceability depth
+
+Which relationships must always be explicit for architecture review to be
+credible?
+
+Answer: [OPEN]
+
+=== Q-SME-003: Suggested content
+
+What visual or metadata marker should distinguish AI suggestions from reviewed
+architecture knowledge?
+
+Answer: [OPEN]
+
+== Open Questions For Operations
+
+=== Q-OPS-001: CI integration
+
+Should validation and generation run locally, in CI, or both?
+
+Answer: [OPEN]
+
+=== Q-OPS-002: Publishing
+
+Where should generated documentation be published, if anywhere?
+
+Answer: [OPEN]
+
+=== Q-OPS-003: Reproducibility
+
+Which environments must be supported for reproducible documentation generation?
+
+Answer: [OPEN]

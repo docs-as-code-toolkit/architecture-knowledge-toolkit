@@ -1,0 +1,88 @@
+[[value-proposition-canvas]]
+= Value Proposition Canvas
+:id: CANVAS-VPC-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas is a suggested starting point for a new-project workshop. It is
+derived from repository hints and reviewed workshop answers. Derived content
+must still be reviewed with target users.
+
+== Customer Profile
+
+=== Jobs
+
+* Capture architecture decisions, risks, quality scenarios, and relationships.
+* Set up structured arc42 architecture documentation at project start.
+* Review architecture knowledge in pull requests.
+* Keep cross references current when architecture artifacts change.
+* Keep generated documentation reproducible.
+* Use AI help without losing authority over repository truth.
+* Adopt the toolkit in small slices instead of all at once.
+* Reuse architecture and software-development-lifecycle workflows across
+  projects and AI tools.
+
+=== Pains
+
+* Architecture decisions become disconnected from risks and requirements.
+* Initial project setup can be unclear and inconsistent between architects.
+* A large toolkit can feel too heavy if the first step is not small.
+* Feature implementation and refactoring often leave architecture documentation
+  stale.
+* Generated prose can look authoritative without review evidence.
+* Documentation generators may create unstable diffs.
+* AI workflows often become tool-specific and hard to audit.
+* Metadata rules can be difficult to apply consistently.
+
+=== Gains
+
+* Reviewable source artifacts with stable IDs.
+* A useful first slice focused on project setup only.
+* Explicit traceability across architecture knowledge.
+* Repeatable validation and generated views.
+* CI/CD-ready validation and generated documentation fragments.
+* Clear separation between suggested and reviewed content.
+* Portable skills and templates.
+
+== Value Map
+
+=== Products And Services
+
+* AsciiDoc templates.
+* Guided arc42 documentation setup.
+* Inception canvases, vision and mission, roadmap, and open-question capture.
+* Metadata schemas for artifacts and relations.
+* Cross-reference support for related architecture artifacts.
+* AI skills for ADRs, scenarios, risks, traceability review, feature work, and
+  refactoring.
+* Validation and generation scripts.
+* Example project content.
+* Adapter documentation for specific AI environments.
+
+=== Pain Relievers
+
+* Metadata validation catches missing IDs, unsupported relation types, and
+  broken relation targets.
+* Stable IDs make review and traceability practical.
+* Generated files are separated from reviewed source files.
+* Adapter boundaries prevent engine-specific assumptions from leaking into core
+  skills.
+* SDLC skills prompt documentation updates when features or refactorings affect
+  architecture knowledge.
+
+=== Gain Creators
+
+* Traceability matrices and other generated views make architecture knowledge
+  easier to inspect and include in published documentation.
+* Templates reduce the blank-page problem.
+* The project setup workflow provides value before validation, generators, and
+  SDLC skills are adopted.
+* Engine-independent skills help teams reuse practices across tools.
+* Deterministic generation supports trustworthy Docs-as-Code pipelines.
+
+== Fit Hypothesis
+
+The toolkit is valuable if individual architects can first set up structured
+arc42 Docs-as-Code documentation quickly, then adopt artifact creation,
+validation, generation, and SDLC skills in later slices.

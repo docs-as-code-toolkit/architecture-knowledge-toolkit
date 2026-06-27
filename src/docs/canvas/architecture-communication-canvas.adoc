@@ -1,0 +1,54 @@
+[[architecture-communication-canvas]]
+= Architecture Communication Canvas
+:id: CANVAS-ACC-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas describes how the architecture knowledge should be communicated
+during project inception and review.
+
+== Audiences
+
+* Maintainers need to understand what belongs in the toolkit core.
+* Architects need to apply the templates and metadata rules consistently.
+* Developers need to understand how validation affects contributions.
+* Reviewers need to separate suggested content from reviewed content.
+* Adapter authors need to keep runtime-specific behavior isolated.
+
+== Communication Goals
+
+* Make the source of truth explicit.
+* Show how to create, validate, review, and generate architecture knowledge.
+* Explain which content is authoritative and which content is suggested.
+* Make traceability useful without turning documentation into ceremony.
+
+== Key Messages
+
+* Repository source files become authoritative only through human review.
+* AI may suggest content, but it does not accept decisions.
+* Metadata carries traceability; prose alone is not enough.
+* Generated views are derived artifacts, not the primary editing surface.
+* Deterministic output is a quality requirement.
+
+== Channels And Artifacts
+
+* `README.md` for orientation.
+* `src/docs/canvas/` for inception canvases and workshop questions.
+* `docs/` for existing project hints and concept notes.
+* `examples/` for expected usage.
+* `skills/` for reusable AI-assisted workflows.
+* `scripts/validate-metamodel.rb` for executable validation.
+
+== Feedback Loops
+
+* Pull request review for source artifacts and metadata.
+* Validator test failures for schema and generator regressions.
+* Workshop answers captured in `questions-and-answers.adoc`.
+* Open questions reviewed before moving artifacts from draft to reviewed.
+
+== Open Communication Decisions
+
+* Which audience should the README primarily serve first?
+* Should generated views be committed, regenerated in CI, or both?
+* How much of the workflow should be documented in adapter-specific files?

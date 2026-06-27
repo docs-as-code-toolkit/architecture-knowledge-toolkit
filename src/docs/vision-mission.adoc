@@ -1,0 +1,59 @@
+[[vision-mission]]
+= Vision And Mission
+:id: DOC-VISION-MISSION-001
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This document is a suggested first draft for project inception. It uses existing
+repository files as hints and incorporates reviewed workshop answers. Derived
+statements still need review before they become accepted project truth.
+
+== Vision
+
+Individual architects should be able to start a project with structured arc42
+Docs-as-Code architecture documentation, keep it traceable through explicit
+cross references, and evolve it during normal software development work.
+
+Teams should be able to use AI to improve architecture work without losing
+control of the source of truth.
+
+== Mission
+
+The project provides a reusable Docs-as-Code toolkit for architecture knowledge.
+It guides architects through initial project setup and offers AsciiDoc
+templates, explicit metadata schemas, reusable AI skills, example content, and
+deterministic validation and generation so teams can create and maintain
+reviewable arc42 architecture documentation.
+
+== Product Principles
+
+* Repository source files are authoritative only after human review.
+* Generated prose and inferred relations remain suggestions until accepted.
+* Metadata carries traceability across architecture artifacts.
+* Cross references must stay useful when artifacts change.
+* Generated documentation must be deterministic and reproducible.
+* Core skills stay engine-independent.
+* Runtime-specific integration belongs under `adapters/`.
+* Feature implementation and refactoring should trigger architecture
+  documentation checks.
+
+== Initial Scope
+
+The first scope is a walking skeleton for architecture knowledge management:
+
+* Define artifact and relation metadata.
+* Guide the initial setup of arc42 Docs-as-Code documentation.
+* Provide templates for ADRs, quality scenarios, risks, and impact reports.
+* Validate sample project metadata.
+* Generate deterministic matrices and other includable documentation fragments.
+* Provide reusable AI skills for architecture artifacts, feature work,
+  refactoring, and adapter guidance.
+* Capture project-inception canvases and open questions.
+
+== Out Of Scope For Now
+
+* Treating AI-generated output as accepted architecture truth.
+* A complete documentation publishing platform.
+* A full generator suite before the metamodel stabilizes.
+* Binding the toolkit to a single AI provider, editor, or runtime.
