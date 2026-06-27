@@ -15,8 +15,16 @@
 | proposed
 | addresses -> xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] +
 introduces_risk -> xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling]
-| xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] -> depends_on +
+| xref:../adr/ADR-002-public-api.adoc#adr-002-public-api[ADR-002-public-api] -> affects +
+xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency] -> depends_on +
 xref:../risks/RISK-001-event-backbone-coupling.adoc#risk-001-event-backbone-coupling[RISK-001-event-backbone-coupling] -> depends_on
+
+| xref:../adr/ADR-002-public-api.adoc#adr-002-public-api[ADR-002-public-api]
+| ADR
+| Defer a public API until external consumers are confirmed
+| proposed
+| affects -> xref:../adr/ADR-001-use-kafka.adoc#adr-001-use-kafka[ADR-001-use-kafka]
+| -
 
 | xref:../quality/QS-001-event-processing-latency.adoc#qs-001-event-processing-latency[QS-001-event-processing-latency]
 | QualityScenario
