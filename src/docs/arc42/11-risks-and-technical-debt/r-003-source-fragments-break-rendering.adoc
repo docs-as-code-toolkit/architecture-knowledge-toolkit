@@ -17,18 +17,6 @@ relations:
   rationale: Broken fragment rendering directly threatens the reusable-fragment quality scenario.
   evidence: src/docs/arc42/10-quality-requirements/qs-003-reusable-fragments-render.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-001-asciidoc-primary-source
-  status: proposed
-  rationale: The risk exists because AsciiDoc includes are used for source reuse.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-001-asciidoc-primary-source.adoc
-  reviewed: false
-- type: depends_on
-  target: ADR-003-source-fragments-location
-  status: proposed
-  rationale: Centralized source fragments increase the impact of a malformed fragment.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-003-source-fragments-location.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[r-003-source-fragments-break-rendering]]

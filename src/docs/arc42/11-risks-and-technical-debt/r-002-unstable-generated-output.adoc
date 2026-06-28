@@ -17,12 +17,6 @@ relations:
   rationale: Non-deterministic output directly threatens reproducible generation.
   evidence: src/docs/arc42/10-quality-requirements/qs-001-reproducible-generation.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-002-generated-output-not-source
-  status: proposed
-  rationale: The risk is important because generated output is expected to be recreated rather than committed.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-002-generated-output-not-source.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[r-002-unstable-generated-output]]

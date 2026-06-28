@@ -38,7 +38,8 @@ quality scenario workflow needs a stricter rule.
    can be justified, write an open question instead of inventing a target.
 8. Propose explicit metadata relations to quality objectives, ADRs, risks,
    requirements, affected architecture documents, and verification evidence.
-9. Update affected artifacts with relations only when justified by evidence.
+9. Update affected artifacts with **outgoing** relations only when justified by evidence.
+   Never create reciprocal incoming relations; they are derived automatically during generation.
 10. Add stable AsciiDoc anchors to created documentation artifacts and use
     anchor-based `xref` links for visible references to documentation artifacts.
 11. Prefer small, reviewable patches.

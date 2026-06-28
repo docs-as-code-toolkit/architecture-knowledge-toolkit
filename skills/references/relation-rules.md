@@ -3,10 +3,34 @@
 Use explicit metadata relations for traceability. Relations are claims and must
 stay proposed until reviewed.
 
+## Relationship Directionality Convention
+
+**All relations in source artifacts are authoritative outgoing relations only.**
+
+- Store only semantically active outgoing relationships in source artifact metadata.
+- Incoming relationships are **derived** during generation, not manually maintained.
+- This reduces duplication, maintenance effort, and inconsistency risk.
+
+**Example:**
+```yaml
+# Authoritative (in ADR):
+- type: introduces_risk
+  target: R-001-example-risk
+  status: proposed
+
+# NOT in risk (reciprocal is derived, not stored):
+# - type: depends_on
+#   target: ADR-001-example-decision
+```
+
+The generator will automatically show that R-001 "is introduced by" ADR-001 in
+-generated traceability views.
+
 ## Common Relation Semantics
 
 - `addresses`: A decision or concept supports a requirement or quality scenario.
-- `depends_on`: An artifact relies on another artifact being true.
+- `depends_on`: An artifact relies on another artifact being true (use for legitimate
+hierarchical or dependency relationships, not as a reciprocal for other relation types).
 - `constrains`: An artifact limits implementation or design choices.
 - `refines`: An artifact makes another artifact more specific.
 - `supersedes`: A newer artifact replaces an older artifact.
@@ -25,17 +49,16 @@ stay proposed until reviewed.
 - Mark new or AI-suggested relations `status: proposed` and `reviewed: false`.
 - Keep accepted relations unchanged unless the repository evidence justifies an
   update.
-- Do not add reciprocal relations automatically. Add them only if the repository
-  convention or validator expects them.
+- **Never add reciprocal relations manually.** Incoming relations appear only in
+  generated documentation, not in source metadata.
 
 ## Impact Rules
 
 - Link a proposed ADR to quality scenarios it addresses or constrains.
 - Link a proposed ADR to risks it introduces or mitigates.
-- Link new risks back to the ADR with `depends_on` when the risk exists because
-  of that decision.
-- Link new quality scenarios back to the ADR with `depends_on` only when the
-  scenario assumes the decision.
+- **Do NOT link artifacts back with `depends_on`** as a reciprocal for `introduces_risk`,
+  `addresses`, or other directional relations. The risk or scenario's dependency on the
+  decision is derived from the ADR's outgoing relation.
 - Use `affects` when a relation is real but the direction or type needs review.
 
 ## Update Rules

@@ -32,7 +32,8 @@ stricter rule.
 6. Create new risk or quality scenario artifacts only when no existing artifact
    covers the impact.
 7. Propose explicit metadata relations.
-8. Update affected artifacts with relations only when justified by evidence.
+8. Update affected artifacts with **outgoing** relations only when justified by evidence.
+   Never create reciprocal incoming relations; they are derived automatically during generation.
 9. Add stable AsciiDoc anchors to created documentation artifacts and use
    anchor-based `xref` links for visible references to documentation artifacts.
 10. Prefer small, reviewable patches.

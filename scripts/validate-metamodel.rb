@@ -36,6 +36,7 @@ class MetamodelValidator
     validate_artifacts(artifacts)
     validate_unique_ids(artifacts)
     validate_relations(artifacts, relation_types, relation_keys)
+    detect_bidirectional_relations(artifacts)
 
     artifacts
   rescue StandardError => e
@@ -162,6 +163,32 @@ class MetamodelValidator
 
         if target && !known_ids.include?(target)
           @errors << "#{location} references unknown artifact id '#{target}'"
+        end
+      end
+    end
+  end
+
+  def detect_bidirectional_relations(artifacts)
+    # Build a map of all outgoing relations: source_id -> [target_ids]
+    outgoing_map = Hash.new { |hash, key| hash[key] = Set.new }
+    artifacts.each do |artifact|
+      metadata = artifact.metadata
+      next unless metadata && metadata['id']
+      source_id = metadata['id']
+      (metadata['relations'] || []).each do |relation|
+        next unless relation.is_a?(Hash)
+        target_id = relation['target']
+        outgoing_map[source_id] << target_id if target_id
+      end
+    end
+
+    # Check for bidirectional patterns: if A -> B exists, check if B -> A exists
+    outgoing_map.each do |source_id, target_ids|
+      target_ids.each do |target_id|
+        # Check if the target has a relation back to the source
+        if outgoing_map.key?(target_id) && outgoing_map[target_id].include?(source_id)
+          @warnings << "Bidirectional relation detected: #{source_id} -> #{target_id} and #{target_id} -> #{source_id}. " \
+                     "Consider removing the reciprocal relation from one artifact."
         end
       end
     end

@@ -37,7 +37,8 @@ workflow needs a stricter rule.
    where evidence supports them.
 9. Propose explicit metadata relations to decisions, quality scenarios,
    requirements, affected architecture documents, mitigations, and evidence.
-10. Update affected artifacts with relations only when justified by evidence.
+10. Update affected artifacts with **outgoing** relations only when justified by evidence.
+    Never create reciprocal incoming relations; they are derived automatically during generation.
 11. Add stable AsciiDoc anchors to created documentation artifacts and use
     anchor-based `xref` links for visible references to documentation artifacts.
 12. Prefer small, reviewable patches.

@@ -17,24 +17,6 @@ relations:
   rationale: This scenario concretizes QG-004 Content reuse.
   evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-001-asciidoc-primary-source
-  status: proposed
-  rationale: The scenario assumes AsciiDoc include support as the source-fragment mechanism.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-001-asciidoc-primary-source.adoc
-  reviewed: false
-- type: depends_on
-  target: ADR-003-source-fragments-location
-  status: proposed
-  rationale: The scenario assumes a stable reviewed source-fragment location.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-003-source-fragments-location.adoc
-  reviewed: false
-- type: affects
-  target: R-003-source-fragments-break-rendering
-  status: proposed
-  rationale: Broken fragment rendering directly threatens this scenario.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[qs-003-reusable-fragments-render]]

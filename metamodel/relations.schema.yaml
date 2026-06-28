@@ -5,6 +5,11 @@ description: >-
   Schema for explicit traceability relationships between architecture artifacts.
   Relationships can be embedded in YAML front matter or collected in a separate
   relation index.
+  
+  **Relationship Directionality Convention:** All relations in source artifacts are
+  authoritative outgoing relations. Incoming relations are derived during generation
+  and appear only in generated traceability views, not in source metadata. This prevents
+  bidirectional duplication and reduces maintenance overhead.
 type: object
 additionalProperties: false
 required:

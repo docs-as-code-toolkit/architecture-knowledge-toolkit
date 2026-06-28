@@ -17,18 +17,6 @@ relations:
   rationale: This scenario concretizes QG-001 Reproducibility.
   evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-002-generated-output-not-source
-  status: proposed
-  rationale: Generated output can stay out of source control only when it can be reproduced reliably.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-002-generated-output-not-source.adoc
-  reviewed: false
-- type: affects
-  target: R-002-unstable-generated-output
-  status: proposed
-  rationale: Instability of generated output threatens this scenario.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[qs-001-reproducible-generation]]
