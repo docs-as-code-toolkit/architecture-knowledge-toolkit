@@ -1,0 +1,16 @@
+[[fragment-architecture-system-boundary]]
+Inside the system boundary:
+
+* Source documentation.
+* Metamodel schemas.
+* Templates.
+* Skills.
+* Validation and generation scripts.
+* Adapter documentation.
+
+Outside the system boundary:
+
+* Human review and acceptance.
+* AI runtime behavior.
+* Documentation publishing platforms.
+* Project-specific architecture decisions in consuming repositories.

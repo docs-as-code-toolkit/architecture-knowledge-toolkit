@@ -1,0 +1,22 @@
+[[fragment-architecture-open-arc42-notes]]
+This arc42 documentation is a review-ready draft derived from repository source
+files and project-inception canvases. It does not mark architectural decisions,
+risks, relations, or requirements as human-accepted unless that acceptance is
+already recorded in the repository.
+
+Inputs used for this draft:
+
+* `src/docs/vision-mission.adoc`
+* `src/docs/roadmap.adoc`
+* `src/docs/canvas/business-model-canvas.adoc`
+* `src/docs/canvas/value-proposition-canvas.adoc`
+* `src/docs/canvas/architecture-inception-canvas.adoc`
+* `src/docs/canvas/architecture-communication-canvas.adoc`
+* `src/docs/canvas/techstack-canvas.adoc`
+* `src/docs/canvas/questions-and-answers.adoc`
+* `README.md`
+* `general-semantic-contracts.md`
+
+The canvas files are source inputs for the draft but are not part of this
+arc42 documentation set. They are referenced by file path instead of AsciiDoc
+cross references.

@@ -85,6 +85,14 @@ Use these templates:
   to an existing artifact is sufficient.
 - Keep metadata relation targets as stable artifact IDs; render visible
   documentation references as anchor-based AsciiDoc `xref` links.
+- Use YAML front matter that conforms to `metamodel/artifact.schema.yaml` for
+  standalone architecture artifacts, and use relationship types from
+  `metamodel/relations.schema.yaml`.
+- AsciiDoc anchors must start with a lowercase letter and contain only
+  lowercase letters, digits, and hyphens. Do not use spaces inside `[[...]]` or
+  `[#...]` anchors.
+- When referring to a document included in the same assembled documentation
+  set, use an explicit `xref` to that document's anchor.
 - Keep changes narrow and easy to review.
 
 ## Impact Analysis Checklist

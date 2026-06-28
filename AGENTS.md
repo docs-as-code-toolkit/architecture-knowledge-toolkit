@@ -21,6 +21,21 @@ especially AsciiDoc documents and metadata files conforming to `metamodel/`.
 - Preserve stable IDs once assigned.
 - Do not rename, merge, or delete architecture artifacts without an explicit
   migration note.
+- Use the schemas in `metamodel/` for standalone architecture artifacts. Add
+  YAML front matter with at least `id`, `type`, `title`, `status`, `owner`, and
+  `created`, and keep relation targets as stable artifact IDs.
+- Render AsciiDoc files with YAML front matter using Asciidoctor's
+  `skip-front-matter` attribute so metadata does not appear in published
+  output.
+- Do not add YAML front matter to reusable source fragments that are included
+  directly into other AsciiDoc files, because the metadata would render as
+  document content. Model the including standalone document instead.
+- AsciiDoc anchors must be renderer-safe, start with a lowercase letter, and
+  contain only lowercase letters, digits, and hyphens. Do not use spaces in
+  anchors.
+- When an AsciiDoc document refers to another document that is included in the
+  same assembled documentation set, use an explicit `xref` to that document's
+  anchor.
 - Keep generated content separate from reviewed source content where practical.
 - Do not add engine-specific assumptions to engine-independent skills.
 - Put Codex-specific, Vibe-specific, or other runtime integration under
@@ -47,4 +62,3 @@ Future generators in this project must be deterministic and idempotent:
 - Output ordering is stable.
 - Timestamps, random values, and environment-specific paths are avoided unless
   explicitly modeled as inputs.
-

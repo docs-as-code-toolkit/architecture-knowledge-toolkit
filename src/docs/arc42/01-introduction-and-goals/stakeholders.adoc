@@ -1,0 +1,54 @@
+---
+id: DOC-203-stakeholders
+type: Document
+title: Stakeholders
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Stakeholders.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-101-introduction-and-goals
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/01-introduction-and-goals/stakeholders.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[stakeholders]]Stakeholders
+
+[cols="1,3,3", options="header"]
+|===
+| Stakeholder | Concern | Source input
+
+| Individual architect
+| Needs a guided first setup path for complete initial arc42 Docs-as-Code
+documentation.
+| `src/docs/canvas/questions-and-answers.adoc`, Q-PO-001 to Q-PO-004.
+
+| Architecture maintainer
+| Needs clear source-of-truth rules, stable IDs, and reviewable changes.
+| `AGENTS.md`, `general-semantic-contracts.md`.
+
+| Development team
+| Needs validation and generated views that fit local and CI workflows.
+| `src/docs/canvas/architecture-communication-canvas.adoc`.
+
+| Documentation maintainer
+| Needs include-safe source fragments and deterministic generated fragments.
+| `src/docs/canvas/techstack-canvas.adoc`.
+
+| AI assistant user
+| Needs suggestions that are useful but clearly not accepted truth until human
+review.
+| `AGENTS.md`, `src/docs/canvas/questions-and-answers.adoc`.
+
+| Adapter maintainer
+| Needs runtime-specific integration kept separate from engine-independent
+skills.
+| `src/docs/canvas/architecture-inception-canvas.adoc`.
+|===

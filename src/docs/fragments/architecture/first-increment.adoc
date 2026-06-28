@@ -1,0 +1,17 @@
+[[fragment-architecture-first-increment]]
+The first increment should remain a walking skeleton:
+
+* Keep the repository structure stable.
+* Provide the project setup workflow for an individual architect.
+* Keep ADRs, quality scenarios, and risks as the first artifact workflow after
+  setup.
+* Validate sample architecture artifacts.
+* Generate one deterministic traceability matrix, one per-artifact relationship
+  view, and one artifact-type index as a separate generated `.adoc` file linked
+  from a main index page.
+* Cover generated artifact views with golden-file regression tests from the
+  first generator slice, especially relationship views and artifact-type
+  indexes.
+* Run validation and generation both locally and in CI.
+* Document the new-project canvases and open questions.
+* Keep all inferred content in draft status.

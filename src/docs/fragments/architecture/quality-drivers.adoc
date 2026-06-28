@@ -1,0 +1,10 @@
+[[fragment-architecture-quality-drivers]]
+* Reproducibility: same committed inputs produce the same generated outputs.
+* Reuse: shared documentation content is authored once and included where
+  needed.
+* Reviewability: architecture knowledge changes are small and traceable.
+* Portability: core skills avoid engine-specific assumptions.
+* Auditability: suggested, generated, and reviewed content are distinguishable.
+* Usability: templates and examples are practical for teams to adopt.
+* Completeness: the first setup workflow should yield a usable initial artifact
+  set, not just a fast partial draft.

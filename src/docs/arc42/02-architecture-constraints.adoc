@@ -1,0 +1,53 @@
+---
+id: DOC-102-architecture-constraints
+type: Document
+title: Architecture Constraints
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Architecture Constraints.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This chapter contributes one arc42 section to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/02-architecture-constraints.adoc
+  reviewed: false
+- type: documents
+  target: DOC-204-documentation-constraints
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/02-architecture-constraints.adoc
+  reviewed: false
+- type: documents
+  target: DOC-205-technology-constraints
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/02-architecture-constraints.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[architecture-constraints]]Architecture Constraints
+
+This chapter records the binding constraints already visible from repository
+rules, canvases, and current implementation choices.
+
+[cols="1,3", options="header"]
+|===
+| Detail | Description
+
+| xref:documentation-constraints[]
+| Source format, diagrams, includes, generated output, and review status.
+
+| xref:technology-constraints[]
+| Current implementation and publication constraints.
+|===
+
+include::02-architecture-constraints/documentation-constraints.adoc[]
+
+include::02-architecture-constraints/technology-constraints.adoc[]

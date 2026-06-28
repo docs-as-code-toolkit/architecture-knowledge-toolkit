@@ -1,0 +1,45 @@
+---
+id: DOC-210-failure-recovery
+type: Document
+title: Failure And Recovery Scenario
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Failure And Recovery Scenario.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-106-runtime-view
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/06-runtime-view/failure-recovery.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[failure-recovery]]Failure And Recovery Scenario
+
+[plantuml,arc42-runtime-failure-recovery,svg]
+----
+@startuml
+actor Contributor
+participant "Validation and generation scripts" as Scripts
+database "Source documentation" as Docs
+database "Metamodel schemas" as Schemas
+
+Contributor -> Scripts: Run validation
+Scripts -> Docs: Read artifact metadata
+Scripts -> Schemas: Validate required fields and relations
+Scripts --> Contributor: Fail with actionable message
+Contributor -> Docs: Fix missing ID, unknown relation, or broken target
+Contributor -> Scripts: Re-run validation
+Scripts --> Contributor: Pass
+@enduml
+----
+
+Recovery rule: generated views must not be accepted when validation fails.
+
+Covered building blocks: validation and generation scripts, source
+documentation, metamodel schemas.

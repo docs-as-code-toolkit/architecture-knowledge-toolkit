@@ -1,0 +1,26 @@
+[[fragment-product-initial-scope]]
+The first scope is a walking skeleton for architecture knowledge management:
+
+* Define artifact and relation metadata.
+* Guide the initial setup of arc42 Docs-as-Code documentation as a useful
+  standalone first slice.
+* Provide first-class support for ADRs, quality scenarios, risks, and impact
+  reports.
+* Define conventions for reusable AsciiDoc source fragments, including stable
+  anchors, include-safe structure, and format-safe content.
+* Keep stakeholders, requirements, and components as the next-priority
+  artifact workflow after version 1.
+* Validate sample project metadata.
+* Generate deterministic matrices, per-artifact relationship views,
+  artifact-type indexes, and other includable documentation fragments.
+* Start with artifact-type indexes as separate generated `.adoc` files linked
+  from a main index page.
+* Support GitHub Pages as the first automated publishing target for generated
+  documentation.
+* Provide one maintained default CSS theme for the first generated
+  documentation publication path.
+* Provide reusable AI skills for architecture artifacts, feature work,
+  refactoring, and adapter guidance.
+* Keep the toolkit free and open source; paid services are not part of the
+  initial product model.
+* Capture project-inception canvases and open questions.

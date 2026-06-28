@@ -1,0 +1,70 @@
+---
+id: DOC-207-technical-context
+type: Document
+title: Technical Context
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Technical Context.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-103-system-scope-and-context
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/03-system-scope-and-context/technical-context.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[technical-context]]Technical Context
+
+[cols="1,2,3", options="header"]
+|===
+| Neighbor | Interface | Notes
+
+| Human reviewer
+| Pull request review
+| Accepts or rejects source artifacts, metadata, and proposed relationships.
+
+| AI runtime
+| Prompt and file-context interaction through tool-specific adapters
+| Suggestions must remain marked as suggestions until reviewed.
+
+| Local contributor environment
+| Command-line scripts and source files
+| Runs validation and generation before review.
+
+| CI/CD
+| Validation, generation, and publication jobs
+| Reproduces local behavior and publishes derived documentation.
+
+| Documentation publication target
+| Static HTML output first
+| GitHub Pages is the first automated publication target.
+
+| Consuming repository
+| AsciiDoc includes, templates, metadata schemas, and generated fragments
+| Adopts only the slices it needs.
+|===
+
+[plantuml,arc42-context-technical,svg]
+----
+@startuml
+!include <C4/C4_Context>
+
+Person(contributor, "Contributor", "Edits source files and runs local checks.")
+System(toolkit, "Architecture Knowledge Toolkit", "Source files, schemas, scripts, skills, and adapters.")
+System_Ext(ci, "CI/CD", "Runs validation, generation, and publication.")
+System_Ext(pages, "GitHub Pages", "Publishes generated static HTML.")
+System_Ext(ai, "AI runtime", "Produces suggestions through adapters.")
+
+Rel(contributor, toolkit, "Edits AsciiDoc, metadata, templates, and scripts")
+Rel(contributor, toolkit, "Runs Ruby validator/generator locally")
+Rel(toolkit, ci, "Provides reproducible inputs")
+Rel(ci, pages, "Publishes generated static HTML")
+Rel(toolkit, ai, "Provides context and receives suggested content")
+@enduml
+----

@@ -1,0 +1,19 @@
+[[fragment-product-principles]]
+* Repository source files are authoritative only after human review.
+* Generated prose and inferred relations remain suggestions until accepted.
+* Metadata carries traceability across architecture artifacts.
+* Cross references must stay useful when artifacts change.
+* Reusable source fragments should prevent meaningful content duplication.
+* AsciiDoc includes must be safe across supported target formats.
+* Source fragments and generated fragments must stay clearly separated.
+* Generated documentation must be deterministic and reproducible.
+* Generated documentation is a derived artifact and must not be committed as
+  source content.
+* arc42, ADRs, quality scenarios, and risk registers are mandatory for version
+  1.
+* Core skills stay engine-independent.
+* Runtime-specific integration belongs under `adapters/`.
+* Adapter boundaries should be refined as practical differences between AI
+  engines become clearer.
+* Feature implementation and refactoring should trigger architecture
+  documentation checks.

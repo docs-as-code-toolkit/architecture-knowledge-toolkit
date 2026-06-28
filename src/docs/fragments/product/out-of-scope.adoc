@@ -1,0 +1,9 @@
+[[fragment-product-out-of-scope]]
+* Treating AI-generated output as accepted architecture truth.
+* A complete documentation publishing platform.
+* A full generator suite before the metamodel stabilizes.
+* Binding the toolkit to a single AI provider, editor, or runtime.
+* Treating the current Ruby implementation as a fixed long-term technology
+  choice.
+* Committing generated documentation as source content.
+* Designing for revenue capture before community adoption is proven.

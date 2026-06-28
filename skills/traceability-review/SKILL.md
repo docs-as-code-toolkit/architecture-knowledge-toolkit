@@ -29,6 +29,12 @@ Produce a review report with:
 - Identify dangling references by stable ID.
 - Prefer deterministic ordering by source ID, relation type, then target ID.
 - Keep findings actionable and evidence-backed.
+- Check that standalone architecture documents use YAML front matter
+  conforming to `metamodel/artifact.schema.yaml`.
+- Check that visible references between documents included in the same
+  assembled documentation set use explicit AsciiDoc `xref` links.
+- Check that AsciiDoc anchors start with a lowercase letter and contain only
+  lowercase letters, digits, and hyphens.
 
 ## Review Checklist
 
@@ -36,4 +42,3 @@ Produce a review report with:
 - Relation types match the intended semantics.
 - Accepted relations have evidence or rationale.
 - AI-suggested additions are not marked as reviewed.
-

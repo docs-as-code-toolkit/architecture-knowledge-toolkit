@@ -1,0 +1,76 @@
+---
+id: DOC-223-risks
+type: Document
+title: Risks
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Risks.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-111-risks-and-technical-debt
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[risks]]Risks
+
+[cols="1,3,1,1,1,3", options="header"]
+|===
+| ID | Risk | Probability | Impact | Priority | Mitigation/action
+
+| R-001
+| AI suggestions are mistaken for reviewed architecture truth.
+| Medium
+| High
+| High
+| Use suggestion status, source-of-truth policy, and review gates from
+xref:crosscutting-concepts[]. Related to QS-DRAFT-004.
+
+| R-002
+| Generated output becomes unstable and creates review noise.
+| Medium
+| High
+| High
+| Enforce deterministic generation and golden-file tests. Related to
+QS-DRAFT-001.
+
+| R-003
+| Reusable source fragments break rendered target formats.
+| Medium
+| Medium
+| Medium
+| Keep fragments heading-neutral and add render regression tests. Related to
+QS-DRAFT-003.
+
+| R-004
+| Metadata authoring feels too heavy for small teams.
+| Medium
+| Medium
+| Medium
+| Keep first adoption slice focused on setup, templates, examples, and clear
+validation messages.
+
+| R-005
+| The current Ruby implementation is mistaken for a fixed target
+architecture.
+| Low
+| Medium
+| Low
+| Document Ruby as current implementation only and create ADR before changing
+runtime direction.
+
+| R-006
+| Adapter boundaries remain unclear while AI engine differences are still
+unknown.
+| Medium
+| Medium
+| Medium
+| Keep runtime details under `adapters/` and revisit Q-ARCH-006 with evidence.
+|===

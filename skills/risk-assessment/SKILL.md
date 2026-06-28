@@ -31,6 +31,13 @@ this skill directory, or `templates/risk.adoc` from the repository root, with:
 - Avoid false precision in likelihood, impact, or priority; use qualitative ratings.
 - Mark AI-suggested risks as `proposed` until reviewed.
 - Prefer actionable mitigations.
+- Use YAML front matter conforming to `metamodel/artifact.schema.yaml` and
+  relation types from `metamodel/relations.schema.yaml` for standalone risk
+  artifacts.
+- Use AsciiDoc anchors that start with a lowercase letter and contain only
+  lowercase letters, digits, and hyphens.
+- Use explicit `xref` links for visible references to documents included in the
+  same assembled documentation set.
 
 ## Review Checklist
 

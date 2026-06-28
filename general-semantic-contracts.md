@@ -59,6 +59,24 @@ Document the outcome as a PRD (Problem, Objectives, Personas, Success Criteria, 
 The architecture documentation follows arc42. Use the templates from https://github.com/arc42/arc42-template/raw/master/dist/arc42-template-DE-withhelp-asciidoc.zip and place them in `src/docs/`, rather than reproducing the chapter structure here – the help text for each chapter serves as its structural specification, which the process fills in and subsequently replaces.
 For each chapter, create a subfolder with the chapter’s name, within a file is created for each aspect, following the template for that chapter. The main pages of each chapter remain unchanged.
 On the main page of each chapter, we want a brief summary of the content created, written in clear, concise language, and a table with links to every individual page within the chapter.
+Every standalone arc42 source document, including chapter pages and detail
+pages, uses YAML front matter that conforms to `metamodel/artifact.schema.yaml`.
+Use `type: Document` unless a more specific supported artifact type applies.
+Traceability between arc42 source documents is captured in `relations` using
+stable artifact IDs and relation types from `metamodel/relations.schema.yaml`.
+Render AsciiDoc sources with YAML front matter using the Asciidoctor
+`skip-front-matter` attribute so metadata does not appear in published output.
+Reusable source fragments that are included directly into other AsciiDoc files
+do not receive YAML front matter; otherwise their metadata would render as
+content. Their including standalone documents carry the metamodel metadata.
+AsciiDoc anchors must start with a lowercase letter and contain only lowercase
+letters, digits, and hyphens. Use file-name-derived anchors without numeric
+prefixes, spaces, or punctuation, and never use an anchor with spaces inside
+`[[...]]` or `[#...]`.
+Every visible reference to a document that is included in the assembled arc42
+documentation uses an explicit `xref` to that document's anchor. Canvas files
+remain source inputs for arc42 drafts and are referenced by repository path
+unless they become part of the assembled arc42 documentation set.
 Each chapter on context, building blocks and runtime contains at least one diagram.
 Diagrams are created in PlantUML, not in Mermaid; for building blocks, C4 is used via the standard C4-PlantUML library integrated into PlantUML – in the form `!include <C4/...>` (pointy brackets), never via the remote URL `https://` and never via supplied file copies. No generic boxes.
 
@@ -154,7 +172,7 @@ Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Mü
 - AsciiDoc as the format, PlantUML for inline diagrams, generated using docToolchain
 - Version-controlled, peer-reviewed and automatically generated
 - Plain English according to Strunk & White (or ‘Good German’ according to Wolf Schneider)
-- Every reference to a documentation artifact must be adressable by a asciidoc xref link. Therefore include a unique anchor on every generated chapter page, and use the anchor in the xref link. The anchor is generated from the file name, with all non-alphanumeric characters replaced by a dash (-) and all letters converted to lowercase. For example, a file named `src/docs/Chapter 1 - Introduction.adoc` would have the anchor `chapter-1-introduction`, and the xref link would be `xref:chapter-1-introduction[]`.
+- Every reference to a documentation artifact must be adressable by a asciidoc xref link. Therefore include a unique anchor on every generated chapter page, and use the anchor in the xref link. The anchor is generated from the file name, with numeric ordering prefixes removed, all non-alphanumeric characters replaced by a dash (-), and all letters converted to lowercase. Anchors must start with a lowercase letter and must not contain spaces or punctuation other than hyphens. For example, a file named `src/docs/Chapter 1 - Introduction.adoc` would have the anchor `chapter-1-introduction`, and the xref link would be `xref:chapter-1-introduction[]`.
 
 ## Socratic Code Theory Reconstruction
 

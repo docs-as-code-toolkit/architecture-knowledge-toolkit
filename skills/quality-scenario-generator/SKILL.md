@@ -37,6 +37,13 @@ or `templates/quality-scenario.adoc` from the repository root, with:
 - Do not treat assumed or invented target values as answered evidence in final arc42 documentation.
 - Do not turn aspirations into accepted requirements without review.
 - Keep generated scenarios concise and testable.
+- Use YAML front matter conforming to `metamodel/artifact.schema.yaml` and
+  relation types from `metamodel/relations.schema.yaml` for standalone
+  scenario artifacts.
+- Use AsciiDoc anchors that start with a lowercase letter and contain only
+  lowercase letters, digits, and hyphens.
+- Use explicit `xref` links for visible references to documents included in the
+  same assembled documentation set.
 
 ## Review Checklist
 

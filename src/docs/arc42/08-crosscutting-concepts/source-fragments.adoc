@@ -1,0 +1,40 @@
+---
+id: DOC-217-source-fragments
+type: Document
+title: Reusable Source Fragments
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Reusable Source Fragments.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-108-crosscutting-concepts
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/08-crosscutting-concepts/source-fragments.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[source-fragments]]Reusable Source Fragments
+
+Reusable source fragments are reviewed source content, not generated output.
+They hold statements, definitions, constraints, and other text that belongs in
+more than one documentation context.
+
+Rules:
+
+* Store source fragments below `src/docs/fragments/`.
+* Give each fragment a stable anchor.
+* Avoid document titles and fixed heading levels inside fragments unless the
+  include location explicitly expects them.
+* Avoid formatter-specific behavior unless the supported target formats require
+  and test it.
+* Do not store source fragments below generated-output directories.
+
+Open refinement: `src/docs/canvas/questions-and-answers.adoc`, Q-ARCH-007 and
+Q-ARCH-008 still mark final fragment location and structure as open. This
+documentation uses `src/docs/fragments/` as the current proposed convention.

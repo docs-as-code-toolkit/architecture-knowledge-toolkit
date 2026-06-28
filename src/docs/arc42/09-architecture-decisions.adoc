@@ -1,0 +1,43 @@
+---
+id: DOC-109-architecture-decisions
+type: Document
+title: Architecture Decisions
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Architecture Decisions.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This chapter contributes one arc42 section to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/09-architecture-decisions.adoc
+  reviewed: false
+- type: documents
+  target: DOC-220-adr-index
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/09-architecture-decisions.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[architecture-decisions]]Architecture Decisions
+
+Decisions are documented as ADRs. This chapter contains an internal ADR index
+and links decision topics back to the corresponding source artifacts when they
+exist.
+
+[cols="1,3", options="header"]
+|===
+| Detail | Description
+
+| xref:adr-index[]
+| Internal ADR index.
+|===
+
+include::09-architecture-decisions/adr-index.adoc[]

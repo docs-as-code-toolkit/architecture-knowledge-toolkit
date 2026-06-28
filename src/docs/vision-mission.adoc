@@ -11,88 +11,20 @@ statements still need review before they become accepted project truth.
 
 == Vision
 
-Individual architects should be able to start a project with structured arc42
-Docs-as-Code architecture documentation, keep it traceable through explicit
-cross references, and evolve it during normal software development work.
-
-Architecture knowledge should follow the Docs-as-Code Toolkit philosophy:
-write once, publish everywhere. Teams should write documentation content once
-and publish it in the formats they need. If a piece of content belongs in more
-than one document context, such as a business value statement used in both
-architecture documentation and a vision statement, it should be maintained once
-as a reusable AsciiDoc source fragment and included wherever it is needed.
-
-Teams should be able to use AI to improve architecture work without losing
-control of the source of truth.
+include::fragments/product/vision-statement.adoc[]
 
 == Mission
 
-The project provides a reusable Docs-as-Code toolkit for architecture knowledge.
-It guides architects through initial project setup and offers AsciiDoc
-templates, explicit metadata schemas, reusable AI skills, example content,
-deterministic validation and generation, and generated relationship views so
-teams can create and maintain reviewable arc42 architecture documentation.
-It also provides conventions for reusable documentation fragments that can be
-included safely across document contexts and target formats.
-The first setup workflow is considered successful primarily when it yields a
-complete initial artifact set.
+include::fragments/product/mission-statement.adoc[]
 
 == Product Principles
 
-* Repository source files are authoritative only after human review.
-* Generated prose and inferred relations remain suggestions until accepted.
-* Metadata carries traceability across architecture artifacts.
-* Cross references must stay useful when artifacts change.
-* Reusable source fragments should prevent meaningful content duplication.
-* AsciiDoc includes must be safe across supported target formats.
-* Source fragments and generated fragments must stay clearly separated.
-* Generated documentation must be deterministic and reproducible.
-* Generated documentation is a derived artifact and must not be committed as
-  source content.
-* arc42, ADRs, quality scenarios, and risk registers are mandatory for version
-  1.
-* Core skills stay engine-independent.
-* Runtime-specific integration belongs under `adapters/`.
-* Adapter boundaries should be refined as practical differences between AI
-  engines become clearer.
-* Feature implementation and refactoring should trigger architecture
-  documentation checks.
+include::fragments/product/product-principles.adoc[]
 
 == Initial Scope
 
-The first scope is a walking skeleton for architecture knowledge management:
-
-* Define artifact and relation metadata.
-* Guide the initial setup of arc42 Docs-as-Code documentation as a useful
-  standalone first slice.
-* Provide first-class support for ADRs, quality scenarios, risks, and impact
-  reports.
-* Define conventions for reusable AsciiDoc source fragments, including stable
-  anchors, include-safe structure, and format-safe content.
-* Keep stakeholders, requirements, and components as the next-priority
-  artifact workflow after version 1.
-* Validate sample project metadata.
-* Generate deterministic matrices, per-artifact relationship views, artifact
-  indexes, and other includable documentation fragments.
-* Start with artifact-type indexes as separate generated `.adoc` files linked
-  from a main index page.
-* Support GitHub Pages as the first automated publishing target for generated
-  documentation.
-* Provide one maintained default CSS theme for the first generated
-  documentation publication path.
-* Provide reusable AI skills for architecture artifacts, feature work,
-  refactoring, and adapter guidance.
-* Keep the toolkit free and open source; paid services are not part of the
-  initial product model.
-* Capture project-inception canvases and open questions.
+include::fragments/product/initial-scope.adoc[]
 
 == Out Of Scope For Now
 
-* Treating AI-generated output as accepted architecture truth.
-* A complete documentation publishing platform.
-* A full generator suite before the metamodel stabilizes.
-* Binding the toolkit to a single AI provider, editor, or runtime.
-* Treating the current Ruby implementation as a fixed long-term technology
-  choice.
-* Committing generated documentation as source content.
-* Designing for revenue capture before community adoption is proven.
+include::fragments/product/out-of-scope.adoc[]

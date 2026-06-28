@@ -1,0 +1,43 @@
+---
+id: DOC-107-deployment-view
+type: Document
+title: Deployment View
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Deployment View.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This chapter contributes one arc42 section to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/07-deployment-view.adoc
+  reviewed: false
+- type: documents
+  target: DOC-213-local-and-ci
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/07-deployment-view.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[deployment-view]]Deployment View
+
+The toolkit is currently a repository-based toolchain rather than a deployed
+service. Deployment means making source assets available to contributors and
+publishing generated documentation through automation.
+
+[cols="1,3", options="header"]
+|===
+| Detail | Description
+
+| xref:local-and-ci[]
+| Local contributor environment and CI/CD publication path.
+|===
+
+include::07-deployment-view/local-and-ci.adoc[]

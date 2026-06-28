@@ -1,0 +1,14 @@
+[[fragment-product-vision-statement]]
+Individual architects should be able to start a project with structured arc42
+Docs-as-Code architecture documentation, keep it traceable through explicit
+cross references, and evolve it during normal software development work.
+
+Architecture knowledge should follow the Docs-as-Code Toolkit philosophy:
+write once, publish everywhere. Teams should write documentation content once
+and publish it in the formats they need. If a piece of content belongs in more
+than one document context, such as a business value statement used in both
+architecture documentation and a vision statement, it should be maintained once
+as a reusable AsciiDoc source fragment and included wherever it is needed.
+
+Teams should be able to use AI to improve architecture work without losing
+control of the source of truth.

@@ -1,0 +1,10 @@
+[[fragment-architecture-constraints]]
+* AsciiDoc is the primary source format.
+* PlantUML is preferred for architecture diagrams where diagrams are needed.
+* Generated output must be deterministic and idempotent.
+* Repository files are the source of truth after human review.
+* Artifact metadata lives in AsciiDoc front matter for now.
+* Reusable source fragments use AsciiDoc includes and must stay independent of
+  target-format quirks.
+* Sidecar YAML files are deferred until performance or usability requires them.
+* Engine-specific integration belongs under `adapters/`.
