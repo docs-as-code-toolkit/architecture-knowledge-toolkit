@@ -82,7 +82,8 @@ This strategy ensures:
 
 Generators automatically compute and display incoming relations in traceability
 matrices and fragment views based on the outgoing relations stored in source
-artifacts.
+artifacts. All three generators (`TraceabilityMatrixGenerator`, `ArtifactIndexGenerator`,
+`TraceabilityFragmentGenerator`) implement this derivation consistently.
 
 ## New Project Inception
 
