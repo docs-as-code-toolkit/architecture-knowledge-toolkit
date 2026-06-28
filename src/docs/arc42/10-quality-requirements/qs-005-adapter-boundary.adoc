@@ -17,18 +17,6 @@ relations:
   rationale: This scenario concretizes QG-005 Portability.
   evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-005-engine-independent-skills
-  status: proposed
-  rationale: The scenario assumes the proposed adapter boundary decision.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
-  reviewed: false
-- type: affects
-  target: R-006-unclear-adapter-boundaries
-  status: proposed
-  rationale: Unclear adapter boundaries threaten this scenario.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[qs-005-adapter-boundary]]

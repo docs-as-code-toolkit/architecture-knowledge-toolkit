@@ -17,12 +17,6 @@ relations:
   rationale: This scenario concretizes QG-003 Traceability.
   evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
   reviewed: false
-- type: affects
-  target: R-004-heavy-metadata-authoring
-  status: proposed
-  rationale: Clear validation messages reduce the usability burden of metadata authoring.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[qs-002-missing-relation-target-validation]]

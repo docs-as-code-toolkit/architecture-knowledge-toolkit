@@ -142,4 +142,63 @@ class ValidateMetamodelTest < Minitest::Test
     assert_includes content, 'xref:architecture-decisions[DOC-109-architecture-decisions]'
     refute_includes content, 'xref:09-architecture-decisions'
   end
+
+  def test_bidirectional_relation_detection
+    # Create a temporary directory with test artifacts that have bidirectional relations
+    temp_dir = ROOT.join('tmp/test-bidirectional')
+    FileUtils.mkdir_p(temp_dir)
+
+    # Create ADR-999 with relation to QS-999
+    adr_content = <<~ADOC
+      ---
+      id: ADR-999-test
+      type: ADR
+      title: Test ADR
+      status: proposed
+      owner: test
+      created: 2026-06-28
+      relations:
+        - type: addresses
+          target: QS-999-test
+          status: proposed
+      ---
+      = Test ADR
+    ADOC
+    adr_path = temp_dir.join('ADR-999-test.adoc')
+    adr_path.write(adr_content)
+
+    # Create QS-999 with reciprocal relation to ADR-999
+    qs_content = <<~ADOC
+      ---
+      id: QS-999-test
+      type: QualityScenario
+      title: Test QS
+      status: proposed
+      owner: test
+      created: 2026-06-28
+      relations:
+        - type: depends_on
+          target: ADR-999-test
+          status: proposed
+      ---
+      = Test QS
+    ADOC
+    qs_path = temp_dir.join('QS-999-test.adoc')
+    qs_path.write(qs_content)
+
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: temp_dir,
+      relations_schema: SCHEMA
+    )
+
+    artifacts = validator.validate
+
+    # Should detect the bidirectional relation
+    warnings_text = validator.warnings.is_a?(Array) ? validator.warnings.join("\n") : ""
+    assert_includes warnings_text, "Bidirectional relation detected: ADR-999-test -> QS-999-test"
+
+    # Cleanup
+    FileUtils.rm_rf(temp_dir)
+  end
 end

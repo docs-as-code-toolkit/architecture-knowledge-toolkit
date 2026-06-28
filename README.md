@@ -60,6 +60,30 @@ Use the general contract as the maintained source for rules that also help
 humans and deterministic tools. Put only runtime-specific AI details below
 `adapters/`.
 
+## Relationship Strategy
+
+**Authoritative Outgoing Relations Only.**
+
+To reduce duplication and maintenance overhead, this repository follows a strict
+relationship directionality convention:
+
+- **Source artifacts** contain only **outgoing** relations (what this artifact
+  affects, introduces, addresses, etc.)
+- **Incoming relations** are **derived automatically** during generation from the
+  authoritative outgoing relations
+- **Never** manually add reciprocal relations (e.g., if ADR-001 `introduces_risk`
+  R-001, do NOT add R-001 `depends_on` ADR-001)
+
+This strategy ensures:
+- Single source of truth for each relationship
+- Consistent traceability views
+- Lower maintenance effort
+- Reduced inconsistency risk
+
+Generators automatically compute and display incoming relations in traceability
+matrices and fragment views based on the outgoing relations stored in source
+artifacts.
+
 ## New Project Inception
 
 Start new-project clarification in `src/docs/`.

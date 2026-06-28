@@ -36,8 +36,9 @@ traceability review workflow needs a stricter rule.
    relations.
 8. Propose relation additions or changes as `proposed`; do not silently create
    accepted relations.
-9. Update affected artifacts with relations only when the user requested edits
-   and the source artifact owns outgoing relations.
+9. Update affected artifacts with **outgoing** relations only when the user
+   requested edits. Never create reciprocal incoming relations; they are derived
+   automatically during generation.
 10. Prefer deterministic ordering by source ID, relation type, target ID, then
     rationale.
 11. Prefer small, reviewable patches.
@@ -88,8 +89,8 @@ Produce a review report with:
   metadata relations when traceability is required.
 - Check the artifact and relation schemas before declaring a relation invalid.
 - Check existing artifact IDs before suggesting new IDs.
-- Do not add reciprocal relations automatically. Add them only if the repository
-  convention or validator expects them.
+- Never add reciprocal relations. Incoming relations are derived from outgoing
+  relations during generation.
 - Preserve accepted or reviewed relations unless repository evidence justifies a
   proposed update.
 

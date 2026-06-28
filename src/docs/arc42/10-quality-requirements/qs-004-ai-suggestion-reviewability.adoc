@@ -17,12 +17,6 @@ relations:
   rationale: This scenario concretizes QG-002 Reviewability.
   evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
   reviewed: false
-- type: affects
-  target: R-001-ai-suggestions-as-truth
-  status: proposed
-  rationale: Mistaking AI suggestions for accepted truth threatens this scenario.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[qs-004-ai-suggestion-reviewability]]

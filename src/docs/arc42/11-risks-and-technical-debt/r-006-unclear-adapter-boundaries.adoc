@@ -17,12 +17,6 @@ relations:
   rationale: Boundary ambiguity directly threatens the adapter-boundary quality scenario.
   evidence: src/docs/arc42/10-quality-requirements/qs-005-adapter-boundary.adoc
   reviewed: false
-- type: depends_on
-  target: ADR-005-engine-independent-skills
-  status: proposed
-  rationale: The risk remains until the adapter decision is confirmed with concrete engine evidence.
-  evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
-  reviewed: false
 metadata_version: '1.0'
 ---
 [[r-006-unclear-adapter-boundaries]]
