@@ -182,11 +182,18 @@ class MetamodelValidator
       end
     end
 
+    # Track seen pairs to avoid duplicate warnings (A->B and B->A)
+    seen_pairs = Set.new
+
     # Check for bidirectional patterns: if A -> B exists, check if B -> A exists
     outgoing_map.each do |source_id, target_ids|
       target_ids.each do |target_id|
         # Check if the target has a relation back to the source
         if outgoing_map.key?(target_id) && outgoing_map[target_id].include?(source_id)
+          # Normalize pair to avoid duplicate warnings
+          pair_key = [source_id, target_id].sort
+          next if seen_pairs.include?(pair_key)
+          seen_pairs << pair_key
           @warnings << "Bidirectional relation detected: #{source_id} -> #{target_id} and #{target_id} -> #{source_id}. " \
                      "Consider removing the reciprocal relation from one artifact."
         end

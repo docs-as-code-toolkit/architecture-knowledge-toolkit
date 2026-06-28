@@ -26,6 +26,13 @@ stay proposed until reviewed.
 The generator will automatically show that R-001 "is introduced by" ADR-001 in
 -generated traceability views.
 
+## Relationship Graph Structure
+
+Architecture relationships should form a **DAG (directed acyclic graph)**. While cycles
+are technically allowed by the generator (which uses iteration, not recursion) and won't
+cause crashes, they are unusual and can indicate modeling issues. If cycles arise,
+prefer using `affects` or explicitly documenting the cycle's breakpoints.
+
 ## Common Relation Semantics
 
 - `addresses`: A decision or concept supports a requirement or quality scenario.
