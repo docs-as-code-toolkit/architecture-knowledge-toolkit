@@ -1,0 +1,21 @@
+## Review: Potential Improvements
+
+### 1. **Bidirectional Detector: Deduplicate Warnings**
+The `detect_bidirectional_relations` method reports each bidirectional pair **twice** with swapped directions. This is noisy but not incorrect. Consider deduplicating by normalizing the pair:
+
+```ruby
+pair_key = [source_id, target_id].sort
+next if @seen_pairs.include?(pair_key)
+@seen_pairs << pair_key
+```
+
+### 2. **Document Cycle Assumption**
+While cycles won't cause crashes (generators use iteration, not recursion), consider documenting that **relationships should form a DAG**. Add a note in `skills/references/relation-rules.md`:
+- *"Architecture relationships should form a DAG (directed acyclic graph). Cycles are technically allowed but unusual; prefer `affects` or explicit breakpoints if they arise."*
+
+### 3. **Verify Generator Incoming-Relations Logic**
+Spot-check that all three generators (`TraceabilityMatrix`, `ArtifactIndex`, `TraceabilityFragment`) correctly compute and display incoming relations derived from outgoing metadata. The logic appears sound, but comprehensive integration testing would strengthen confidence.
+
+---
+
+**Overall:** Clean, well-motivated refactor with solid validation. All skill contracts updated consistently and metadata cleanup is complete. ✅
