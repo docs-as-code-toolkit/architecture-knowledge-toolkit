@@ -72,15 +72,7 @@ formats.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:qs-003-reusable-fragments-render[] | The risk threatens clean fragment rendering.
-| `depends_on` | xref:adr-001-asciidoc-primary-source[] | AsciiDoc includes are the reuse mechanism.
-| `depends_on` | xref:adr-003-source-fragments-location[] | Centralized fragments increase reuse impact.
-|===
+include::generated/r-003-source-fragments-break-rendering-traceability.adoc[]
 
 == Open Questions
 

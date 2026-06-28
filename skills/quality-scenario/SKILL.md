@@ -105,6 +105,8 @@ Use these templates:
   existing artifact is sufficient.
 - Keep metadata relation targets as stable artifact IDs; render visible
   documentation references as anchor-based AsciiDoc `xref` links.
+- Use explicit target anchors for visible links; do not derive xrefs from raw
+  numbered chapter file names.
 - Apply metadata, relation, anchor, and `xref` rules from
   `general-semantic-contracts.md`.
 - Keep changes narrow and easy to review.

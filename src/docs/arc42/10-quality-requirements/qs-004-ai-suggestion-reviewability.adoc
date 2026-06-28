@@ -59,14 +59,7 @@ review decision.
 * Proposed or draft metadata is visible in review.
 * Human acceptance is recorded before an artifact becomes accepted.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `refines` | xref:quality-goals[] | Concretizes QG-002 Reviewability.
-| `affects` | xref:r-001-ai-suggestions-as-truth[] | This risk directly threatens reviewability.
-|===
+include::generated/qs-004-ai-suggestion-reviewability-traceability.adoc[]
 
 == Open Questions
 

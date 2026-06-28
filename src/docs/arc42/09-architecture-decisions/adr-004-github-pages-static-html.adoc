@@ -102,15 +102,7 @@ s| Sum s| 2 s| 0 s| 0
 * The decision does not prevent later PDF, site-generator, or docs-toolbox
   publication paths.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `addresses` | xref:qs-003-reusable-fragments-render[] | Static HTML is the first render target for reusable fragments.
-| `constrains` | xref:technology-constraints[] | The technology constraints record the first publication target.
-| `affects` | xref:r-003-source-fragments-break-rendering[] | The target defines the initial rendering surface.
-|===
+include::generated/adr-004-github-pages-static-html-traceability.adoc[]
 
 == Assumptions
 

@@ -182,27 +182,48 @@ Run the validator tests with:
 ruby -Itest test/validate_metamodel_test.rb
 ```
 
-## Traceability Matrix Generation
+## Derived Documentation Generation
 
-The first documentation generator creates a deterministic AsciiDoc traceability
-matrix from validated architecture artifact metadata.
+The documentation generator creates deterministic AsciiDoc fragments from
+validated architecture artifact metadata. These fragments are includeable
+derived output, not reviewed source content.
 
-Generate the project arc42 traceability matrix with:
+Generate the project arc42 derived documentation with:
 
 ```sh
 ruby scripts/validate-metamodel.rb --generate
 ```
 
-The command validates the artifact metadata first. If validation fails, no matrix
-is generated and the command exits with a non-zero status.
+The command validates the artifact metadata first. If validation fails, no
+derived files are generated and the command exits with a non-zero status.
 
-By default, the generated file is written to:
+By default, generated files are written below `generated/` directories:
 
 ```text
 src/docs/arc42/generated/traceability-matrix.adoc
+src/docs/arc42/09-architecture-decisions/generated/adr-index.adoc
+src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
+src/docs/arc42/10-quality-requirements/generated/quality-scenarios.adoc
+src/docs/arc42/10-quality-requirements/generated/*-traceability.adoc
+src/docs/arc42/11-risks-and-technical-debt/generated/risks.adoc
+src/docs/arc42/11-risks-and-technical-debt/generated/*-traceability.adoc
 ```
 
-You can choose another output path with:
+The chapter-level index fragments keep the existing table shape where possible.
+Row content is derived from each artifact's metadata and structured source body:
+IDs, titles, lifecycle status, summaries, and relations come from YAML front
+matter; quality scenario and risk assessment fields come from their existing
+definition tables.
+
+Traceability sections are generated per artifact from metadata relations instead
+of being maintained manually in each source file. Source artifacts include their
+local generated fragment, for example
+`include::generated/adr-001-asciidoc-primary-source-traceability.adoc[]`.
+Render or publish these files only in flows where the generator has run first.
+Source files may still contain temporary manual traceability sections while a
+project migrates, but metadata is the source of truth.
+
+You can choose another traceability matrix output path with:
 
 ```sh
 ruby scripts/validate-metamodel.rb --generate --output path/to/traceability-matrix.adoc

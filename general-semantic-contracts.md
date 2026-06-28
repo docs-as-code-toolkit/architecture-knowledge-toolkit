@@ -92,9 +92,12 @@ Reusable source fragments that are included directly into other AsciiDoc files
 do not receive YAML front matter; otherwise their metadata would render as
 content. Their including standalone documents carry the metamodel metadata.
 AsciiDoc anchors must start with a lowercase letter and contain only lowercase
-letters, digits, and hyphens. Use file-name-derived anchors without numeric
-prefixes, spaces, or punctuation, and never use an anchor with spaces inside
-`[[...]]` or `[#...]`.
+letters, digits, and hyphens. Digits are used only when they are part of a
+stable artifact identifier, such as `adr-001`, not for chapter ordering. Use
+explicit anchors from source files as the source of truth for generated links.
+When deriving anchors from file names, remove numeric ordering prefixes such as
+`09-` before normalizing spaces and punctuation, and never use an anchor with
+spaces inside `[[...]]` or `[#...]`.
 Every visible reference to a document that is included in the assembled arc42
 documentation uses an explicit `xref` to that document's anchor. Canvas files
 remain source inputs for arc42 drafts and are referenced by repository path
@@ -208,7 +211,17 @@ Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Mü
 - AsciiDoc as the format, PlantUML for inline diagrams, generated using docToolchain
 - Version-controlled, peer-reviewed and automatically generated
 - Plain English according to Strunk & White (or ‘Good German’ according to Wolf Schneider)
-- Every reference to a documentation artifact must be adressable by a asciidoc xref link. Therefore include a unique anchor on every generated chapter page, and use the anchor in the xref link. The anchor is generated from the file name, with numeric ordering prefixes removed, all non-alphanumeric characters replaced by a dash (-), and all letters converted to lowercase. Anchors must start with a lowercase letter and must not contain spaces or punctuation other than hyphens. For example, a file named `src/docs/Chapter 1 - Introduction.adoc` would have the anchor `chapter-1-introduction`, and the xref link would be `xref:chapter-1-introduction[]`.
+- Every reference to a documentation artifact must be addressable by an
+  AsciiDoc `xref` link. Therefore include a unique anchor on every generated
+  chapter page, and use the explicit source anchor in the xref link. When an
+  anchor must be derived from a file name, remove numeric ordering prefixes,
+  replace all non-alphanumeric characters with a dash (`-`), and lowercase all
+  letters. Anchors must start with a lowercase letter and must not contain
+  spaces or punctuation other than hyphens; digits are reserved for stable
+  artifact identifiers, not chapter ordering. For example, a file named
+  `src/docs/arc42/09-architecture-decisions.adoc` has the anchor
+  `architecture-decisions`, and the xref link is
+  `xref:architecture-decisions[]`.
 
 ## Socratic Code Theory Reconstruction
 

@@ -50,8 +50,16 @@ Use YAML front matter for every source artifact created by this skill.
 
 - Add an AsciiDoc anchor immediately after YAML front matter in every generated
   or AI-assisted documentation artifact.
-- Generate the anchor from the file name without extension: replace every
-  non-alphanumeric character with `-` and lowercase all letters.
+- Use the explicit AsciiDoc anchor already present in a target source file when
+  generating or updating `xref` links.
+- If an anchor must be derived from a file name, remove numeric ordering
+  prefixes such as `09-`, replace every non-alphanumeric character with `-`,
+  lowercase all letters, and trim leading or trailing dashes.
+- Keep digits only when they are part of a stable artifact identifier, such as
+  `adr-001`, not when they only express chapter ordering.
+- Do not derive visible xrefs from raw numbered chapter file names. For example,
+  `src/docs/arc42/09-architecture-decisions.adoc` is referenced as
+  `xref:architecture-decisions[]`, not `xref:09-architecture-decisions[]`.
 - Keep metadata relation targets as stable artifact IDs.
 - Use anchor-based `xref` links in visible prose and tables when referencing a
   documentation artifact.

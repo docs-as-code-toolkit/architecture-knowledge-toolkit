@@ -71,16 +71,7 @@ cleanly wherever they are included.
 * Static HTML is the first supported render target.
 * More targets require additional render checks.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `refines` | xref:quality-goals[] | Concretizes QG-004 Content reuse.
-| `depends_on` | xref:adr-001-asciidoc-primary-source[] | Assumes AsciiDoc include support.
-| `depends_on` | xref:adr-003-source-fragments-location[] | Assumes `src/docs/fragments/` as source-fragment location.
-| `affects` | xref:r-003-source-fragments-break-rendering[] | Broken fragments threaten this scenario.
-|===
+include::generated/qs-003-reusable-fragments-render-traceability.adoc[]
 
 == Open Questions
 

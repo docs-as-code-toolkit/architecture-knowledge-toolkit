@@ -66,15 +66,7 @@ inputs.
 * "Meaningful diff" excludes timestamps, local paths, ordering drift, and
   other non-source changes.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `refines` | xref:quality-goals[] | Concretizes QG-001 Reproducibility.
-| `depends_on` | xref:adr-002-generated-output-not-source[] | The publication decision assumes reproducible generation.
-| `affects` | xref:r-002-unstable-generated-output[] | Unstable output threatens this scenario.
-|===
+include::generated/qs-001-reproducible-generation-traceability.adoc[]
 
 == Open Questions
 

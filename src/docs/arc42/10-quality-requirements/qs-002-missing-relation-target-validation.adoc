@@ -57,14 +57,7 @@ invalid relation targets are detected before review.
 
 * The local validation command is documented for contributors.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `refines` | xref:quality-goals[] | Concretizes QG-003 Traceability.
-| `affects` | xref:r-004-heavy-metadata-authoring[] | Good messages reduce the perceived metadata burden.
-|===
+include::generated/qs-002-missing-relation-target-validation-traceability.adoc[]
 
 == Open Questions
 

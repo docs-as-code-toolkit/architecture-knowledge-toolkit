@@ -64,14 +64,7 @@ core skills or duplicated adapter documentation.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:qs-005-adapter-boundary[] | Boundary ambiguity threatens adapter isolation.
-| `depends_on` | xref:adr-005-engine-independent-skills[] | The risk depends on the proposed adapter-boundary decision.
-|===
+include::generated/r-006-unclear-adapter-boundaries-traceability.adoc[]
 
 == Open Questions
 

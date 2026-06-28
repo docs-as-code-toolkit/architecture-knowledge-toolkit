@@ -48,4 +48,6 @@ stay proposed until reviewed.
   relation type, target ID, then rationale.
 - In YAML front matter, relation endpoints are artifact IDs. In visible
   documentation tables and prose, render those endpoints as anchor-based
-  AsciiDoc `xref` links when the target document is available.
+  AsciiDoc `xref` links when the target document is available. Use the target
+  document's explicit anchor rather than deriving the xref from a numbered
+  chapter file name.

@@ -113,6 +113,8 @@ Produce a review report with:
 - AI-suggested additions are not marked as reviewed.
 - Visible references to documentation artifacts use valid anchor-based
   AsciiDoc `xref` links where required.
+- Visible references use the explicit target anchors from source files, not
+  raw numbered chapter file names.
 - Open questions identify the human decision needed to resolve each uncertain
   relation.
 

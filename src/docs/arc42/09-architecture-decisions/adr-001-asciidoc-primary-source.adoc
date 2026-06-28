@@ -105,15 +105,7 @@ s| Sum s| 3 s| 0 s| -1
 * Markdown may still be used outside the architecture source set when it is not
   part of the arc42 publication path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `addresses` | xref:qs-003-reusable-fragments-render[] | AsciiDoc include support enables reusable source fragments.
-| `constrains` | xref:technology-constraints[] | The technology constraints record the source-format constraint.
-| `introduces_risk` | xref:r-003-source-fragments-break-rendering[] | Format-specific include behavior can break rendered outputs.
-|===
+include::generated/adr-001-asciidoc-primary-source-traceability.adoc[]
 
 == Assumptions
 

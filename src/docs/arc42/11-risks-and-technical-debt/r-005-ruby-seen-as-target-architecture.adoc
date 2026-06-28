@@ -60,13 +60,7 @@ leading to premature coupling and reduced openness for future runtime choices.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:technology-constraints[] | The constraint must prevent misreading Ruby as accepted target architecture.
-|===
+include::generated/r-005-ruby-seen-as-target-architecture-traceability.adoc[]
 
 == Open Questions
 

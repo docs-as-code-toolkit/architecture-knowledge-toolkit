@@ -63,15 +63,7 @@ across engines while adapters carry runtime-specific guidance.
 
 * Reviewers can identify runtime-specific guidance during repository review.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `refines` | xref:quality-goals[] | Concretizes QG-005 Portability.
-| `depends_on` | xref:adr-005-engine-independent-skills[] | Assumes the adapter-boundary decision.
-| `affects` | xref:r-006-unclear-adapter-boundaries[] | Boundary ambiguity threatens portability.
-|===
+include::generated/qs-005-adapter-boundary-traceability.adoc[]
 
 == Open Questions
 

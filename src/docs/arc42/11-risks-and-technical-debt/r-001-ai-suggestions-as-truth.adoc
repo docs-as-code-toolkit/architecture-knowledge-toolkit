@@ -65,14 +65,7 @@ decisions, risks, or requirements entering the source documentation.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:qs-004-ai-suggestion-reviewability[] | The risk threatens reviewer ability to distinguish suggestion from truth.
-| `affects` | xref:crosscutting-concepts[] | Crosscutting review and source-truth controls mitigate the risk.
-|===
+include::generated/r-001-ai-suggestions-as-truth-traceability.adoc[]
 
 == Open Questions
 

@@ -66,14 +66,7 @@ abandoned traceability.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:qs-002-missing-relation-target-validation[] | Good validation feedback reduces authoring friction.
-| `affects` | xref:strategy-overview[] | The walking-skeleton strategy limits initial complexity.
-|===
+include::generated/r-004-heavy-metadata-authoring-traceability.adoc[]
 
 == Open Questions
 

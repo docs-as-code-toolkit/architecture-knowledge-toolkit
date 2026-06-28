@@ -37,6 +37,10 @@ and committed.
   unless human acceptance is already recorded in the repository.
 - Identify assumptions, unknowns, and required human decisions.
 - Keep generated content separate from reviewed source content where practical.
+- For generated or AI-updated links, prefer the explicit AsciiDoc anchor already
+  present in the source file. Do not derive xrefs from raw numbered chapter file
+  names such as `09-architecture-decisions.adoc`; the chapter anchor is
+  `architecture-decisions`.
 - Do not add engine-specific assumptions to engine-independent contracts or
   skills.
 - Put Codex-specific, Vibe-specific, or other runtime integration under

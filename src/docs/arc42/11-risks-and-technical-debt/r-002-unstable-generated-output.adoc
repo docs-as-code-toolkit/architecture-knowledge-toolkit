@@ -65,14 +65,7 @@ changes, leading to review noise and loss of trust in generated views.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `affects` | xref:qs-001-reproducible-generation[] | Output instability threatens reproducible generation.
-| `depends_on` | xref:adr-002-generated-output-not-source[] | Reproducibility is required when generated output is not committed.
-|===
+include::generated/r-002-unstable-generated-output-traceability.adoc[]
 
 == Open Questions
 

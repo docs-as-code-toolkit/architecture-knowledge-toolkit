@@ -104,15 +104,7 @@ s| Sum s| 2 s| 0 s| 0
 * Adapter conventions need examples as the project learns more engine
   differences.
 
-== Traceability
-
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `addresses` | xref:qs-005-adapter-boundary[] | The decision directly supports the adapter-boundary scenario.
-| `mitigates` | xref:r-006-unclear-adapter-boundaries[] | The decision reduces ambiguity by assigning runtime details to adapters.
-| `constrains` | xref:technology-constraints[] | The constraints record the adapter placement rule.
-|===
+include::generated/adr-005-engine-independent-skills-traceability.adoc[]
 
 == Assumptions
 
