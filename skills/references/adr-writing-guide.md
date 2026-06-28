@@ -24,6 +24,12 @@ Include at least two realistic alternatives unless the decision is explicitly a
 constraint. Include a 3-point Pugh matrix when there are multiple options. Use
 `+1` for better support, `0` for neutral support, and `-1` for weaker support.
 Use `?` instead of guessing when the team must assess a criterion.
+Add a `Sum` row to every Pugh matrix. Sum each option column manually. If any
+cell in an option column is `?`, write `?` as that option's sum until the team
+resolves the open assessment.
+Mark Pugh matrix tables with the `.pugh-matrix` role. Emphasize the `Sum` row
+with strong table cells, for example `s| Sum s| ? s| 0 s| ?`, so the source
+stays portable and renderers can add theme-specific styling later.
 
 ## Consequences
 

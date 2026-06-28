@@ -42,11 +42,11 @@ stricter rule.
 
 Read these references as needed:
 
-- `references/metadata-rules.md` before writing YAML front matter.
-- `references/relation-rules.md` before proposing or updating relations.
-- `references/adr-writing-guide.md` before drafting ADRs.
-- `references/risk-writing-guide.md` before creating or changing risks.
-- `references/quality-scenario-guide.md` before creating or changing quality
+- `../references/metadata-rules.md` before writing YAML front matter.
+- `../references/relation-rules.md` before proposing or updating relations.
+- `../references/adr-writing-guide.md` before drafting ADRs.
+- `../references/risk-writing-guide.md` before creating or changing risks.
+- `../references/quality-scenario-guide.md` before creating or changing quality
   scenarios.
 
 Use these templates:

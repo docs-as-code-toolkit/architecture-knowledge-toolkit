@@ -54,14 +54,18 @@ Describe benefits, costs, risks, and fit to the drivers.
 == Pugh Matrix
 
 Use `+1` for better support, `0` for neutral support, and `-1` for weaker
-support. Mark cells with `?` when assessment requires human review.
+support. Mark cells with `?` when assessment requires human review. Add each
+option column manually in the `Sum` row; if any cell in an option column is `?`,
+the sum for that option is `?`.
 
+[.pugh-matrix]
 [cols="2,1,1,1", options="header"]
 |===
 | Criterion | Option 1 | Option 2 | Option 3
 | Driver 1 | 0 | +1 | ?
 | Driver 2 | +1 | -1 | 0
 | Driver 3 | ? | 0 | +1
+s| Sum s| ? s| 0 s| ?
 |===
 
 == Decision

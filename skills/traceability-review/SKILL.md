@@ -1,12 +1,63 @@
+---
+name: traceability-review
+description: Review explicit architecture traceability metadata for gaps, inconsistencies, unsupported claims, stale links, dangling references, and metamodel violations. Use when Codex needs to inspect artifact relations, validate ADR-to-risk or quality-scenario coverage, propose relation updates, or produce an evidence-backed traceability review report.
+---
+
 # Traceability Review Skill
 
 ## Purpose
 
 Review explicit architecture traceability metadata for gaps, inconsistencies,
-and unsupported claims.
+and unsupported claims. Treat every AI-suggested relation, finding, and impact
+claim as proposed until a human reviewer accepts it in the repository.
+
+This skill is guidance and reusable content only. Do not implement AI execution,
+do not implement a generator, and do not add automation as part of using this
+skill.
 
 Apply the repository contract hierarchy: this skill narrows `AGENTS.md`, and
-`AGENTS.md` adapts `general-semantic-contracts.md`.
+`AGENTS.md` adapts `general-semantic-contracts.md`. Do not duplicate general
+metadata, anchor, Docs-as-Code, arc42, or traceability rules here unless the
+traceability review workflow needs a stricter rule.
+
+## Core Workflow
+
+1. Inspect the requested documentation scope before writing findings.
+2. Read artifact metadata and relation metadata from repository source files.
+3. Inspect the relevant AsciiDoc prose only to verify relation rationale,
+   visible references, anchors, and evidence.
+4. Inspect relevant source code, tests, configuration, or operational evidence
+   only when relation claims depend on those artifacts.
+5. Validate relation endpoints, relation types, ownership, status, rationale,
+   and review state against the metamodel.
+6. Compare explicit metadata relations with visible AsciiDoc `xref` links when
+   both are expected.
+7. Identify missing, weak, stale, dangling, conflicting, or unsupported
+   relations.
+8. Propose relation additions or changes as `proposed`; do not silently create
+   accepted relations.
+9. Update affected artifacts with relations only when the user requested edits
+   and the source artifact owns outgoing relations.
+10. Prefer deterministic ordering by source ID, relation type, target ID, then
+    rationale.
+11. Prefer small, reviewable patches.
+12. Run the repository validator after changes if one is available.
+
+## Required Reading
+
+Read these references as needed:
+
+- `../references/metadata-rules.md` before reviewing YAML front matter.
+- `../references/relation-rules.md` before proposing or updating relations.
+- `../references/adr-writing-guide.md` before reviewing ADR relations.
+- `../references/risk-writing-guide.md` before reviewing risk relations.
+- `../references/quality-scenario-guide.md` before reviewing quality scenario
+  relations.
+
+Use these templates:
+
+- `../../templates/impact-report.adoc` for review reports when the user wants
+  analysis without direct artifact changes.
 
 ## Inputs
 
@@ -14,6 +65,10 @@ Apply the repository contract hierarchy: this skill narrows `AGENTS.md`, and
 - Relation metadata conforming to `metamodel/relations.schema.yaml`.
 - Relevant AsciiDoc source documents.
 - Review focus, such as ADR-to-risk coverage or quality-scenario coverage.
+- Optional evidence sources, such as code, tests, configuration, deployment
+  files, issue references, or operational data.
+- Review scope: report-only, update proposed relations, or validate a changed
+  artifact set.
 
 ## Output
 
@@ -25,12 +80,27 @@ Produce a review report with:
 - Questions for human reviewers.
 - Validation notes against the metamodel.
 
-## Rules
+## Inspection Rules
 
+- Prefer repository source files over conversational memory.
 - Treat explicit metadata as authoritative over inferred prose.
+- Treat visible `xref` links as documentation references, not as substitutes for
+  metadata relations when traceability is required.
+- Check the artifact and relation schemas before declaring a relation invalid.
+- Check existing artifact IDs before suggesting new IDs.
+- Do not add reciprocal relations automatically. Add them only if the repository
+  convention or validator expects them.
+- Preserve accepted or reviewed relations unless repository evidence justifies a
+  proposed update.
+
+## Output Rules
+
 - Do not silently create accepted relations.
 - Identify dangling references by stable ID.
-- Prefer deterministic ordering by source ID, relation type, then target ID.
+- Mark AI-suggested additions as `status: proposed` and `reviewed: false`.
+- Prefer precise relation types over `relates_to`.
+- Prefer deterministic ordering by source ID, relation type, target ID, then
+  rationale.
 - Keep findings actionable and evidence-backed.
 - Check metadata, relation, anchor, and `xref` rules from
   `general-semantic-contracts.md`.
@@ -41,3 +111,13 @@ Produce a review report with:
 - Relation types match the intended semantics.
 - Accepted relations have evidence or rationale.
 - AI-suggested additions are not marked as reviewed.
+- Visible references to documentation artifacts use valid anchor-based
+  AsciiDoc `xref` links where required.
+- Open questions identify the human decision needed to resolve each uncertain
+  relation.
+
+## Validation
+
+After edits, run the repository validator if available. Prefer existing commands
+from the repository documentation or scripts. If no validator exists, report
+that validation was not available and describe the manual checks performed.

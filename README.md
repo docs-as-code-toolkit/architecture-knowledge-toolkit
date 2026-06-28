@@ -107,10 +107,15 @@ change, that is a defect in the generator or environment.
 
 ## AI Skills
 
-Use `skills/adr` for Architecture Decision Records. The skill combines ADR
-drafting with impact analysis for related risks, quality scenarios, components,
-interfaces, and traceability metadata. AI-assisted decisions and relationships
-remain proposed until reviewed.
+Use the skill contracts under `skills/` for focused architecture workflows:
+
+- `skills/adr` for Architecture Decision Records and impact analysis.
+- `skills/quality-scenario` for measurable quality scenarios.
+- `skills/risk` for architecture risks and mitigations.
+- `skills/traceability-review` for metadata relation reviews.
+
+Shared writing guides live under `skills/references/`. AI-assisted artifacts,
+decisions, assessments, and relationships remain proposed until reviewed.
 
 ## Current Status
 
