@@ -17,7 +17,10 @@ must still be reviewed with target users.
 * Set up structured arc42 architecture documentation at project start.
 * Review architecture knowledge in pull requests.
 * Keep cross references current when architecture artifacts change.
-* Keep generated documentation reproducible.
+* Reuse documentation content that belongs in multiple places without copying
+  and pasting it.
+* Keep generated documentation reproducible without committing it as source
+  content.
 * Use AI help without losing authority over repository truth.
 * Adopt the toolkit in small slices instead of all at once.
 * Reuse architecture and software-development-lifecycle workflows across
@@ -32,24 +35,30 @@ must still be reviewed with target users.
   stale.
 * Generated prose can look authoritative without review evidence.
 * Documentation generators may create unstable diffs.
+* Repeated content drifts when the same business value, definition, or
+  constraint is copied into several documents.
 * AI workflows often become tool-specific and hard to audit.
 * Metadata rules can be difficult to apply consistently.
 
 === Gains
 
 * Reviewable source artifacts with stable IDs.
+* One maintained source for repeated documentation content.
 * A useful first slice focused on project setup only.
 * Explicit traceability across architecture knowledge.
 * Repeatable validation and generated views.
 * CI/CD-ready validation and generated documentation fragments.
 * Clear separation between suggested and reviewed content.
+* Clear separation between reviewed source files and generated documentation.
 * Portable skills and templates.
+* Free and open-source adoption without a commercial gate.
 
 == Value Map
 
 === Products And Services
 
 * AsciiDoc templates.
+* Reusable AsciiDoc source-fragment conventions.
 * Guided arc42 documentation setup.
 * Inception canvases, vision and mission, roadmap, and open-question capture.
 * Metadata schemas for artifacts and relations.
@@ -62,15 +71,18 @@ must still be reviewed with target users.
 * Validation and generation scripts.
 * Example project content.
 * Adapter documentation for specific AI environments.
+* Free and open-source toolkit assets.
 
 === Pain Relievers
 
 * Metadata validation catches missing IDs, unsupported relation types, and
   broken relation targets.
 * Stable IDs make review and traceability practical.
-* Generated files are separated from reviewed source files.
+* Generated documentation is treated as a derived artifact, regenerated locally
+  or in CI/CD, and kept out of repository source control.
+* Source fragments make intentional reuse explicit and reduce content drift.
 * Adapter boundaries prevent engine-specific assumptions from leaking into core
-  skills.
+  skills while the project learns where AI engines differ.
 * SDLC skills prompt documentation updates when features or refactorings affect
   architecture knowledge.
 
@@ -78,6 +90,9 @@ must still be reviewed with target users.
 
 * Traceability matrices and other generated views make architecture knowledge
   easier to inspect and include in published documentation.
+* Include-safe source fragments support the write-once, publish-everywhere
+  philosophy across vision statements, arc42 chapters, and generated
+  publication formats.
 * Per-artifact relationship views make the local impact of an artifact visible.
 * Artifact-type indexes help architects navigate ADRs, quality scenarios,
   risks, and later artifact types.
@@ -91,4 +106,6 @@ must still be reviewed with target users.
 
 The toolkit is valuable if individual architects can first set up structured
 arc42 Docs-as-Code documentation quickly, then adopt artifact creation,
-validation, generation, and SDLC skills in later slices.
+validation, generation, and SDLC skills in later slices. The primary proof for
+that first slice is a complete initial artifact set rather than draft speed
+alone.

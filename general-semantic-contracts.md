@@ -17,7 +17,19 @@ Based on that information, we fill out further canvases, as the [Architecture In
 
 Place every canvas in `src/docs/canvas/` with a unique anchor for each canvas, so that it can be referenced from other documents.
 
-Ask questions in order to fill out every canvas. Keep the questions MECE and ask no more than 3 questions at a time. Keep asking questions until you have fully understood the purpose of the project. Keep the questions and answers in a separate file in `src/docs/canvas/` with the anchor `canvas-questions-and-answers`, so that they can be referenced from other documents or can be used for a workshop with the team. For example, the file is named `src/docs/canvas/questions-and-answers.adoc` and has the anchor `canvas-questions-and-answers`.
+Ask questions in order to fill out every canvas. Keep the questions MECE and ask no more than 3 questions at a time. Keep asking questions until you have fully understood the purpose of the project. Keep the questions and answers in a separate file in `src/docs/canvas/` with the anchor `canvas-questions-and-answers`, so that they can be referenced from other documents or can be used for a workshop with the team. For example, the file is named `src/docs/canvas/questions-and-answers.adoc` and has the anchor `canvas-questions-and-answers`. Every question should have a unique asciidoc anchor and every content within the canvases should link via xref to theese questions. Canvas specic questions should be placed there as well but as a link to the Q&A file, where the question will be answered. For example, the BMC question about the key partners is placed in the Q&A file with the anchor `bmc-key-partners` and linked from the BMC canvas as `xref:bmc-key-partners[]`.
+
+Apply the Docs-as-Code Toolkit philosophy `Write once. Publish everywhere.` in
+two ways: publish the same source documentation to different target formats, and
+author repeated documentation content once as a reusable AsciiDoc source
+fragment. Include reusable fragments with `include::[]` where the same business
+value, definition, constraint, or other content belongs in multiple places.
+Keep reusable source fragments separate from generated fragments: source
+fragments are reviewed source content, while generated fragments are derived
+output and must not become the primary editing surface. Fragments must be safe
+for supported target formats and should avoid fixed heading-level assumptions,
+environment-specific paths, and formatter-specific behavior unless those
+constraints are explicit inputs.
 
 ## Specification
 

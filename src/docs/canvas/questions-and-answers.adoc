@@ -13,8 +13,7 @@ separate from the canvases so workshop input can be reviewed and traced.
 The initial canvases use these files as hints only:
 
 * `README.md`
-* `docs/vision.adoc`
-* `docs/roadmap.adoc`
+* earlier legacy documents that have since been replaced by `src/docs/`
 * Existing repository structure
 
 These hints are not treated as proven product or architecture truth. Workshop
@@ -29,9 +28,14 @@ derived documents still need review before they become accepted project truth.
 * The repository should support AI-assisted drafting without granting AI output
   authoritative status.
 * Deterministic validation and generation are core differentiators.
+* The Docs-as-Code Toolkit philosophy is write once, publish everywhere.
+* Reusable AsciiDoc source fragments and generated documentation fragments are
+  different concepts: source fragments may be committed and reviewed;
+  generated fragments are derived output and must not become source truth.
 
 == Open Questions For Product Owner
 
+[[q-po-001]]
 === Q-PO-001: Target users
 
 Which user segment should be served first: individual architects, architecture
@@ -39,6 +43,7 @@ review boards, development teams, or AI-tool maintainers?
 
 Answer: Individual architects.
 
+[[q-po-002]]
 === Q-PO-002: Success metric
 
 What measurable outcome proves the toolkit is useful in the first real project?
@@ -60,6 +65,7 @@ The toolkit should provide validators and generators for additional
 documentation, such as matrices that can be included in the documentation and
 used in a CI/CD pipeline.
 
+[[q-po-003]]
 === Q-PO-003: Adoption boundary
 
 What is the smallest useful workflow that a team should be able to adopt without
@@ -76,16 +82,41 @@ Artifact creation, validation, generation, and SDLC skills are added as later
 slices. They must build on the setup workflow, but the setup workflow should be
 useful on its own.
 
+[[q-po-004]]
 === Q-PO-004: Success evidence
 
 Which concrete evidence should count as success for the first setup workflow:
 time-to-first-draft, completeness of the initial artifact set, review effort
 saved, or another metric?
 
-Answer: [OPEN]
+Answer: Completeness of the initial artifact set is the most important metric for the first setup workflow. The toolkit should enable an architect to create a comprehensive set of initial artifacts that cover all essential aspects of the architecture, including vision, mission, roadmap, and open questions. Time-to-first-draft and review effort saved are also valuable metrics, but they are secondary to ensuring that the initial artifact set is complete and useful for guiding further architecture work.
+
+[[q-po-005]]
+=== Q-PO-005: Revenue model
+
+Should the Business Model Canvas keep the toolkit explicitly non-commercial,
+describe only indirect value for teams, or include a future paid-service option?
+
+Answer: No, the Business Model Canvas should keep the toolkit explicitly non-commercial. The focus should be on providing value to teams through improved architecture documentation and workflow, rather than generating revenue. Indirect value for teams can be described in terms of increased efficiency, better collaboration, and improved quality of architecture artifacts. A future paid-service option can be considered later if there is demand from users, but for now, the toolkit should remain free and open-source to encourage adoption and contribution from the community.
+
+[[q-po-006]]
+=== Q-PO-006: Write once, publish everywhere
+
+Should the toolkit explicitly support the Docs-as-Code Toolkit philosophy
+`Write once. Publish everywhere.` as both multi-format publishing and reusable
+content authoring?
+
+Answer:
+
+Yes. Documentation content should be written once and publishable in different
+formats. Content that legitimately appears in multiple places should also be
+written once and included where it is needed. A business value statement, for
+example, may appear in architecture documentation and in a vision statement, but
+the maintained source should exist only once.
 
 == Open Questions For Architect
 
+[[q-arch-001]]
 === Q-ARCH-001: Metadata strategy
 
 Should artifact metadata live only in AsciiDoc front matter, only in sidecar
@@ -93,12 +124,14 @@ YAML files, or in both forms?
 
 Answer: For now, only in AsciiDoc front matter. Sidecar YAML files may be added later if they are needed for performance or usability reasons.
 
+[[q-arch-002]]
 === Q-ARCH-002: First-class artifacts
 
 Which artifact types must be first-class for version 1?
 
 Answer: Skills for creating ADRs, quality scenarios, and risks must be first-class. Skills for creating stakeholders, requirements, and components are the next priority. Skills for creating other artifact types are lower priority.
 
+[[q-arch-003]]
 === Q-ARCH-003: Generated views
 
 Which generated views are required for useful architecture review beyond the
@@ -106,36 +139,117 @@ traceability matrix?
 
 Answer: For sure, there must be a generated view that shows all relationships for a given artifact. This view should be available for all artifact types. A second useful generated view is a list of all artifacts of a given type, with links to the individual artifacts.
 
+[[q-arch-004]]
 === Q-ARCH-004: Index dimensions
 
 For version 1, should artifact indexes also be generated by status, owner, and
 tag, or is an index by artifact type sufficient?
 
-Answer: [OPEN]
+Answer: An index by artifact type is sufficient for version 1. Additional indexes by status, owner, and tag can be considered for future versions if they provide significant value to the users. Every index should be generated as a separate `.adoc` file within the generated documentation, and the index files should be linked from the main index page for easy navigation.
+
+[[q-arch-005]]
+=== Q-ARCH-005: Generated output storage
+
+For version 1, should generated documentation be committed to the repository,
+created only in CI, or both committed and regenerated in CI for verification?
+
+Answer: Not only for version 1, generated documentation should never be committed to the repository. The generated documentation should be possible to create locally as well as by the CI/CD pipeline. The generated documentation should be treated as a derived artifact that can be regenerated at any time, and it should not be stored in the repository to avoid clutter and potential merge conflicts. Instead, the generated documentation should be published to a separate location, such as a dedicated documentation server or a cloud-based platform, where it can be accessed by the development team and stakeholders. This approach ensures that the generated documentation is always up-to-date and reflects the current state of the architecture knowledge in the repository.
+
+[[q-arch-006]]
+=== Q-ARCH-006: Adapter documentation boundary
+
+Which workflow details belong in engine-independent documentation, and which
+details must move to adapter-specific files under `adapters/`?
+
+Answer: As for now, this is not really clear as the knowledge about differences between the AI engines is too low yet. As the knowledge evolves, we will decide.
+
+[[q-arch-007]]
+=== Q-ARCH-007: Source fragment location
+
+Where should reusable AsciiDoc source fragments live so they are central,
+reviewable, and easy to include without becoming confused with generated output?
+
+Answer: Open.
+
+Current assumption: Source fragments should live below `src/docs/`, for example
+in a dedicated `src/docs/fragments/` or `src/docs/shared/` area. They must not
+live in generated output directories.
+
+[[q-arch-008]]
+=== Q-ARCH-008: Fragment structure
+
+Which structural rules should reusable source fragments follow so they do not
+break target formats or local document structure?
+
+Answer: Open.
+
+Current assumption: Fragments should have stable anchors and avoid document
+titles or fixed heading levels unless the include location explicitly expects
+them. They should avoid target-format-specific constructs unless those formats
+are explicitly supported and tested.
+
+[[q-arch-009]]
+=== Q-ARCH-009: Source versus generated fragments
+
+Does reusable source-fragment authoring conflict with the rule that generated
+documentation must not be committed?
+
+Answer:
+
+No. This is not a contradiction if the repository distinguishes the concepts.
+Reusable source fragments are reviewed source content and may be committed.
+Generated documentation fragments are derived artifacts and must not be
+committed as source truth.
 
 == Open Questions For Developer
 
+[[q-dev-001]]
 === Q-DEV-001: Implementation language
 
 Is Ruby the intended long-term implementation language for validators and
 generators?
 
-Answer: [OPEN]
+Answer: No, Ruby is the current implementation language for the validator and generator, but it is not intended to be the long-term implementation language. The long-term implementation language is still open and may be determined based on factors such as maintainability, and community support. As the matter of fact, the implementation language for the validator and generator should not be a limiting factor for contributors, as the toolkit is designed to be extensible and adaptable to different languages and environments. It is important to have the validator and generator implemented in a language that is widely used and supported, but the toolkit should also provide clear documentation and guidelines for contributors to implement their own validators and generators in other languages if needed. Moreover, one goal of the whole toolkit is to have the possibility to use the https://github.com/docs-as-code-toolkit/docs-toolbox[docs-toolbox docker image] which is part of the https://github.com/docs-as-code-toolkit[ Docs-as-Code Toolkit], as well as this project will be. As a matter of fact, any runtime decision will also affect the docs-toolbox.
 
+[[q-dev-002]]
 === Q-DEV-002: Test strategy
 
 Which generator outputs should have golden-file regression tests?
 
-Answer: [OPEN]
+Answer: Generated views for all artifact types should have golden-file regression tests. This includes the generated view that shows all relationships for a given artifact, as well as the list of all artifacts of a given type with links to the individual artifacts. Additionally, any other generated views that are deemed important for architecture review should also have golden-file regression tests to ensure that changes to the generator do not introduce unintended regressions.
 
+[[q-dev-003]]
 === Q-DEV-003: Local workflow
 
 What command should a contributor run before opening a pull request?
 
-Answer: [OPEN]
+Answer: A contributor should run the validation command to ensure that all artifacts and metadata are valid and that the generated views are up-to-date. This command should be documented in the README or CONTRIBUTING.md file, and it should be easy to run locally. The validation command should check for any errors or warnings in the artifacts and metadata, and it should also generate the views to ensure that they are consistent with the current state of the repository. If any issues are found, the contributor should fix them before opening a pull request.
+
+[[q-dev-004]]
+=== Q-DEV-004: Long-term language selection criteria
+
+Which concrete criteria should decide the long-term implementation language for
+validators and generators: contributor reach, runtime portability, performance,
+ecosystem fit, or another prioritized set?
+
+Answer: Ecosystem fit and contributor reach should be the primary criteria for selecting the long-term implementation language for validators and generators. The chosen language should have a strong ecosystem with libraries and tools that support the needs of the toolkit, as well as a large and active community of contributors who can maintain and improve the codebase. Runtime portability and performance are also important considerations, but they should be secondary to ecosystem fit and contributor reach. The selected language should be widely used in the software development community to ensure that it is easy to find contributors and maintainers for the toolkit over time.
+
+[[q-dev-005]]
+=== Q-DEV-005: Fragment regression tests
+
+When should the project add automated tests that verify reusable source
+fragments render cleanly in supported target formats?
+
+Answer: Open.
+
+Current assumption: The first tests can wait until the fragment conventions and
+the first non-trivial include examples exist. Once multiple target formats are
+supported, include behavior should be covered by examples or golden-file
+regression tests.
 
 == Open Questions For Subject Matter Expert
 
+[[q-sme-001]]
 === Q-SME-001: Architecture method fit
 
 Which architecture practices are mandatory for the toolkit: arc42, ADRs,
@@ -143,6 +257,7 @@ quality scenarios, risk registers, ATAM, or others?
 
 Answer: arc42 is the mandatory architecture method. ADRs, quality scenarios, and risk registers are mandatory for version 1. ATAM and other practices are optional.
 
+[[q-sme-002]]
 === Q-SME-002: Traceability depth
 
 Which relationships must always be explicit for architecture review to be
@@ -150,36 +265,70 @@ credible?
 
 Answer: All relationships between ADRs, quality scenarios, and risks must be explicit. Relationships between stakeholders, requirements, and components are optional for version 1. Relationships between components and ADRs, quality scenarios, and risks are mandatory for version 1.
 
+[[q-sme-003]]
 === Q-SME-003: Suggested content
 
 What visual or metadata marker should distinguish AI suggestions from reviewed
 architecture knowledge?
 
-Answer: There should be a visual marker in the generated documentation that clearly distinguishes AI suggestions from reviewed architecture knowledge. Additionally, metadata should indicate the status of each artifact, whether it is suggested, generated, or reviewed. Every AI suggestion should habe the status "suggested (AI)"
+Answer: There should be a visual marker in the generated documentation that clearly distinguishes AI suggestions from reviewed architecture knowledge. Additionally, metadata should indicate the status of each artifact, whether it is suggested, generated, or reviewed. Every AI suggestion should have the status `suggested (AI)`.
 
 == Open Questions For Operations
 
+[[q-ops-001]]
 === Q-OPS-001: CI integration
 
 Should validation and generation run locally, in CI, or both?
 
 Answer: It should be possible to run validation and generation both locally and in CI. Local runs are useful for quick feedback during development, while CI runs ensure that the repository remains in a valid state and that generated documentation is up-to-date.
 
+[[q-ops-002]]
 === Q-OPS-002: Publishing
 
 Where should generated documentation be published, if anywhere?
 
 Answer: The generated documentation should be published to a location that is accessible to the development team and stakeholders. This could be a dedicated documentation server, a static site generator, or a cloud-based documentation platform. The publishing process should be automated as part of the CI/CD pipeline to ensure that the latest generated documentation is always available.
 
+[[q-ops-003]]
 === Q-OPS-003: Reproducibility
 
 Which environments must be supported for reproducible documentation generation?
 
-Answer: Github Actions and GitLab CI are the primary environments that must be supported for reproducible documentation generation. The toolkit should also provide guidance on how to set up local development environments to ensure that developers can reproduce the same results as in CI.
+Answer: GitHub Actions and GitLab CI are the primary environments that must be supported for reproducible documentation generation. The toolkit should also provide guidance on how to set up local development environments to ensure that developers can reproduce the same results as in CI.
 
+[[q-ops-004]]
 === Q-OPS-004: Primary publishing target
 
 Which publish target should be supported first for automated generated
 documentation: GitHub Pages, GitLab Pages, or downloadable build artifacts?
 
 Answer: GitHub Pages should be the first supported publish target for automated generated documentation. It is widely used, easy to set up, and integrates well with GitHub repositories. The same approach can be extended to GitLab Pages and downloadable build artifacts in the future, but GitHub Pages provides a good starting point for version 1 of the toolkit. With the downloadable build artifacts, the generated documentation can be packaged and distributed as needed.
+
+[[q-ops-005]]
+=== Q-OPS-005: GitHub Pages delivery path
+
+For the first GitHub Pages support, should deployment be based on plain
+Asciidoctor-generated static HTML, Antora, or another static site flow?
+
+Answer: Plain Asciidoctor-generated static HTML should be the first supported delivery path for GitHub Pages. It is simple to set up, requires minimal configuration, and allows for easy customization of the generated documentation. As we also need to decide, if we are going to use the https://doctoolchain.org[DocToolchain] for generation, jbake could be a good alternative to Antora. As a matter of fact, the best option would be to let the user decide which static site generator to use, as long as it can generate static HTML from AsciiDoc sources. The toolkit should provide guidance and examples for using different static site generators, but the primary focus should be on supporting plain Asciidoctor-generated static HTML for GitHub Pages in version 1. The toolkit should also provide the possibility to use different CSS themes. The docs-as-code-toolkit should provide such themes.
+
+[[q-ops-006]]
+=== Q-OPS-006: Initial theme scope
+
+For the first GitHub Pages delivery path, should version 1 provide one
+maintained default CSS theme or multiple selectable themes?
+
+Answer: There is no need to provide multiple selectable themes for version 1. A single maintained default CSS theme should be sufficient for the initial release. The focus should be on ensuring that the generated documentation is clear, readable, and visually appealing. Additional themes can be considered for future versions if there is demand from users or if it enhances the usability of the toolkit. The first theme needs to be created, though. As a base, the theme of https://github.com/dieterbaier/profile[profile dieterbaier] could be used. But we like to have that theme ported to a separate project of the https://github.com/docs-as-code-toolkit[Docs-as-Code Toolkit] organization. The theme should be maintained and updated as needed to ensure compatibility with the latest versions of Asciidoctor and other tools used in the toolkit.
+
+[[q-ops-007]]
+=== Q-OPS-007: Target formats for fragment acceptance
+
+Which target formats must reusable source fragments support first: static HTML,
+PDF, Antora, DocToolchain, jbake, or another publication path?
+
+Answer: Open.
+
+Current assumption: Plain Asciidoctor-generated static HTML is the first
+acceptance target because it is already the first GitHub Pages delivery path.
+PDF and broader static-site-generator behavior should be added when those
+publication paths become supported.

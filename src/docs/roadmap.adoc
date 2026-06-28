@@ -18,7 +18,8 @@ Goal: make the project purpose discussable and reviewable.
 * Capture architecture, communication, and techstack canvases.
 * Record open questions by role.
 * Confirm individual architects as the first target user segment.
-* Confirm the initial success metric for guided arc42 Docs-as-Code setup.
+* Confirm completeness of the initial artifact set as the primary success
+  metric for guided arc42 Docs-as-Code setup.
 * Confirm project setup only as the first adoption slice.
 
 Exit criteria:
@@ -38,6 +39,8 @@ starting a project.
 * Include inception canvases, vision and mission, roadmap, and open-question
   capture in the setup path.
 * Make cross-reference conventions visible in templates and examples.
+* Add conventions for reusable AsciiDoc source fragments so content can be
+  written once and included in multiple document contexts.
 * Make the setup workflow useful on its own before later slices are adopted.
 * Document contribution workflow.
 * Keep engine-specific integration under `adapters/`.
@@ -47,6 +50,8 @@ Exit criteria:
 
 * An individual architect can create an initial project documentation skeleton
   with inception canvases, vision and mission, roadmap, and open questions.
+* The documentation explains how reusable source fragments differ from
+  generated documentation fragments.
 * The README points to the new-project workflow.
 
 == Milestone 2: Metamodel Validation
@@ -74,20 +79,40 @@ Goal: make reviewed metadata useful in generated documentation.
 
 * Generate a traceability matrix from explicit relations.
 * Generate a relationship view for any given artifact.
-* Generate artifact-type indexes with links to individual artifacts.
+* Generate artifact-type indexes as separate `.adoc` files with links to
+  individual artifacts.
+* Validate that generated fragments remain include-safe for supported target
+  formats.
 * Revisit later whether additional indexes by status, owner, and tag are worth
   adding in version 1.
 * Generate includable documentation fragments for CI/CD pipelines.
-* Add regression tests for generator output.
+* Add golden-file regression tests for generated views across all supported
+  artifact types.
+* Cover per-artifact relationship views and artifact-type indexes with those
+  regression tests from the first generator slice onward.
+* Keep generated documentation out of repository source control.
 * Ensure generated files are ignored by artifact scanning.
 * Keep local and CI generation behavior reproducible in GitHub Actions and
   GitLab CI.
+* Prepare generated documentation for later publication through GitHub Pages as
+  the first automated target.
+* Support plain Asciidoctor-generated static HTML as the first GitHub Pages
+  delivery path before broader static-site-generator options.
+* Provide one maintained default CSS theme for version 1 generated
+  documentation.
+* Use the `profile dieterbaier` theme as a candidate base for a separate
+  Docs-as-Code Toolkit theme project.
 
 Exit criteria:
 
 * Re-running the generator without input changes produces no meaningful diff.
 * Generated views never become the primary editing surface.
-* Generated fragments can be included in published architecture documentation.
+* Generated fragments can be regenerated locally and in CI/CD.
+* Generated fragments can be included in published architecture documentation
+  without being committed as source files.
+* Reusable source fragments can be included in multiple documents without
+  duplicate authoring or broken target-format output.
+* The first generated publication path has a readable maintained default theme.
 
 == Milestone 4: Skill And Adapter Hardening
 
@@ -99,8 +124,13 @@ Goal: make AI assistance reusable and auditable.
   implementation and refactoring.
 * Refine reusable skills through real project use.
 * Add adapter-specific invocation examples.
+* Refine the boundary between engine-independent guidance and adapter-specific
+  workflow details as evidence about AI engine differences grows.
 * Document how suggestions become reviewed source changes.
-* Automate publishing of generated documentation to a team-accessible target.
+* Automate publishing of generated documentation to GitHub Pages first, while
+  keeping other targets extensible.
+* Keep additional selectable CSS themes as a future option after the first
+  maintained default theme is stable.
 * Keep engine-specific assumptions out of core skills.
 
 Exit criteria:
@@ -110,7 +140,9 @@ Exit criteria:
 
 == Open Roadmap Decisions
 
-* Which publishing target should be supported first?
-* Which implementation language should be used for future generators?
+* Which long-term implementation language should replace the current Ruby
+  implementation, if any?
 * Which SDLC skills are required first: feature implementation, refactoring, or
   architecture review?
+* Which target formats beyond plain static HTML must define acceptance tests for
+  reusable source fragments?

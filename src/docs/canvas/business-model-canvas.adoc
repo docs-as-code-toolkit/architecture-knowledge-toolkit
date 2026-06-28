@@ -6,15 +6,15 @@
 :revdate: 2026-06-27
 
 This canvas is a suggested starting point for a new-project workshop. It is
-derived from repository hints in `README.md`, `docs/vision.adoc`, and
-`docs/roadmap.adoc` plus reviewed workshop answers in
-`questions-and-answers.adoc`. Derived content still needs review before it
-becomes accepted project truth.
+derived from repository hints in `README.md` and earlier legacy documents plus
+reviewed workshop answers in
+xref:canvas-questions-and-answers[]. Derived content still needs review before
+it becomes accepted project truth.
 
 == Customer Segments
 
 * Individual architects who set up and maintain architecture documentation as
-  code.
+  code, as confirmed by xref:q-po-001[Q-PO-001].
 * Development teams that need reviewable, traceable architecture knowledge.
 * AI-assisted engineering teams that want reusable, engine-independent prompts
   and workflows.
@@ -26,6 +26,8 @@ becomes accepted project truth.
 * Guided initial setup for structured Docs-as-Code arc42 documentation.
 * Reusable templates for ADRs, quality scenarios, risks, and impact reports.
 * Cross references where architecture artifacts need traceability.
+* Reusable AsciiDoc source fragments for content that belongs in multiple
+  document contexts.
 * AI skills that suggest architecture content without becoming the source of
   truth.
 * AI skills that support SDLC work by suggesting documentation updates during
@@ -50,14 +52,20 @@ becomes accepted project truth.
 
 == Revenue Streams
 
-* Open question: the repository currently suggests a reusable toolkit, not a
-  monetized product.
-* Potential value may come from reduced review effort, lower architecture drift,
-  and reusable team practices.
+* The toolkit should remain explicitly non-commercial for now, as confirmed by
+  xref:q-po-005[Q-PO-005].
+* It should stay free and open source to encourage adoption and community
+  contribution.
+* Value is indirect: improved efficiency, better collaboration, higher
+  architecture artifact quality, lower architecture drift, and reusable team
+  practices.
+* Future paid services are out of scope for now and may be reconsidered only if
+  users ask for them.
 
 == Key Resources
 
 * AsciiDoc source documents.
+* Reusable source fragments for shared documentation content.
 * Metadata schemas in `metamodel/`.
 * Skills in `skills/`.
 * Templates in `templates/`.
@@ -67,6 +75,7 @@ becomes accepted project truth.
 == Key Activities
 
 * Maintain the metamodel and templates.
+* Maintain conventions for include-safe reusable source fragments.
 * Guide architects through initial project setup.
 * Validate architecture artifact metadata.
 * Generate deterministic derived views.
@@ -90,6 +99,8 @@ becomes accepted project truth.
 == Assumptions To Validate
 
 * Teams accept AsciiDoc as the primary documentation format.
+* Teams prefer reusable source fragments over duplicated prose when content
+  appears in several places.
 * Explicit metadata is worth the authoring effort.
 * Deterministic generated views provide enough value to justify a generator.
 * AI skills can remain useful while staying engine-independent.

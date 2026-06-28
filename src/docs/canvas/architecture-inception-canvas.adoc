@@ -13,7 +13,9 @@ architectural decisions are marked as accepted.
 
 The project provides a reusable toolkit for architecture knowledge work. It
 combines Docs-as-Code, explicit metadata, reusable AI skills, and deterministic
-validation and generation.
+validation and generation. It also supports the write-once, publish-everywhere
+philosophy by treating reusable AsciiDoc source fragments as part of the
+authoring model.
 
 == Stakeholders
 
@@ -36,6 +38,8 @@ validation and generation.
   risks, and between components and those artifact types in version 1.
 * Generate deterministic traceability views, including per-artifact relationship
   views and artifact-type indexes.
+* Provide conventions for reusable source fragments that can be included in
+  multiple document contexts and target formats.
 * Demonstrate usage through sample projects.
 
 == System Boundary
@@ -59,10 +63,14 @@ Outside the project boundary:
 == Quality Drivers
 
 * Reproducibility: same committed inputs produce the same generated outputs.
+* Reuse: shared documentation content is authored once and included where
+  needed.
 * Reviewability: architecture knowledge changes are small and traceable.
 * Portability: core skills avoid engine-specific assumptions.
 * Auditability: suggested, generated, and reviewed content are distinguishable.
 * Usability: templates and examples are practical for teams to adopt.
+* Completeness: the first setup workflow should yield a usable initial artifact
+  set, not just a fast partial draft.
 
 == Constraints
 
@@ -71,6 +79,8 @@ Outside the project boundary:
 * Generated output must be deterministic and idempotent.
 * Repository files are the source of truth after human review.
 * Artifact metadata lives in AsciiDoc front matter for now.
+* Reusable source fragments use AsciiDoc includes and must stay independent of
+  target-format quirks.
 * Sidecar YAML files are deferred until performance or usability requires them.
 * Engine-specific integration belongs under `adapters/`.
 
@@ -81,6 +91,8 @@ Outside the project boundary:
 * Early metamodel choices may constrain future artifact types.
 * Front matter metadata may become harder to work with if generated views need
   more data than authors want to keep inside each document.
+* Fragments may break target output if they depend on local heading levels,
+  relative paths, or formatter-specific behavior.
 * Generator behavior may drift without regression tests.
 
 == First Increment
@@ -93,7 +105,11 @@ The first increment should remain a walking skeleton:
   setup.
 * Validate sample architecture artifacts.
 * Generate one deterministic traceability matrix, one per-artifact relationship
-  view, and one artifact-type index.
+  view, and one artifact-type index as a separate generated `.adoc` file linked
+  from a main index page.
+* Cover generated artifact views with golden-file regression tests from the
+  first generator slice, especially relationship views and artifact-type
+  indexes.
 * Run validation and generation both locally and in CI.
 * Document the new-project canvases and open questions.
 * Keep all inferred content in draft status.
