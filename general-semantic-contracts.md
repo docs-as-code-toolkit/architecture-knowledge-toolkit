@@ -1,3 +1,25 @@
+## Contract Model
+
+This file is the engine-agnostic project contract. It describes how software
+projects should be clarified, built, documented, validated, reviewed, and
+evolved, whether the work is done by people, deterministic generators, or AI
+assistants.
+
+Agent adapters and skills build on this contract:
+
+1. `general-semantic-contracts.md` defines the shared project rules.
+2. `AGENTS.md` adapts those rules for automated contributors.
+3. `skills/**/SKILL.md` narrows or extends the rules for one task.
+
+When rules conflict, the more specific scope wins: user instruction,
+`SKILL.md`, `AGENTS.md`, then this file. More specific files should reference
+this contract instead of copying whole sections, so the project keeps one
+maintained source for general rules.
+
+These contracts are product assets. They are useful even without AI because
+they make architecture, documentation, traceability, quality, and delivery
+expectations explicit and reviewable.
+
 ## New projects
 
 When we start a new project, we need to know the purpose of this project. Therefore we like to have a first version of the following canvases filled out:

@@ -1,10 +1,10 @@
 [[fragment-product-mission-statement]]
 The project provides a reusable Docs-as-Code toolkit for architecture
 knowledge. It guides architects through initial project setup and offers
-AsciiDoc templates, explicit metadata schemas, reusable AI skills, example
-content, deterministic validation and generation, and generated relationship
-views so teams can create and maintain reviewable arc42 architecture
-documentation.
+engine-agnostic semantic contracts, AsciiDoc templates, explicit metadata
+schemas, reusable AI skills, example content, deterministic validation and
+generation, and generated relationship views so teams can create and maintain
+reviewable arc42 architecture documentation.
 
 It also provides conventions for reusable documentation fragments that can be
 included safely across document contexts and target formats. The first setup

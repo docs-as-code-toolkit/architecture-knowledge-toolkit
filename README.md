@@ -5,14 +5,22 @@ first at individual architects setting up structured Docs-as-Code projects.
 The toolkit is free and open source; the current product model is explicitly
 non-commercial.
 
-This repository combines Docs-as-Code, architecture documentation, metadata-based
-traceability, reusable AI skills, and deterministic generators. AI may suggest
-architecture artifacts and relationships, but the repository owns the truth.
-Reviewed metadata and source documents are the authoritative record.
+This repository combines Docs-as-Code, architecture documentation,
+engine-agnostic semantic contracts, metadata-based traceability, reusable AI
+skills, and deterministic generators. The contracts are useful to humans,
+automation, and AI assistants alike: they make the way of working explicit
+without making AI a required dependency.
+
+AI may suggest architecture artifacts and relationships, but the repository owns
+the truth. Reviewed metadata and source documents are the authoritative record.
 
 ## Principles
 
 - Docs-as-Code first: architecture knowledge lives in version-controlled text.
+- General project rules live in engine-agnostic semantic contracts.
+- `AGENTS.md` and `SKILL.md` files adapt or narrow those contracts for AI
+  workflows; they should not become the primary source of general project
+  rules.
 - AsciiDoc is the default format for architecture documentation and templates.
 - Write once, publish everywhere: documentation content should be authored once
   and reused across target formats and document contexts.
@@ -30,7 +38,7 @@ Reviewed metadata and source documents are the authoritative record.
 ## Repository Layout
 
 ```text
-src/docs/      New-project inception docs, canvases, vision, and roadmap.
+src/docs/      New-project inception docs, canvases, vision, roadmap, and arc42.
 docs/concepts/ Legacy concept notes retained for later architecture docs.
 metamodel/     Schemas for architecture artifacts and relations.
 skills/        Reusable AI skill instructions and review workflows.
@@ -38,6 +46,20 @@ templates/     AsciiDoc templates for common architecture artifacts.
 adapters/      Engine-specific integration layers.
 examples/      Sample projects showing expected usage.
 ```
+
+## Contract Layers
+
+The repository separates general project contracts from AI-specific adapters:
+
+1. `general-semantic-contracts.md` is the engine-agnostic contract for project
+   work.
+2. `AGENTS.md` tells automated contributors how to apply that contract.
+3. `skills/**/SKILL.md` adds task-specific rules, for example for ADRs, risks,
+   quality scenarios, or traceability review.
+
+Use the general contract as the maintained source for rules that also help
+humans and deterministic tools. Put only runtime-specific AI details below
+`adapters/`.
 
 ## New Project Inception
 

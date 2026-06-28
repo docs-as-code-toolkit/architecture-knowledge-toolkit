@@ -12,3 +12,8 @@ as a reusable AsciiDoc source fragment and included wherever it is needed.
 
 Teams should be able to use AI to improve architecture work without losing
 control of the source of truth.
+
+The toolkit's contracts should also help when no AI is involved. Architects,
+developers, reviewers, and generators should be able to rely on the same
+engine-agnostic project rules for architecture documentation, traceability,
+quality, and delivery work.

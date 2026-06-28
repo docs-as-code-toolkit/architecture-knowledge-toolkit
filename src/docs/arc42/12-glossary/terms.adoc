@@ -29,6 +29,14 @@ metadata_version: '1.0'
 | Version-controlled source file that records architecture knowledge with
 stable metadata.
 
+| Agent adapter
+| AI-facing instruction file, such as `AGENTS.md`, that explains how automated
+contributors apply the engine-agnostic project contracts.
+
+| Engine-agnostic semantic contract
+| Project rule set that applies to humans, deterministic generators, and AI
+assistants without depending on a specific AI runtime.
+
 | Generated documentation
 | Derived output produced from committed inputs. It is publishable but not the
 primary editing surface.
@@ -47,6 +55,10 @@ becomes accepted source truth.
 | Traceability
 | Explicit relationships between architecture artifacts, stored as metadata and
 used for generated views.
+
+| Skill
+| Task-specific instruction package that narrows or extends the general
+contracts for one activity, such as ADR drafting or risk assessment.
 
 | Walking skeleton
 | A minimal end-to-end slice that proves the documentation workflow can work

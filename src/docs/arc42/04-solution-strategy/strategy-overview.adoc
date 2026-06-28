@@ -35,6 +35,11 @@ Generated output is derived and not committed as source truth.
 views use metadata instead of prose inference.
 | QG-001, QG-003
 
+| Layered semantic contracts
+| General project rules live in `general-semantic-contracts.md`; `AGENTS.md`
+adapts them for automated contributors; skills add task-specific rules.
+| QG-002, QG-005
+
 | Reusable source fragments
 | Shared statements, definitions, and constraints live in reviewed fragment
 files and are included with `include::[]`.

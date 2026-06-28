@@ -13,6 +13,9 @@ living document and must be updated when the implementation evolves.
 * Format: AsciiDoc.
 * Diagram direction: PlantUML for architecture diagrams.
 * Documentation approach: Docs-as-Code.
+* General project contract: `general-semantic-contracts.md`.
+* Agent adapter: `AGENTS.md`.
+* Task-specific contracts: `skills/**/SKILL.md`.
 * Content reuse approach: reusable AsciiDoc source fragments included with
   `include::[]`.
 * First GitHub Pages delivery path: plain Asciidoctor-generated static HTML, as
@@ -49,10 +52,15 @@ living document and must be updated when the implementation evolves.
 
 == AI Assistance
 
-* Core skills: engine-independent files under `skills/`.
+* Core semantic contracts: engine-agnostic project rules in
+  `general-semantic-contracts.md`.
+* Agent guidance: AI-specific adaptation in `AGENTS.md`.
+* Core skills: task-specific files under `skills/`.
 * First-class version 1 skills: ADRs, quality scenarios, and risks.
 * Next-priority skills: stakeholders, requirements, and components.
 * Runtime integration: adapter-specific documentation under `adapters/`.
+* Contract precedence: user instruction, `SKILL.md`, `AGENTS.md`, then
+  `general-semantic-contracts.md`.
 * AI output status: every AI suggestion should be marked `suggested (AI)` until
   reviewed and committed.
 

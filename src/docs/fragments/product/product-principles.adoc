@@ -1,5 +1,8 @@
 [[fragment-product-principles]]
 * Repository source files are authoritative only after human review.
+* General project rules belong in engine-agnostic semantic contracts.
+* Agent and skill files adapt those contracts for AI workflows instead of
+  replacing them.
 * Generated prose and inferred relations remain suggestions until accepted.
 * Metadata carries traceability across architecture artifacts.
 * Cross references must stay useful when artifacts change.

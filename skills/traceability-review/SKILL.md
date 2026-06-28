@@ -5,6 +5,9 @@
 Review explicit architecture traceability metadata for gaps, inconsistencies,
 and unsupported claims.
 
+Apply the repository contract hierarchy: this skill narrows `AGENTS.md`, and
+`AGENTS.md` adapts `general-semantic-contracts.md`.
+
 ## Inputs
 
 - Artifact metadata conforming to `metamodel/artifact.schema.yaml`.
@@ -29,12 +32,8 @@ Produce a review report with:
 - Identify dangling references by stable ID.
 - Prefer deterministic ordering by source ID, relation type, then target ID.
 - Keep findings actionable and evidence-backed.
-- Check that standalone architecture documents use YAML front matter
-  conforming to `metamodel/artifact.schema.yaml`.
-- Check that visible references between documents included in the same
-  assembled documentation set use explicit AsciiDoc `xref` links.
-- Check that AsciiDoc anchors start with a lowercase letter and contain only
-  lowercase letters, digits, and hyphens.
+- Check metadata, relation, anchor, and `xref` rules from
+  `general-semantic-contracts.md`.
 
 ## Review Checklist
 

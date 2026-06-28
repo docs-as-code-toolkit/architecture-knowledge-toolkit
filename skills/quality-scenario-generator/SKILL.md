@@ -5,6 +5,9 @@
 Help draft measurable quality scenarios for architecture work. Scenarios should
 be concrete enough to review, prioritize, and trace to decisions or risks.
 
+Apply the repository contract hierarchy: this skill narrows `AGENTS.md`, and
+`AGENTS.md` adapts `general-semantic-contracts.md`.
+
 ## Inputs
 
 - Quality attribute, such as performance, availability, modifiability, security,
@@ -37,13 +40,8 @@ or `templates/quality-scenario.adoc` from the repository root, with:
 - Do not treat assumed or invented target values as answered evidence in final arc42 documentation.
 - Do not turn aspirations into accepted requirements without review.
 - Keep generated scenarios concise and testable.
-- Use YAML front matter conforming to `metamodel/artifact.schema.yaml` and
-  relation types from `metamodel/relations.schema.yaml` for standalone
-  scenario artifacts.
-- Use AsciiDoc anchors that start with a lowercase letter and contain only
-  lowercase letters, digits, and hyphens.
-- Use explicit `xref` links for visible references to documents included in the
-  same assembled documentation set.
+- Apply metadata, relation, anchor, and `xref` rules from
+  `general-semantic-contracts.md`.
 
 ## Review Checklist
 

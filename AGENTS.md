@@ -1,64 +1,43 @@
-# Agent Guidance
+# Agent Adapter
 
-This repository may be used with AI coding agents, architecture assistants, and
-documentation generators. The rules below apply to all automated contributors.
+This file adapts the repository's engine-agnostic project contracts for AI
+coding agents, architecture assistants, and documentation generators. It should
+stay small. Do not duplicate general project rules here when they can live in
+`general-semantic-contracts.md`.
 
-## Semantic Contracts
-Unless otherwise specified or overridden here or any specific skill, the general semantic contracts from ./general-semantic-contracts.md apply.
+## Contract Order
 
-## Source of Truth
+Apply instructions in this order:
 
-The repository owns the architecture truth. Agent output is advisory until a human
-reviewer accepts it by committing source files and metadata.
+1. User instruction.
+2. Relevant `skills/**/SKILL.md`.
+3. This `AGENTS.md` adapter.
+4. `general-semantic-contracts.md`.
 
-Agents must not treat generated prose, inferred relationships, or conversational
-context as authoritative. Authoritative inputs are version-controlled files,
-especially AsciiDoc documents and metadata files conforming to `metamodel/`.
+More specific instructions may narrow or override more general instructions.
+They should not silently contradict them; call out unclear conflicts before
+making architecture changes.
 
-## Editing Rules
+## Required Baseline
+
+Read and apply `general-semantic-contracts.md` before creating or changing
+architecture content. It defines the engine-agnostic project contract for
+arc42, Docs-as-Code, metadata, traceability, quality, risks, SDLC work, and
+writing style.
+
+Use repository source files as the source of truth. Conversational context,
+inferred relations, generated prose, and AI output are advisory until reviewed
+and committed.
+
+## Agent-Specific Rules
 
 - Prefer small, reviewable changes.
 - Preserve stable IDs once assigned.
-- Do not rename, merge, or delete architecture artifacts without an explicit
-  migration note.
-- Use the schemas in `metamodel/` for standalone architecture artifacts. Add
-  YAML front matter with at least `id`, `type`, `title`, `status`, `owner`, and
-  `created`, and keep relation targets as stable artifact IDs.
-- Render AsciiDoc files with YAML front matter using Asciidoctor's
-  `skip-front-matter` attribute so metadata does not appear in published
-  output.
-- Do not add YAML front matter to reusable source fragments that are included
-  directly into other AsciiDoc files, because the metadata would render as
-  document content. Model the including standalone document instead.
-- AsciiDoc anchors must be renderer-safe, start with a lowercase letter, and
-  contain only lowercase letters, digits, and hyphens. Do not use spaces in
-  anchors.
-- When an AsciiDoc document refers to another document that is included in the
-  same assembled documentation set, use an explicit `xref` to that document's
-  anchor.
+- Mark AI-created or AI-modified architecture content as draft or proposed
+  unless human acceptance is already recorded in the repository.
+- Identify assumptions, unknowns, and required human decisions.
 - Keep generated content separate from reviewed source content where practical.
-- Do not add engine-specific assumptions to engine-independent skills.
+- Do not add engine-specific assumptions to engine-independent contracts or
+  skills.
 - Put Codex-specific, Vibe-specific, or other runtime integration under
   `adapters/`.
-
-## AI Output Policy
-
-When creating architecture content, mark it as a suggestion unless the user asks
-for a reviewed final artifact. Suggested output should identify assumptions,
-unknowns, and required human decisions.
-
-Even when the user asks for a reviewed final artifact, repository truth remains
-version-controlled source accepted through human review. Agents may prepare a
-review-ready artifact, but they must not mark architecture decisions, relations,
-risks, or requirements as human-accepted unless that acceptance is already
-recorded in the repository.
-
-## Generator Expectations
-
-Future generators in this project must be deterministic and idempotent:
-
-- Same inputs produce the same outputs.
-- Re-running a generator without input changes produces no meaningful diff.
-- Output ordering is stable.
-- Timestamps, random values, and environment-specific paths are avoided unless
-  explicitly modeled as inputs.

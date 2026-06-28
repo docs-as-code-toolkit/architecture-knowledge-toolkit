@@ -2,6 +2,9 @@
 The first scope is a walking skeleton for architecture knowledge management:
 
 * Define artifact and relation metadata.
+* Define engine-agnostic semantic contracts as reusable project assets.
+* Keep `AGENTS.md` and `SKILL.md` as adapters that complement the general
+  contracts.
 * Guide the initial setup of arc42 Docs-as-Code documentation as a useful
   standalone first slice.
 * Provide first-class support for ADRs, quality scenarios, risks, and impact

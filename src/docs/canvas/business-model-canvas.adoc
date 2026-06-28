@@ -25,6 +25,8 @@ it becomes accepted project truth.
 * Version-controlled architecture knowledge with explicit metadata.
 * Guided initial setup for structured Docs-as-Code arc42 documentation.
 * Reusable templates for ADRs, quality scenarios, risks, and impact reports.
+* Engine-agnostic semantic contracts that guide architecture and delivery work
+  even when no AI assistant is used.
 * Cross references where architecture artifacts need traceability.
 * Reusable AsciiDoc source fragments for content that belongs in multiple
   document contexts.
@@ -66,6 +68,7 @@ it becomes accepted project truth.
 
 * AsciiDoc source documents.
 * Reusable source fragments for shared documentation content.
+* Engine-agnostic semantic contracts in `general-semantic-contracts.md`.
 * Metadata schemas in `metamodel/`.
 * Skills in `skills/`.
 * Templates in `templates/`.
@@ -75,6 +78,8 @@ it becomes accepted project truth.
 == Key Activities
 
 * Maintain the metamodel and templates.
+* Maintain the contract hierarchy from general project contracts to
+  agent-specific adapters and task-specific skills.
 * Maintain conventions for include-safe reusable source fragments.
 * Guide architects through initial project setup.
 * Validate architecture artifact metadata.
@@ -104,3 +109,5 @@ it becomes accepted project truth.
 * Explicit metadata is worth the authoring effort.
 * Deterministic generated views provide enough value to justify a generator.
 * AI skills can remain useful while staying engine-independent.
+* Teams value explicit semantic contracts even before they adopt AI-assisted
+  workflows.
