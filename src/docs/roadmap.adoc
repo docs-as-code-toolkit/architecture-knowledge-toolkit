@@ -38,13 +38,14 @@ starting a project.
 * Provide a guided initial setup path for arc42 Docs-as-Code documentation.
 * Include inception canvases, vision and mission, roadmap, and open-question
   capture in the setup path.
-* Make cross-reference conventions visible in templates and examples.
+* Make cross-reference conventions visible in templates and dogfood
+  documentation.
 * Add conventions for reusable AsciiDoc source fragments so content can be
   written once and included in multiple document contexts.
 * Make the setup workflow useful on its own before later slices are adopted.
 * Document contribution workflow.
 * Keep engine-specific integration under `adapters/`.
-* Maintain examples that demonstrate expected usage.
+* Maintain dogfood documentation that demonstrates expected usage.
 
 Exit criteria:
 
@@ -71,7 +72,7 @@ Goal: make architecture metadata trustworthy.
 Exit criteria:
 
 * Broken metadata fails validation with actionable messages.
-* Valid sample artifacts pass without manual setup.
+* The project's own arc42 artifacts pass without manual setup.
 
 == Milestone 3: Deterministic Views
 

@@ -41,8 +41,8 @@ extensible.
 
 | Usability
 | QG-002 Reviewability
-| Templates, examples, and validation output should be practical for individual
-architects.
+| Templates, dogfood documentation, and validation output should be practical
+for individual architects.
 
 | Reliability
 | QG-001 Reproducibility

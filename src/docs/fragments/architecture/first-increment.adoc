@@ -5,7 +5,7 @@ The first increment should remain a walking skeleton:
 * Provide the project setup workflow for an individual architect.
 * Keep ADRs, quality scenarios, and risks as the first artifact workflow after
   setup.
-* Validate sample architecture artifacts.
+* Validate this project's own arc42 architecture artifacts.
 * Generate one deterministic traceability matrix, one per-artifact relationship
   view, and one artifact-type index as a separate generated `.adoc` file linked
   from a main index page.

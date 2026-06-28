@@ -48,7 +48,8 @@ it becomes accepted project truth.
 
 == Customer Relationships
 
-* Self-service adoption through templates, examples, and documentation.
+* Self-service adoption through templates, dogfood documentation, and user
+  documentation.
 * Review-driven collaboration through pull requests.
 * Workshop-based refinement for project inception and architecture alignment.
 
@@ -96,7 +97,7 @@ it becomes accepted project truth.
 
 == Cost Structure
 
-* Maintenance of schemas, templates, skills, and examples.
+* Maintenance of schemas, templates, skills, and dogfood documentation.
 * Test coverage for validators and generators.
 * Review effort for suggested architecture content.
 * Compatibility work for adapters and documentation tooling.

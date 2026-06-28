@@ -202,17 +202,22 @@ should be read from the source artifact toward the target artifact.
 | Considered and intentionally rejected.
 |===
 
-== Examples
+== Dogfood Example
 
-The sample project contains one ADR, one quality scenario, and one risk:
+This repository uses its own arc42 documentation as the living example for the
+metamodel:
 
-* `examples/sample-project/docs/adr/ADR-001-use-kafka.adoc`
-* `examples/sample-project/docs/quality/QS-001-event-processing-latency.adoc`
-* `examples/sample-project/docs/risks/RISK-001-event-backbone-coupling.adoc`
+* `src/docs/arc42.adoc`
+* `src/docs/arc42/`
 
-Together they show a minimal traceability chain: the ADR addresses the quality
-scenario and introduces a risk; the risk depends on the ADR and affects the same
-quality scenario.
+The current dogfood documentation demonstrates `Document` artifacts and explicit
+`refines` relations between the arc42 root, chapter pages, and detail pages.
+
+Open follow-up: the removed sample project also showed standalone `ADR`,
+`QualityScenario`, and `Risk` artifacts connected as an ADR-to-quality-to-risk
+traceability chain. The project documentation still needs equivalent project
+specific artifacts before that complete chain is demonstrated in the dogfood
+docs.
 
 == Extension Rules
 

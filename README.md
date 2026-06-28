@@ -44,7 +44,6 @@ metamodel/     Schemas for architecture artifacts and relations.
 skills/        Reusable AI skill instructions and review workflows.
 templates/     AsciiDoc templates for common architecture artifacts.
 adapters/      Engine-specific integration layers.
-examples/      Sample projects showing expected usage.
 ```
 
 ## Contract Layers
@@ -117,11 +116,19 @@ remain proposed until reviewed.
 
 This is the initial repository skeleton. It intentionally does not include a full
 generator implementation yet. The first milestone is to stabilize the metamodel,
-templates, example content, and engine-independent skill contracts. Version 1
-focuses first on ADRs, quality scenarios, and risks, with stakeholders,
-requirements, and components following next. The initial generated navigation
-scope is artifact-type indexes; additional indexes by status, owner, and tag
-remain a later evaluation topic.
+templates, dogfood arc42 documentation, and engine-independent skill contracts.
+Version 1 focuses first on ADRs, quality scenarios, and risks, with
+stakeholders, requirements, and components following next. The initial generated
+navigation scope is artifact-type indexes; additional indexes by status, owner,
+and tag remain a later evaluation topic.
+
+The former `examples/sample-project` has been removed. The project now uses its
+own arc42 documentation under `src/docs/arc42.adoc` and `src/docs/arc42/` as the
+living example. Open follow-up from the removed sample: create proper standalone
+ADR, quality scenario, and risk artifacts for this project so the dogfood docs
+show the full ADR-to-quality-to-risk traceability chain that the sample used to
+demonstrate.
+
 ## Validation
 
 The first deterministic validation step is available as a small Ruby CLI. It
@@ -131,7 +138,7 @@ validator and generator, but not a fixed long-term commitment for the toolkit.
 Future runtime choices should also remain compatible with the wider
 `docs-as-code-toolkit/docs-toolbox` delivery environment.
 
-Run the default validation against the sample project:
+Run the default validation against this project's own arc42 documentation:
 
 ```sh
 ruby scripts/validate-metamodel.rb
@@ -143,10 +150,11 @@ Actions and GitLab CI are the primary reproducible CI environments to support.
 By default, the validator scans:
 
 ```text
-examples/sample-project/docs
+src/docs/arc42.adoc
+src/docs/arc42/
 ```
 
-You can validate another artifact directory with:
+You can validate another artifact file or directory with:
 
 ```sh
 ruby scripts/validate-metamodel.rb --docs path/to/docs
@@ -175,7 +183,7 @@ ruby -Itest test/validate_metamodel_test.rb
 The first documentation generator creates a deterministic AsciiDoc traceability
 matrix from validated architecture artifact metadata.
 
-Generate the sample project matrix with:
+Generate the project arc42 traceability matrix with:
 
 ```sh
 ruby scripts/validate-metamodel.rb --generate
@@ -187,7 +195,7 @@ is generated and the command exits with a non-zero status.
 By default, the generated file is written to:
 
 ```text
-examples/sample-project/docs/generated/traceability-matrix.adoc
+src/docs/arc42/generated/traceability-matrix.adoc
 ```
 
 You can choose another output path with:

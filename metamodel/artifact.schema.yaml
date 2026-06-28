@@ -20,9 +20,9 @@ properties:
     description: Stable architecture artifact identifier. IDs must not be reused.
     pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
     examples:
-      - ADR-001-use-kafka
-      - QS-001-event-processing-latency
-      - RISK-001-event-backbone-coupling
+      - DOC-001-arc42
+      - DOC-109-architecture-decisions
+      - DOC-220-adr-index
   type:
     type: string
     description: Supported architecture artifact type.
@@ -92,22 +92,17 @@ properties:
     type: string
     default: "1.0"
 examples:
-  - id: ADR-001-use-kafka
-    type: ADR
-    title: Use Kafka as the event backbone
-    status: accepted
-    owner: platform-architecture
-    created: "2026-06-25"
-    reviewed: true
+  - id: DOC-220-adr-index
+    type: Document
+    title: ADR Index
+    status: draft
+    owner: project maintainers
+    created: "2026-06-28"
+    reviewed: false
     tags:
-      - events
-      - integration
+      - arc42
     relations:
-      - type: addresses
-        target: QS-001-event-processing-latency
-        status: accepted
-        rationale: Kafka supports partitioned processing for latency-sensitive event flows.
-      - type: introduces_risk
-        target: RISK-001-event-backbone-coupling
-        status: accepted
-        rationale: Centralizing events on Kafka creates platform coupling.
+      - type: refines
+        target: DOC-109-architecture-decisions
+        status: proposed
+        rationale: This detail page elaborates the corresponding arc42 chapter.

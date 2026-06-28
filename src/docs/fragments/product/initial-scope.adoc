@@ -13,7 +13,7 @@ The first scope is a walking skeleton for architecture knowledge management:
   anchors, include-safe structure, and format-safe content.
 * Keep stakeholders, requirements, and components as the next-priority
   artifact workflow after version 1.
-* Validate sample project metadata.
+* Validate this project's own arc42 metadata.
 * Generate deterministic matrices, per-artifact relationship views,
   artifact-type indexes, and other includable documentation fragments.
 * Start with artifact-type indexes as separate generated `.adoc` files linked

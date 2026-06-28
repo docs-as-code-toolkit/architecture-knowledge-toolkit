@@ -28,7 +28,7 @@ metadata_version: '1.0'
 
 Person(architect, "Individual architect", "Uses the toolkit to create and evolve architecture documentation.")
 System_Boundary(toolkit, "Architecture Knowledge Toolkit") {
-  Container(sourceDocs, "Source documentation", "AsciiDoc", "Canvases, arc42 docs, examples, concepts, and reusable source fragments.")
+  Container(sourceDocs, "Source documentation", "AsciiDoc", "Canvases, dogfood arc42 docs, concepts, and reusable source fragments.")
   Container(metamodel, "Metamodel schemas", "YAML schema", "Artifact and relation metadata rules.")
   Container(templates, "Templates", "AsciiDoc", "Reusable templates for architecture artifacts.")
   Container(skills, "AI skills", "Markdown instructions", "Engine-independent architecture workflows.")
@@ -59,7 +59,7 @@ Rel(aiRuntime, adapters, "Connects through")
 | Source documentation
 | Holds reviewed source knowledge and reusable source fragments.
 | AsciiDoc files, `include::[]`, anchors, and xrefs.
-| `src/docs/`, `docs/`, `examples/`.
+| `src/docs/`, `docs/`.
 | Chapters 1, 2, 3, 4, 8, 10, 11.
 
 | Metamodel schemas

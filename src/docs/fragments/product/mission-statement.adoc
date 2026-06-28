@@ -2,7 +2,7 @@
 The project provides a reusable Docs-as-Code toolkit for architecture
 knowledge. It guides architects through initial project setup and offers
 engine-agnostic semantic contracts, AsciiDoc templates, explicit metadata
-schemas, reusable AI skills, example content, deterministic validation and
+schemas, reusable AI skills, dogfood documentation, deterministic validation and
 generation, and generated relationship views so teams can create and maintain
 reviewable arc42 architecture documentation.
 

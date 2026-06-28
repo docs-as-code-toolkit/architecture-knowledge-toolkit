@@ -54,8 +54,8 @@ QS-DRAFT-003.
 | Medium
 | Medium
 | Medium
-| Keep first adoption slice focused on setup, templates, examples, and clear
-validation messages.
+| Keep first adoption slice focused on setup, templates, dogfood documentation,
+and clear validation messages.
 
 | R-005
 | The current Ruby implementation is mistaken for a fixed target

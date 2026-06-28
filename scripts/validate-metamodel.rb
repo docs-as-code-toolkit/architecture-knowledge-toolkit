@@ -17,7 +17,8 @@ class MetamodelValidator
 
   def initialize(root:, docs_dir:, relations_schema:)
     @root = Pathname.new(root).expand_path
-    @docs_dir = Pathname.new(docs_dir).expand_path
+    @docs_paths = Array(docs_dir).map { |path| Pathname.new(path).expand_path }
+    @docs_dir = @docs_paths.length == 1 ? @docs_paths.first : @docs_paths
     @relations_schema = Pathname.new(relations_schema).expand_path
     @errors = []
     @warnings = []
@@ -44,7 +45,7 @@ class MetamodelValidator
 
   def print_report(artifacts, io: $stdout)
     io.puts 'Architecture metamodel validation report'
-    io.puts "Docs directory: #{relative(@docs_dir)}"
+    io.puts "Docs target: #{docs_target_label}"
     io.puts "Artifacts scanned: #{artifacts.length}"
     io.puts "Errors: #{@errors.length}"
     io.puts "Warnings: #{@warnings.length}"
@@ -68,12 +69,20 @@ class MetamodelValidator
   private
 
   def scan_artifacts
-    unless @docs_dir.directory?
-      @errors << "docs directory does not exist: #{relative(@docs_dir)}"
-      return []
-    end
+    paths = @docs_paths.flat_map do |docs_path|
+      unless docs_path.exist?
+        @errors << "docs target does not exist: #{relative(docs_path)}"
+        next []
+      end
 
-    Dir.glob(@docs_dir.join('**/*.adoc').to_s).sort.map do |path|
+      if docs_path.directory?
+        Dir.glob(docs_path.join('**/*.adoc').to_s)
+      else
+        [docs_path.to_s]
+      end
+    end.uniq.sort
+
+    paths.map do |path|
       artifact_path = Pathname.new(path)
       next if generated_path?(artifact_path)
 
@@ -196,6 +205,10 @@ class MetamodelValidator
   rescue ArgumentError
     path.to_s
   end
+
+  def docs_target_label
+    @docs_paths.map { |path| relative(path) }.join(', ')
+  end
 end
 
 class TraceabilityMatrixGenerator
@@ -203,7 +216,8 @@ class TraceabilityMatrixGenerator
 
   def initialize(root:, docs_dir:, output_path: nil)
     @root = Pathname.new(root).expand_path
-    @docs_dir = Pathname.new(docs_dir).expand_path
+    @docs_dir = Array(docs_dir).first
+    @docs_dir = Pathname.new(@docs_dir).expand_path
     @output_path = Pathname.new(output_path || @docs_dir.join(DEFAULT_OUTPUT)).expand_path
   end
 
@@ -303,17 +317,24 @@ end
 
 if $PROGRAM_NAME == __FILE__
   root = Pathname.new(__dir__).join('..').expand_path
+  default_docs_targets = [
+    root.join('src/docs/arc42.adoc'),
+    root.join('src/docs/arc42')
+  ]
   options = {
-    docs_dir: root.join('examples/sample-project/docs'),
+    docs_dir: default_docs_targets,
     relations_schema: root.join('metamodel/relations.schema.yaml'),
     generate: false,
-    output: nil
+    output: nil,
+    custom_docs: false
   }
 
   OptionParser.new do |parser|
     parser.banner = 'Usage: ruby scripts/validate-metamodel.rb [options]'
-    parser.on('--docs DIR', 'Directory containing architecture .adoc artifacts') do |value|
-      options[:docs_dir] = Pathname.new(value)
+    parser.on('--docs PATH', 'Architecture .adoc file or directory; may be repeated') do |value|
+      options[:docs_dir] = [] if options[:docs_dir] == default_docs_targets
+      options[:docs_dir] << Pathname.new(value)
+      options[:custom_docs] = true
     end
     parser.on('--relations-schema FILE', 'Path to metamodel/relations.schema.yaml') do |value|
       options[:relations_schema] = Pathname.new(value)
@@ -336,10 +357,17 @@ if $PROGRAM_NAME == __FILE__
   exit(1) unless validator.errors.empty?
 
   if options[:generate]
+    output_path = options[:output] || if options[:custom_docs]
+      first_docs_target = Pathname.new(Array(options[:docs_dir]).first)
+      output_base = first_docs_target.directory? ? first_docs_target : first_docs_target.dirname
+      output_base.join('generated/traceability-matrix.adoc')
+    else
+      root.join('src/docs/arc42/generated/traceability-matrix.adoc')
+    end
     generator = TraceabilityMatrixGenerator.new(
       root: root,
       docs_dir: options[:docs_dir],
-      output_path: options[:output]
+      output_path: output_path
     )
     output_path = generator.write(artifacts)
     puts "Generated traceability matrix: #{output_path.relative_path_from(root)}"

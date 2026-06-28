@@ -94,19 +94,19 @@ $defs:
         default: false
 examples:
   - relations:
-      - id: REL-001-kafka-addresses-latency
-        source: ADR-001-use-kafka
-        type: addresses
-        target: QS-001-event-processing-latency
-        status: accepted
-        rationale: The decision supports partitioned event processing with measurable latency goals.
-        evidence: examples/sample-project/docs/adr/ADR-001-use-kafka.adoc#decision
-        reviewed: true
-      - id: REL-002-kafka-introduces-coupling-risk
-        source: ADR-001-use-kafka
-        type: introduces_risk
-        target: RISK-001-event-backbone-coupling
-        status: accepted
-        rationale: Kafka becomes a central integration dependency.
-        evidence: examples/sample-project/docs/risks/RISK-001-event-backbone-coupling.adoc
-        reviewed: true
+      - id: REL-001-adr-index-refines-decisions
+        source: DOC-220-adr-index
+        type: refines
+        target: DOC-109-architecture-decisions
+        status: proposed
+        rationale: The ADR index detail page elaborates the arc42 architecture decisions chapter.
+        evidence: src/docs/arc42/09-architecture-decisions/adr-index.adoc
+        reviewed: false
+      - id: REL-002-risks-refines-risk-chapter
+        source: DOC-223-risks
+        type: refines
+        target: DOC-111-risks-and-technical-debt
+        status: proposed
+        rationale: The risks detail page elaborates the arc42 risks and technical debt chapter.
+        evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+        reviewed: false

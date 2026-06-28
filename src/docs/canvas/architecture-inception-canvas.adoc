@@ -42,7 +42,7 @@ AsciiDoc source fragments as part of the authoring model.
   views and artifact-type indexes.
 * Provide conventions for reusable source fragments that can be included in
   multiple document contexts and target formats.
-* Demonstrate usage through sample projects.
+* Demonstrate usage through this project's own arc42 documentation.
 
 == System Boundary
 
@@ -73,7 +73,8 @@ Outside the project boundary:
 * Contract clarity: general rules, agent adapters, and task-specific skills
   have distinct responsibilities.
 * Auditability: suggested, generated, and reviewed content are distinguishable.
-* Usability: templates and examples are practical for teams to adopt.
+* Usability: templates and dogfood documentation are practical for teams to
+  adopt.
 * Completeness: the first setup workflow should yield a usable initial artifact
   set, not just a fast partial draft.
 
@@ -114,7 +115,7 @@ The first increment should remain a walking skeleton:
 * Provide the project setup workflow for an individual architect.
 * Keep ADRs, quality scenarios, and risks as the first artifact workflow after
   setup.
-* Validate sample architecture artifacts.
+* Validate this project's own arc42 architecture artifacts.
 * Generate one deterministic traceability matrix, one per-artifact relationship
   view, and one artifact-type index as a separate generated `.adoc` file linked
   from a main index page.

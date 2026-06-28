@@ -38,7 +38,7 @@ metadata_version: '1.0'
 | T-003
 | Information disclosure
 | Adapter guidance leaks project-specific or environment-specific secrets into
-engine-independent skills or examples.
+engine-independent skills or dogfood documentation.
 | Adapters; AI skills.
 
 | T-004
