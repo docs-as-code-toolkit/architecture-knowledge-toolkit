@@ -25,34 +25,34 @@ metadata_version: '1.0'
 |===
 | ADR | Title | Status | Notes
 
-| ADR-TBD-001
-| Use AsciiDoc as primary architecture source format
-| Proposed (derived)
-| Derived from current repository structure and canvases. Needs an ADR.
+| xref:adr-001-asciidoc-primary-source[ADR-001]
+| Primary architecture source format
+| Proposed
+| Derived from current repository structure, technology constraints, and
+canvases.
 
-| ADR-TBD-002
-| Keep generated documentation out of source control
-| Proposed (derived)
+| xref:adr-002-generated-output-not-source[ADR-002]
+| Generated documentation as source truth
+| Proposed
 | Confirmed as workshop input in `src/docs/canvas/questions-and-answers.adoc`,
-Q-ARCH-005. Needs an ADR with consequences.
+Q-ARCH-005.
 
-| ADR-TBD-003
-| Store reusable source fragments under `src/docs/fragments/`
-| Proposed (derived)
-| Current convention introduced by this arc42 draft. Q-ARCH-007 remains open.
+| xref:adr-003-source-fragments-location[ADR-003]
+| Reusable source fragment location
+| Proposed
+| Current convention introduced by this arc42 draft. Q-ARCH-007 and Q-ARCH-008
+remain open.
 
-| ADR-TBD-004
-| Use GitHub Pages with plain Asciidoctor-generated static HTML first
-| Proposed (derived)
-| Derived from Q-OPS-004 and Q-OPS-005. Needs an ADR before implementation is
-treated as accepted.
+| xref:adr-004-github-pages-static-html[ADR-004]
+| First publication target
+| Proposed
+| Derived from Q-OPS-004 and Q-OPS-005.
 
-| ADR-TBD-005
-| Keep core skills engine-independent and move runtime integration to adapters
-| Proposed (derived)
-| Derived from AGENTS.md and canvases. Needs an ADR when adapter scope is
-clearer.
+| xref:adr-005-engine-independent-skills[ADR-005]
+| Engine-specific runtime integration boundary
+| Proposed
+| Derived from AGENTS.md and canvases. Q-ARCH-006 remains open.
 |===
 
-Required follow-up: create proper Nygard ADRs with a 3-point Pugh matrix and
-consequences that reference risk IDs from xref:risks-and-technical-debt[].
+Required follow-up: review the proposed ADRs, resolve open questions, and
+accept only those decisions that have human confirmation.

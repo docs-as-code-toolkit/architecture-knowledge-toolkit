@@ -4,7 +4,11 @@ Write ADRs as review-ready proposals, not as accepted decisions.
 
 ## Content
 
-- State the problem and forces before the decision.
+- Use the ADR title for the decision topic or underlying question, not for the
+  selected option.
+- Place the `== Decision` section directly after the status block.
+- State the problem and forces clearly in the context. The `Decision` section
+  still appears directly after status as the short answer for reviewers.
 - Represent options fairly.
 - Include positive, negative, and neutral consequences.
 - Call out assumptions and open questions.

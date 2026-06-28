@@ -1,0 +1,76 @@
+---
+id: QS-002-missing-relation-target-validation
+type: QualityScenario
+title: Missing Relation Target Validation
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed quality scenario for actionable validation of missing relation targets.
+tags:
+- quality
+- traceability
+relations:
+- type: refines
+  target: DOC-201-quality-goals
+  status: proposed
+  rationale: This scenario concretizes QG-003 Traceability.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+- type: affects
+  target: R-004-heavy-metadata-authoring
+  status: proposed
+  rationale: Clear validation messages reduce the usability burden of metadata authoring.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-002-missing-relation-target-validation]]
+= QS-002: Missing Relation Target Validation
+
+== Status
+
+Proposed.
+
+The response measure is a reviewable target. Treat uncertain values as
+assumptions until confirmed.
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Contributor.
+| Stimulus | Adds a relation target that does not exist.
+| Environment | Local validation.
+| Artifact | Artifact metadata.
+| Response | Validation fails with an actionable message.
+| Response Measure | Evidence target: command exits non-zero and names the missing target ID.
+|===
+
+== Rationale
+
+This scenario concretizes QG-003 Traceability. Stable IDs are useful only when
+invalid relation targets are detected before review.
+
+== Assumptions
+
+* The local validation command is documented for contributors.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `refines` | xref:quality-goals[] | Concretizes QG-003 Traceability.
+| `affects` | xref:r-004-heavy-metadata-authoring[] | Good messages reduce the perceived metadata burden.
+|===
+
+== Open Questions
+
+* Which validation output format is most useful for local runs and CI logs?
+
+== Review Notes
+
+Confirm the local validation command and expected error wording before marking
+this scenario reviewed.

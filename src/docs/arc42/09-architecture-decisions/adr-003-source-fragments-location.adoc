@@ -1,0 +1,118 @@
+---
+id: ADR-003-source-fragments-location
+type: ADR
+title: Reusable Source Fragment Location
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed decision to store reusable reviewed source fragments below src/docs/fragments.
+tags:
+- decision
+- fragments
+relations:
+- type: addresses
+  target: QS-003-reusable-fragments-render
+  status: proposed
+  rationale: A stable source-fragment location supports repeatable include paths and render checks.
+  evidence: src/docs/arc42/08-crosscutting-concepts/source-fragments.adoc
+  reviewed: false
+- type: introduces_risk
+  target: R-003-source-fragments-break-rendering
+  status: proposed
+  rationale: Central reusable fragments can affect several rendered documents when a fragment is malformed.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-003-source-fragments-location]]
+= ADR-003: Reusable Source Fragment Location
+
+== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to store reusable source fragments under `src/docs/fragments/`.
+
+== Context
+
+The toolkit distinguishes reusable source fragments from generated fragments.
+Q-ARCH-007 still marks the final fragment location as open. The current arc42
+draft already uses `src/docs/fragments/` as the proposed convention.
+
+== Decision Drivers
+
+* Keep reusable source content near the architecture documentation.
+* Avoid confusing reviewed source fragments with generated output.
+* Keep include paths predictable.
+
+== Considered Options
+
+=== Option 1: `src/docs/fragments/`
+
+Fragments live under the documentation source tree and remain clearly separate
+from generated output.
+
+=== Option 2: `src/docs/shared/`
+
+The name is general, but less explicit about fragment semantics.
+
+=== Option 3: Generated-output directory
+
+This would mix source truth and derived output and contradict Q-ARCH-009.
+
+== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | `src/docs/fragments/` | `src/docs/shared/` | Generated output
+| Clear source/generated boundary | +1 | +1 | -1
+| Include-path clarity | +1 | 0 | -1
+| Matches current draft convention | +1 | 0 | -1
+s| Sum s| 3 s| 1 s| -3
+|===
+
+== Consequences
+
+=== Positive
+
+* Fragments are reviewed source content and can be included from multiple
+  documents.
+* Generated output remains outside the source-fragment area.
+
+=== Negative
+
+* Shared fragments can break several documents at once when they use fixed
+  heading levels or target-specific constructs. This is tracked by
+  xref:r-003-source-fragments-break-rendering[].
+
+=== Neutral or Follow-Up
+
+* Fragment structure rules still need human confirmation through Q-ARCH-008.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `addresses` | xref:qs-003-reusable-fragments-render[] | Stable fragment paths make render checks practical.
+| `introduces_risk` | xref:r-003-source-fragments-break-rendering[] | Reused fragments can spread rendering defects.
+|===
+
+== Assumptions
+
+* Source fragments stay in reviewed source directories, never generated output.
+
+== Open Questions
+
+* Which fragment structures are allowed for every supported target format?
+
+== Review Notes
+
+Confirm Q-ARCH-007 and Q-ARCH-008 before accepting this ADR.

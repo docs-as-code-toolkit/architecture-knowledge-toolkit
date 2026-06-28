@@ -30,6 +30,42 @@ relations:
   rationale: The chapter includes this detail page as reviewed source content.
   evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
   reviewed: false
+- type: documents
+  target: R-001-ai-suggestions-as-truth
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-002-unstable-generated-output
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-003-source-fragments-break-rendering
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-004-heavy-metadata-authoring
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-005-ruby-seen-as-target-architecture
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-006-unclear-adapter-boundaries
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
 metadata_version: '1.0'
 ---
 = [[risks-and-technical-debt]]Risks And Technical Debt
@@ -46,8 +82,38 @@ ordered by derived qualitative priority.
 
 | xref:technical-debt[]
 | Technical debt.
+
+| xref:r-001-ai-suggestions-as-truth[]
+| Proposed risk for AI suggestions being mistaken for accepted truth.
+
+| xref:r-002-unstable-generated-output[]
+| Proposed risk for unstable generated output.
+
+| xref:r-003-source-fragments-break-rendering[]
+| Proposed risk for reusable source-fragment rendering.
+
+| xref:r-004-heavy-metadata-authoring[]
+| Proposed risk for metadata authoring burden.
+
+| xref:r-005-ruby-seen-as-target-architecture[]
+| Proposed risk for misreading Ruby as target architecture.
+
+| xref:r-006-unclear-adapter-boundaries[]
+| Proposed risk for unclear adapter boundaries.
 |===
 
 include::11-risks-and-technical-debt/risks.adoc[]
 
 include::11-risks-and-technical-debt/technical-debt.adoc[]
+
+include::11-risks-and-technical-debt/r-001-ai-suggestions-as-truth.adoc[leveloffset=+1]
+
+include::11-risks-and-technical-debt/r-002-unstable-generated-output.adoc[leveloffset=+1]
+
+include::11-risks-and-technical-debt/r-003-source-fragments-break-rendering.adoc[leveloffset=+1]
+
+include::11-risks-and-technical-debt/r-004-heavy-metadata-authoring.adoc[leveloffset=+1]
+
+include::11-risks-and-technical-debt/r-005-ruby-seen-as-target-architecture.adoc[leveloffset=+1]
+
+include::11-risks-and-technical-debt/r-006-unclear-adapter-boundaries.adoc[leveloffset=+1]

@@ -1,0 +1,125 @@
+---
+id: ADR-004-github-pages-static-html
+type: ADR
+title: First Publication Target
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed decision to use GitHub Pages with plain Asciidoctor-generated static HTML as the first publication target.
+tags:
+- decision
+- publishing
+relations:
+- type: addresses
+  target: QS-003-reusable-fragments-render
+  status: proposed
+  rationale: Static HTML publication is the first target where reusable fragments must render correctly.
+  evidence: src/docs/arc42/10-quality-requirements/quality-scenarios.adoc
+  reviewed: false
+- type: constrains
+  target: DOC-205-technology-constraints
+  status: proposed
+  rationale: The technology constraints list GitHub Pages and static HTML as the first publication target.
+  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  reviewed: false
+- type: affects
+  target: R-003-source-fragments-break-rendering
+  status: proposed
+  rationale: The first publication target defines the initial fragment-rendering risk surface.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-004-github-pages-static-html]]
+= ADR-004: First Publication Target
+
+== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to use GitHub Pages with plain Asciidoctor-generated static HTML as
+the first publication target.
+
+== Context
+
+Q-OPS-004 and Q-OPS-005 identify GitHub Pages and plain Asciidoctor-generated
+static HTML as the first publication path. The toolkit may later support more
+formats, but version 1 needs a simple publication target.
+
+== Decision Drivers
+
+* Keep the first publication workflow simple.
+* Use the existing AsciiDoc source model.
+* Avoid early dependency on a larger publishing platform.
+
+== Considered Options
+
+=== Option 1: GitHub Pages with plain Asciidoctor HTML
+
+This option uses static files and a familiar open-source hosting path.
+
+=== Option 2: Dedicated documentation server
+
+A separate server can provide more control, but adds operational burden early.
+
+=== Option 3: Multiple publication targets from the start
+
+This supports portability early, but expands validation and rendering work
+before the source model is stable.
+
+== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | GitHub Pages HTML | Dedicated server | Multiple targets
+| Small first increment | +1 | -1 | -1
+| Fits current AsciiDoc source | +1 | 0 | 0
+| Long-term publication flexibility | 0 | +1 | +1
+s| Sum s| 2 s| 0 s| 0
+|===
+
+== Consequences
+
+=== Positive
+
+* The first publication workflow stays small and reviewable.
+* Fragment rendering can be tested against one concrete target first.
+
+=== Negative
+
+* Non-HTML publication needs later design and verification.
+* GitHub Pages availability and repository settings become operational inputs.
+
+=== Neutral or Follow-Up
+
+* The decision does not prevent later PDF, site-generator, or docs-toolbox
+  publication paths.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `addresses` | xref:qs-003-reusable-fragments-render[] | Static HTML is the first render target for reusable fragments.
+| `constrains` | xref:technology-constraints[] | The technology constraints record the first publication target.
+| `affects` | xref:r-003-source-fragments-break-rendering[] | The target defines the initial rendering surface.
+|===
+
+== Assumptions
+
+* GitHub Pages is available for the repository that publishes the toolkit docs.
+
+== Open Questions
+
+* Which publication targets follow after static HTML?
+
+== Review Notes
+
+Confirm the hosting path and CI publishing workflow before accepting this ADR.

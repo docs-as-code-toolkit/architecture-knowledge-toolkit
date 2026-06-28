@@ -1,0 +1,77 @@
+---
+id: QS-004-ai-suggestion-reviewability
+type: QualityScenario
+title: AI Suggestions Remain Reviewable
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed quality scenario for distinguishing AI-suggested content from accepted architecture truth.
+tags:
+- quality
+- reviewability
+relations:
+- type: refines
+  target: DOC-201-quality-goals
+  status: proposed
+  rationale: This scenario concretizes QG-002 Reviewability.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+- type: affects
+  target: R-001-ai-suggestions-as-truth
+  status: proposed
+  rationale: Mistaking AI suggestions for accepted truth threatens this scenario.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-004-ai-suggestion-reviewability]]
+= QS-004: AI Suggestions Remain Reviewable
+
+== Status
+
+Proposed.
+
+The response measure is a reviewable target. Treat uncertain values as
+assumptions until confirmed.
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Architecture reviewer.
+| Stimulus | Reviews an AI-suggested architecture artifact.
+| Environment | Pull request review.
+| Artifact | Source artifact and metadata.
+| Response | The reviewer can distinguish suggested content from accepted source truth.
+| Response Measure | Assumption: status or prose marker is visible in the reviewed artifact.
+|===
+
+== Rationale
+
+This scenario concretizes QG-002 Reviewability. The repository permits
+AI-assisted drafting, but accepted architecture truth must remain a human
+review decision.
+
+== Assumptions
+
+* Proposed or draft metadata is visible in review.
+* Human acceptance is recorded before an artifact becomes accepted.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `refines` | xref:quality-goals[] | Concretizes QG-002 Reviewability.
+| `affects` | xref:r-001-ai-suggestions-as-truth[] | This risk directly threatens reviewability.
+|===
+
+== Open Questions
+
+* Which marker is mandatory: metadata status, visible prose, or both?
+
+== Review Notes
+
+Confirm the review marker convention before marking this scenario reviewed.

@@ -34,10 +34,10 @@ repository.
 wants to keep the full template guidance in source.
 
 | TD-002
-| xref:architecture-decisions[] lists proposed decision topics, but proper
-ADR files are not yet created.
+| xref:architecture-decisions[] now contains proposed ADR files, but those ADRs
+are not yet human-reviewed or accepted.
 | Source documentation; templates
-| Create Nygard ADRs with Pugh matrices and risk consequences.
+| Review the proposed ADRs, resolve open questions, and accept or reject them.
 
 | TD-003
 | Quality scenarios contain assumed target measures where implementation

@@ -1,0 +1,84 @@
+---
+id: R-001-ai-suggestions-as-truth
+type: Risk
+title: AI Suggestions Are Mistaken For Reviewed Architecture Truth
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed risk that AI-assisted content may be treated as accepted architecture truth before review.
+tags:
+- risk
+- reviewability
+relations:
+- type: affects
+  target: QS-004-ai-suggestion-reviewability
+  status: proposed
+  rationale: The risk directly threatens the reviewability scenario for AI-suggested artifacts.
+  evidence: src/docs/arc42/10-quality-requirements/qs-004-ai-suggestion-reviewability.adoc
+  reviewed: false
+- type: affects
+  target: DOC-108-crosscutting-concepts
+  status: proposed
+  rationale: Suggestion status and source-of-truth policy are crosscutting controls.
+  evidence: src/docs/arc42/08-crosscutting-concepts.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-001-ai-suggestions-as-truth]]
+= R-001: AI Suggestions Are Mistaken For Reviewed Architecture Truth
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+== Risk Statement
+
+Because AI-generated architecture content can look complete, reviewers may
+mistake suggested content for accepted architecture truth, leading to unreviewed
+decisions, risks, or requirements entering the source documentation.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | High.
+| Priority | High.
+| Timeframe | Near-term.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+* Keep AI-created or AI-modified artifacts `proposed` or `draft` with
+  `reviewed: false`.
+* Use visible review notes in ADRs, quality scenarios, and risks.
+* Check xref:qs-004-ai-suggestion-reviewability[] during pull-request review.
+
+== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `affects` | xref:qs-004-ai-suggestion-reviewability[] | The risk threatens reviewer ability to distinguish suggestion from truth.
+| `affects` | xref:crosscutting-concepts[] | Crosscutting review and source-truth controls mitigate the risk.
+|===
+
+== Open Questions
+
+* Which review marker is mandatory in every AI-assisted artifact?
+
+== Review Notes
+
+Confirm review-marker rules and pull-request checks before marking this risk
+reviewed.

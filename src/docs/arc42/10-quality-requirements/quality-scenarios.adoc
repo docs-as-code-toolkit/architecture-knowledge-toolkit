@@ -25,7 +25,7 @@ metadata_version: '1.0'
 |===
 | ID | Objective | Source | Stimulus | Artifact | Environment | Response | Response measure
 
-| QS-DRAFT-001
+| xref:qs-001-reproducible-generation[QS-001]
 | QG-001
 | Contributor
 | Runs the generator twice without changing source inputs.
@@ -34,7 +34,7 @@ metadata_version: '1.0'
 | The generated output remains stable.
 | Assumption: second run produces no meaningful diff.
 
-| QS-DRAFT-002
+| xref:qs-002-missing-relation-target-validation[QS-002]
 | QG-003
 | Contributor
 | Adds a relation target that does not exist.
@@ -43,7 +43,7 @@ metadata_version: '1.0'
 | Validation fails with an actionable message.
 | Evidence target: command exits non-zero and names the missing target ID.
 
-| QS-DRAFT-003
+| xref:qs-003-reusable-fragments-render[QS-003]
 | QG-004
 | Documentation maintainer
 | Includes a shared product statement in more than one document.
@@ -53,7 +53,7 @@ metadata_version: '1.0'
 | Assumption: generated HTML contains one rendered copy per include location
 and no broken include directive.
 
-| QS-DRAFT-004
+| xref:qs-004-ai-suggestion-reviewability[QS-004]
 | QG-002
 | Architecture reviewer
 | Reviews an AI-suggested architecture artifact.
@@ -62,7 +62,7 @@ and no broken include directive.
 | The reviewer can distinguish suggested content from accepted source truth.
 | Assumption: status or prose marker is visible in the reviewed artifact.
 
-| QS-DRAFT-005
+| xref:qs-005-adapter-boundary[QS-005]
 | QG-005
 | Adapter maintainer
 | Adds runtime-specific invocation guidance.

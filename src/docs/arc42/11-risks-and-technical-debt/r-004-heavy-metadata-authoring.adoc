@@ -1,0 +1,85 @@
+---
+id: R-004-heavy-metadata-authoring
+type: Risk
+title: Metadata Authoring Feels Too Heavy
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed risk that metadata requirements discourage small teams from adopting the toolkit.
+tags:
+- risk
+- usability
+relations:
+- type: affects
+  target: QS-002-missing-relation-target-validation
+  status: proposed
+  rationale: Actionable validation messages help reduce the authoring burden.
+  evidence: src/docs/arc42/10-quality-requirements/qs-002-missing-relation-target-validation.adoc
+  reviewed: false
+- type: affects
+  target: DOC-208-strategy-overview
+  status: proposed
+  rationale: Walking-skeleton adoption limits the first slice to a useful, manageable workflow.
+  evidence: src/docs/arc42/04-solution-strategy/strategy-overview.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-004-heavy-metadata-authoring]]
+= R-004: Metadata Authoring Feels Too Heavy
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+== Risk Statement
+
+Because every architecture artifact needs explicit metadata and relations,
+small teams may perceive authoring as too heavy, leading to partial adoption or
+abandoned traceability.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | Medium.
+| Priority | Medium.
+| Timeframe | Near-term.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+* Keep the first adoption slice focused on setup, templates, dogfood
+  documentation, and clear validation messages.
+* Provide concise templates for ADRs, quality scenarios, and risks.
+* Use xref:qs-002-missing-relation-target-validation[] to make metadata errors
+  actionable.
+
+== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `affects` | xref:qs-002-missing-relation-target-validation[] | Good validation feedback reduces authoring friction.
+| `affects` | xref:strategy-overview[] | The walking-skeleton strategy limits initial complexity.
+|===
+
+== Open Questions
+
+* Which metadata fields are mandatory for version 1 beyond the current schema?
+
+== Review Notes
+
+Confirm the minimum metadata set and onboarding workflow before marking this
+risk reviewed.

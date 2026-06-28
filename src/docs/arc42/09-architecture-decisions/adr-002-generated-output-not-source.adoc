@@ -1,0 +1,119 @@
+---
+id: ADR-002-generated-output-not-source
+type: ADR
+title: Generated Documentation As Source Truth
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed decision that generated documentation is derived output and is not committed as source truth.
+tags:
+- decision
+- generated-output
+relations:
+- type: addresses
+  target: QS-001-reproducible-generation
+  status: proposed
+  rationale: Keeping generated output out of source control depends on reproducible local and CI generation.
+  evidence: src/docs/canvas/questions-and-answers.adoc
+  reviewed: false
+- type: mitigates
+  target: R-002-unstable-generated-output
+  status: proposed
+  rationale: Avoiding committed generated output reduces merge noise from generated diffs.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-002-generated-output-not-source]]
+= ADR-002: Generated Documentation As Source Truth
+
+== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to keep generated documentation out of source control.
+
+== Context
+
+Q-ARCH-005 states that generated documentation should not be committed to the
+repository. It should be created locally and in CI/CD, then published to a
+separate location.
+
+== Decision Drivers
+
+* Keep reviewed source content separate from derived output.
+* Reduce merge conflicts and review noise.
+* Make generation reproducible in local and CI workflows.
+
+== Considered Options
+
+=== Option 1: Do not commit generated documentation
+
+Generated documentation is created on demand and published outside the source
+repository.
+
+=== Option 2: Commit generated documentation
+
+Generated files are versioned together with source files, making output visible
+but adding churn and merge conflicts.
+
+=== Option 3: Commit generated documentation and verify in CI
+
+Generated files are committed and regenerated in CI for drift detection. This
+adds review visibility but keeps generated output in the source tree.
+
+== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Not committed | Committed | Committed and verified
+| Source truth remains clear | +1 | -1 | -1
+| Review noise stays low | +1 | -1 | 0
+| Output reproducibility pressure | +1 | 0 | +1
+s| Sum s| 3 s| -2 s| 0
+|===
+
+== Consequences
+
+=== Positive
+
+* Pull requests focus on source artifacts and metadata.
+* Generated output can be recreated from committed inputs.
+
+=== Negative
+
+* Contributors need a documented command to generate and preview output.
+* CI or publishing must provide access to rendered documentation.
+
+=== Neutral or Follow-Up
+
+* Generated views may still be used as CI artifacts or published files.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `addresses` | xref:qs-001-reproducible-generation[] | The decision requires stable generation from stable inputs.
+| `mitigates` | xref:r-002-unstable-generated-output[] | It reduces review churn from generated diffs.
+|===
+
+== Assumptions
+
+* CI/CD can publish generated documentation outside the repository.
+
+== Open Questions
+
+* Which local command should contributors run before opening a pull request?
+
+== Review Notes
+
+Confirm the publication location and local validation command before accepting
+this ADR.

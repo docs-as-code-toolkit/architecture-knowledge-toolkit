@@ -1,0 +1,82 @@
+---
+id: R-006-unclear-adapter-boundaries
+type: Risk
+title: Adapter Boundaries Remain Unclear
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed risk that unclear AI-engine adapter boundaries cause coupling or duplicated guidance.
+tags:
+- risk
+- adapters
+relations:
+- type: affects
+  target: QS-005-adapter-boundary
+  status: proposed
+  rationale: Boundary ambiguity directly threatens the adapter-boundary quality scenario.
+  evidence: src/docs/arc42/10-quality-requirements/qs-005-adapter-boundary.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-005-engine-independent-skills
+  status: proposed
+  rationale: The risk remains until the adapter decision is confirmed with concrete engine evidence.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-006-unclear-adapter-boundaries]]
+= R-006: Adapter Boundaries Remain Unclear
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+== Risk Statement
+
+Because differences between AI engines are not yet well understood,
+runtime-specific guidance may be placed inconsistently, leading to coupling in
+core skills or duplicated adapter documentation.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | Medium.
+| Priority | Medium.
+| Timeframe | Near-term.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+* Keep runtime details under `adapters/` until Q-ARCH-006 is resolved.
+* Review runtime-specific changes against xref:qs-005-adapter-boundary[].
+* Add concrete examples when engine differences become known.
+
+== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `affects` | xref:qs-005-adapter-boundary[] | Boundary ambiguity threatens adapter isolation.
+| `depends_on` | xref:adr-005-engine-independent-skills[] | The risk depends on the proposed adapter-boundary decision.
+|===
+
+== Open Questions
+
+* Which concrete runtime differences must be documented under adapters?
+
+== Review Notes
+
+Confirm Q-ARCH-006 with examples before marking this risk reviewed.

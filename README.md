@@ -129,10 +129,9 @@ and tag remain a later evaluation topic.
 
 The former `examples/sample-project` has been removed. The project now uses its
 own arc42 documentation under `src/docs/arc42.adoc` and `src/docs/arc42/` as the
-living example. Open follow-up from the removed sample: create proper standalone
-ADR, quality scenario, and risk artifacts for this project so the dogfood docs
-show the full ADR-to-quality-to-risk traceability chain that the sample used to
-demonstrate.
+living example. The dogfood docs now include standalone proposed ADR, quality
+scenario, and risk artifacts so the ADR-to-quality-to-risk traceability chain is
+visible in the repository itself.
 
 ## Validation
 

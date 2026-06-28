@@ -1,0 +1,84 @@
+---
+id: R-002-unstable-generated-output
+type: Risk
+title: Generated Output Becomes Unstable
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed risk that non-deterministic generated output creates review noise and weakens trust.
+tags:
+- risk
+- reproducibility
+relations:
+- type: affects
+  target: QS-001-reproducible-generation
+  status: proposed
+  rationale: Non-deterministic output directly threatens reproducible generation.
+  evidence: src/docs/arc42/10-quality-requirements/qs-001-reproducible-generation.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-002-generated-output-not-source
+  status: proposed
+  rationale: The risk is important because generated output is expected to be recreated rather than committed.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-002-generated-output-not-source.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-002-unstable-generated-output]]
+= R-002: Generated Output Becomes Unstable
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+== Risk Statement
+
+Because generators may depend on unordered metadata, timestamps, local paths,
+or environment-specific behavior, generated output may change without source
+changes, leading to review noise and loss of trust in generated views.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | High.
+| Priority | High.
+| Timeframe | Near-term.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+* Enforce deterministic ordering and avoid timestamps, random values, and local
+  paths in generated views.
+* Add golden-file regression tests for generated views.
+* Verify xref:qs-001-reproducible-generation[] in local and CI workflows.
+
+== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `affects` | xref:qs-001-reproducible-generation[] | Output instability threatens reproducible generation.
+| `depends_on` | xref:adr-002-generated-output-not-source[] | Reproducibility is required when generated output is not committed.
+|===
+
+== Open Questions
+
+* Which generated outputs need golden-file tests in version 1?
+
+== Review Notes
+
+Confirm generation determinism rules and regression-test scope before marking
+this risk reviewed.

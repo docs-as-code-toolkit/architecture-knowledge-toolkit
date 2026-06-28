@@ -1,0 +1,86 @@
+---
+id: QS-001-reproducible-generation
+type: QualityScenario
+title: Reproducible Generation
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed quality scenario for stable generated output from unchanged source inputs.
+tags:
+- quality
+- reproducibility
+relations:
+- type: refines
+  target: DOC-201-quality-goals
+  status: proposed
+  rationale: This scenario concretizes QG-001 Reproducibility.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-002-generated-output-not-source
+  status: proposed
+  rationale: Generated output can stay out of source control only when it can be reproduced reliably.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-002-generated-output-not-source.adoc
+  reviewed: false
+- type: affects
+  target: R-002-unstable-generated-output
+  status: proposed
+  rationale: Instability of generated output threatens this scenario.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-001-reproducible-generation]]
+= QS-001: Reproducible Generation
+
+== Status
+
+Proposed.
+
+The response measure is a reviewable target. Treat uncertain values as
+assumptions until confirmed.
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Contributor.
+| Stimulus | Runs the generator twice without changing source inputs.
+| Environment | Local checkout or CI.
+| Artifact | Generated documentation.
+| Response | The generated output remains stable.
+| Response Measure | Assumption: the second run produces no meaningful diff.
+|===
+
+== Rationale
+
+This scenario concretizes QG-001 Reproducibility. It supports
+xref:adr-002-generated-output-not-source[] because generated output is useful
+outside source control only when it can be recreated from the same committed
+inputs.
+
+== Assumptions
+
+* "Meaningful diff" excludes timestamps, local paths, ordering drift, and
+  other non-source changes.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `refines` | xref:quality-goals[] | Concretizes QG-001 Reproducibility.
+| `depends_on` | xref:adr-002-generated-output-not-source[] | The publication decision assumes reproducible generation.
+| `affects` | xref:r-002-unstable-generated-output[] | Unstable output threatens this scenario.
+|===
+
+== Open Questions
+
+* Which generated views require golden-file regression tests first?
+
+== Review Notes
+
+Confirm the exact diff policy and verification command before marking this
+scenario reviewed.

@@ -1,0 +1,92 @@
+---
+id: QS-003-reusable-fragments-render
+type: QualityScenario
+title: Reusable Fragments Render Correctly
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed quality scenario for rendering reusable source fragments in supported output targets.
+tags:
+- quality
+- fragments
+relations:
+- type: refines
+  target: DOC-201-quality-goals
+  status: proposed
+  rationale: This scenario concretizes QG-004 Content reuse.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-001-asciidoc-primary-source
+  status: proposed
+  rationale: The scenario assumes AsciiDoc include support as the source-fragment mechanism.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-001-asciidoc-primary-source.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-003-source-fragments-location
+  status: proposed
+  rationale: The scenario assumes a stable reviewed source-fragment location.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-003-source-fragments-location.adoc
+  reviewed: false
+- type: affects
+  target: R-003-source-fragments-break-rendering
+  status: proposed
+  rationale: Broken fragment rendering directly threatens this scenario.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-003-reusable-fragments-render]]
+= QS-003: Reusable Fragments Render Correctly
+
+== Status
+
+Proposed.
+
+The response measure is a reviewable target. Treat uncertain values as
+assumptions until confirmed.
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Documentation maintainer.
+| Stimulus | Includes a shared product statement in more than one document.
+| Environment | Plain Asciidoctor-generated static HTML.
+| Artifact | Reusable source fragment.
+| Response | The fragment renders correctly in every include location.
+| Response Measure | Assumption: generated HTML contains one rendered copy per include location and no broken include directive.
+|===
+
+== Rationale
+
+This scenario concretizes QG-004 Content reuse. The toolkit's
+`Write once. Publish everywhere.` rule needs source fragments that render
+cleanly wherever they are included.
+
+== Assumptions
+
+* Static HTML is the first supported render target.
+* More targets require additional render checks.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `refines` | xref:quality-goals[] | Concretizes QG-004 Content reuse.
+| `depends_on` | xref:adr-001-asciidoc-primary-source[] | Assumes AsciiDoc include support.
+| `depends_on` | xref:adr-003-source-fragments-location[] | Assumes `src/docs/fragments/` as source-fragment location.
+| `affects` | xref:r-003-source-fragments-break-rendering[] | Broken fragments threaten this scenario.
+|===
+
+== Open Questions
+
+* Which render targets beyond static HTML must be covered in version 1?
+
+== Review Notes
+
+Confirm the supported target formats and fixture expectations before marking
+this scenario reviewed.

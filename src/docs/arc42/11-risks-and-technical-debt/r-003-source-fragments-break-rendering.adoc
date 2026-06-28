@@ -1,0 +1,92 @@
+---
+id: R-003-source-fragments-break-rendering
+type: Risk
+title: Reusable Source Fragments Break Rendered Target Formats
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed risk that reusable source fragments render incorrectly in one or more target formats.
+tags:
+- risk
+- fragments
+relations:
+- type: affects
+  target: QS-003-reusable-fragments-render
+  status: proposed
+  rationale: Broken fragment rendering directly threatens the reusable-fragment quality scenario.
+  evidence: src/docs/arc42/10-quality-requirements/qs-003-reusable-fragments-render.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-001-asciidoc-primary-source
+  status: proposed
+  rationale: The risk exists because AsciiDoc includes are used for source reuse.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-001-asciidoc-primary-source.adoc
+  reviewed: false
+- type: depends_on
+  target: ADR-003-source-fragments-location
+  status: proposed
+  rationale: Centralized source fragments increase the impact of a malformed fragment.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-003-source-fragments-location.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-003-source-fragments-break-rendering]]
+= R-003: Reusable Source Fragments Break Rendered Target Formats
+
+== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+== Risk Statement
+
+Because reusable source fragments can be included in several document
+locations, a fragment with fixed heading assumptions or target-specific markup
+may render incorrectly, leading to broken output in one or more publication
+formats.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | Medium.
+| Priority | Medium.
+| Timeframe | Medium-term.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+* Keep fragments heading-neutral unless the include location explicitly expects
+  a heading.
+* Avoid formatter-specific constructs until target formats are known and tested.
+* Add render regression tests for xref:qs-003-reusable-fragments-render[].
+
+== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `affects` | xref:qs-003-reusable-fragments-render[] | The risk threatens clean fragment rendering.
+| `depends_on` | xref:adr-001-asciidoc-primary-source[] | AsciiDoc includes are the reuse mechanism.
+| `depends_on` | xref:adr-003-source-fragments-location[] | Centralized fragments increase reuse impact.
+|===
+
+== Open Questions
+
+* Which fragment structures are allowed for every supported output target?
+
+== Review Notes
+
+Confirm fragment conventions and render-test scope before marking this risk
+reviewed.

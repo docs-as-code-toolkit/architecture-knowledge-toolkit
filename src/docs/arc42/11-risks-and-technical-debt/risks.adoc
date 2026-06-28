@@ -25,39 +25,41 @@ metadata_version: '1.0'
 |===
 | ID | Risk | Probability | Impact | Priority | Mitigation/action
 
-| R-001
+| xref:r-001-ai-suggestions-as-truth[R-001]
 | AI suggestions are mistaken for reviewed architecture truth.
 | Medium
 | High
 | High
 | Use suggestion status, source-of-truth policy, and review gates from
-xref:crosscutting-concepts[]. Related to QS-DRAFT-004.
+xref:crosscutting-concepts[]. Related to
+xref:qs-004-ai-suggestion-reviewability[QS-004].
 
-| R-002
+| xref:r-002-unstable-generated-output[R-002]
 | Generated output becomes unstable and creates review noise.
 | Medium
 | High
 | High
 | Enforce deterministic generation and golden-file tests. Related to
-QS-DRAFT-001.
+xref:qs-001-reproducible-generation[QS-001].
 
-| R-003
+| xref:r-003-source-fragments-break-rendering[R-003]
 | Reusable source fragments break rendered target formats.
 | Medium
 | Medium
 | Medium
 | Keep fragments heading-neutral and add render regression tests. Related to
-QS-DRAFT-003.
+xref:qs-003-reusable-fragments-render[QS-003].
 
-| R-004
+| xref:r-004-heavy-metadata-authoring[R-004]
 | Metadata authoring feels too heavy for small teams.
 | Medium
 | Medium
 | Medium
 | Keep first adoption slice focused on setup, templates, dogfood documentation,
-and clear validation messages.
+and clear validation messages. Related to
+xref:qs-002-missing-relation-target-validation[QS-002].
 
-| R-005
+| xref:r-005-ruby-seen-as-target-architecture[R-005]
 | The current Ruby implementation is mistaken for a fixed target
 architecture.
 | Low
@@ -66,11 +68,12 @@ architecture.
 | Document Ruby as current implementation only and create ADR before changing
 runtime direction.
 
-| R-006
+| xref:r-006-unclear-adapter-boundaries[R-006]
 | Adapter boundaries remain unclear while AI engine differences are still
 unknown.
 | Medium
 | Medium
 | Medium
 | Keep runtime details under `adapters/` and revisit Q-ARCH-006 with evidence.
+Related to xref:qs-005-adapter-boundary[QS-005].
 |===

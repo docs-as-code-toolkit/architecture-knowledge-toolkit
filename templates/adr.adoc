@@ -1,7 +1,7 @@
 ---
 id: ADR-000-short-title
 type: ADR
-title: Short decision title
+title: Short decision topic
 status: proposed
 owner: architecture
 created: YYYY-MM-DD
@@ -17,7 +17,7 @@ relations:
     reviewed: false
 ---
 [[adr-000-short-title]]
-= ADR-000: Short Decision Title
+= ADR-000: Short Decision Topic
 
 == Status
 
@@ -25,6 +25,10 @@ Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to choose the selected option.
 
 == Context
 
@@ -67,10 +71,6 @@ the sum for that option is `?`.
 | Driver 3 | ? | 0 | +1
 s| Sum s| ? s| 0 s| ?
 |===
-
-== Decision
-
-We propose to choose the selected option.
 
 == Consequences
 

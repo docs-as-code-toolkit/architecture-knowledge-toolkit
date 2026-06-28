@@ -1,0 +1,128 @@
+---
+id: ADR-005-engine-independent-skills
+type: ADR
+title: Engine-Specific Runtime Integration Boundary
+status: proposed
+owner: architecture
+created: '2026-06-28'
+reviewed: false
+summary: Proposed decision to keep core skills engine-independent and place runtime-specific guidance under adapters.
+tags:
+- decision
+- adapters
+relations:
+- type: addresses
+  target: QS-005-adapter-boundary
+  status: proposed
+  rationale: Adapter isolation is the quality scenario's main expected outcome.
+  evidence: src/docs/arc42/10-quality-requirements/quality-scenarios.adoc
+  reviewed: false
+- type: mitigates
+  target: R-006-unclear-adapter-boundaries
+  status: proposed
+  rationale: A clear adapter boundary reduces ambiguity while engine-specific behavior is still being learned.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  reviewed: false
+- type: constrains
+  target: DOC-205-technology-constraints
+  status: proposed
+  rationale: The technology constraints state that engine-specific behavior belongs under adapters.
+  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-005-engine-independent-skills]]
+= ADR-005: Engine-Specific Runtime Integration Boundary
+
+== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to keep core skills engine-independent and move runtime integration
+to adapter documentation.
+
+== Context
+
+`AGENTS.md` states that Codex-specific, Vibe-specific, or other runtime
+integration belongs under `adapters/`. Q-ARCH-006 still marks the exact adapter
+documentation boundary as open.
+
+== Decision Drivers
+
+* Keep reusable skills independent of one AI engine.
+* Let runtime-specific integrations evolve without changing core contracts.
+* Preserve portability across AI assistants and documentation workflows.
+
+== Considered Options
+
+=== Option 1: Engine-independent core with adapters
+
+Core contracts and skills remain engine-independent. Runtime details live under
+`adapters/`.
+
+=== Option 2: Put runtime guidance directly into skills
+
+This keeps one file close to the workflow, but couples reusable skills to
+specific AI engines.
+
+=== Option 3: Separate one skill set per engine
+
+This makes engine behavior explicit, but duplicates architecture rules and
+raises drift risk.
+
+== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Core plus adapters | Runtime in skills | Per-engine skills
+| Engine portability | +1 | -1 | 0
+| Rule consistency | +1 | 0 | -1
+| Runtime-specific clarity | 0 | +1 | +1
+s| Sum s| 2 s| 0 s| 0
+|===
+
+== Consequences
+
+=== Positive
+
+* Core contracts can be reused by different AI engines.
+* Runtime-specific details can change without rewriting shared skill rules.
+
+=== Negative
+
+* Contributors must decide whether a detail belongs in a core skill or an
+  adapter until Q-ARCH-006 is resolved.
+
+=== Neutral or Follow-Up
+
+* Adapter conventions need examples as the project learns more engine
+  differences.
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `addresses` | xref:qs-005-adapter-boundary[] | The decision directly supports the adapter-boundary scenario.
+| `mitigates` | xref:r-006-unclear-adapter-boundaries[] | The decision reduces ambiguity by assigning runtime details to adapters.
+| `constrains` | xref:technology-constraints[] | The constraints record the adapter placement rule.
+|===
+
+== Assumptions
+
+* Engine-independent rules can be expressed without losing necessary runtime
+  behavior.
+
+== Open Questions
+
+* Which workflow details belong in adapters instead of core skills?
+
+== Review Notes
+
+Confirm Q-ARCH-006 with concrete engine evidence before accepting this ADR.

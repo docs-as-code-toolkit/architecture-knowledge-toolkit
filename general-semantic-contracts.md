@@ -102,7 +102,21 @@ unless they become part of the assembled arc42 documentation set.
 Each chapter on context, building blocks and runtime contains at least one diagram.
 Diagrams are created in PlantUML, not in Mermaid; for building blocks, C4 is used via the standard C4-PlantUML library integrated into PlantUML – in the form `!include <C4/...>` (pointy brackets), never via the remote URL `https://` and never via supplied file copies. No generic boxes.
 
-Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). If the rationale is derived but not yet confirmed by a human reviewer, the ADR status is `Proposed (derived)`, and Pugh cells requiring assessment by the team are marked with `?` rather than making an assumption. Every Pugh matrix includes a `Sum` row. For each option column, add the numeric cells manually; if any cell in that option column is `?`, the sum for that option is also `?` until the open assessment is resolved. Only human-reviewed decisions may become `Accepted` or `Accepted (derived)`. The ‘consequences’ of each ADR identify the risks associated with the decision, referencing the risk IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in Chapter 11 either adds it there or notes the consequence as explicitly accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer back to the ADR that adopted them.
+Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). ADR titles
+name the decision topic or underlying question, not the selected option; the
+actual decision statement appears in the `Decision` section directly after the
+status block. If the rationale is derived but not yet confirmed by a human
+reviewer, the ADR status is `Proposed (derived)`, and Pugh cells requiring
+assessment by the team are marked with `?` rather than making an assumption.
+Every Pugh matrix includes a `Sum` row. For each option column, add the numeric
+cells manually; if any cell in that option column is `?`, the sum for that
+option is also `?` until the open assessment is resolved. Only human-reviewed
+decisions may become `Accepted` or `Accepted (derived)`. The ‘consequences’ of
+each ADR identify the risks associated with the decision, referencing the risk
+IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in
+Chapter 11 either adds it there or notes the consequence as explicitly
+accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer
+back to the ADR that adopted them.
 
 Cross-sectional traceability – arc42 templates do not enforce this, so the contract does:
 - Each quality objective from Chapter 1.2 is assigned to a named approach in Chapter 4.
