@@ -1,4 +1,3 @@
-/src/docs/generated/
-/src/docs/arc42/generated/
-/src/docs/arc42/**/generated/
+**/.DS_Store
+**/generated/
 /$CODEX_HOME/
