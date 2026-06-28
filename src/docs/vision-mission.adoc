@@ -22,9 +22,9 @@ control of the source of truth.
 
 The project provides a reusable Docs-as-Code toolkit for architecture knowledge.
 It guides architects through initial project setup and offers AsciiDoc
-templates, explicit metadata schemas, reusable AI skills, example content, and
-deterministic validation and generation so teams can create and maintain
-reviewable arc42 architecture documentation.
+templates, explicit metadata schemas, reusable AI skills, example content,
+deterministic validation and generation, and generated relationship views so
+teams can create and maintain reviewable arc42 architecture documentation.
 
 == Product Principles
 
@@ -33,6 +33,8 @@ reviewable arc42 architecture documentation.
 * Metadata carries traceability across architecture artifacts.
 * Cross references must stay useful when artifacts change.
 * Generated documentation must be deterministic and reproducible.
+* arc42, ADRs, quality scenarios, and risk registers are mandatory for version
+  1.
 * Core skills stay engine-independent.
 * Runtime-specific integration belongs under `adapters/`.
 * Feature implementation and refactoring should trigger architecture
@@ -43,10 +45,15 @@ reviewable arc42 architecture documentation.
 The first scope is a walking skeleton for architecture knowledge management:
 
 * Define artifact and relation metadata.
-* Guide the initial setup of arc42 Docs-as-Code documentation.
-* Provide templates for ADRs, quality scenarios, risks, and impact reports.
+* Guide the initial setup of arc42 Docs-as-Code documentation as a useful
+  standalone first slice.
+* Provide first-class support for ADRs, quality scenarios, risks, and impact
+  reports.
+* Keep stakeholders, requirements, and components as the next-priority
+  artifact workflow after version 1.
 * Validate sample project metadata.
-* Generate deterministic matrices and other includable documentation fragments.
+* Generate deterministic matrices, per-artifact relationship views, artifact
+  indexes, and other includable documentation fragments.
 * Provide reusable AI skills for architecture artifacts, feature work,
   refactoring, and adapter guidance.
 * Capture project-inception canvases and open questions.

@@ -38,6 +38,7 @@ starting a project.
 * Include inception canvases, vision and mission, roadmap, and open-question
   capture in the setup path.
 * Make cross-reference conventions visible in templates and examples.
+* Make the setup workflow useful on its own before later slices are adopted.
 * Document contribution workflow.
 * Keep engine-specific integration under `adapters/`.
 * Maintain examples that demonstrate expected usage.
@@ -56,6 +57,9 @@ Goal: make architecture metadata trustworthy.
 * Validate artifact metadata against `metamodel/artifact.schema.yaml`.
 * Validate relation metadata against `metamodel/relations.schema.yaml`.
 * Validate cross references that are modeled as explicit relationships.
+* Enforce explicit relationships across ADRs, quality scenarios, and risks.
+* Enforce explicit component relationships to ADRs, quality scenarios, and
+  risks.
 * Document stable ID conventions.
 * Add focused tests for valid and invalid metadata.
 
@@ -71,10 +75,13 @@ Goal: make reviewed metadata useful in generated documentation.
 * Generate a traceability matrix from explicit relations.
 * Generate a relationship view for any given artifact.
 * Generate artifact-type indexes with links to individual artifacts.
-* Generate indexes by artifact type, status, owner, and tag.
+* Revisit later whether additional indexes by status, owner, and tag are worth
+  adding in version 1.
 * Generate includable documentation fragments for CI/CD pipelines.
 * Add regression tests for generator output.
 * Ensure generated files are ignored by artifact scanning.
+* Keep local and CI generation behavior reproducible in GitHub Actions and
+  GitLab CI.
 
 Exit criteria:
 
@@ -93,6 +100,7 @@ Goal: make AI assistance reusable and auditable.
 * Refine reusable skills through real project use.
 * Add adapter-specific invocation examples.
 * Document how suggestions become reviewed source changes.
+* Automate publishing of generated documentation to a team-accessible target.
 * Keep engine-specific assumptions out of core skills.
 
 Exit criteria:
@@ -102,7 +110,7 @@ Exit criteria:
 
 == Open Roadmap Decisions
 
-* Which CI and publishing workflows should be supported first?
+* Which publishing target should be supported first?
 * Which implementation language should be used for future generators?
 * Which SDLC skills are required first: feature implementation, refactoring, or
   architecture review?

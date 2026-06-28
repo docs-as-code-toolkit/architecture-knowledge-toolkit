@@ -9,7 +9,8 @@
 `architecture-knowledge-toolkit` provides reusable assets for software
 architecture work. It helps teams capture architecture decisions, quality
 scenarios, risks, relationships, and review guidance as version-controlled
-knowledge.
+knowledge. The first supported user segment is individual architects setting up
+structured arc42 Docs-as-Code documentation.
 
 == Core Idea
 
@@ -23,8 +24,11 @@ explicit metadata, stable IDs, and deterministic generated views.
 * Support Docs-as-Code workflows with AsciiDoc as the primary documentation
   format.
 * Provide reusable templates for common architecture artifacts.
+* Make the initial project setup workflow useful on its own.
 * Define metadata schemas for traceability across decisions, risks, qualities,
   components, stakeholders, and requirements.
+* Treat ADRs, quality scenarios, and risks as the first-class version 1
+  artifact workflow.
 * Provide AI skills that are useful across engines and tools.
 * Keep engine-specific behavior isolated in adapters.
 
@@ -57,4 +61,3 @@ Every relation should identify:
 * A target artifact.
 * A relation type.
 * The evidence or rationale for the relation.
-

@@ -7,6 +7,7 @@
 == Milestone 1: Repository Foundation
 
 * Create initial repository structure.
+* Make the initial setup workflow useful for an individual architect on its own.
 * Define starter schemas for artifacts and relations.
 * Provide AsciiDoc templates for ADRs, quality scenarios, and risks.
 * Add engine-independent AI skills.
@@ -17,13 +18,17 @@
 * Validate artifact metadata against `metamodel/artifact.schema.yaml`.
 * Validate relation metadata against `metamodel/relations.schema.yaml`.
 * Add sample metadata to `examples/sample-project/`.
+* Enforce explicit relationships across ADRs, quality scenarios, risks, and
+  related components.
 * Document stable ID conventions.
 
 == Milestone 3: Deterministic Views
 
 * Generate traceability tables from explicit metadata.
-* Generate architecture knowledge indexes by artifact type, status, owner, and
-  tag.
+* Generate per-artifact relationship views.
+* Generate architecture knowledge indexes by artifact type first.
+* Evaluate later whether indexes by status, owner, and tag add enough review
+  value for version 1.
 * Ensure output is deterministic and idempotent.
 * Add regression tests for generator output.
 
@@ -31,13 +36,12 @@
 
 * Refine reusable skills through real project use.
 * Add adapter-specific invocation examples.
+* Support reproducible local, GitHub Actions, and GitLab CI workflows.
 * Keep adapter behavior thin and auditable.
 * Document how agent suggestions become reviewed repository changes.
 
 == Open Questions
 
-* Which artifact types should be first-class in version 1?
-* Should metadata live in document headers, sidecar YAML files, or both?
-* Which generated views are most valuable for architecture reviews?
+* Which publishing target should be supported first?
+* Which implementation language should be used for future generators?
 * How strict should validation be for draft artifacts?
-

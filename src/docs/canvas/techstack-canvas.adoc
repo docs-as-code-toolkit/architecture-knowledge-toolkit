@@ -29,6 +29,7 @@ living document and must be updated when the implementation evolves.
 * Current validator and generator language: Ruby.
 * Current validation entry point: `scripts/validate-metamodel.rb`.
 * Current tests: Ruby tests in `test/`.
+* Long-term implementation language: still open.
 
 == AI Assistance
 
@@ -36,7 +37,16 @@ living document and must be updated when the implementation evolves.
 * First-class version 1 skills: ADRs, quality scenarios, and risks.
 * Next-priority skills: stakeholders, requirements, and components.
 * Runtime integration: adapter-specific documentation under `adapters/`.
-* AI output status: suggestion until reviewed and committed.
+* AI output status: every AI suggestion should be marked `suggested (AI)` until
+  reviewed and committed.
+
+== Operations
+
+* Validation and generation should run both locally and in CI.
+* Primary reproducible CI environments: GitHub Actions and GitLab CI.
+* Generated documentation should be publishable through an automated CI/CD
+  pipeline.
+* The concrete publishing platform remains project-specific.
 
 == Quality Gates
 
@@ -44,6 +54,8 @@ living document and must be updated when the implementation evolves.
 * Generated per-artifact relationship views must be deterministic.
 * Generated artifact-type indexes must be deterministic.
 * Generator output must be deterministic and idempotent.
+* Validation and generation workflows must be reproducible in local and CI
+  environments.
 * Tests must cover validator and generator behavior.
 * Generated output must avoid timestamps, random values, and local paths unless
   those values are explicit inputs.
@@ -51,5 +63,5 @@ living document and must be updated when the implementation evolves.
 == Open Technical Decisions
 
 * Whether to keep Ruby as the long-term implementation language.
-* Whether generated documentation should be committed or produced by CI.
+* Which publishing target should be supported first.
 * Which documentation build toolchain should be the primary supported path.

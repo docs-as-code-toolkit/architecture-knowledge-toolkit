@@ -32,6 +32,8 @@ validation and generation.
 * Prepare stakeholders, requirements, and components as the next-priority
   artifact workflow.
 * Suggest architecture content through reusable AI skills.
+* Keep explicit relationships mandatory across ADRs, quality scenarios, and
+  risks, and between components and those artifact types in version 1.
 * Generate deterministic traceability views, including per-artifact relationship
   views and artifact-type indexes.
 * Demonstrate usage through sample projects.
@@ -92,5 +94,6 @@ The first increment should remain a walking skeleton:
 * Validate sample architecture artifacts.
 * Generate one deterministic traceability matrix, one per-artifact relationship
   view, and one artifact-type index.
+* Run validation and generation both locally and in CI.
 * Document the new-project canvases and open questions.
 * Keep all inferred content in draft status.
