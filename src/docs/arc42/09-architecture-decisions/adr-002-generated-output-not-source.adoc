@@ -15,7 +15,7 @@ relations:
   target: QS-001-reproducible-generation
   status: proposed
   rationale: Keeping generated output out of source control depends on reproducible local and CI generation.
-  evidence: src/docs/canvas/questions-and-answers.adoc
+  evidence: src/docs/questions-and-answers.adoc
   reviewed: false
 - type: mitigates
   target: R-002-unstable-generated-output
