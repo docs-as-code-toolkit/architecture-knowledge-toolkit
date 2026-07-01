@@ -60,5 +60,5 @@ include::generated/qs-005-adapter-boundary-traceability.adoc[]
 
 == Review Notes
 
-Confirm Q-ARCH-006 with concrete engine examples before marking this scenario
-reviewed.
+Confirm xref:q-arch-006[Q-ARCH-006] with concrete engine examples before marking
+this scenario reviewed.

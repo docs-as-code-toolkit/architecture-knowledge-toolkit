@@ -49,7 +49,8 @@ core skills or duplicated adapter documentation.
 
 == Mitigation Options
 
-* Keep runtime details under `adapters/` until Q-ARCH-006 is resolved.
+* Keep runtime details under `adapters/` until xref:q-arch-006[Q-ARCH-006] is
+  resolved.
 * Review runtime-specific changes against xref:qs-005-adapter-boundary[].
 * Add concrete examples when engine differences become known.
 
@@ -66,4 +67,5 @@ include::generated/r-006-unclear-adapter-boundaries-traceability.adoc[]
 
 == Review Notes
 
-Confirm Q-ARCH-006 with examples before marking this risk reviewed.
+Confirm xref:q-arch-006[Q-ARCH-006] with examples before marking this risk
+reviewed.

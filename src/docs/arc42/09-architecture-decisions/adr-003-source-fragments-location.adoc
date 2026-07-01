@@ -42,8 +42,9 @@ We propose to store reusable source fragments under `src/docs/fragments/`.
 == Context
 
 The toolkit distinguishes reusable source fragments from generated fragments.
-Q-ARCH-007 still marks the final fragment location as open. The current arc42
-draft already uses `src/docs/fragments/` as the proposed convention.
+xref:q-arch-007[Q-ARCH-007] still marks the final fragment location as open. The
+current arc42 draft already uses `src/docs/fragments/` as the proposed
+convention.
 
 == Decision Drivers
 
@@ -64,7 +65,8 @@ The name is general, but less explicit about fragment semantics.
 
 === Option 3: Generated-output directory
 
-This would mix source truth and derived output and contradict Q-ARCH-009.
+This would mix source truth and derived output and contradict
+xref:q-arch-009[Q-ARCH-009].
 
 == Pugh Matrix
 
@@ -94,7 +96,8 @@ s| Sum s| 3 s| 1 s| -3
 
 === Neutral or Follow-Up
 
-* Fragment structure rules still need human confirmation through Q-ARCH-008.
+* Fragment structure rules still need human confirmation through
+  xref:q-arch-008[Q-ARCH-008].
 
 include::generated/adr-003-source-fragments-location-traceability.adoc[]
 
@@ -108,4 +111,5 @@ include::generated/adr-003-source-fragments-location-traceability.adoc[]
 
 == Review Notes
 
-Confirm Q-ARCH-007 and Q-ARCH-008 before accepting this ADR.
+Confirm xref:q-arch-007[Q-ARCH-007] and xref:q-arch-008[Q-ARCH-008] before
+accepting this ADR.

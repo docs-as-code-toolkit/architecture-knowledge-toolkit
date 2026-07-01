@@ -48,9 +48,10 @@ the first publication target.
 
 == Context
 
-Q-OPS-004 and Q-OPS-005 identify GitHub Pages and plain Asciidoctor-generated
-static HTML as the first publication path. The toolkit may later support more
-formats, but version 1 needs a simple publication target.
+xref:q-ops-004[Q-OPS-004] and xref:q-ops-005[Q-OPS-005] identify GitHub Pages
+and plain Asciidoctor-generated static HTML as the first publication path. The
+toolkit may later support more formats, but version 1 needs a simple publication
+target.
 
 == Decision Drivers
 

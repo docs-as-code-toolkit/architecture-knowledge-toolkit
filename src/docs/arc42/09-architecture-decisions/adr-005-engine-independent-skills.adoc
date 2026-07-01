@@ -49,8 +49,8 @@ to adapter documentation.
 == Context
 
 `AGENTS.md` states that Codex-specific, Vibe-specific, or other runtime
-integration belongs under `adapters/`. Q-ARCH-006 still marks the exact adapter
-documentation boundary as open.
+integration belongs under `adapters/`. xref:q-arch-006[Q-ARCH-006] still marks
+the exact adapter documentation boundary as open.
 
 == Decision Drivers
 
@@ -97,7 +97,7 @@ s| Sum s| 2 s| 0 s| 0
 === Negative
 
 * Contributors must decide whether a detail belongs in a core skill or an
-  adapter until Q-ARCH-006 is resolved.
+  adapter until xref:q-arch-006[Q-ARCH-006] is resolved.
 
 === Neutral or Follow-Up
 
@@ -117,4 +117,5 @@ include::generated/adr-005-engine-independent-skills-traceability.adoc[]
 
 == Review Notes
 
-Confirm Q-ARCH-006 with concrete engine evidence before accepting this ADR.
+Confirm xref:q-arch-006[Q-ARCH-006] with concrete engine evidence before
+accepting this ADR.

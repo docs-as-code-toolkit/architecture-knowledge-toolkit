@@ -41,9 +41,9 @@ We propose to keep generated documentation out of source control.
 
 == Context
 
-Q-ARCH-005 states that generated documentation should not be committed to the
-repository. It should be created locally and in CI/CD, then published to a
-separate location.
+xref:q-arch-005[Q-ARCH-005] states that generated documentation should not be
+committed to the repository. It should be created locally and in CI/CD, then
+published to a separate location.
 
 == Decision Drivers
 
