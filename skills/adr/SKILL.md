@@ -95,6 +95,9 @@ Use these templates:
   numbered chapter file names.
 - Apply metadata, relation, anchor, and `xref` rules from
   `general-semantic-contracts.md`.
+- Do not manually update chapter detail include lists. Chapter main documents
+  use generated include fragments; run or request the generator after adding an
+  artifact when the rendered chapter needs to include it.
 - Keep changes narrow and easy to review.
 
 ## Impact Analysis Checklist

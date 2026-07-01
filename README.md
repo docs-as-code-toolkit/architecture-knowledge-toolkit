@@ -226,6 +226,7 @@ By default, generated files are written below `generated/` directories:
 
 ```text
 src/docs/arc42/generated/traceability-matrix.adoc
+src/docs/arc42/**/generated/*-includes.adoc
 src/docs/arc42/09-architecture-decisions/generated/open-questions.adoc
 src/docs/arc42/09-architecture-decisions/generated/adr-index.adoc
 src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
@@ -235,11 +236,20 @@ src/docs/arc42/11-risks-and-technical-debt/generated/risks.adoc
 src/docs/arc42/11-risks-and-technical-debt/generated/*-traceability.adoc
 ```
 
+The generator also creates chapter include fragments. Chapter main files should
+include these generated fragments instead of manually listing each detail
+document. Generated chapter include fragments are sorted by artifact ID so new
+artifacts appear deterministically after regeneration.
+
 The chapter-level index fragments keep the existing table shape where possible.
 Row content is derived from each artifact's metadata and structured source body:
 IDs, titles, lifecycle status, summaries, and relations come from YAML front
 matter; quality scenario and risk assessment fields come from their existing
 definition tables.
+
+Generated index fragments are included directly in their chapter context. Source
+wrapper documents whose only purpose is to include generated indexes should not
+be introduced; existing wrappers are migration targets.
 
 Traceability sections are generated per artifact from metadata relations instead
 of being maintained manually in each source file. Source artifacts include their
