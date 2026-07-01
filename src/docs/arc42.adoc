@@ -95,6 +95,13 @@ relations:
     documentation.
   evidence: src/docs/arc42.adoc
   reviewed: false
+- type: documents
+  target: DOC-113-appendix
+  status: proposed
+  rationale: The arc42 overview includes this appendix in the complete architecture
+    documentation.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
 metadata_version: '1.0'
 ---
 = [[arc42]]arc42 Architecture Documentation
@@ -144,6 +151,9 @@ include::fragments/architecture/open-arc42-notes.adoc[]
 
 | xref:glossary[]
 | Glossary.
+
+| xref:appendix[]
+| Appendix with central questions and answers.
 |===
 
 include::arc42/01-introduction-and-goals.adoc[leveloffset=+1]
@@ -169,3 +179,5 @@ include::arc42/10-quality-requirements.adoc[leveloffset=+1]
 include::arc42/11-risks-and-technical-debt.adoc[leveloffset=+1]
 
 include::arc42/12-glossary.adoc[leveloffset=+1]
+
+include::arc42/13-appendix.adoc[leveloffset=+1]

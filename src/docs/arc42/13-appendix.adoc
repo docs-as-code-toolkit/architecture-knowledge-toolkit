@@ -1,0 +1,34 @@
+---
+id: DOC-113-appendix
+type: Document
+title: Appendix
+status: draft
+owner: project maintainers
+created: '2026-07-01'
+reviewed: false
+generated: false
+summary: Draft appendix for central architecture-workflow supporting material.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This appendix contributes supporting material to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/13-appendix.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[appendix]]Appendix
+
+This appendix includes supporting source documents that should be available in
+the assembled architecture documentation.
+
+Metadata decision: the appendix is a standalone arc42 source document and
+therefore has YAML front matter and the stable ID `DOC-113-appendix`. The
+included Q&A document remains a central discussion source without artifact
+metadata until the project decides whether questions become first-class
+architecture artifacts.
+
+include::../questions-and-answers.adoc[leveloffset=+1]
