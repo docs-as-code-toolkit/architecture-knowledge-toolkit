@@ -28,7 +28,7 @@ metadata_version: '1.0'
 | Individual architect
 | Needs a guided first setup path for complete initial arc42 Docs-as-Code
 documentation.
-| `src/docs/canvas/questions-and-answers.adoc`, Q-PO-001 to Q-PO-004.
+| `src/docs/questions-and-answers.adoc`, Q-PO-001 to Q-PO-004.
 
 | Architecture maintainer
 | Needs clear source-of-truth rules, stable IDs, and reviewable changes.
@@ -45,7 +45,7 @@ documentation.
 | AI assistant user
 | Needs suggestions that are useful but clearly not accepted truth until human
 review.
-| `AGENTS.md`, `src/docs/canvas/questions-and-answers.adoc`.
+| `AGENTS.md`, `src/docs/questions-and-answers.adoc`.
 
 | Adapter maintainer
 | Needs runtime-specific integration kept separate from engine-independent

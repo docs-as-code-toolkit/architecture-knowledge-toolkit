@@ -1,12 +1,13 @@
 [[canvas-questions-and-answers]]
-= Canvas Questions And Answers
+= Questions And Answers
 :id: CANVAS-QA-001
 :status: draft
 :owner: project maintainers
 :revdate: 2026-06-27
 
-This file captures project-inception questions and answers. It is intentionally
-separate from the canvases so workshop input can be reviewed and traced.
+This file captures project-inception and architecture workflow questions and
+answers. It is intentionally separate from the canvases so workshop input can be
+reviewed and traced across architecture work.
 
 == Current Evidence
 

@@ -93,7 +93,7 @@ Start new-project clarification in `src/docs/`.
 - `src/docs/canvas/value-proposition-canvas.adoc`
 - `src/docs/vision-mission.adoc`
 - `src/docs/roadmap.adoc`
-- `src/docs/canvas/questions-and-answers.adoc`
+- `src/docs/questions-and-answers.adoc`
 
 The current inception files are drafts. They use this repository as a hint, not
 as proof. Review assumptions and answer the open questions before treating any

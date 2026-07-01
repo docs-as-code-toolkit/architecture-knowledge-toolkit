@@ -35,22 +35,22 @@ metadata_version: '1.0'
 
 | Metadata
 | Artifact metadata lives in AsciiDoc front matter for now.
-| `src/docs/canvas/questions-and-answers.adoc`, Q-ARCH-001.
+| `src/docs/questions-and-answers.adoc`, Q-ARCH-001.
 
 | Generated documentation
 | Generated output must not be committed and must be reproducible locally and
 in CI/CD.
-| `src/docs/canvas/questions-and-answers.adoc`, Q-ARCH-005.
+| `src/docs/questions-and-answers.adoc`, Q-ARCH-005.
 
 | Validator and generator
 | Ruby is the current implementation language, but not a fixed long-term
 architecture decision.
-| `src/docs/canvas/questions-and-answers.adoc`, Q-DEV-001.
+| `src/docs/questions-and-answers.adoc`, Q-DEV-001.
 
 | Publishing
 | GitHub Pages with plain Asciidoctor-generated static HTML is the first
 publication target.
-| `src/docs/canvas/questions-and-answers.adoc`, Q-OPS-004 and Q-OPS-005.
+| `src/docs/questions-and-answers.adoc`, Q-OPS-004 and Q-OPS-005.
 
 | Runtime integration
 | Engine-specific behavior belongs under `adapters/`.

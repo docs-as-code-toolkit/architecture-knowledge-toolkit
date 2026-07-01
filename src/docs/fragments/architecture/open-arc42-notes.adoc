@@ -13,7 +13,7 @@ Inputs used for this draft:
 * `src/docs/canvas/architecture-inception-canvas.adoc`
 * `src/docs/canvas/architecture-communication-canvas.adoc`
 * `src/docs/canvas/techstack-canvas.adoc`
-* `src/docs/canvas/questions-and-answers.adoc`
+* `src/docs/questions-and-answers.adoc`
 * `README.md`
 * `general-semantic-contracts.md`
 
