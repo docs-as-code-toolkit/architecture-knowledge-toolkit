@@ -482,6 +482,99 @@ class ArtifactIndexGenerator
   end
 end
 
+class OpenQuestionsIndexGenerator
+  Question = Struct.new(:anchor, :id, :title, :role, keyword_init: true)
+
+  OUTPUT = '09-architecture-decisions/generated/open-questions.adoc'
+
+  attr_reader :output_paths
+
+  def initialize(root:, docs_dir:, questions_path: nil)
+    @root = Pathname.new(root).expand_path
+    @docs_dir = output_base(docs_dir)
+    @questions_path = Pathname.new(questions_path || @root.join('src/docs/questions-and-answers.adoc')).expand_path
+    @output_paths = []
+  end
+
+  def write
+    output_path = @docs_dir.join(OUTPUT)
+    content = render(output_path)
+    FileUtils.mkdir_p(output_path.dirname)
+    output_path.write(content)
+    @output_paths = [output_path]
+  end
+
+  def render(output_path = @docs_dir.join(OUTPUT))
+    questions = parse_open_questions(@questions_path.read)
+
+    lines = []
+    lines << '[[open-questions]]'
+    lines << '== Open Questions'
+    lines << ''
+    lines << '// Generated from questions-and-answers.adoc. Do not edit manually.'
+    lines << ''
+
+    if questions.empty?
+      lines << 'No open questions recorded.'
+      lines << ''
+      return lines.join("\n")
+    end
+
+    lines << '[cols="1,1,3", options="header"]'
+    lines << '|==='
+    lines << '| Question | Role | Topic'
+    lines << ''
+
+    questions.each do |question|
+      lines << "| xref:#{question.anchor}[#{cell(question.id)}]"
+      lines << "| #{cell(question.role)}"
+      lines << "| #{cell(question.title)}"
+      lines << ''
+    end
+
+    lines << '|==='
+    lines << ''
+    lines.join("\n")
+  end
+
+  def parse_open_questions(text)
+    role = nil
+    pending_anchor = nil
+    current = nil
+    questions = []
+
+    text.each_line do |line|
+      case line
+      when /^==\s+Open Questions For\s+(.+?)\s*$/
+        role = Regexp.last_match(1)
+      when /^\[\[(q-[a-z]+-[0-9]{3})\]\]\s*$/
+        pending_anchor = Regexp.last_match(1)
+      when /^===\s+(Q-[A-Z]+-[0-9]{3}):\s*(.+?)\s*$/
+        current = Question.new(
+          anchor: pending_anchor,
+          id: Regexp.last_match(1),
+          title: Regexp.last_match(2),
+          role: role
+        )
+        pending_anchor = nil
+      when /^Answer:\s+Open\.\s*$/
+        questions << current if current&.anchor
+      end
+    end
+
+    questions.sort_by { |question| question.id.to_s }
+  end
+
+  private
+
+  def cell(value)
+    text = value.to_s.strip
+    return '-' if text.empty?
+
+    text.gsub('|', '\|').gsub("\n", ' ')
+  end
+end
+
 class TraceabilityFragmentGenerator
   attr_reader :output_paths
 
@@ -675,6 +768,9 @@ class DocumentationGenerator
 
     artifact_indexes = ArtifactIndexGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(artifact_indexes.write(artifacts))
+
+    open_questions = OpenQuestionsIndexGenerator.new(root: @root, docs_dir: @docs_dir)
+    written.concat(open_questions.write)
 
     traceability = TraceabilityFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(traceability.write(artifacts))
