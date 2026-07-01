@@ -134,10 +134,14 @@ change, that is a defect in the generator or environment.
 
 Use the skill contracts under `skills/` for focused architecture workflows:
 
-- `skills/adr` for Architecture Decision Records and impact analysis.
-- `skills/quality-scenario` for measurable quality scenarios.
-- `skills/risk` for architecture risks and mitigations.
-- `skills/traceability-review` for metadata relation reviews.
+- [`skills/adr`](/skills/adr/SKILL.md) for Architecture Decision Records and impact analysis.
+- [`skills/quality-scenario`](/skills/quality-scenario/SKILL.md) for measurable quality scenarios.
+- [`skills/risk`](/skills/risk/SKILL.md) for architecture risks and mitigations.
+- [`skills/traceability-review`](/skills/traceability-review/SKILL.md) for metadata relation reviews.
+- [`skills/domain-modeling`](/skills/domain-modeling/SKILL.md) Actively build and sharpen a project's domain model — challenge terms against the glossary, stress-test with edge-case scenarios, and update CONTEXT.md and ADRs inline.
+- [`skills/grilling/with-docs`](/skills/grilling/with-docs/SKILL.md) Grilling session that also builds your project's domain model, sharpening terminology and updating CONTEXT.md and ADRs inline
+- [`skills/grilling/me`](/skills/grilling/me/SKILL.md) Get relentlessly interviewed about a plan or design until every branch of the decision tree is resolved.
+- [`skills/grilling/`](/skills/grilling/SKILL.md) Interview the user relentlessly about a plan or design until every branch of the decision tree is resolved. The reusable loop behind grill-me and grill-with-docs.
 
 Shared writing guides live under `skills/references/`. AI-assisted artifacts,
 decisions, assessments, and relationships remain proposed until reviewed.
