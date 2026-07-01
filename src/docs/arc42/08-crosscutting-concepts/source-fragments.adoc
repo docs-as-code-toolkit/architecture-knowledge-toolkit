@@ -35,6 +35,7 @@ Rules:
   and test it.
 * Do not store source fragments below generated-output directories.
 
-Open refinement: `src/docs/questions-and-answers.adoc`, Q-ARCH-007 and
-Q-ARCH-008 still mark final fragment location and structure as open. This
-documentation uses `src/docs/fragments/` as the current proposed convention.
+Open refinement: xref:q-arch-007[Q-ARCH-007] and
+xref:q-arch-008[Q-ARCH-008] still mark final fragment location and structure as
+open. This documentation uses `src/docs/fragments/` as the current proposed
+convention.

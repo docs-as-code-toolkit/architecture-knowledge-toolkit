@@ -53,7 +53,8 @@ leading to premature coupling and reduced openness for future runtime choices.
   language only.
 * Create an ADR before changing or fixing the long-term implementation
   language.
-* Use Q-DEV-001 and Q-DEV-004 as review evidence for future runtime decisions.
+* Use xref:q-dev-001[Q-DEV-001] and xref:q-dev-004[Q-DEV-004] as review
+  evidence for future runtime decisions.
 
 == Decision or Acceptance
 
