@@ -63,3 +63,5 @@ Use YAML front matter for every source artifact created by this skill.
 - Keep metadata relation targets as stable artifact IDs.
 - Use anchor-based `xref` links in visible prose and tables when referencing a
   documentation artifact.
+- Do not add a new artifact to a hand-written chapter include list. Chapter
+  assembly is generated from artifact metadata and sorted by artifact ID.

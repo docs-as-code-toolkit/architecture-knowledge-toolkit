@@ -88,8 +88,17 @@ Document the outcome as a PRD (Problem, Objectives, Personas, Success Criteria, 
 ## Architecture Documentation
 
 The architecture documentation follows arc42. Use the templates from https://github.com/arc42/arc42-template/raw/master/dist/arc42-template-DE-withhelp-asciidoc.zip and place them in `src/docs/`, rather than reproducing the chapter structure here – the help text for each chapter serves as its structural specification, which the process fills in and subsequently replaces.
-For each chapter, create a subfolder with the chapter’s name, within a file is created for each aspect, following the template for that chapter. The main pages of each chapter remain unchanged.
-On the main page of each chapter, we want a brief summary of the content created, written in clear, concise language, and a table with links to every individual page within the chapter.
+For each chapter, create a subfolder with the chapter’s name, within a file is created for each aspect, following the template for that chapter.
+Chapter main pages keep stable metadata, an explicit anchor, and a concise
+chapter summary. Navigation should use native AsciiDoc `:toc:` behavior rather
+than hand-written tables of links. Chapter main pages should include one
+generated chapter include fragment instead of manually listing every detail
+document. The generated fragment is derived output, sorted by artifact ID, and
+is regenerated whenever source artifacts change. Do not manually maintain
+chapter detail include lists in reviewed source files.
+Generated index fragments, such as ADR, quality scenario, and risk indexes,
+should be included directly where they belong. Do not create reviewed source
+wrapper documents whose only purpose is to include generated index output.
 Every standalone arc42 source document, including chapter pages and detail
 pages, uses YAML front matter that conforms to `metamodel/artifact.schema.yaml`.
 Use `type: Document` unless a more specific supported artifact type applies.
