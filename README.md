@@ -226,6 +226,7 @@ By default, generated files are written below `generated/` directories:
 
 ```text
 src/docs/arc42/generated/traceability-matrix.adoc
+src/docs/arc42/09-architecture-decisions/generated/open-questions.adoc
 src/docs/arc42/09-architecture-decisions/generated/adr-index.adoc
 src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
 src/docs/arc42/10-quality-requirements/generated/quality-scenarios.adoc

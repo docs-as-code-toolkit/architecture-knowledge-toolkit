@@ -66,6 +66,9 @@ exist.
 |===
 | Detail | Description
 
+| xref:open-questions[]
+| Generated index of open architecture-workflow questions.
+
 | xref:adr-index[]
 | Internal ADR index.
 
@@ -84,6 +87,8 @@ exist.
 | xref:adr-005-engine-independent-skills[]
 | Proposed ADR for engine-independent skills and adapter boundaries.
 |===
+
+include::09-architecture-decisions/generated/open-questions.adoc[]
 
 include::09-architecture-decisions/adr-index.adoc[]
 

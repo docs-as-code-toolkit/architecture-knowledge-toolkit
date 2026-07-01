@@ -82,6 +82,29 @@ class ValidateMetamodelTest < Minitest::Test
     assert_includes first, '| accepted'
   end
 
+  def test_open_questions_index_output_is_deterministic
+    generator = OpenQuestionsIndexGenerator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('src/docs/arc42')
+    )
+    output_path = ROOT.join('tmp/test-open-questions.adoc')
+
+    first = generator.render(output_path)
+    second = generator.render(output_path)
+
+    assert_equal first, second
+    assert_includes first, '[[open-questions]]'
+    assert_includes first, '== Open Questions'
+    assert_includes first, '| Question | Role | Topic'
+    assert_includes first, 'xref:q-arch-007[Q-ARCH-007]'
+    assert_includes first, '| Architect'
+    assert_includes first, '| Source fragment location'
+    assert_includes first, 'xref:q-arch-008[Q-ARCH-008]'
+    assert_includes first, 'xref:q-dev-005[Q-DEV-005]'
+    assert_includes first, 'xref:q-ops-007[Q-OPS-007]'
+    refute_includes first, 'xref:q-arch-006[Q-ARCH-006]'
+  end
+
   def test_traceability_fragment_includes_outgoing_and_incoming_relations
     validator = MetamodelValidator.new(
       root: ROOT,
