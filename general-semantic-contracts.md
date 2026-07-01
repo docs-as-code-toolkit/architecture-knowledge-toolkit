@@ -1,4 +1,4 @@
-## Contract Model
+## Contract Model <!-- omit from toc -->
 
 This file is the engine-agnostic project contract. It describes how software
 projects should be clarified, built, documented, validated, reviewed, and
@@ -20,28 +20,55 @@ These contracts are product assets. They are useful even without AI because
 they make architecture, documentation, traceability, quality, and delivery
 expectations explicit and reviewable.
 
+## Table of Content <!-- omit from toc -->
+- [New projects](#new-projects)
+- [Specification](#specification)
+- [Requirements Elicitation](#requirements-elicitation)
+- [Architecture Documentation](#architecture-documentation)
+  - [arc42](#arc42)
+  - [Documenting Decisions](#documenting-decisions)
+  - [Cross-Referencing: Static docs as architecture knowledge base](#cross-referencing-static-docs-as-architecture-knowledge-base)
+- [Cross-cutting concepts](#cross-cutting-concepts)
+- [Layer boundaries](#layer-boundaries)
+- [Backlog Management](#backlog-management)
+- [Vertical Slicing](#vertical-slicing)
+- [Next, implement](#next-implement)
+- [Refactoring](#refactoring)
+- [Code quality](#code-quality)
+- [Quality Assurance](#quality-assurance)
+- [Docs-as-Code](#docs-as-code)
+- [Socratic Code Theory Reconstruction](#socratic-code-theory-reconstruction)
+- [Collaboration](#collaboration)
+  - [Concise answer (TLDR)](#concise-answer-tldr)
+  - [Simple explanation (ELI5)](#simple-explanation-eli5)
+  - [Explaining and Teaching](#explaining-and-teaching)
+- [Writing style](#writing-style)
+- [TDD, Hamburg-style](#tdd-hamburg-style)
+- [Strategic Architecture Analysis](#strategic-architecture-analysis)
+
+
 ## New projects
 
 When we start a new project, we need to know the purpose of this project. Therefore we like to have a first version of the following canvases filled out:
 
-- Business Model Canvas (BMC)
-- Value Proposition Canvas (VPC)
+- [Business Model Canvas (BMC)](https://www.strategyzer.com/library/the-business-model-canvas)
+- [Value Proposition Canvas (VPC)](https://www.strategyzer.com/library/the-value-proposition-canvas)
 
 Based on that a vision and mission statement can be created, which is then used to create a product roadmap.
 
 Treat every canvas as a living document, which is updated as the project evolves. The canvases are not a replacement for a PRD, but they help to clarify the purpose of the project and to align the team on the goals.
 
-Write every canvas as a single asciidoc file below src/docs/canvas/, with a unique anchor for each canvas. For example, the BMC is written in `src/docs/canvas/business-model-canvas.adoc` and has the anchor `business-model-canvas`, so that it can be referenced from other documents as `xref:business-model-canvas[]`.
+Write every canvas as a single asciidoc file below src/docs/canvas/, with a unique anchor for each canvas. For example, the BMC is written in [`src/docs/canvas/business-model-canvas.adoc`](/src/docs/canvas/business-model-canvas.adoc) and has the anchor `business-model-canvas`, so that it can be referenced from other documents as `xref:business-model-canvas[]`.
 
-Place the vision and mission statement in `src/docs/vision-mission.adoc` with the anchor `vision-mission`. Place the roadmap in `src/docs/roadmap.adoc` with the anchor `roadmap`. The roadmap is a living document, which is updated as the project evolves.
+Place the vision and mission statement in [`src/docs/vision-mission.adoc`](/src/docs/vision-mission.adoc) with the anchor `vision-mission`. Place the roadmap in `src/docs/roadmap.adoc` with the anchor `roadmap`. The roadmap is a living document, which is updated as the project evolves.
 
 Based on that information, we fill out further canvases, as the [Architecture Inception Canvas](https://canvas.arc42.org/architecture-inception-canvas) and the [https://canvas.arc42.org/architecture-communication-canvas](https://canvas.arc42.org/architecture-communication-canvas). Finally, we also like to have the [Techstack Canvas](https://techstackcanvas.io/) filled out, which is a living document that is updated as the project evolves.
 
 Place every canvas in `src/docs/canvas/` with a unique anchor for each canvas, so that it can be referenced from other documents.
 
-Use `src/docs/questions-and-answers.adoc` as the central discussion document for
+Use [`src/docs/questions-and-answers.adoc`](/src/docs/questions-and-answers.adoc) as the central discussion document for
 open and answered questions that guide product clarification, canvas work, and
-architecture documentation. Keep questions MECE and ask no more than 3 questions
+architecture documentation. Keep questions MECE (Mutually Exclusive, Collectively Exhaustive) and ask no more than 3 questions
 at a time. Keep asking questions until you have fully understood the purpose of
 the project. The Q&A document keeps the stable anchor
 `canvas-questions-and-answers` for compatibility. Every question must have a
@@ -87,6 +114,10 @@ Document the outcome as a PRD (Problem, Objectives, Personas, Success Criteria, 
 
 ## Architecture Documentation
 
+The following sections describe the architecture documentation.
+
+### arc42
+
 The architecture documentation follows arc42. Use the templates from https://github.com/arc42/arc42-template/raw/master/dist/arc42-template-DE-withhelp-asciidoc.zip and place them in `src/docs/`, rather than reproducing the chapter structure here – the help text for each chapter serves as its structural specification, which the process fills in and subsequently replaces.
 For each chapter, create a subfolder with the chapter’s name, within a file is created for each aspect, following the template for that chapter.
 Chapter main pages keep stable metadata, an explicit anchor, and a concise
@@ -123,6 +154,8 @@ unless they become part of the assembled arc42 documentation set.
 Each chapter on context, building blocks and runtime contains at least one diagram.
 Diagrams are created in PlantUML, not in Mermaid; for building blocks, C4 is used via the standard C4-PlantUML library integrated into PlantUML – in the form `!include <C4/...>` (pointy brackets), never via the remote URL `https://` and never via supplied file copies. No generic boxes.
 
+### Documenting Decisions
+
 Decisions are ADRs (Nygard) with a 3-point Pugh matrix (-1/0/+1). ADR titles
 name the decision topic or underlying question, not the selected option; the
 actual decision statement appears in the `Decision` section directly after the
@@ -138,6 +171,8 @@ IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in
 Chapter 11 either adds it there or notes the consequence as explicitly
 accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer
 back to the ADR that adopted them.
+
+### Cross-Referencing: Static docs as architecture knowledge base
 
 Cross-sectional traceability – arc42 templates do not enforce this, so the contract does:
 - Each quality objective from Chapter 1.2 is assigned to a named approach in Chapter 4.
@@ -210,9 +245,9 @@ Refactoring commits must only change the structure. Behavioural changes are made
 ## Code quality
 
 Our code adheres to:
-- the SOLID principles
-- DRY, KISS
-- Ubiquitous Language from Domain-Driven Design (the same terms in the code as in the specification)
+- the [SOLID](https://en.wikipedia.org/wiki/SOLID) principles
+- DRY (Don't Repeat Yourself), KISS (Keep It Simple, Stupid)
+- Ubiquitous Language from Domain-Driven Design (the same terms in the code as in the specification -  use the business language)
 
 ## Quality Assurance
 
@@ -269,15 +304,19 @@ Chapter 10 covers all eight characteristics – mark every entry in Chapter 10 a
 
 - Two-phase workflow: In Phase 1, the tree is constructed; the team answers the open questions; in Phase 2, the documentation is compiled from the tree filled with answers.
 
-## Concise answer (TLDR)
+## Collaboration
+
+The following section describes the basic concepts of collaboration.
+
+### Concise answer (TLDR)
 
 Answers begin with the conclusion (BLUF). Stick to the key points. No filler words, no introduction. Use short sentences, the active voice and no unnecessary words (Strunk & White).
 
-## Simple explanation (ELI5)
+### Simple explanation (ELI5)
 
 Explain complex concepts using simple language and everyday analogies. If you find it difficult to write the explanation, this indicates gaps in your understanding – address these areas first (Feynman Technique).
 
-## Explaining and Teaching
+### Explaining and Teaching
 
 If you’re asked to explain or teach something (including ‘Why does X…?’), act like a teacher engaged in a dialogue, rather than a lecturer giving a talk – your aim is for the learner to be able to apply what they’ve learnt afterwards, not simply for you to have conveyed the information.
 
