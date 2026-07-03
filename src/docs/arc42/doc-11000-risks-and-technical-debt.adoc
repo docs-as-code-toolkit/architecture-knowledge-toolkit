@@ -69,51 +69,10 @@ relations:
 metadata_version: '1.0'
 ---
 = [[risks-and-technical-debt]]Risks And Technical Debt
+:toc:
+:toclevels: 2
 
 This chapter separates architecture risks from technical debt. Risks are
 ordered by derived qualitative priority.
 
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:risks[]
-| Architecture risks.
-
-| xref:technical-debt[]
-| Technical debt.
-
-| xref:r-001-ai-suggestions-as-truth[]
-| Proposed risk for AI suggestions being mistaken for accepted truth.
-
-| xref:r-002-unstable-generated-output[]
-| Proposed risk for unstable generated output.
-
-| xref:r-003-source-fragments-break-rendering[]
-| Proposed risk for reusable source-fragment rendering.
-
-| xref:r-004-heavy-metadata-authoring[]
-| Proposed risk for metadata authoring burden.
-
-| xref:r-005-ruby-seen-as-target-architecture[]
-| Proposed risk for misreading Ruby as target architecture.
-
-| xref:r-006-unclear-adapter-boundaries[]
-| Proposed risk for unclear adapter boundaries.
-|===
-
-include::11-risks-and-technical-debt/doc-11001-risks.adoc[]
-
-include::11-risks-and-technical-debt/doc-11002-technical-debt.adoc[]
-
-include::11-risks-and-technical-debt/r-001-ai-suggestions-as-truth.adoc[leveloffset=+1]
-
-include::11-risks-and-technical-debt/r-002-unstable-generated-output.adoc[leveloffset=+1]
-
-include::11-risks-and-technical-debt/r-003-source-fragments-break-rendering.adoc[leveloffset=+1]
-
-include::11-risks-and-technical-debt/r-004-heavy-metadata-authoring.adoc[leveloffset=+1]
-
-include::11-risks-and-technical-debt/r-005-ruby-seen-as-target-architecture.adoc[leveloffset=+1]
-
-include::11-risks-and-technical-debt/r-006-unclear-adapter-boundaries.adoc[leveloffset=+1]
+include::generated/doc-11000-risks-and-technical-debt-includes.adoc[]
