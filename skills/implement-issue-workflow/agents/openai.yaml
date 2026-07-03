@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Issue Workflow"
+  short_description: "Branch, commit, push, and PR issue work"
+  default_prompt: "Use $implement-issue-workflow to implement issue #123 on an issue branch and open a pull request."
