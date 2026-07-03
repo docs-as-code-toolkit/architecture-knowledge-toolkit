@@ -1,0 +1,22 @@
+---
+id: DOC-09001-adr-index
+type: Document
+title: ADR Index
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for ADR Index.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-09000-architecture-decisions
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/09-architecture-decisions/doc-09001-adr-index.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+include::generated/doc-09001-adr-index.adoc[]

@@ -1,0 +1,23 @@
+---
+id: DOC-01002-requirements-overview
+type: Document
+title: Requirements Overview
+status: draft
+owner: product owner
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Initial scope for private budget management.
+tags:
+- requirements
+relations: []
+metadata_version: '1.0'
+---
+[[requirements-overview]]
+== Requirements Overview
+
+The first increment lets a household member record income and expenses, assign
+categories, define monthly category budgets, and see remaining budget.
+
+Out of scope for the first increment are bank synchronization, shared household
+collaboration, financial advice, and payment execution.

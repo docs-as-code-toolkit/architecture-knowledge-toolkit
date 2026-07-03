@@ -1,0 +1,52 @@
+---
+id: DOC-11002-technical-debt
+type: Document
+title: Technical Debt
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Technical Debt.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-11000-risks-and-technical-debt
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11002-technical-debt.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[technical-debt]]Technical Debt
+
+[cols="1,3,2,3", options="header"]
+|===
+| ID | Debt | Building block | Action
+
+| TD-001
+| The arc42 chapter structure was checked against the official arc42-DE
+help-text template, but the help texts themselves were not copied into the
+repository.
+| Source documentation
+| Reconcile chapter main pages with the official help text if the project later
+wants to keep the full template guidance in source.
+
+| TD-002
+| xref:architecture-decisions[] now contains proposed ADR files, but those ADRs
+are not yet human-reviewed or accepted.
+| Source documentation; templates
+| Review the proposed ADRs, resolve open questions, and accept or reject them.
+
+| TD-003
+| Quality scenarios contain assumed target measures where implementation
+evidence or human confirmation is missing.
+| Source documentation; validation and generation scripts
+| Replace assumptions with measured or reviewed thresholds.
+
+| TD-004
+| Fragment rendering is not yet covered by automated tests.
+| Source documentation; validation and generation scripts
+| Add render checks once target formats beyond initial static HTML stabilize.
+|===

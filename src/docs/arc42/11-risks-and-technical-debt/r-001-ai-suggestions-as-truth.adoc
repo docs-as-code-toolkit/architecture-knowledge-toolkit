@@ -18,10 +18,10 @@ relations:
   evidence: src/docs/arc42/10-quality-requirements/qs-004-ai-suggestion-reviewability.adoc
   reviewed: false
 - type: affects
-  target: DOC-108-crosscutting-concepts
+  target: DOC-08000-crosscutting-concepts
   status: proposed
   rationale: Suggestion status and source-of-truth policy are crosscutting controls.
-  evidence: src/docs/arc42/doc-108-crosscutting-concepts.adoc
+  evidence: src/docs/arc42/doc-08000-crosscutting-concepts.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

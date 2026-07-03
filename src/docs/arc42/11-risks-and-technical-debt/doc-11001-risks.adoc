@@ -1,0 +1,22 @@
+---
+id: DOC-11001-risks
+type: Document
+title: Risks
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Risks.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-11000-risks-and-technical-debt
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11001-risks.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+include::generated/doc-11001-risks.adoc[]

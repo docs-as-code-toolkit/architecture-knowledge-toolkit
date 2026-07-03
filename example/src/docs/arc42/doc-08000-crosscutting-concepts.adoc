@@ -1,0 +1,50 @@
+---
+id: DOC-08000-crosscutting-concepts
+type: Document
+title: Crosscutting Concepts
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Threat model, security, testing, observability, and error handling.
+tags:
+- arc42
+- concepts
+relations:
+- type: addresses
+  target: R-001-private-data-exposure
+  status: proposed
+  rationale: Security and privacy controls mitigate personal data exposure.
+  evidence: src/docs/arc42/doc-08000-crosscutting-concepts.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[crosscutting-concepts]]
+= Crosscutting Concepts
+
+== Threat Model
+
+STRIDE threats start with unauthorized access to personal spending data,
+tampering with transactions, and denial of service during synchronization.
+
+== Security
+
+The first increment uses authenticated API access, server-side authorization,
+password hashing, transport encryption, and minimal data collection.
+
+== Testing
+
+Service-level tests cover budget rules behind the public API. Client tests cover
+form validation and offline queue behavior.
+
+== Observability
+
+Backend logs include request IDs, sync attempts, validation failures, and
+conflict outcomes without logging personal transaction descriptions.
+
+== Error Handling
+
+The mobile app retries syncable failures, shows non-syncable conflicts, and
+keeps pending commands until the backend confirms persistence.
+

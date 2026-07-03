@@ -15,13 +15,13 @@ relations:
   target: QS-003-reusable-fragments-render
   status: proposed
   rationale: A stable source-fragment location supports repeatable include paths and render checks.
-  evidence: src/docs/arc42/08-crosscutting-concepts/doc-217-source-fragments.adoc
+  evidence: src/docs/arc42/08-crosscutting-concepts/doc-08006-source-fragments.adoc
   reviewed: false
 - type: introduces_risk
   target: R-003-source-fragments-break-rendering
   status: proposed
   rationale: Central reusable fragments can affect several rendered documents when a fragment is malformed.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11001-risks.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

@@ -12,91 +12,91 @@ tags:
 - arc42
 relations:
 - type: documents
-  target: DOC-101-introduction-and-goals
+  target: DOC-01000-introduction-and-goals
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-102-architecture-constraints
+  target: DOC-02000-architecture-constraints
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-103-system-scope-and-context
+  target: DOC-03000-system-scope-and-context
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-104-solution-strategy
+  target: DOC-04000-solution-strategy
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-105-building-block-view
+  target: DOC-05000-building-block-view
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-106-runtime-view
+  target: DOC-06000-runtime-view
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-107-deployment-view
+  target: DOC-07000-deployment-view
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-108-crosscutting-concepts
+  target: DOC-08000-crosscutting-concepts
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-109-architecture-decisions
+  target: DOC-09000-architecture-decisions
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-110-quality-requirements
+  target: DOC-10000-quality-requirements
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-111-risks-and-technical-debt
+  target: DOC-11000-risks-and-technical-debt
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-112-glossary
+  target: DOC-12000-glossary
   status: proposed
   rationale: The arc42 overview includes this chapter in the complete architecture
     documentation.
   evidence: src/docs/doc-001-arc42.adoc
   reviewed: false
 - type: documents
-  target: DOC-113-appendix
+  target: DOC-13000-appendix
   status: proposed
   rationale: The arc42 overview includes this appendix in the complete architecture
     documentation.
@@ -156,28 +156,28 @@ include::fragments/architecture/open-arc42-notes.adoc[]
 | Appendix with central questions and answers.
 |===
 
-include::arc42/doc-101-introduction-and-goals.adoc[leveloffset=+1]
+include::arc42/doc-01000-introduction-and-goals.adoc[leveloffset=+1]
 
-include::arc42/doc-102-architecture-constraints.adoc[leveloffset=+1]
+include::arc42/doc-02000-architecture-constraints.adoc[leveloffset=+1]
 
-include::arc42/doc-103-system-scope-and-context.adoc[leveloffset=+1]
+include::arc42/doc-03000-system-scope-and-context.adoc[leveloffset=+1]
 
-include::arc42/doc-104-solution-strategy.adoc[leveloffset=+1]
+include::arc42/doc-04000-solution-strategy.adoc[leveloffset=+1]
 
-include::arc42/doc-105-building-block-view.adoc[leveloffset=+1]
+include::arc42/doc-05000-building-block-view.adoc[leveloffset=+1]
 
-include::arc42/doc-106-runtime-view.adoc[leveloffset=+1]
+include::arc42/doc-06000-runtime-view.adoc[leveloffset=+1]
 
-include::arc42/doc-107-deployment-view.adoc[leveloffset=+1]
+include::arc42/doc-07000-deployment-view.adoc[leveloffset=+1]
 
-include::arc42/doc-108-crosscutting-concepts.adoc[leveloffset=+1]
+include::arc42/doc-08000-crosscutting-concepts.adoc[leveloffset=+1]
 
-include::arc42/doc-109-architecture-decisions.adoc[leveloffset=+1]
+include::arc42/doc-09000-architecture-decisions.adoc[leveloffset=+1]
 
-include::arc42/doc-110-quality-requirements.adoc[leveloffset=+1]
+include::arc42/doc-10000-quality-requirements.adoc[leveloffset=+1]
 
-include::arc42/doc-111-risks-and-technical-debt.adoc[leveloffset=+1]
+include::arc42/doc-11000-risks-and-technical-debt.adoc[leveloffset=+1]
 
-include::arc42/doc-112-glossary.adoc[leveloffset=+1]
+include::arc42/doc-12000-glossary.adoc[leveloffset=+1]
 
-include::arc42/doc-113-appendix.adoc[leveloffset=+1]
+include::arc42/doc-13000-appendix.adoc[leveloffset=+1]

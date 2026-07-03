@@ -21,7 +21,7 @@ relations:
   target: R-002-unstable-generated-output
   status: proposed
   rationale: Avoiding committed generated output reduces merge noise from generated diffs.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11001-risks.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

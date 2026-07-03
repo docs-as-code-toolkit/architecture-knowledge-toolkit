@@ -1,0 +1,97 @@
+---
+id: DOC-05001-level-1
+type: Document
+title: Level 1
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Level 1.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-05000-building-block-view
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/05-building-block-view/doc-05001-level-1.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[level-1]]Level 1
+
+[plantuml,arc42-building-block-level-1,svg]
+----
+@startuml
+!include <C4/C4_Container>
+
+Person(architect, "Individual architect", "Uses the toolkit to create and evolve architecture documentation.")
+System_Boundary(toolkit, "Architecture Knowledge Toolkit") {
+  Container(sourceDocs, "Source documentation", "AsciiDoc", "Canvases, dogfood arc42 docs, concepts, and reusable source fragments.")
+  Container(metamodel, "Metamodel schemas", "YAML schema", "Artifact and relation metadata rules.")
+  Container(templates, "Templates", "AsciiDoc", "Reusable templates for architecture artifacts.")
+  Container(skills, "AI skills", "Markdown instructions", "Engine-independent architecture workflows.")
+  Container(scripts, "Validation and generation scripts", "Ruby currently", "Validate metadata and create deterministic generated views.")
+  Container(adapters, "Adapters", "Markdown and integration files", "Runtime-specific AI integration guidance.")
+}
+System_Ext(aiRuntime, "AI runtime", "Suggests architecture content.")
+System_Ext(ci, "CI/CD", "Runs validation, generation, and publication.")
+System_Ext(publishing, "Publication target", "Publishes generated documentation.")
+
+Rel(architect, sourceDocs, "Authors and reviews")
+Rel(sourceDocs, metamodel, "Uses metadata rules from")
+Rel(sourceDocs, templates, "Is created from")
+Rel(skills, sourceDocs, "Suggests updates to")
+Rel(adapters, skills, "Invokes or adapts")
+Rel(scripts, sourceDocs, "Reads")
+Rel(scripts, metamodel, "Validates against")
+Rel(scripts, publishing, "Produces derived docs for")
+Rel(ci, scripts, "Runs")
+Rel(aiRuntime, adapters, "Connects through")
+@enduml
+----
+
+[cols="1,2,2,2,2", options="header"]
+|===
+| Building block | Responsibility | Interface | Storage location | Affected by
+
+| Source documentation
+| Holds reviewed source knowledge and reusable source fragments.
+| AsciiDoc files, `include::[]`, anchors, and xrefs.
+| `src/docs/`, `docs/`.
+| Chapters 1, 2, 3, 4, 8, 10, 11.
+
+| Metamodel schemas
+| Define artifact metadata and relation semantics.
+| YAML schemas and validator-readable relation definitions.
+| `metamodel/`.
+| Chapters 2, 4, 8, 9, 10, 11.
+
+| Templates
+| Provide repeatable artifact authoring structure.
+| AsciiDoc templates copied or adapted by users.
+| `templates/`.
+| Chapters 1, 4, 8, 9, 10, 11.
+
+| AI skills
+| Guide AI-assisted artifact drafting and review.
+| Markdown skill instructions and referenced files.
+| `skills/`.
+| Chapters 2, 4, 8, 9, 10, 11.
+
+| Validation and generation scripts
+| Validate source metadata and create deterministic generated views.
+| Command-line invocation.
+| `scripts/`.
+| Chapters 2, 4, 7, 8, 10, 11.
+
+| Adapters
+| Isolate engine-specific runtime integration.
+| Adapter-specific README and integration notes.
+| `adapters/`.
+| Chapters 2, 3, 4, 8.
+|===
+
+Open refinement: level 2 views should be added when implementation grows beyond
+the current validator/generator walking skeleton.

@@ -1,0 +1,44 @@
+---
+id: DOC-06000-runtime-view
+type: Document
+title: Runtime View
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Runtime scenarios for expense capture, budget review, and sync recovery.
+tags:
+- arc42
+- runtime
+relations: []
+metadata_version: '1.0'
+---
+[[runtime-view]]
+= Runtime View
+
+== Expense Entry
+
+[plantuml,expense-entry-runtime,png]
+----
+@startuml
+actor User
+participant "Mobile App" as App
+participant "Backend API" as Api
+participant "Budget Domain" as Domain
+database "Database" as Db
+User -> App: Enter expense
+App -> Api: POST /transactions
+Api -> Domain: Validate and record
+Domain -> Db: Store transaction
+Domain --> Api: Updated budget summary
+Api --> App: 201 Created
+@enduml
+----
+
+== Sync Recovery
+
+When the mobile app is offline, it stores pending expense commands locally and
+replays them after connectivity returns. Conflicts are reported to the user
+instead of silently overwriting server data.
+

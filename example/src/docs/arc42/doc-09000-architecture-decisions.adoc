@@ -1,0 +1,43 @@
+---
+id: DOC-09000-architecture-decisions
+type: Document
+title: Architecture Decisions
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Proposed ADRs for the Private Budget architecture.
+tags:
+- arc42
+- decisions
+relations:
+- type: documents
+  target: ADR-001-backend-api-boundary
+  status: proposed
+  rationale: The chapter contains this ADR.
+  evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
+  reviewed: false
+- type: documents
+  target: ADR-002-mobile-local-first-entry
+  status: proposed
+  rationale: The chapter contains this ADR.
+  evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
+  reviewed: false
+- type: documents
+  target: ADR-003-server-owned-budget-calculation
+  status: proposed
+  rationale: The chapter contains this ADR.
+  evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[architecture-decisions]]
+= Architecture Decisions
+
+include::09-architecture-decisions/generated/doc-09001-adr-index.adoc[]
+include::09-architecture-decisions/adr-001-backend-api-boundary.adoc[]
+include::09-architecture-decisions/adr-002-mobile-local-first-entry.adoc[]
+include::09-architecture-decisions/adr-003-server-owned-budget-calculation.adoc[]
+include::09-architecture-decisions/generated/open-questions.adoc[]
+

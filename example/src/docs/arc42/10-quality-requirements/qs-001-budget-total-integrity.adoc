@@ -12,10 +12,10 @@ tags:
 - integrity
 relations:
 - type: refines
-  target: DOC-202-quality-goals
+  target: DOC-01001-quality-goals
   status: proposed
   rationale: The scenario concretizes QG-002 Data integrity.
-  evidence: src/docs/arc42/01-introduction-and-goals/doc-201-quality-goals.adoc
+  evidence: src/docs/arc42/01-introduction-and-goals/doc-01001-quality-goals.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

@@ -77,7 +77,7 @@ link to the question with `xref:` and the explicit question anchor. For example,
 the BMC question about the key partners is placed in the Q&A file with the
 anchor `bmc-key-partners` and linked as `xref:bmc-key-partners[]`.
 Include `src/docs/doc-005-questions-and-answers.adoc` from
-`src/docs/arc42/doc-113-appendix.adoc` so open and answered questions are part of the
+`src/docs/arc42/doc-13000-appendix.adoc` so open and answered questions are part of the
 assembled architecture documentation. Keep the Q&A document itself free of YAML
 front matter unless the project explicitly promotes questions to first-class
 architecture artifacts; otherwise the appendix carries the standalone artifact
@@ -143,11 +143,22 @@ The filename of every standalone source artifact or standalone AsciiDoc
 document with an `:id:` attribute must match its stable artifact ID: lowercase
 the `id`, replace non-alphanumeric separators with `-`, trim leading and
 trailing dashes, and add `.adoc`. For example,
-`DOC-109-architecture-decisions` is stored as
-`doc-109-architecture-decisions.adoc`, and
+`DOC-09000-architecture-decisions` is stored as
+`doc-09000-architecture-decisions.adoc`, and
 `ADR-001-asciidoc-primary-source` is stored as
 `adr-001-asciidoc-primary-source.adoc`. Do not add a second title or chapter
 number to the filename.
+DOC artifact IDs inside arc42 use decimal classification without dot
+separators. The first two digits are the structural directory or arc42 chapter
+number, and the last three digits are the local sequence inside that class.
+Chapter overview documents use local sequence `000`, for example
+`DOC-01000-introduction-and-goals`. Detail documents inside a numbered chapter
+directory start at `001`, for example
+`DOC-01001-quality-goals` in `src/docs/arc42/01-introduction-and-goals/` and
+`DOC-02001-documentation-constraints` in
+`src/docs/arc42/02-architecture-constraints/`. Artifact types with their own
+classification, such as ADRs, quality scenarios, and risks, keep their own ID
+schemes and are ordered by their chapter location.
 Traceability between arc42 source documents is captured in `relations` using
 stable artifact IDs and relation types from `metamodel/relations.schema.yaml`.
 Render AsciiDoc sources with YAML front matter using the Asciidoctor
@@ -287,8 +298,8 @@ Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Mü
   letters. Anchors must start with a lowercase letter and must not contain
   spaces or punctuation other than hyphens; digits are reserved for stable
   artifact identifiers, not chapter ordering. For example, the artifact
-  `DOC-109-architecture-decisions` is stored as
-  `src/docs/arc42/doc-109-architecture-decisions.adoc`; it has the anchor
+  `DOC-09000-architecture-decisions` is stored as
+  `src/docs/arc42/doc-09000-architecture-decisions.adoc`; it has the anchor
   `architecture-decisions`, and the xref link is
   `xref:architecture-decisions[]`.
 

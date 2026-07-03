@@ -100,18 +100,18 @@ $defs:
 examples:
   - relations:
       - id: REL-001-adr-index-refines-decisions
-        source: DOC-220-adr-index
+        source: DOC-09001-adr-index
         type: refines
-        target: DOC-109-architecture-decisions
+        target: DOC-09000-architecture-decisions
         status: proposed
         rationale: The ADR index detail page elaborates the arc42 architecture decisions chapter.
-        evidence: src/docs/arc42/09-architecture-decisions/doc-220-adr-index.adoc
+        evidence: src/docs/arc42/09-architecture-decisions/doc-09001-adr-index.adoc
         reviewed: false
       - id: REL-002-risks-refines-risk-chapter
-        source: DOC-223-risks
+        source: DOC-11001-risks
         type: refines
-        target: DOC-111-risks-and-technical-debt
+        target: DOC-11000-risks-and-technical-debt
         status: proposed
         rationale: The risks detail page elaborates the arc42 risks and technical debt chapter.
-        evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
+        evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11001-risks.adoc
         reviewed: false

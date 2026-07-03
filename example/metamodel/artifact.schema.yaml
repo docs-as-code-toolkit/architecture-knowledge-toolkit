@@ -21,8 +21,8 @@ properties:
     pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
     examples:
       - DOC-001-arc42
-      - DOC-109-architecture-decisions
-      - DOC-220-adr-index
+      - DOC-09000-architecture-decisions
+      - DOC-09001-adr-index
   type:
     type: string
     description: Supported architecture artifact type.
@@ -92,7 +92,7 @@ properties:
     type: string
     default: "1.0"
 examples:
-  - id: DOC-220-adr-index
+  - id: DOC-09001-adr-index
     type: Document
     title: ADR Index
     status: draft
@@ -103,6 +103,6 @@ examples:
       - arc42
     relations:
       - type: refines
-        target: DOC-109-architecture-decisions
+        target: DOC-09000-architecture-decisions
         status: proposed
         rationale: This detail page elaborates the corresponding arc42 chapter.

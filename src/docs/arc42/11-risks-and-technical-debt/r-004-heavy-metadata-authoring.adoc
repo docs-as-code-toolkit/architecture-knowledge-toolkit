@@ -18,10 +18,10 @@ relations:
   evidence: src/docs/arc42/10-quality-requirements/qs-002-missing-relation-target-validation.adoc
   reviewed: false
 - type: affects
-  target: DOC-208-strategy-overview
+  target: DOC-04002-strategy-overview
   status: proposed
   rationale: Walking-skeleton adoption limits the first slice to a useful, manageable workflow.
-  evidence: src/docs/arc42/04-solution-strategy/doc-208-strategy-overview.adoc
+  evidence: src/docs/arc42/04-solution-strategy/doc-04002-strategy-overview.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

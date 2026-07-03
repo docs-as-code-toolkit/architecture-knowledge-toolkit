@@ -15,19 +15,19 @@ relations:
   target: QS-005-adapter-boundary
   status: proposed
   rationale: Adapter isolation is the quality scenario's main expected outcome.
-  evidence: src/docs/arc42/10-quality-requirements/doc-221-quality-scenarios.adoc
+  evidence: src/docs/arc42/10-quality-requirements/doc-10001-quality-scenarios.adoc
   reviewed: false
 - type: mitigates
   target: R-006-unclear-adapter-boundaries
   status: proposed
   rationale: A clear adapter boundary reduces ambiguity while engine-specific behavior is still being learned.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-11001-risks.adoc
   reviewed: false
 - type: constrains
-  target: DOC-205-technology-constraints
+  target: DOC-02002-technology-constraints
   status: proposed
   rationale: The technology constraints state that engine-specific behavior belongs under adapters.
-  evidence: src/docs/arc42/02-architecture-constraints/doc-205-technology-constraints.adoc
+  evidence: src/docs/arc42/02-architecture-constraints/doc-02002-technology-constraints.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

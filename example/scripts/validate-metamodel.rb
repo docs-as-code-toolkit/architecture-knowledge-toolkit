@@ -35,6 +35,7 @@ class MetamodelValidator
     artifacts = scan_artifacts
     validate_artifacts(artifacts)
     validate_filename_matches_id(artifacts)
+    validate_decimal_classification(artifacts)
     validate_unique_ids(artifacts)
     validate_relations(artifacts, relation_types, relation_keys)
     detect_bidirectional_relations(artifacts)
@@ -140,6 +141,33 @@ class MetamodelValidator
       next if actual == expected
 
       @warnings << "#{relative(artifact.path)} filename should be '#{expected}' to match artifact id '#{id}'"
+    end
+  end
+
+  def validate_decimal_classification(artifacts)
+    artifacts.each do |artifact|
+      id = artifact.document_id
+      next unless id&.start_with?('DOC-')
+
+      arc42_relative = arc42_relative_path(artifact.path)
+      next unless arc42_relative
+
+      parts = arc42_relative.each_filename.to_a
+      if parts.length == 1
+        expected_chapter = chapter_from_root_filename(parts.first)
+        next unless expected_chapter
+
+        expected_prefix = "DOC-#{expected_chapter}000-"
+        next if id.start_with?(expected_prefix)
+
+        @warnings << "#{relative(artifact.path)} artifact id should start with '#{expected_prefix}' for arc42 chapter #{expected_chapter}"
+      elsif parts.first =~ /\A(\d{2})-/
+        chapter = Regexp.last_match(1)
+        expected_prefix = "DOC-#{chapter}"
+        next if id =~ /\ADOC-#{chapter}\d{3}-/ && !id.start_with?("DOC-#{chapter}000-")
+
+        @warnings << "#{relative(artifact.path)} artifact id should start with '#{expected_prefix}' plus a three-digit local sequence greater than 000"
+      end
     end
   end
 
@@ -264,6 +292,27 @@ class MetamodelValidator
       .downcase
       .gsub(/[^a-z0-9]+/, '-')
       .gsub(/\A-+|-+\z/, '')
+  end
+
+  def arc42_relative_path(path)
+    expanded = path.expand_path
+    @docs_paths.each do |docs_path|
+      base = docs_path.directory? ? docs_path : docs_path.dirname
+      arc42 = base.basename.to_s == 'arc42' ? base : base.join('arc42')
+      next unless expanded.to_s.start_with?("#{arc42.expand_path}/")
+
+      return expanded.relative_path_from(arc42.expand_path)
+    end
+    nil
+  rescue ArgumentError
+    nil
+  end
+
+  def chapter_from_root_filename(filename)
+    return Regexp.last_match(1) if filename =~ /\Adoc-(\d{2})000-/
+    return Regexp.last_match(1) if filename =~ /\Adoc-(\d{2})\d{3}-/
+
+    nil
   end
 
   def relative(path)
@@ -407,7 +456,7 @@ end
 class ArtifactIndexGenerator
   INDEX_DEFINITIONS = {
     'ADR' => {
-      output: '09-architecture-decisions/generated/doc-220-adr-index.adoc',
+      output: '09-architecture-decisions/generated/doc-09001-adr-index.adoc',
       anchor: 'adr-index',
       title: 'ADR Index',
       cols: '1,2,1,3',
@@ -423,7 +472,7 @@ class ArtifactIndexGenerator
       end
     },
     'QualityScenario' => {
-      output: '10-quality-requirements/generated/doc-221-quality-scenarios.adoc',
+      output: '10-quality-requirements/generated/doc-10001-quality-scenarios.adoc',
       anchor: 'quality-scenarios',
       title: 'Quality Scenarios',
       cols: '1,1,2,2,2,2,2,2',
@@ -443,7 +492,7 @@ class ArtifactIndexGenerator
       end
     },
     'Risk' => {
-      output: '11-risks-and-technical-debt/generated/doc-223-risks.adoc',
+      output: '11-risks-and-technical-debt/generated/doc-11001-risks.adoc',
       anchor: 'risks',
       title: 'Risks',
       cols: '1,3,1,1,1,3',

@@ -91,6 +91,38 @@ class ValidateMetamodelTest < Minitest::Test
     FileUtils.rm_rf(temp_dir) if temp_dir
   end
 
+  def test_decimal_classification_warning_for_arc42_detail_document
+    temp_dir = ROOT.join('tmp/test-decimal-classification')
+    docs_dir = temp_dir.join('src/docs')
+    chapter_dir = docs_dir.join('arc42/02-architecture-constraints')
+    FileUtils.mkdir_p(chapter_dir)
+    artifact_path = chapter_dir.join('doc-99001-wrong-class.adoc')
+    artifact_path.write(<<~ADOC)
+      ---
+      id: DOC-99001-wrong-class
+      type: Document
+      title: Wrong Class
+      status: draft
+      owner: test
+      created: 2026-07-03
+      ---
+      [[wrong-class]]
+      = Wrong Class
+    ADOC
+
+    validator = MetamodelValidator.new(
+      root: temp_dir,
+      docs_dir: docs_dir,
+      relations_schema: SCHEMA
+    )
+
+    validator.validate
+
+    assert_includes validator.warnings.join("\n"), "artifact id should start with 'DOC-02' plus a three-digit local sequence greater than 000"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
   def test_traceability_matrix_output_is_deterministic
     validator = MetamodelValidator.new(
       root: ROOT,
@@ -126,7 +158,7 @@ class ValidateMetamodelTest < Minitest::Test
       docs_dir: ROOT.join('test/fixtures/valid')
     )
     definition = ArtifactIndexGenerator::INDEX_DEFINITIONS.fetch('ADR')
-    output_path = ROOT.join('tmp/test-doc-220-adr-index.adoc')
+    output_path = ROOT.join('tmp/test-doc-09001-adr-index.adoc')
 
     first = generator.render(artifacts, definition, output_path)
     second = generator.render(artifacts, definition, output_path)
@@ -199,7 +231,7 @@ class ValidateMetamodelTest < Minitest::Test
     artifacts_by_id = artifacts.each_with_object({}) { |artifact, index| index[artifact.metadata['id']] = artifact }
     incoming = [
       {
-        'source' => 'DOC-109-architecture-decisions',
+        'source' => 'DOC-09000-architecture-decisions',
         'type' => 'documents',
         'target' => 'ADR-001-asciidoc-primary-source',
         'status' => 'proposed'
@@ -218,7 +250,7 @@ class ValidateMetamodelTest < Minitest::Test
       output_path
     )
 
-    assert_includes content, 'xref:architecture-decisions[DOC-109-architecture-decisions]'
+    assert_includes content, 'xref:architecture-decisions[DOC-09000-architecture-decisions]'
     refute_includes content, 'xref:09-architecture-decisions'
   end
 

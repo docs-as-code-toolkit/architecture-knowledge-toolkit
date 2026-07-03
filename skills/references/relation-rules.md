@@ -1,6 +1,6 @@
 # Relation Rules
 
-Treat `src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` as the maintained
+Treat `src/docs/arc42/04-solution-strategy/doc-04001-metamodel.adoc` as the maintained
 source for relationship semantics. Use this file as task-level guidance, not as
 a competing schema or contract.
 

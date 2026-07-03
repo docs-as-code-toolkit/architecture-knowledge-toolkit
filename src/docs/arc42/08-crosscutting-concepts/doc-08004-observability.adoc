@@ -1,0 +1,46 @@
+---
+id: DOC-08004-observability
+type: Document
+title: Observability
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Observability.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-08000-crosscutting-concepts
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/08-crosscutting-concepts/doc-08004-observability.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[observability]]Observability
+
+The toolkit should make automation outcomes inspectable without becoming a
+service that requires production telemetry.
+
+[cols="1,3", options="header"]
+|===
+| Signal | Expected behavior
+
+| Validation output
+| Reports missing metadata, duplicate IDs, unknown relation types, and broken
+targets with actionable messages.
+
+| Generation output
+| Reports created derived files and avoids meaningful diffs when inputs do not
+change.
+
+| CI logs
+| Show the same validation and generation result that contributors can
+reproduce locally.
+
+| Audit trail
+| Pull-request history records the human review that turns suggestions into
+accepted source.
+|===

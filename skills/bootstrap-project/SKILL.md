@@ -86,7 +86,7 @@ order:
 
 Read `general-semantic-contracts.md` before creating or changing architecture
 content when it is available from the toolkit or the target repository.
-Read `src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` before creating,
+Read `src/docs/arc42/04-solution-strategy/doc-04001-metamodel.adoc` before creating,
 copying, or adapting artifact metadata, artifact types, lifecycle states,
 relation semantics, metamodel schemas, validators, or generator inputs when it
 is available from the toolkit or the target repository.
@@ -163,30 +163,30 @@ src/docs/
 |   |-- product/
 |   `-- architecture/
 `-- arc42/
-    |-- doc-101-introduction-and-goals.adoc
+    |-- doc-01000-introduction-and-goals.adoc
     |-- 01-introduction-and-goals/
-    |-- doc-102-architecture-constraints.adoc
+    |-- doc-02000-architecture-constraints.adoc
     |-- 02-architecture-constraints/
-    |-- doc-103-system-scope-and-context.adoc
+    |-- doc-03000-system-scope-and-context.adoc
     |-- 03-system-scope-and-context/
-    |-- doc-104-solution-strategy.adoc
+    |-- doc-04000-solution-strategy.adoc
     |-- 04-solution-strategy/
-    |-- doc-105-building-block-view.adoc
+    |-- doc-05000-building-block-view.adoc
     |-- 05-building-block-view/
-    |-- doc-106-runtime-view.adoc
+    |-- doc-06000-runtime-view.adoc
     |-- 06-runtime-view/
-    |-- doc-107-deployment-view.adoc
+    |-- doc-07000-deployment-view.adoc
     |-- 07-deployment-view/
-    |-- doc-108-crosscutting-concepts.adoc
+    |-- doc-08000-crosscutting-concepts.adoc
     |-- 08-crosscutting-concepts/
-    |-- doc-109-architecture-decisions.adoc
+    |-- doc-09000-architecture-decisions.adoc
     |-- 09-architecture-decisions/
-    |-- doc-110-quality-requirements.adoc
+    |-- doc-10000-quality-requirements.adoc
     |-- 10-quality-requirements/
-    |-- doc-111-risks-and-technical-debt.adoc
+    |-- doc-11000-risks-and-technical-debt.adoc
     |-- 11-risks-and-technical-debt/
-    |-- doc-112-glossary.adoc
-    `-- doc-113-appendix.adoc
+    |-- doc-12000-glossary.adoc
+    `-- doc-13000-appendix.adoc
 ```
 
 Chapter main pages keep stable YAML front matter, an explicit AsciiDoc anchor,
@@ -215,7 +215,7 @@ Create these draft source files when missing:
 - `src/docs/doc-005-questions-and-answers.adoc`
 
 Include `src/docs/doc-005-questions-and-answers.adoc` from
-`src/docs/arc42/doc-113-appendix.adoc` with `include::../doc-005-questions-and-answers.adoc[leveloffset=+1]`.
+`src/docs/arc42/doc-13000-appendix.adoc` with `include::../doc-005-questions-and-answers.adoc[leveloffset=+1]`.
 The Q&A source remains the central discussion document and normally has no YAML
 front matter; the appendix carries the standalone artifact metadata for the
 assembled architecture documentation. Still give every standalone inception
@@ -245,8 +245,16 @@ make each chapter an addressable source artifact with:
 - `reviewed: false` unless reviewed source evidence says otherwise.
 - Stable `id`, `title`, `owner`, `summary`, `tags`, and outgoing `relations`.
 - A filename that exactly matches the normalized artifact ID, such as
-  `doc-109-architecture-decisions.adoc` for
-  `DOC-109-architecture-decisions`.
+  `doc-01001-quality-goals.adoc` for `DOC-01001-quality-goals`.
+- DOC IDs inside arc42 follow decimal classification without dot separators:
+  the first two digits are the structural directory or arc42 chapter, and the
+  last three digits are the local sequence. Chapter overview pages use local
+  sequence `000`; documents inside the numbered chapter directory start at
+  `001`, such as `DOC-02001-documentation-constraints` in
+  `src/docs/arc42/02-architecture-constraints/`.
+- Keep ADRs, quality scenarios, risks, and other artifact types with their own
+  classification schemes in their chapter directories instead of renumbering
+  them as DOC artifacts.
 - An explicit lowercase AsciiDoc anchor without numeric chapter prefixes, such
   as `[[architecture-decisions]]`, not `[[09-architecture-decisions]]`.
 - Generator input metadata that is sufficient to regenerate chapter include
@@ -344,7 +352,7 @@ artifact templates.
 - Every standalone source artifact filename matches the normalized artifact ID.
 - ADRs, quality scenarios, and risks live under the corresponding arc42 chapter
   directories, not in a separate Markdown-only structure.
-- `src/docs/arc42/doc-113-appendix.adoc` includes
+- `src/docs/arc42/doc-13000-appendix.adoc` includes
   `src/docs/doc-005-questions-and-answers.adoc`.
 - AI-created content is `draft` or `proposed` and `reviewed: false`.
 - Visible links use explicit `xref:` anchors.

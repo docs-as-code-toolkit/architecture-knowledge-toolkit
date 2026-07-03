@@ -19,13 +19,13 @@ Expect the following structure using [arc42](https://github.com/arc42/arc42-temp
 │   └── arc42/
 ```
 
-Create files lazily — only when you have something to write. If no `docs/arc42/12-glossary/doc-225-terms.adoc` exists, create one when the first term is resolved. If no `docs/arc42/09-architecture-decisions/` exists, create it when the first ADR is needed.
+Create files lazily — only when you have something to write. If no `docs/arc42/12-glossary/doc-12001-terms.adoc` exists, create one when the first term is resolved. If no `docs/arc42/09-architecture-decisions/` exists, create it when the first ADR is needed.
 
 ## During the session
 
 ### Challenge against the glossary
 
-When the user uses a term that conflicts with the existing language in `docs/arc42/12-glossary/doc-225-terms.adoc`, call it out immediately. "Your ubiquitous language and glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
+When the user uses a term that conflicts with the existing language in `docs/arc42/12-glossary/doc-12001-terms.adoc`, call it out immediately. "Your ubiquitous language and glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
 
 ### Sharpen fuzzy language
 
@@ -57,6 +57,6 @@ To create an ADR use the `/adr` skill.
 
 When domain-modeling work creates or changes arc42 source artifacts, ADRs,
 glossary documents, relations, or other architecture metadata, read and apply
-`../../src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` when it is available.
+`../../src/docs/arc42/04-solution-strategy/doc-04001-metamodel.adoc` when it is available.
 Keep metadata and relation semantics aligned with the architecture metamodel
 instead of inventing local conventions.

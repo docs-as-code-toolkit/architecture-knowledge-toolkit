@@ -241,11 +241,11 @@ By default, generated files are written below `generated/` directories:
 src/docs/arc42/generated/traceability-matrix.adoc
 src/docs/arc42/**/generated/*-includes.adoc
 src/docs/arc42/09-architecture-decisions/generated/open-questions.adoc
-src/docs/arc42/09-architecture-decisions/generated/doc-220-adr-index.adoc
+src/docs/arc42/09-architecture-decisions/generated/doc-09001-adr-index.adoc
 src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
-src/docs/arc42/10-quality-requirements/generated/doc-221-quality-scenarios.adoc
+src/docs/arc42/10-quality-requirements/generated/doc-10001-quality-scenarios.adoc
 src/docs/arc42/10-quality-requirements/generated/*-traceability.adoc
-src/docs/arc42/11-risks-and-technical-debt/generated/doc-223-risks.adoc
+src/docs/arc42/11-risks-and-technical-debt/generated/doc-11001-risks.adoc
 src/docs/arc42/11-risks-and-technical-debt/generated/*-traceability.adoc
 ```
 

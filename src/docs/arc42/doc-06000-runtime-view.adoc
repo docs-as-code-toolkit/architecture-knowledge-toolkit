@@ -1,0 +1,64 @@
+---
+id: DOC-06000-runtime-view
+type: Document
+title: Runtime View
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Runtime View.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This chapter contributes one arc42 section to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/doc-06000-runtime-view.adoc
+  reviewed: false
+- type: documents
+  target: DOC-06001-setup-workflow
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-06000-runtime-view.adoc
+  reviewed: false
+- type: documents
+  target: DOC-06002-validation-generation
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-06000-runtime-view.adoc
+  reviewed: false
+- type: documents
+  target: DOC-06003-failure-recovery
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-06000-runtime-view.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[runtime-view]]Runtime View
+
+This chapter shows the most important runtime scenarios for setup, validation,
+generation, and failure recovery.
+
+[cols="1,3", options="header"]
+|===
+| Detail | Description
+
+| xref:setup-workflow[]
+| Initial project setup workflow.
+
+| xref:validation-generation[]
+| Metadata validation and deterministic view generation.
+
+| xref:failure-recovery[]
+| Recovery when validation detects broken metadata.
+|===
+
+include::06-runtime-view/doc-06001-setup-workflow.adoc[]
+
+include::06-runtime-view/doc-06002-validation-generation.adoc[]
+
+include::06-runtime-view/doc-06003-failure-recovery.adoc[]
