@@ -7,6 +7,11 @@ description: "Implement GitHub issue work using the repository workflow: start f
 
 Use this workflow for issue implementation so changes are reviewable and never land directly on `main`.
 
+If the issue is too broad for one focused pull request, or the user asks to
+split, slice, decompose, or plan it before implementation, use
+`../slice-issues/SKILL.md` first. Continue with this implementation workflow
+only after the target issue or child issue is clear.
+
 ## Start Issue Work
 
 1. Inspect the current branch and worktree before changing branches.

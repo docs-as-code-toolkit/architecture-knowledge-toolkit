@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slice Issues"
+  short_description: "Create real GitHub sub-issues"
+  default_prompt: "Use $slice-issues to split GitHub issue #123 into reviewable sub-issues."
