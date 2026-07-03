@@ -254,6 +254,70 @@ class ValidateMetamodelTest < Minitest::Test
     refute_includes content, 'xref:09-architecture-decisions'
   end
 
+  def test_chapter_include_fragment_output_is_deterministic_and_sorted_by_artifact_id
+    temp_dir = ROOT.join('tmp/test-chapter-includes')
+    docs_dir = temp_dir.join('src/docs')
+    arc42_dir = docs_dir.join('arc42')
+    chapter_dir = arc42_dir.join('01-introduction-and-goals')
+    FileUtils.mkdir_p(chapter_dir)
+
+    write_artifact(arc42_dir.join('doc-01000-introduction-and-goals.adoc'), 'DOC-01000-introduction-and-goals', 'Introduction And Goals')
+    write_artifact(chapter_dir.join('doc-01002-requirements-overview.adoc'), 'DOC-01002-requirements-overview', 'Requirements Overview')
+    write_artifact(chapter_dir.join('doc-01001-quality-goals.adoc'), 'DOC-01001-quality-goals', 'Quality Goals')
+
+    validator = MetamodelValidator.new(
+      root: temp_dir,
+      docs_dir: docs_dir,
+      relations_schema: SCHEMA
+    )
+    artifacts = validator.validate
+    generator = ChapterIncludeFragmentGenerator.new(root: temp_dir, docs_dir: docs_dir)
+    chapter = artifacts.find { |artifact| artifact.metadata['id'] == 'DOC-01000-introduction-and-goals' }
+    details = artifacts.reject { |artifact| artifact == chapter }
+    output_path = arc42_dir.join('generated/doc-01000-introduction-and-goals-includes.adoc')
+
+    first = generator.render(chapter, details, output_path)
+    second = generator.render(chapter, details, output_path)
+
+    assert_equal first, second
+    assert_includes first, '// Generated from arc42 chapter metadata for DOC-01000-introduction-and-goals. Do not edit manually.'
+    assert_operator first.index('include::../01-introduction-and-goals/doc-01001-quality-goals.adoc[]'), :<,
+                    first.index('include::../01-introduction-and-goals/doc-01002-requirements-overview.adoc[]')
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_chapter_include_fragment_write_skips_generated_artifacts
+    temp_dir = ROOT.join('tmp/test-chapter-includes-ignore-generated')
+    docs_dir = temp_dir.join('src/docs')
+    arc42_dir = docs_dir.join('arc42')
+    chapter_dir = arc42_dir.join('01-introduction-and-goals')
+    generated_dir = arc42_dir.join('01-introduction-and-goals/generated')
+    FileUtils.mkdir_p([chapter_dir, generated_dir])
+
+    write_artifact(arc42_dir.join('doc-01000-introduction-and-goals.adoc'), 'DOC-01000-introduction-and-goals', 'Introduction And Goals')
+    write_artifact(chapter_dir.join('doc-01001-quality-goals.adoc'), 'DOC-01001-quality-goals', 'Quality Goals')
+    write_artifact(generated_dir.join('doc-01002-generated-detail.adoc'), 'DOC-01002-generated-detail', 'Generated Detail')
+
+    validator = MetamodelValidator.new(
+      root: temp_dir,
+      docs_dir: docs_dir,
+      relations_schema: SCHEMA
+    )
+    artifacts = validator.validate
+    generator = ChapterIncludeFragmentGenerator.new(root: temp_dir, docs_dir: docs_dir)
+
+    output_paths = generator.write(artifacts)
+    content = output_paths.first.read
+
+    assert_equal 2, artifacts.length
+    assert_equal [arc42_dir.join('generated/doc-01000-introduction-and-goals-includes.adoc')], output_paths
+    assert_includes content, 'include::../01-introduction-and-goals/doc-01001-quality-goals.adoc[]'
+    refute_includes content, 'generated-detail'
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
   def test_bidirectional_relation_detection
     # Create a temporary directory with test artifacts that have bidirectional relations
     temp_dir = ROOT.join('tmp/test-bidirectional')
@@ -311,5 +375,23 @@ class ValidateMetamodelTest < Minitest::Test
 
     # Cleanup
     FileUtils.rm_rf(temp_dir)
+  end
+
+  private
+
+  def write_artifact(path, id, title)
+    FileUtils.mkdir_p(path.dirname)
+    path.write(<<~ADOC)
+      ---
+      id: #{id}
+      type: Document
+      title: #{title}
+      status: draft
+      owner: test
+      created: 2026-07-03
+      ---
+      [[#{id.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/\A-+|-+\z/, '')}]]
+      = #{title}
+    ADOC
   end
 end
