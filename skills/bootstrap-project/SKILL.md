@@ -86,6 +86,10 @@ order:
 
 Read `general-semantic-contracts.md` before creating or changing architecture
 content when it is available from the toolkit or the target repository.
+Read `src/docs/arc42/04-solution-strategy/metamodel.adoc` before creating,
+copying, or adapting artifact metadata, artifact types, lifecycle states,
+relation semantics, metamodel schemas, validators, or generator inputs when it
+is available from the toolkit or the target repository.
 
 If the toolkit is not available on the local filesystem, use the remote
 repository as the source of truth:

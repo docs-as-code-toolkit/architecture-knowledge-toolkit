@@ -1,5 +1,9 @@
 # Relation Rules
 
+Treat `src/docs/arc42/04-solution-strategy/metamodel.adoc` as the maintained
+source for relationship semantics. Use this file as task-level guidance, not as
+a competing schema or contract.
+
 Use explicit metadata relations for traceability. Relations are claims and must
 stay proposed until reviewed.
 

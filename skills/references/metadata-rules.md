@@ -1,5 +1,9 @@
 # Metadata Rules
 
+Treat `src/docs/arc42/04-solution-strategy/metamodel.adoc` as the maintained
+source for artifact metadata semantics. Use this file as task-level guidance,
+not as a competing schema or contract.
+
 Use YAML front matter for every source artifact created by this skill.
 
 ## Required Fields

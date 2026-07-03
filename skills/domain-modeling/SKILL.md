@@ -52,3 +52,11 @@ If any of the three is missing, skip the ADR.
 ## Creating an ADR
 
 To create an ADR use the `/adr` skill.
+
+## Architecture Artifact Metadata
+
+When domain-modeling work creates or changes arc42 source artifacts, ADRs,
+glossary documents, relations, or other architecture metadata, read and apply
+`../../src/docs/arc42/04-solution-strategy/metamodel.adoc` when it is available.
+Keep metadata and relation semantics aligned with the architecture metamodel
+instead of inventing local conventions.
