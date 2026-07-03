@@ -1,6 +1,6 @@
 # Metadata Rules
 
-Treat `src/docs/arc42/04-solution-strategy/metamodel.adoc` as the maintained
+Treat `src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` as the maintained
 source for artifact metadata semantics. Use this file as task-level guidance,
 not as a competing schema or contract.
 
@@ -41,6 +41,13 @@ Use YAML front matter for every source artifact created by this skill.
 - Do not reuse IDs.
 - Do not rename IDs as part of impact analysis.
 - If the next ID is unclear, use a clearly proposed ID and add an open question.
+- Name every standalone architecture source artifact, and every standalone
+  AsciiDoc document with an `:id:` attribute, after its normalized artifact ID:
+  lowercase the `id`, replace non-alphanumeric separators with `-`, trim
+  leading and trailing dashes, and add `.adoc`.
+- Do not duplicate the title, chapter number, or type prefix beyond what is
+  already part of the artifact ID. For example, `DOC-109-architecture-decisions`
+  becomes `doc-109-architecture-decisions.adoc`.
 
 ## Evidence Rules
 
@@ -62,7 +69,7 @@ Use YAML front matter for every source artifact created by this skill.
 - Keep digits only when they are part of a stable artifact identifier, such as
   `adr-001`, not when they only express chapter ordering.
 - Do not derive visible xrefs from raw numbered chapter file names. For example,
-  `src/docs/arc42/09-architecture-decisions.adoc` is referenced as
+  `src/docs/arc42/doc-109-architecture-decisions.adoc` is referenced as
   `xref:architecture-decisions[]`, not `xref:09-architecture-decisions[]`.
 - Keep metadata relation targets as stable artifact IDs.
 - Use anchor-based `xref` links in visible prose and tables when referencing a

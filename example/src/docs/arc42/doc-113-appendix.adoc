@@ -1,0 +1,29 @@
+---
+id: DOC-113-appendix
+type: Document
+title: Appendix
+status: draft
+owner: project maintainers
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Appendix for open questions and supporting notes.
+tags:
+- arc42
+- appendix
+relations: []
+metadata_version: '1.0'
+---
+[[appendix]]
+= Appendix
+
+This appendix includes supporting source documents that should be available in
+the assembled architecture documentation.
+
+Metadata decision: the appendix is a standalone arc42 source document and
+therefore has YAML front matter and the stable ID `DOC-113-appendix`. The
+included Q&A document remains a central discussion source without artifact
+metadata until the project decides whether questions become first-class
+architecture artifacts.
+
+include::../doc-005-questions-and-answers.adoc[leveloffset=+1]

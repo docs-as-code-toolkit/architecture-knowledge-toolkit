@@ -58,15 +58,15 @@ Based on that a vision and mission statement can be created, which is then used 
 
 Treat every canvas as a living document, which is updated as the project evolves. The canvases are not a replacement for a PRD, but they help to clarify the purpose of the project and to align the team on the goals.
 
-Write every canvas as a single asciidoc file below src/docs/canvas/, with a unique anchor for each canvas. For example, the BMC is written in [`src/docs/canvas/business-model-canvas.adoc`](/src/docs/canvas/business-model-canvas.adoc) and has the anchor `business-model-canvas`, so that it can be referenced from other documents as `xref:business-model-canvas[]`.
+Write every canvas as a single asciidoc file below src/docs/canvas/, with a unique anchor for each canvas. For example, the BMC is written in [`src/docs/canvas/canvas-001-business-model.adoc`](/src/docs/canvas/canvas-001-business-model.adoc) and has the anchor `business-model-canvas`, so that it can be referenced from other documents as `xref:business-model-canvas[]`.
 
-Place the vision and mission statement in [`src/docs/vision-mission.adoc`](/src/docs/vision-mission.adoc) with the anchor `vision-mission`. Place the roadmap in `src/docs/roadmap.adoc` with the anchor `roadmap`. The roadmap is a living document, which is updated as the project evolves.
+Place the vision and mission statement in [`src/docs/doc-002-vision-mission.adoc`](/src/docs/doc-002-vision-mission.adoc) with the anchor `vision-mission`. Place the roadmap in `src/docs/doc-004-roadmap.adoc` with the anchor `roadmap`. The roadmap is a living document, which is updated as the project evolves.
 
 Based on that information, we fill out further canvases, as the [Architecture Inception Canvas](https://canvas.arc42.org/architecture-inception-canvas) and the [https://canvas.arc42.org/architecture-communication-canvas](https://canvas.arc42.org/architecture-communication-canvas). Finally, we also like to have the [Techstack Canvas](https://techstackcanvas.io/) filled out, which is a living document that is updated as the project evolves.
 
 Place every canvas in `src/docs/canvas/` with a unique anchor for each canvas, so that it can be referenced from other documents.
 
-Use [`src/docs/questions-and-answers.adoc`](/src/docs/questions-and-answers.adoc) as the central discussion document for
+Use [`src/docs/doc-005-questions-and-answers.adoc`](/src/docs/doc-005-questions-and-answers.adoc) as the central discussion document for
 open and answered questions that guide product clarification, canvas work, and
 architecture documentation. Keep questions MECE (Mutually Exclusive, Collectively Exhaustive) and ask no more than 3 questions
 at a time. Keep asking questions until you have fully understood the purpose of
@@ -76,8 +76,8 @@ unique asciidoc anchor. Every source document that refers to a question must
 link to the question with `xref:` and the explicit question anchor. For example,
 the BMC question about the key partners is placed in the Q&A file with the
 anchor `bmc-key-partners` and linked as `xref:bmc-key-partners[]`.
-Include `src/docs/questions-and-answers.adoc` from
-`src/docs/arc42/13-appendix.adoc` so open and answered questions are part of the
+Include `src/docs/doc-005-questions-and-answers.adoc` from
+`src/docs/arc42/doc-113-appendix.adoc` so open and answered questions are part of the
 assembled architecture documentation. Keep the Q&A document itself free of YAML
 front matter unless the project explicitly promotes questions to first-class
 architecture artifacts; otherwise the appendix carries the standalone artifact
@@ -139,6 +139,15 @@ wrapper documents whose only purpose is to include generated index output.
 Every standalone arc42 source document, including chapter pages and detail
 pages, uses YAML front matter that conforms to `metamodel/artifact.schema.yaml`.
 Use `type: Document` unless a more specific supported artifact type applies.
+The filename of every standalone source artifact or standalone AsciiDoc
+document with an `:id:` attribute must match its stable artifact ID: lowercase
+the `id`, replace non-alphanumeric separators with `-`, trim leading and
+trailing dashes, and add `.adoc`. For example,
+`DOC-109-architecture-decisions` is stored as
+`doc-109-architecture-decisions.adoc`, and
+`ADR-001-asciidoc-primary-source` is stored as
+`adr-001-asciidoc-primary-source.adoc`. Do not add a second title or chapter
+number to the filename.
 Traceability between arc42 source documents is captured in `relations` using
 stable artifact IDs and relation types from `metamodel/relations.schema.yaml`.
 Render AsciiDoc sources with YAML front matter using the Asciidoctor
@@ -277,8 +286,9 @@ Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Mü
   replace all non-alphanumeric characters with a dash (`-`), and lowercase all
   letters. Anchors must start with a lowercase letter and must not contain
   spaces or punctuation other than hyphens; digits are reserved for stable
-  artifact identifiers, not chapter ordering. For example, a file named
-  `src/docs/arc42/09-architecture-decisions.adoc` has the anchor
+  artifact identifiers, not chapter ordering. For example, the artifact
+  `DOC-109-architecture-decisions` is stored as
+  `src/docs/arc42/doc-109-architecture-decisions.adoc`; it has the anchor
   `architecture-decisions`, and the xref link is
   `xref:architecture-decisions[]`.
 

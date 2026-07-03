@@ -1,0 +1,115 @@
+[[techstack-canvas]]
+= Techstack Canvas
+:id: CANVAS-005-techstack
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas captures the current technical choices for the toolkit. It is a
+living document and must be updated when the implementation evolves.
+
+== Documentation
+
+* Format: AsciiDoc.
+* Diagram direction: PlantUML for architecture diagrams.
+* Documentation approach: Docs-as-Code.
+* General project contract: `general-semantic-contracts.md`.
+* Agent adapter: `AGENTS.md`.
+* Task-specific contracts: `skills/**/SKILL.md`.
+* Content reuse approach: reusable AsciiDoc source fragments included with
+  `include::[]`.
+* First GitHub Pages delivery path: plain Asciidoctor-generated static HTML, as
+  confirmed by xref:q-ops-005[Q-OPS-005].
+* Version 1 theme scope: one maintained default CSS theme, as confirmed by
+  xref:q-ops-006[Q-OPS-006].
+* Theme source idea: port the theme from
+  https://github.com/dieterbaier/profile[profile dieterbaier] into a separate
+  Docs-as-Code Toolkit theme project.
+
+== Metadata
+
+* Artifact metadata schema: YAML schema in `metamodel/artifact.schema.yaml`.
+* Relationship metadata schema: YAML schema in
+  `metamodel/relations.schema.yaml`.
+* Metadata location for now: AsciiDoc front matter.
+* Deferred metadata option: sidecar YAML files if performance or usability
+  requires them.
+* Artifact IDs: stable, explicit, and not reused.
+* Source-fragment IDs and anchors: stable enough to support includes and xrefs
+  across documents.
+
+== Implementation
+
+* Current validator and generator language: Ruby.
+* Current validation entry point: `scripts/validate-metamodel.rb`.
+* Current tests: Ruby tests in `test/`.
+* Long-term implementation language: still open; Ruby is a current delivery
+  choice, not a fixed target architecture.
+* Contributor-facing extension points should not depend on Ruby as the only
+  viable implementation path.
+* Runtime choices should remain compatible with the
+  `docs-as-code-toolkit/docs-toolbox` environment where practical.
+
+== AI Assistance
+
+* Core semantic contracts: engine-agnostic project rules in
+  `general-semantic-contracts.md`.
+* Agent guidance: AI-specific adaptation in `AGENTS.md`.
+* Core skills: task-specific files under `skills/`.
+* First-class version 1 skills: ADRs, quality scenarios, and risks.
+* Next-priority skills: stakeholders, requirements, and components.
+* Runtime integration: adapter-specific documentation under `adapters/`.
+* Contract precedence: user instruction, `SKILL.md`, `AGENTS.md`, then
+  `general-semantic-contracts.md`.
+* AI output status: every AI suggestion should be marked `suggested (AI)` until
+  reviewed and committed.
+
+== Operations
+
+* Validation and generation should run both locally and in CI.
+* Primary reproducible CI environments: GitHub Actions and GitLab CI.
+* Generated documentation should be publishable through an automated CI/CD
+  pipeline, with GitHub Pages as the first supported target.
+* Generated documentation must not be committed to the repository, as confirmed
+  by xref:q-arch-005[Q-ARCH-005].
+* Generated documentation must be reproducible locally and in CI/CD.
+* Reusable source fragments must remain publishable in every supported target
+  format.
+* The first GitHub Pages delivery path should be plain
+  Asciidoctor-generated static HTML.
+* Version 1 should provide one maintained default CSS theme for generated
+  documentation rather than multiple selectable themes.
+* Other publishing platforms remain extensible after the initial GitHub Pages
+  path is stable.
+* Generated artifact indexes should start as artifact-type-specific `.adoc`
+  files linked from a main generated index page.
+
+== Quality Gates
+
+* Metadata validation must pass.
+* Generated per-artifact relationship views must be deterministic.
+* Generated artifact-type indexes must be deterministic.
+* Generated documentation must be treated as a derived artifact and kept out of
+  repository source control.
+* Golden-file regression tests must cover generated views for all supported
+  artifact types, including per-artifact relationship views and artifact-type
+  indexes.
+* Generator output must be deterministic and idempotent.
+* Include-safe fragment behavior must be covered by examples or regression
+  tests once multiple target formats are supported.
+* Validation and generation workflows must be reproducible in local and CI
+  environments.
+* Tests must cover validator and generator behavior.
+* Generated output must avoid timestamps, random values, and local paths unless
+  those values are explicit inputs.
+
+== Open Technical Decisions
+
+* xref:q-dev-001[Q-DEV-001] and xref:q-dev-004[Q-DEV-004] leave the long-term
+  implementation language open and define ecosystem fit plus contributor reach
+  as the primary selection criteria.
+* xref:q-ops-005[Q-OPS-005] confirms plain Asciidoctor-generated static HTML as
+  the first GitHub Pages path, but leaves broader DocToolchain, jbake, and
+  static-site-generator guidance for later refinement.
+* xref:q-arch-006[Q-ARCH-006] leaves the adapter documentation boundary open
+  until the project has more evidence about AI engine differences.

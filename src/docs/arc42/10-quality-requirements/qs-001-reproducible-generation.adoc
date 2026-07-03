@@ -15,7 +15,7 @@ relations:
   target: DOC-201-quality-goals
   status: proposed
   rationale: This scenario concretizes QG-001 Reproducibility.
-  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  evidence: src/docs/arc42/01-introduction-and-goals/doc-201-quality-goals.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

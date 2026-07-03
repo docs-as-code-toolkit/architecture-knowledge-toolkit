@@ -1,0 +1,7 @@
+[[architecture-inception-canvas]]
+= Architecture Inception Canvas
+:id: CANVAS-003-architecture-inception
+
+The first architectural concern is a small system of record with reliable
+client synchronization and simple client boundaries.
+

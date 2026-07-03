@@ -105,7 +105,7 @@ examples:
         target: DOC-109-architecture-decisions
         status: proposed
         rationale: The ADR index detail page elaborates the arc42 architecture decisions chapter.
-        evidence: src/docs/arc42/09-architecture-decisions/adr-index.adoc
+        evidence: src/docs/arc42/09-architecture-decisions/doc-220-adr-index.adoc
         reviewed: false
       - id: REL-002-risks-refines-risk-chapter
         source: DOC-223-risks
@@ -113,5 +113,5 @@ examples:
         target: DOC-111-risks-and-technical-debt
         status: proposed
         rationale: The risks detail page elaborates the arc42 risks and technical debt chapter.
-        evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+        evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
         reviewed: false

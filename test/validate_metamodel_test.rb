@@ -35,6 +35,62 @@ class ValidateMetamodelTest < Minitest::Test
     assert_includes validator.errors.join("\n"), "references unknown artifact id 'QS-999-missing'"
   end
 
+  def test_filename_warning_when_artifact_id_does_not_match_filename
+    temp_dir = ROOT.join('tmp/test-filename-id')
+    FileUtils.mkdir_p(temp_dir)
+    artifact_path = temp_dir.join('wrong-name.adoc')
+    artifact_path.write(<<~ADOC)
+      ---
+      id: DOC-999-right-name
+      type: Document
+      title: Right Name
+      status: draft
+      owner: test
+      created: 2026-07-03
+      ---
+      [[right-name]]
+      = Right Name
+    ADOC
+
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: temp_dir,
+      relations_schema: SCHEMA
+    )
+
+    validator.validate
+
+    assert_includes validator.warnings.join("\n"), "wrong-name.adoc filename should be 'doc-999-right-name.adoc'"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_filename_warning_for_asciidoc_attribute_id
+    temp_dir = ROOT.join('tmp/test-attribute-filename-id')
+    FileUtils.mkdir_p(temp_dir)
+    artifact_path = temp_dir.join('legacy-name.adoc')
+    artifact_path.write(<<~ADOC)
+      [[attribute-id-document]]
+      = Attribute ID Document
+      :id: DOC-998-attribute-id-document
+
+      This document uses an AsciiDoc id attribute instead of YAML front matter.
+    ADOC
+
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: temp_dir,
+      relations_schema: SCHEMA
+    )
+
+    validator.validate
+
+    assert_empty validator.errors
+    assert_includes validator.warnings.join("\n"), "legacy-name.adoc filename should be 'doc-998-attribute-id-document.adoc'"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
   def test_traceability_matrix_output_is_deterministic
     validator = MetamodelValidator.new(
       root: ROOT,
@@ -70,7 +126,7 @@ class ValidateMetamodelTest < Minitest::Test
       docs_dir: ROOT.join('test/fixtures/valid')
     )
     definition = ArtifactIndexGenerator::INDEX_DEFINITIONS.fetch('ADR')
-    output_path = ROOT.join('tmp/test-adr-index.adoc')
+    output_path = ROOT.join('tmp/test-doc-220-adr-index.adoc')
 
     first = generator.render(artifacts, definition, output_path)
     second = generator.render(artifacts, definition, output_path)
@@ -132,7 +188,7 @@ class ValidateMetamodelTest < Minitest::Test
     validator = MetamodelValidator.new(
       root: ROOT,
       docs_dir: [
-        ROOT.join('src/docs/arc42.adoc'),
+        ROOT.join('src/docs/doc-001-arc42.adoc'),
         ROOT.join('src/docs/arc42')
       ],
       relations_schema: SCHEMA

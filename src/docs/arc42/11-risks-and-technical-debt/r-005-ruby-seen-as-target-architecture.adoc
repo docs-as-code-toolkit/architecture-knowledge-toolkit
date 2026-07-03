@@ -15,7 +15,7 @@ relations:
   target: DOC-205-technology-constraints
   status: proposed
   rationale: The technology constraints clarify that Ruby is current implementation only.
-  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  evidence: src/docs/arc42/02-architecture-constraints/doc-205-technology-constraints.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

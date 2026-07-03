@@ -1,0 +1,7 @@
+[[value-proposition-canvas]]
+= Value Proposition Canvas
+:id: CANVAS-002-value-proposition
+
+Users want fast expense entry, clear remaining budgets, and confidence that
+private spending data stays private.
+

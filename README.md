@@ -88,11 +88,11 @@ artifacts. All three generators (`TraceabilityMatrixGenerator`, `ArtifactIndexGe
 
 Start new-project clarification in `src/docs/`.
 
-- `src/docs/canvas/business-model-canvas.adoc`
-- `src/docs/canvas/value-proposition-canvas.adoc`
-- `src/docs/vision-mission.adoc`
-- `src/docs/roadmap.adoc`
-- `src/docs/questions-and-answers.adoc`
+- `src/docs/canvas/canvas-001-business-model.adoc`
+- `src/docs/canvas/canvas-002-value-proposition.adoc`
+- `src/docs/doc-002-vision-mission.adoc`
+- `src/docs/doc-004-roadmap.adoc`
+- `src/docs/doc-005-questions-and-answers.adoc`
 
 The current inception files are drafts. They use this repository as a hint, not
 as proof. Review assumptions and answer the open questions before treating any
@@ -167,7 +167,7 @@ navigation scope is artifact-type indexes; additional indexes by status, owner,
 and tag remain a later evaluation topic.
 
 The former `examples/sample-project` has been removed. The project now uses its
-own arc42 documentation under `src/docs/arc42.adoc` and `src/docs/arc42/` as the
+own arc42 documentation under `src/docs/doc-001-arc42.adoc` and `src/docs/arc42/` as the
 living example. The dogfood docs now include standalone proposed ADR, quality
 scenario, and risk artifacts so the ADR-to-quality-to-risk traceability chain is
 visible in the repository itself.
@@ -193,8 +193,7 @@ Actions and GitLab CI are the primary reproducible CI environments to support.
 By default, the validator scans:
 
 ```text
-src/docs/arc42.adoc
-src/docs/arc42/
+src/docs/
 ```
 
 You can validate another artifact file or directory with:
@@ -242,11 +241,11 @@ By default, generated files are written below `generated/` directories:
 src/docs/arc42/generated/traceability-matrix.adoc
 src/docs/arc42/**/generated/*-includes.adoc
 src/docs/arc42/09-architecture-decisions/generated/open-questions.adoc
-src/docs/arc42/09-architecture-decisions/generated/adr-index.adoc
+src/docs/arc42/09-architecture-decisions/generated/doc-220-adr-index.adoc
 src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
-src/docs/arc42/10-quality-requirements/generated/quality-scenarios.adoc
+src/docs/arc42/10-quality-requirements/generated/doc-221-quality-scenarios.adoc
 src/docs/arc42/10-quality-requirements/generated/*-traceability.adoc
-src/docs/arc42/11-risks-and-technical-debt/generated/risks.adoc
+src/docs/arc42/11-risks-and-technical-debt/generated/doc-223-risks.adoc
 src/docs/arc42/11-risks-and-technical-debt/generated/*-traceability.adoc
 ```
 

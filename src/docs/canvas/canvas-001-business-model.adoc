@@ -1,0 +1,114 @@
+[[business-model-canvas]]
+= Business Model Canvas
+:id: CANVAS-001-business-model
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas is a suggested starting point for a new-project workshop. It is
+derived from repository hints in `README.md` and earlier legacy documents plus
+reviewed workshop answers in
+xref:canvas-questions-and-answers[]. Derived content still needs review before
+it becomes accepted project truth.
+
+== Customer Segments
+
+* Individual architects who set up and maintain architecture documentation as
+  code, as confirmed by xref:q-po-001[Q-PO-001].
+* Development teams that need reviewable, traceable architecture knowledge.
+* AI-assisted engineering teams that want reusable, engine-independent prompts
+  and workflows.
+* Documentation maintainers who need deterministic generated views.
+
+== Value Propositions
+
+* Version-controlled architecture knowledge with explicit metadata.
+* Guided initial setup for structured Docs-as-Code arc42 documentation.
+* Reusable templates for ADRs, quality scenarios, risks, and impact reports.
+* Engine-agnostic semantic contracts that guide architecture and delivery work
+  even when no AI assistant is used.
+* Cross references where architecture artifacts need traceability.
+* Reusable AsciiDoc source fragments for content that belongs in multiple
+  document contexts.
+* AI skills that suggest architecture content without becoming the source of
+  truth.
+* AI skills that support SDLC work by suggesting documentation updates during
+  feature implementation and refactoring.
+* Deterministic validation and generated traceability views for local and CI/CD
+  workflows.
+* Engine-specific integrations isolated below `adapters/`.
+
+== Channels
+
+* Repository documentation.
+* Example projects.
+* Reusable skills and templates.
+* Command-line validation and generation scripts.
+* Adapter-specific integration notes.
+
+== Customer Relationships
+
+* Self-service adoption through templates, dogfood documentation, and user
+  documentation.
+* Review-driven collaboration through pull requests.
+* Workshop-based refinement for project inception and architecture alignment.
+
+== Revenue Streams
+
+* The toolkit should remain explicitly non-commercial for now, as confirmed by
+  xref:q-po-005[Q-PO-005].
+* It should stay free and open source to encourage adoption and community
+  contribution.
+* Value is indirect: improved efficiency, better collaboration, higher
+  architecture artifact quality, lower architecture drift, and reusable team
+  practices.
+* Future paid services are out of scope for now and may be reconsidered only if
+  users ask for them.
+
+== Key Resources
+
+* AsciiDoc source documents.
+* Reusable source fragments for shared documentation content.
+* Engine-agnostic semantic contracts in `general-semantic-contracts.md`.
+* Metadata schemas in `metamodel/`.
+* Skills in `skills/`.
+* Templates in `templates/`.
+* Validation and generation scripts.
+* Example architecture artifacts.
+
+== Key Activities
+
+* Maintain the metamodel and templates.
+* Maintain the contract hierarchy from general project contracts to
+  agent-specific adapters and task-specific skills.
+* Maintain conventions for include-safe reusable source fragments.
+* Guide architects through initial project setup.
+* Validate architecture artifact metadata.
+* Generate deterministic derived views.
+* Refine reusable AI skills through real project use.
+* Keep adapter behavior thin and auditable.
+
+== Key Partners
+
+* Architecture reviewers.
+* Development teams using Docs-as-Code.
+* AI tool and adapter maintainers.
+* Documentation platform maintainers.
+
+== Cost Structure
+
+* Maintenance of schemas, templates, skills, and dogfood documentation.
+* Test coverage for validators and generators.
+* Review effort for suggested architecture content.
+* Compatibility work for adapters and documentation tooling.
+
+== Assumptions To Validate
+
+* Teams accept AsciiDoc as the primary documentation format.
+* Teams prefer reusable source fragments over duplicated prose when content
+  appears in several places.
+* Explicit metadata is worth the authoring effort.
+* Deterministic generated views provide enough value to justify a generator.
+* AI skills can remain useful while staying engine-independent.
+* Teams value explicit semantic contracts even before they adopt AI-assisted
+  workflows.

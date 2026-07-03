@@ -21,7 +21,7 @@ relations:
   target: DOC-208-strategy-overview
   status: proposed
   rationale: Walking-skeleton adoption limits the first slice to a useful, manageable workflow.
-  evidence: src/docs/arc42/04-solution-strategy/strategy-overview.adoc
+  evidence: src/docs/arc42/04-solution-strategy/doc-208-strategy-overview.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

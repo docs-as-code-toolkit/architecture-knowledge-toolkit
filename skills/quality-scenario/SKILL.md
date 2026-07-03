@@ -49,7 +49,7 @@ quality scenario workflow needs a stricter rule.
 
 Read these references as needed:
 
-- `../../src/docs/arc42/04-solution-strategy/metamodel.adoc` before writing or
+- `../../src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` before writing or
   changing artifact metadata, artifact types, lifecycle states, or relation
   semantics.
 - `../references/metadata-rules.md` before writing YAML front matter.

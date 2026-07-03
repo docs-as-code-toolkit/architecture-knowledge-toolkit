@@ -1,0 +1,22 @@
+---
+id: DOC-221-quality-scenarios
+type: Document
+title: Quality Scenarios
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Quality Scenarios.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-110-quality-requirements
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/10-quality-requirements/doc-221-quality-scenarios.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+include::generated/doc-221-quality-scenarios.adoc[]

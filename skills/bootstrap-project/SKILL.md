@@ -86,7 +86,7 @@ order:
 
 Read `general-semantic-contracts.md` before creating or changing architecture
 content when it is available from the toolkit or the target repository.
-Read `src/docs/arc42/04-solution-strategy/metamodel.adoc` before creating,
+Read `src/docs/arc42/04-solution-strategy/doc-003-metamodel.adoc` before creating,
 copying, or adapting artifact metadata, artifact types, lifecycle states,
 relation semantics, metamodel schemas, validators, or generator inputs when it
 is available from the toolkit or the target repository.
@@ -149,44 +149,44 @@ Use this structure as the default architecture documentation skeleton:
 
 ```text
 src/docs/
-|-- arc42.adoc
-|-- vision-mission.adoc
-|-- roadmap.adoc
-|-- questions-and-answers.adoc
+|-- doc-001-arc42.adoc
+|-- doc-002-vision-mission.adoc
+|-- doc-004-roadmap.adoc
+|-- doc-005-questions-and-answers.adoc
 |-- canvas/
-|   |-- business-model-canvas.adoc
-|   |-- value-proposition-canvas.adoc
-|   |-- architecture-inception-canvas.adoc
-|   |-- architecture-communication-canvas.adoc
-|   `-- techstack-canvas.adoc
+|   |-- canvas-001-business-model.adoc
+|   |-- canvas-002-value-proposition.adoc
+|   |-- canvas-003-architecture-inception.adoc
+|   |-- canvas-004-architecture-communication.adoc
+|   `-- canvas-005-techstack.adoc
 |-- fragments/
 |   |-- product/
 |   `-- architecture/
 `-- arc42/
-    |-- 01-introduction-and-goals.adoc
+    |-- doc-101-introduction-and-goals.adoc
     |-- 01-introduction-and-goals/
-    |-- 02-architecture-constraints.adoc
+    |-- doc-102-architecture-constraints.adoc
     |-- 02-architecture-constraints/
-    |-- 03-system-scope-and-context.adoc
+    |-- doc-103-system-scope-and-context.adoc
     |-- 03-system-scope-and-context/
-    |-- 04-solution-strategy.adoc
+    |-- doc-104-solution-strategy.adoc
     |-- 04-solution-strategy/
-    |-- 05-building-block-view.adoc
+    |-- doc-105-building-block-view.adoc
     |-- 05-building-block-view/
-    |-- 06-runtime-view.adoc
+    |-- doc-106-runtime-view.adoc
     |-- 06-runtime-view/
-    |-- 07-deployment-view.adoc
+    |-- doc-107-deployment-view.adoc
     |-- 07-deployment-view/
-    |-- 08-crosscutting-concepts.adoc
+    |-- doc-108-crosscutting-concepts.adoc
     |-- 08-crosscutting-concepts/
-    |-- 09-architecture-decisions.adoc
+    |-- doc-109-architecture-decisions.adoc
     |-- 09-architecture-decisions/
-    |-- 10-quality-requirements.adoc
+    |-- doc-110-quality-requirements.adoc
     |-- 10-quality-requirements/
-    |-- 11-risks-and-technical-debt.adoc
+    |-- doc-111-risks-and-technical-debt.adoc
     |-- 11-risks-and-technical-debt/
-    |-- 12-glossary.adoc
-    `-- 13-appendix.adoc
+    |-- doc-112-glossary.adoc
+    `-- doc-113-appendix.adoc
 ```
 
 Chapter main pages keep stable YAML front matter, an explicit AsciiDoc anchor,
@@ -199,26 +199,28 @@ generator exists.
 ### 1. Clarify Product Inputs
 
 Start with purpose before architecture. Create draft canvases in
-`src/docs/canvas/` and use `src/docs/questions-and-answers.adoc` for open and
+`src/docs/canvas/` and use `src/docs/doc-005-questions-and-answers.adoc` for open and
 answered questions. Ask no more than three questions at a time. Keep questions
 MECE and give every question a stable anchor.
 
 Create these draft source files when missing:
 
-- `src/docs/canvas/business-model-canvas.adoc`
-- `src/docs/canvas/value-proposition-canvas.adoc`
-- `src/docs/vision-mission.adoc`
-- `src/docs/roadmap.adoc`
-- `src/docs/canvas/architecture-inception-canvas.adoc`
-- `src/docs/canvas/architecture-communication-canvas.adoc`
-- `src/docs/canvas/techstack-canvas.adoc`
-- `src/docs/questions-and-answers.adoc`
+- `src/docs/canvas/canvas-001-business-model.adoc`
+- `src/docs/canvas/canvas-002-value-proposition.adoc`
+- `src/docs/doc-002-vision-mission.adoc`
+- `src/docs/doc-004-roadmap.adoc`
+- `src/docs/canvas/canvas-003-architecture-inception.adoc`
+- `src/docs/canvas/canvas-004-architecture-communication.adoc`
+- `src/docs/canvas/canvas-005-techstack.adoc`
+- `src/docs/doc-005-questions-and-answers.adoc`
 
-Include `src/docs/questions-and-answers.adoc` from
-`src/docs/arc42/13-appendix.adoc` with `include::../questions-and-answers.adoc[leveloffset=+1]`.
+Include `src/docs/doc-005-questions-and-answers.adoc` from
+`src/docs/arc42/doc-113-appendix.adoc` with `include::../doc-005-questions-and-answers.adoc[leveloffset=+1]`.
 The Q&A source remains the central discussion document and normally has no YAML
 front matter; the appendix carries the standalone artifact metadata for the
-assembled architecture documentation.
+assembled architecture documentation. Still give every standalone inception
+document and canvas a stable `:id:` attribute and a filename that matches the
+normalized ID.
 
 ### 2. Create Reusable Source Fragments
 
@@ -232,7 +234,7 @@ including standalone documents carry metadata.
 
 ### 3. Create arc42 As Toolkit Source Files
 
-Create `src/docs/arc42.adoc` as the assembled architecture entry point and
+Create `src/docs/doc-001-arc42.adoc` as the assembled architecture entry point and
 `src/docs/arc42/` as the chapter source tree. Use the arc42 chapter order, but
 make each chapter an addressable source artifact with:
 
@@ -242,6 +244,9 @@ make each chapter an addressable source artifact with:
 - `status: draft` for AI-created chapter content.
 - `reviewed: false` unless reviewed source evidence says otherwise.
 - Stable `id`, `title`, `owner`, `summary`, `tags`, and outgoing `relations`.
+- A filename that exactly matches the normalized artifact ID, such as
+  `doc-109-architecture-decisions.adoc` for
+  `DOC-109-architecture-decisions`.
 - An explicit lowercase AsciiDoc anchor without numeric chapter prefixes, such
   as `[[architecture-decisions]]`, not `[[09-architecture-decisions]]`.
 - Generator input metadata that is sufficient to regenerate chapter include
@@ -336,10 +341,11 @@ artifact templates.
   listed as open bootstrap tasks.
 - arc42 chapter pages and detail pages use AsciiDoc, stable anchors, and YAML
   metadata where applicable.
+- Every standalone source artifact filename matches the normalized artifact ID.
 - ADRs, quality scenarios, and risks live under the corresponding arc42 chapter
   directories, not in a separate Markdown-only structure.
-- `src/docs/arc42/13-appendix.adoc` includes
-  `src/docs/questions-and-answers.adoc`.
+- `src/docs/arc42/doc-113-appendix.adoc` includes
+  `src/docs/doc-005-questions-and-answers.adoc`.
 - AI-created content is `draft` or `proposed` and `reviewed: false`.
 - Visible links use explicit `xref:` anchors.
 - Metadata relations use stable IDs and only outgoing relations.

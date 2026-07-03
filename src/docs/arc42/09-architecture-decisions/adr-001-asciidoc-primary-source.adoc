@@ -15,19 +15,19 @@ relations:
   target: QS-003-reusable-fragments-render
   status: proposed
   rationale: AsciiDoc include support is the basis for reusable source fragments.
-  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  evidence: src/docs/arc42/02-architecture-constraints/doc-205-technology-constraints.adoc
   reviewed: false
 - type: constrains
   target: DOC-205-technology-constraints
   status: proposed
   rationale: The technology constraints list AsciiDoc as the primary documentation source.
-  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  evidence: src/docs/arc42/02-architecture-constraints/doc-205-technology-constraints.adoc
   reviewed: false
 - type: introduces_risk
   target: R-003-source-fragments-break-rendering
   status: proposed
   rationale: AsciiDoc includes enable reuse, but they can break rendered targets when fragments are not heading-neutral.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

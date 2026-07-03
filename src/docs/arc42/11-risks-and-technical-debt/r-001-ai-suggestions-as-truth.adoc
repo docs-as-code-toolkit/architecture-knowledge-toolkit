@@ -21,7 +21,7 @@ relations:
   target: DOC-108-crosscutting-concepts
   status: proposed
   rationale: Suggestion status and source-of-truth policy are crosscutting controls.
-  evidence: src/docs/arc42/08-crosscutting-concepts.adoc
+  evidence: src/docs/arc42/doc-108-crosscutting-concepts.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

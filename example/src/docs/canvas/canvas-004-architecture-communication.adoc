@@ -1,0 +1,7 @@
+[[architecture-communication-canvas]]
+= Architecture Communication Canvas
+:id: CANVAS-004-architecture-communication
+
+Architecture decisions are communicated through ADRs, quality scenarios, risk
+records, and generated traceability views.
+

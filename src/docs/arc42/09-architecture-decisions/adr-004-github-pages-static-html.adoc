@@ -15,19 +15,19 @@ relations:
   target: QS-003-reusable-fragments-render
   status: proposed
   rationale: Static HTML publication is the first target where reusable fragments must render correctly.
-  evidence: src/docs/arc42/10-quality-requirements/quality-scenarios.adoc
+  evidence: src/docs/arc42/10-quality-requirements/doc-221-quality-scenarios.adoc
   reviewed: false
 - type: constrains
   target: DOC-205-technology-constraints
   status: proposed
   rationale: The technology constraints list GitHub Pages and static HTML as the first publication target.
-  evidence: src/docs/arc42/02-architecture-constraints/technology-constraints.adoc
+  evidence: src/docs/arc42/02-architecture-constraints/doc-205-technology-constraints.adoc
   reviewed: false
 - type: affects
   target: R-003-source-fragments-break-rendering
   status: proposed
   rationale: The first publication target defines the initial fragment-rendering risk surface.
-  evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+  evidence: src/docs/arc42/11-risks-and-technical-debt/doc-223-risks.adoc
   reviewed: false
 metadata_version: '1.0'
 ---

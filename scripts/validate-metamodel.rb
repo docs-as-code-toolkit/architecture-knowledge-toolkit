@@ -11,7 +11,7 @@ require 'yaml'
 class MetamodelValidator
   REQUIRED_FIELDS = %w[id type title status created].freeze
 
-  Artifact = Struct.new(:path, :metadata, keyword_init: true)
+  Artifact = Struct.new(:path, :metadata, :document_id, keyword_init: true)
 
   attr_reader :errors, :warnings, :root, :docs_dir
 
@@ -34,6 +34,7 @@ class MetamodelValidator
 
     artifacts = scan_artifacts
     validate_artifacts(artifacts)
+    validate_filename_matches_id(artifacts)
     validate_unique_ids(artifacts)
     validate_relations(artifacts, relation_types, relation_keys)
     detect_bidirectional_relations(artifacts)
@@ -87,7 +88,12 @@ class MetamodelValidator
       artifact_path = Pathname.new(path)
       next if generated_path?(artifact_path)
 
-      Artifact.new(path: artifact_path, metadata: read_front_matter(artifact_path))
+      metadata = read_front_matter(artifact_path)
+      Artifact.new(
+        path: artifact_path,
+        metadata: metadata,
+        document_id: document_id_for(artifact_path, metadata)
+      )
     end.compact
   end
 
@@ -112,7 +118,7 @@ class MetamodelValidator
     by_id = Hash.new { |hash, key| hash[key] = [] }
 
     artifacts.each do |artifact|
-      id = artifact.metadata && artifact.metadata['id']
+      id = artifact.document_id
       by_id[id] << artifact if id
     end
 
@@ -124,8 +130,21 @@ class MetamodelValidator
     end
   end
 
+  def validate_filename_matches_id(artifacts)
+    artifacts.each do |artifact|
+      id = artifact.document_id
+      next unless id
+
+      expected = "#{normalized_id(id)}.adoc"
+      actual = artifact.path.basename.to_s
+      next if actual == expected
+
+      @warnings << "#{relative(artifact.path)} filename should be '#{expected}' to match artifact id '#{id}'"
+    end
+  end
+
   def validate_relations(artifacts, relation_types, relation_keys)
-    known_ids = artifacts.map { |artifact| artifact.metadata && artifact.metadata['id'] }.compact.to_set
+    known_ids = artifacts.map(&:document_id).compact.to_set
 
     artifacts.each do |artifact|
       metadata = artifact.metadata
@@ -203,10 +222,7 @@ class MetamodelValidator
 
   def read_front_matter(path)
     text = path.read
-    unless text.start_with?("---\n")
-      @errors << "#{relative(path)} missing YAML front matter"
-      return nil
-    end
+    return nil unless text.start_with?("---\n")
 
     parts = text.split(/^---\s*$/, 3)
     if parts.length < 3
@@ -226,12 +242,28 @@ class MetamodelValidator
     nil
   end
 
+  def document_id_for(path, metadata)
+    return metadata['id'] if metadata && metadata['id']
+
+    path.each_line.first(20).each do |line|
+      return Regexp.last_match(1).strip if line =~ /^:id:\s*(.+?)\s*$/
+    end
+    nil
+  end
+
   def load_yaml(path)
     YAML.safe_load(path.read, permitted_classes: [Date], aliases: false)
   end
 
   def blank?(value)
     value.nil? || (value.respond_to?(:empty?) && value.empty?)
+  end
+
+  def normalized_id(id)
+    id.to_s
+      .downcase
+      .gsub(/[^a-z0-9]+/, '-')
+      .gsub(/\A-+|-+\z/, '')
   end
 
   def relative(path)
@@ -375,7 +407,7 @@ end
 class ArtifactIndexGenerator
   INDEX_DEFINITIONS = {
     'ADR' => {
-      output: '09-architecture-decisions/generated/adr-index.adoc',
+      output: '09-architecture-decisions/generated/doc-220-adr-index.adoc',
       anchor: 'adr-index',
       title: 'ADR Index',
       cols: '1,2,1,3',
@@ -391,7 +423,7 @@ class ArtifactIndexGenerator
       end
     },
     'QualityScenario' => {
-      output: '10-quality-requirements/generated/quality-scenarios.adoc',
+      output: '10-quality-requirements/generated/doc-221-quality-scenarios.adoc',
       anchor: 'quality-scenarios',
       title: 'Quality Scenarios',
       cols: '1,1,2,2,2,2,2,2',
@@ -411,7 +443,7 @@ class ArtifactIndexGenerator
       end
     },
     'Risk' => {
-      output: '11-risks-and-technical-debt/generated/risks.adoc',
+      output: '11-risks-and-technical-debt/generated/doc-223-risks.adoc',
       anchor: 'risks',
       title: 'Risks',
       cols: '1,3,1,1,1,3',
@@ -492,7 +524,7 @@ class OpenQuestionsIndexGenerator
   def initialize(root:, docs_dir:, questions_path: nil)
     @root = Pathname.new(root).expand_path
     @docs_dir = output_base(docs_dir)
-    @questions_path = Pathname.new(questions_path || @root.join('src/docs/questions-and-answers.adoc')).expand_path
+    @questions_path = Pathname.new(questions_path || @root.join('src/docs/doc-005-questions-and-answers.adoc')).expand_path
     @output_paths = []
   end
 
@@ -511,7 +543,7 @@ class OpenQuestionsIndexGenerator
     lines << '[[open-questions]]'
     lines << '== Open Questions'
     lines << ''
-    lines << '// Generated from questions-and-answers.adoc. Do not edit manually.'
+    lines << '// Generated from doc-005-questions-and-answers.adoc. Do not edit manually.'
     lines << ''
 
     if questions.empty?
@@ -670,7 +702,10 @@ end
 
 def output_base(docs_dir)
   targets = Array(docs_dir).map { |path| Pathname.new(path).expand_path }
-  targets.find(&:directory?) || targets.first.dirname
+  directory = targets.find(&:directory?)
+  return directory.join('arc42') if directory && directory.basename.to_s == 'docs' && directory.join('arc42').directory?
+
+  directory || targets.first.dirname
 end
 
 class ArtifactRenderHelper
@@ -759,21 +794,22 @@ class DocumentationGenerator
 
   def write(artifacts)
     written = []
+    metadata_artifacts = artifacts.select(&:metadata)
     matrix = TraceabilityMatrixGenerator.new(
       root: @root,
       docs_dir: @docs_dir,
       output_path: @matrix_output_path
     )
-    written << matrix.write(artifacts)
+    written << matrix.write(metadata_artifacts)
 
     artifact_indexes = ArtifactIndexGenerator.new(root: @root, docs_dir: @docs_dir)
-    written.concat(artifact_indexes.write(artifacts))
+    written.concat(artifact_indexes.write(metadata_artifacts))
 
     open_questions = OpenQuestionsIndexGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(open_questions.write)
 
     traceability = TraceabilityFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
-    written.concat(traceability.write(artifacts))
+    written.concat(traceability.write(metadata_artifacts))
 
     written
   end
@@ -783,8 +819,7 @@ end
 if $PROGRAM_NAME == __FILE__
   root = Pathname.new(__dir__).join('..').expand_path
   default_docs_targets = [
-    root.join('src/docs/arc42.adoc'),
-    root.join('src/docs/arc42')
+    root.join('src/docs')
   ]
   options = {
     docs_dir: default_docs_targets,
@@ -827,7 +862,7 @@ if $PROGRAM_NAME == __FILE__
       output_base = first_docs_target.directory? ? first_docs_target : first_docs_target.dirname
       output_base.join('generated/traceability-matrix.adoc')
     else
-      root.join('src/docs/arc42/generated/traceability-matrix.adoc')
+      root.join('src/docs/generated/traceability-matrix.adoc')
     end
     generator = DocumentationGenerator.new(
       root: root,

@@ -6,14 +6,14 @@ already recorded in the repository.
 
 Inputs used for this draft:
 
-* `src/docs/vision-mission.adoc`
-* `src/docs/roadmap.adoc`
-* `src/docs/canvas/business-model-canvas.adoc`
-* `src/docs/canvas/value-proposition-canvas.adoc`
-* `src/docs/canvas/architecture-inception-canvas.adoc`
-* `src/docs/canvas/architecture-communication-canvas.adoc`
-* `src/docs/canvas/techstack-canvas.adoc`
-* `src/docs/questions-and-answers.adoc`
+* `src/docs/doc-002-vision-mission.adoc`
+* `src/docs/doc-004-roadmap.adoc`
+* `src/docs/canvas/canvas-001-business-model.adoc`
+* `src/docs/canvas/canvas-002-value-proposition.adoc`
+* `src/docs/canvas/canvas-003-architecture-inception.adoc`
+* `src/docs/canvas/canvas-004-architecture-communication.adoc`
+* `src/docs/canvas/canvas-005-techstack.adoc`
+* `src/docs/doc-005-questions-and-answers.adoc`
 * `README.md`
 * `general-semantic-contracts.md`
 

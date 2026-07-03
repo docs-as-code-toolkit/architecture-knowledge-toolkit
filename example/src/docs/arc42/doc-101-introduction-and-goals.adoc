@@ -1,0 +1,42 @@
+---
+id: DOC-101-introduction-and-goals
+type: Document
+title: Introduction And Goals
+status: draft
+owner: product owner
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Product purpose, top quality goals, and stakeholders for Private Budget.
+tags:
+- arc42
+relations:
+- type: documents
+  target: DOC-201-requirements-overview
+  status: proposed
+  rationale: The chapter includes the requirements overview.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+- type: documents
+  target: DOC-202-quality-goals
+  status: proposed
+  rationale: The chapter includes the top quality goals.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+- type: documents
+  target: DOC-203-stakeholders
+  status: proposed
+  rationale: The chapter includes stakeholder concerns.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[introduction-and-goals]]
+= Introduction And Goals
+
+Private Budget helps individuals track income, expenses, budgets, and spending
+trends across web and mobile clients.
+
+include::01-introduction-and-goals/doc-201-requirements-overview.adoc[]
+include::01-introduction-and-goals/doc-202-quality-goals.adoc[]
+include::01-introduction-and-goals/doc-203-stakeholders.adoc[]

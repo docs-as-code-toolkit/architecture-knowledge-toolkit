@@ -1,0 +1,54 @@
+---
+id: DOC-206-business-context
+type: Document
+title: Business Context
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Business Context.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-103-system-scope-and-context
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/03-system-scope-and-context/doc-206-business-context.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[business-context]]Business Context
+
+include::../../fragments/architecture/system-boundary.adoc[]
+
+[plantuml,arc42-context-business,svg]
+----
+@startuml
+!include <C4/C4_Context>
+
+Person(architect, "Individual architect", "Sets up and maintains architecture documentation.")
+Person(reviewer, "Architecture reviewer", "Reviews source artifacts and metadata.")
+Person(developer, "Developer", "Uses validation feedback and updates architecture docs during feature work.")
+Person(adapterMaintainer, "Adapter maintainer", "Maintains runtime-specific integration guidance.")
+
+System(toolkit, "Architecture Knowledge Toolkit", "Docs-as-Code architecture knowledge toolkit.")
+
+System_Ext(aiRuntime, "AI runtime", "Suggests architecture content; does not own truth.")
+System_Ext(publishing, "Publishing platform", "Publishes generated documentation.")
+System_Ext(projectRepo, "Consuming project repository", "Uses toolkit conventions and generated views.")
+
+Rel(architect, toolkit, "Authors and evolves source architecture knowledge")
+Rel(reviewer, toolkit, "Reviews changes")
+Rel(developer, toolkit, "Runs validation and consumes generated views")
+Rel(adapterMaintainer, toolkit, "Maintains adapter guidance")
+Rel(toolkit, aiRuntime, "Receives suggestions from")
+Rel(toolkit, publishing, "Publishes derived documentation to")
+Rel(projectRepo, toolkit, "Adopts templates, skills, schemas, and scripts")
+@enduml
+----
+
+The canvas inputs for this view are
+`src/docs/canvas/canvas-003-architecture-inception.adoc` and
+`src/docs/canvas/canvas-004-architecture-communication.adoc`.

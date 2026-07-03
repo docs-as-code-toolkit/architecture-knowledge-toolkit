@@ -1,0 +1,66 @@
+---
+id: DOC-225-terms
+type: Document
+title: Terms
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Terms.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-112-glossary
+  status: proposed
+  rationale: This detail page elaborates the corresponding arc42 chapter.
+  evidence: src/docs/arc42/12-glossary/doc-225-terms.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+== [[terms]]Terms
+
+[cols="1,3", options="header"]
+|===
+| Term | Definition
+
+| Architecture artifact
+| Version-controlled source file that records architecture knowledge with
+stable metadata.
+
+| Agent adapter
+| AI-facing instruction file, such as `AGENTS.md`, that explains how automated
+contributors apply the engine-agnostic project contracts.
+
+| Engine-agnostic semantic contract
+| Project rule set that applies to humans, deterministic generators, and AI
+assistants without depending on a specific AI runtime.
+
+| Generated documentation
+| Derived output produced from committed inputs. It is publishable but not the
+primary editing surface.
+
+| Reusable source fragment
+| Reviewed AsciiDoc source file included into multiple documentation contexts
+with `include::[]`.
+
+| Suggested content
+| AI-assisted or derived content that still needs human review before it
+becomes accepted source truth.
+
+| Stable ID
+| Identifier that remains valid across title changes and should not be reused.
+
+| Traceability
+| Explicit relationships between architecture artifacts, stored as metadata and
+used for generated views.
+
+| Skill
+| Task-specific instruction package that narrows or extends the general
+contracts for one activity, such as ADR drafting or risk assessment.
+
+| Walking skeleton
+| A minimal end-to-end slice that proves the documentation workflow can work
+from source authoring through validation and generated views.
+|===

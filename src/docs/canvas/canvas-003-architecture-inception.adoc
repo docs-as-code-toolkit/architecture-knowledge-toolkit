@@ -1,0 +1,127 @@
+[[architecture-inception-canvas]]
+= Architecture Inception Canvas
+:id: CANVAS-003-architecture-inception
+:status: draft
+:owner: project maintainers
+:revdate: 2026-06-27
+
+This canvas is an initial architecture-inception draft. It incorporates reviewed
+workshop answers where available. Derived content still needs review before
+architectural decisions are marked as accepted.
+
+== Purpose
+
+The project provides a reusable toolkit for architecture knowledge work. It
+combines Docs-as-Code, engine-agnostic semantic contracts, explicit metadata,
+reusable AI skills, and deterministic validation and generation. It also
+supports the write-once, publish-everywhere philosophy by treating reusable
+AsciiDoc source fragments as part of the authoring model.
+
+== Stakeholders
+
+* Architecture maintainers.
+* Software architects.
+* Development teams.
+* Documentation maintainers.
+* AI assistant users and adapter maintainers.
+
+== Core Capabilities
+
+* Define architecture artifact metadata.
+* Define general semantic contracts as reusable project assets for humans,
+  deterministic tools, and AI assistants.
+* Validate artifact and relation metadata.
+* Provide templates and skills for ADRs, quality scenarios, and risks as the
+  first-class version 1 artifact workflow.
+* Prepare stakeholders, requirements, and components as the next-priority
+  artifact workflow.
+* Suggest architecture content through reusable AI skills.
+* Keep explicit relationships mandatory across ADRs, quality scenarios, and
+  risks, and between components and those artifact types in version 1.
+* Generate deterministic traceability views, including per-artifact relationship
+  views and artifact-type indexes.
+* Provide conventions for reusable source fragments that can be included in
+  multiple document contexts and target formats.
+* Demonstrate usage through this project's own arc42 documentation.
+
+== System Boundary
+
+Inside the project boundary:
+
+* Source documentation.
+* Metamodel schemas.
+* Templates.
+* Skills.
+* Agent adapters.
+* Validation and generation scripts.
+* Adapter documentation.
+
+Outside the project boundary:
+
+* Human review and acceptance.
+* AI runtime behavior.
+* Documentation publishing platforms.
+* Project-specific architecture decisions in consuming repositories.
+
+== Quality Drivers
+
+* Reproducibility: same committed inputs produce the same generated outputs.
+* Reuse: shared documentation content is authored once and included where
+  needed.
+* Reviewability: architecture knowledge changes are small and traceable.
+* Portability: core skills avoid engine-specific assumptions.
+* Contract clarity: general rules, agent adapters, and task-specific skills
+  have distinct responsibilities.
+* Auditability: suggested, generated, and reviewed content are distinguishable.
+* Usability: templates and dogfood documentation are practical for teams to
+  adopt.
+* Completeness: the first setup workflow should yield a usable initial artifact
+  set, not just a fast partial draft.
+
+== Constraints
+
+* AsciiDoc is the primary source format.
+* PlantUML is preferred for architecture diagrams where diagrams are needed.
+* Generated output must be deterministic and idempotent.
+* Repository files are the source of truth after human review.
+* Artifact metadata lives in AsciiDoc front matter for now.
+* Reusable source fragments use AsciiDoc includes and must stay independent of
+  target-format quirks.
+* Sidecar YAML files are deferred until performance or usability requires them.
+* Engine-specific integration belongs under `adapters/`.
+* `AGENTS.md` and `SKILL.md` complement but do not replace the general semantic
+  contracts.
+
+== Risks
+
+* Metadata authoring may feel too heavy for small teams.
+* AI suggestions may be mistaken for reviewed architecture truth.
+* Contract rules may drift if they are duplicated across general contracts,
+  agent adapters, and skills.
+* Early metamodel choices may constrain future artifact types.
+* Front matter metadata may become harder to work with if generated views need
+  more data than authors want to keep inside each document.
+* Fragments may break target output if they depend on local heading levels,
+  relative paths, or formatter-specific behavior.
+* Generator behavior may drift without regression tests.
+
+== First Increment
+
+The first increment should remain a walking skeleton:
+
+* Keep the repository structure stable.
+* Establish the contract hierarchy:
+  `general-semantic-contracts.md` -> `AGENTS.md` -> `SKILL.md`.
+* Provide the project setup workflow for an individual architect.
+* Keep ADRs, quality scenarios, and risks as the first artifact workflow after
+  setup.
+* Validate this project's own arc42 architecture artifacts.
+* Generate one deterministic traceability matrix, one per-artifact relationship
+  view, and one artifact-type index as a separate generated `.adoc` file linked
+  from a main index page.
+* Cover generated artifact views with golden-file regression tests from the
+  first generator slice, especially relationship views and artifact-type
+  indexes.
+* Run validation and generation both locally and in CI.
+* Document the new-project canvases and open questions.
+* Keep all inferred content in draft status.

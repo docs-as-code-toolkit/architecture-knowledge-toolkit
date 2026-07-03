@@ -1,0 +1,10 @@
+[[vision-mission]]
+= Vision And Mission
+:id: DOC-002-vision-mission
+
+Vision: Private Budget gives people a calm, private view of where their money
+goes.
+
+Mission: Provide simple budget tracking across web and mobile without turning
+personal spending data into a product.
+

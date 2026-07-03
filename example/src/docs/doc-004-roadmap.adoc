@@ -1,0 +1,14 @@
+[[roadmap]]
+= Roadmap
+:id: DOC-004-roadmap
+
+== First Increment
+
+Walking skeleton with backend, web UI, mobile app, transaction entry, budget
+summary, and validation.
+
+== Later Increments
+
+Recurring transactions, imports, shared households, richer trends, and backup
+automation.
+

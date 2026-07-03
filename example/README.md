@@ -9,14 +9,14 @@ metamodel schemas, validation, and reproducible generated fragments.
 
 ## What Is Included
 
-- `src/docs/arc42.adoc` as the assembled architecture entry point.
+- `src/docs/doc-001-private-budget-arc42.adoc` as the assembled architecture entry point.
 - `src/docs/arc42/` with all arc42 chapters represented as source artifacts.
 - Three ADRs in `src/docs/arc42/09-architecture-decisions/`.
 - Three quality scenarios in `src/docs/arc42/10-quality-requirements/`.
 - Initial risks and technical debt in `src/docs/arc42/11-risks-and-technical-debt/`.
 - Product clarification artifacts under `src/docs/canvas/`,
-  `src/docs/vision-mission.adoc`, `src/docs/roadmap.adoc`, and
-  `src/docs/questions-and-answers.adoc`.
+  `src/docs/doc-002-vision-mission.adoc`, `src/docs/doc-004-roadmap.adoc`, and
+  `src/docs/doc-005-questions-and-answers.adoc`.
 - Copied toolkit templates under `templates/`.
 - Copied metamodel schemas under `metamodel/`.
 - Copied validation and generator script under `scripts/`.
@@ -30,8 +30,7 @@ From this example directory, run:
 
 ```sh
 ruby scripts/validate-metamodel.rb \
-  --docs src/docs/arc42.adoc \
-  --docs src/docs/arc42 \
+  --docs src/docs \
   --relations-schema metamodel/relations.schema.yaml \
   --generate
 ```
@@ -64,7 +63,7 @@ see remaining budget per category, and review simple spending trends.
 
 Create the initial architecture documentation in the toolkit structure:
 - product canvases, vision/mission, roadmap, and Q&A;
-- src/docs/arc42.adoc and all arc42 chapter source files;
+- src/docs/doc-001-private-budget-arc42.adoc and all arc42 chapter source files;
 - at least three proposed ADRs with Pugh matrices;
 - quality goals and measurable quality scenarios;
 - initial risks and runtime scenarios;
@@ -102,7 +101,7 @@ Migrate or adapt the documentation to the toolkit structure:
 - convert generic architecture.adoc or Markdown ADRs into toolkit AsciiDoc
   source artifacts where appropriate;
 - create or update product canvases, vision/mission, roadmap, and Q&A;
-- create src/docs/arc42.adoc and all arc42 chapter source files;
+- create src/docs/doc-001-private-budget-arc42.adoc and all arc42 chapter source files;
 - identify missing ADR candidates, risks, quality scenarios, and runtime
   scenarios;
 - add metadata and outgoing relations according to the toolkit metamodel.

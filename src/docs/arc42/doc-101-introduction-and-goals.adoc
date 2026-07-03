@@ -1,0 +1,69 @@
+---
+id: DOC-101-introduction-and-goals
+type: Document
+title: Introduction And Goals
+status: draft
+owner: project maintainers
+created: '2026-06-28'
+reviewed: false
+generated: false
+summary: Draft source document for Introduction And Goals.
+tags:
+- arc42
+relations:
+- type: refines
+  target: DOC-001-arc42
+  status: proposed
+  rationale: This chapter contributes one arc42 section to the complete architecture
+    documentation.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+- type: documents
+  target: DOC-202-requirements-overview
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+- type: documents
+  target: DOC-201-quality-goals
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+- type: documents
+  target: DOC-203-stakeholders
+  status: proposed
+  rationale: The chapter includes this detail page as reviewed source content.
+  evidence: src/docs/arc42/doc-101-introduction-and-goals.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[introduction-and-goals]]Introduction And Goals
+
+This chapter describes why the toolkit exists, who it serves first, and which
+quality objectives shape architectural decisions.
+
+[cols="1,3", options="header"]
+|===
+| Detail | Description
+
+| xref:requirements-overview[]
+| Product purpose, mission, scope, and out-of-scope statements.
+
+| xref:quality-goals[]
+| The top quality objectives that drive architecture choices.
+
+| xref:stakeholders[]
+| Stakeholders and their architecture concerns.
+|===
+
+== Status
+
+This chapter is derived from reviewed repository inputs and draft canvases. It
+does not turn derived content into accepted architecture truth.
+
+include::01-introduction-and-goals/doc-202-requirements-overview.adoc[]
+
+include::01-introduction-and-goals/doc-201-quality-goals.adoc[]
+
+include::01-introduction-and-goals/doc-203-stakeholders.adoc[]

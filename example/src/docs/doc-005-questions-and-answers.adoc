@@ -1,0 +1,30 @@
+[[canvas-questions-and-answers]]
+= Questions And Answers
+:id: DOC-005-questions-and-answers
+
+== Open Questions For Product Owner
+
+[[q-po-001]]
+=== Q-PO-001: Should multiple household members share one budget?
+
+Answer: Open.
+
+== Open Questions For Architect
+
+No open questions for this role.
+
+== Open Questions For Developer
+
+No open questions for this role.
+
+== Open Questions For Subject Matter Expert
+
+No open questions for this role.
+
+== Open Questions For Operations
+
+[[q-ops-001]]
+=== Q-OPS-001: Which backup retention period is required?
+
+Answer: Open.
+

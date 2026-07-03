@@ -1,0 +1,7 @@
+[[techstack-canvas]]
+= Techstack Canvas
+:id: CANVAS-005-techstack
+
+The example intentionally leaves concrete frameworks open. The architecture
+assumes a backend API, web UI, mobile app, and SQL database.
+
