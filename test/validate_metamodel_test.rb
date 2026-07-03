@@ -379,16 +379,16 @@ class ValidateMetamodelTest < Minitest::Test
 
   private
 
-  def write_artifact(path, id, title)
+  def write_artifact(path, id, title, status: 'draft', owner: 'test', created: '2026-07-03')
     FileUtils.mkdir_p(path.dirname)
     path.write(<<~ADOC)
       ---
       id: #{id}
       type: Document
       title: #{title}
-      status: draft
-      owner: test
-      created: 2026-07-03
+      status: #{status}
+      owner: #{owner}
+      created: #{created}
       ---
       [[#{id.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/\A-+|-+\z/, '')}]]
       = #{title}

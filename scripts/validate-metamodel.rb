@@ -791,10 +791,13 @@ class ChapterIncludeFragmentGenerator
     chapters = metadata_artifacts.select { |artifact| chapter_artifact?(artifact) }
     details_by_chapter = metadata_artifacts
                          .reject { |artifact| chapter_artifact?(artifact) }
+                         .reject { |artifact| chapter_number_for(artifact.path).nil? }
                          .group_by { |artifact| chapter_number_for(artifact.path) }
 
     chapters.each_with_object({}) do |chapter, groups|
       chapter_number = chapter_number_for(chapter.path)
+      next unless chapter_number
+
       details = details_by_chapter.fetch(chapter_number, [])
       groups[chapter] = details unless details.empty?
     end
@@ -805,6 +808,8 @@ class ChapterIncludeFragmentGenerator
     return false unless relative
 
     parts = relative.each_filename.to_a
+    # Chapter overview documents live directly below arc42; nested files are
+    # detail documents grouped by their numbered chapter directory.
     parts.length == 1 && parts.first =~ /\Adoc-\d{2}000-.*\.adoc\z/
   end
 
