@@ -1,6 +1,6 @@
 ---
 name: implement-issue-workflow
-description: "Implement GitHub issue work using the repository workflow: start from the latest main branch, create an issue_<number> branch, make focused changes, verify, commit with useful messages, push, and open a pull request. Use when Codex is asked to implement or fix a GitHub issue, continue issue work, prepare a PR for issue work, or address pull request review comments."
+description: "Implement GitHub issue work using the repository workflow: start from the latest main branch, create an issue_<number> branch, make focused changes, verify, commit using the commit-message skill, push, and open a pull request. Use when Codex is asked to implement or fix a GitHub issue, continue issue work, prepare a PR for issue work, or address pull request review comments."
 ---
 
 # Implement Issue Workflow
@@ -21,7 +21,7 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 ## Implement And Verify
 
 1. Make small, reviewable changes that directly address the issue.
-2. Keep commits meaningful. Avoid generic messages such as `fix review comments`.
+2. Keep commits meaningful and use `../commit-message/SKILL.md` for message text.
 3. Run the relevant tests, linters, validators, generators, or manual checks before committing.
 4. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
 5. Leave unrelated worktree changes untouched.
@@ -29,7 +29,7 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 ## Commit, Push, And PR
 
 1. Stage only files that belong to the issue.
-2. Commit with a concise imperative message that describes the useful change.
+2. Commit using `../commit-message/SKILL.md`.
 3. Push the `issue_<number>` branch to the remote repository.
 4. Open a pull request against `main`.
 5. Include the issue link, implementation summary, and verification results in the pull request body.

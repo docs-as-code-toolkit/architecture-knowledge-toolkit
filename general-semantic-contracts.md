@@ -256,7 +256,7 @@ For each ticket:
 - Analyse the ticket and document the analysis as a comment on the ticket
 - Implement using TDD (following the London or Chicago school, as appropriate)
 - Each test refers to its use-case ID for traceability
-- Make a commit in accordance with the ‘Conventional Commits’ guidelines and specify the issue number
+- Make a commit using `skills/commit-message/SKILL.md`.
 - Check whether specifications or architecture documents need updating
 - When the EPIC is complete, create a pull request
 
