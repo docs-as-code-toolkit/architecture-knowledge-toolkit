@@ -749,6 +749,91 @@ class TraceabilityFragmentGenerator
   end
 end
 
+class ChapterIncludeFragmentGenerator
+  attr_reader :output_paths
+
+  def initialize(root:, docs_dir:)
+    @root = Pathname.new(root).expand_path
+    @docs_dir = output_base(docs_dir)
+    @output_paths = []
+  end
+
+  def write(artifacts)
+    @output_paths = chapter_groups(artifacts).map do |chapter, details|
+      output_path = include_output_path(chapter)
+      content = render(chapter, details, output_path)
+      FileUtils.mkdir_p(output_path.dirname)
+      output_path.write(content)
+      output_path
+    end
+  end
+
+  def render(chapter, details, output_path = include_output_path(chapter))
+    sorted = details.sort_by { |artifact| artifact.metadata['id'].to_s }
+
+    lines = []
+    lines << "// Generated from arc42 chapter metadata for #{chapter.metadata['id']}. Do not edit manually."
+    lines << ''
+
+    sorted.each do |artifact|
+      target = artifact.path.expand_path.relative_path_from(output_path.dirname).to_s
+      lines << "include::#{target}[]"
+      lines << ''
+    end
+
+    lines.join("\n")
+  end
+
+  private
+
+  def chapter_groups(artifacts)
+    metadata_artifacts = artifacts.select(&:metadata)
+    chapters = metadata_artifacts.select { |artifact| chapter_artifact?(artifact) }
+    details_by_chapter = metadata_artifacts
+                         .reject { |artifact| chapter_artifact?(artifact) }
+                         .group_by { |artifact| chapter_number_for(artifact.path) }
+
+    chapters.each_with_object({}) do |chapter, groups|
+      chapter_number = chapter_number_for(chapter.path)
+      details = details_by_chapter.fetch(chapter_number, [])
+      groups[chapter] = details unless details.empty?
+    end
+  end
+
+  def chapter_artifact?(artifact)
+    relative = arc42_relative_path(artifact.path)
+    return false unless relative
+
+    parts = relative.each_filename.to_a
+    parts.length == 1 && parts.first =~ /\Adoc-\d{2}000-.*\.adoc\z/
+  end
+
+  def chapter_number_for(path)
+    relative = arc42_relative_path(path)
+    return nil unless relative
+
+    parts = relative.each_filename.to_a
+    if parts.length == 1 && parts.first =~ /\Adoc-(\d{2})000-/
+      Regexp.last_match(1)
+    elsif parts.first =~ /\A(\d{2})-/
+      Regexp.last_match(1)
+    end
+  end
+
+  def arc42_relative_path(path)
+    expanded = path.expand_path
+    return expanded.relative_path_from(@docs_dir) if expanded.to_s.start_with?("#{@docs_dir}/")
+
+    nil
+  rescue ArgumentError
+    nil
+  end
+
+  def include_output_path(chapter)
+    @docs_dir.join('generated', "#{chapter.path.basename(chapter.path.extname)}-includes.adoc")
+  end
+end
+
 def output_base(docs_dir)
   targets = Array(docs_dir).map { |path| Pathname.new(path).expand_path }
   directory = targets.find(&:directory?)
@@ -856,6 +941,9 @@ class DocumentationGenerator
 
     open_questions = OpenQuestionsIndexGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(open_questions.write)
+
+    chapter_includes = ChapterIncludeFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
+    written.concat(chapter_includes.write(metadata_artifacts))
 
     traceability = TraceabilityFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(traceability.write(metadata_artifacts))
