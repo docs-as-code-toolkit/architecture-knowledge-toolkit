@@ -39,7 +39,6 @@ the truth. Reviewed metadata and source documents are the authoritative record.
 
 ```text
 src/docs/      New-project inception docs, canvases, vision, roadmap, and arc42.
-docs/concepts/ Legacy concept notes retained for later architecture docs.
 metamodel/     Schemas for architecture artifacts and relations.
 skills/        Reusable AI skill instructions and review workflows.
 templates/     AsciiDoc templates for common architecture artifacts.

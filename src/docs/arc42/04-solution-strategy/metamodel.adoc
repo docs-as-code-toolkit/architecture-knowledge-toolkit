@@ -1,30 +1,38 @@
-= Architecture Metamodel
-:toc:
-:toclevels: 2
-:id: DOC-003-metamodel
-:type: Document
-:status: draft
-:owner: architecture-knowledge-toolkit maintainers
-:created: 2026-06-25
-:reviewed: false
+---
+id: DOC-003-metamodel
+type: Document
+title: Architecture Metamodel
+status: draft
+owner: architecture-knowledge-toolkit maintainers
+created: '2026-06-25'
+reviewed: false
+generated: false
+summary: Defines the small metadata and relationship model that enables validated and generated architecture knowledge.
+tags:
+- arc42
+- metamodel
+- traceability
+relations: []
+metadata_version: '1.0'
+---
+[[architecture-metamodel]]
+== Architecture Metamodel
 
-== Purpose
-
-The architecture metamodel defines the small set of metadata fields and
-relationship types used by this repository. It keeps architecture knowledge
-reviewable as source text while still enabling deterministic generated views.
+The architecture metamodel is part of the solution strategy. It defines the
+small set of metadata fields and relationship types used by this repository. It
+keeps architecture knowledge reviewable as source text while still enabling
+deterministic generated views.
 
 The model is intentionally simple. Teams can add domain-specific conventions on
 top, but the shared core should remain stable, explicit, and easy to validate.
 
-== Source of Truth
+=== Source of Truth
 
 AsciiDoc files are the primary authoring format. Metadata is stored as YAML front
 matter at the top of each architecture artifact.
 
 [source,yaml]
 ----
----
 id: ADR-001-use-kafka
 type: ADR
 title: Use Kafka as the event backbone
@@ -39,13 +47,12 @@ relations:
     target: QS-001-event-processing-latency
     status: accepted
     rationale: Kafka supports partitioned processing for latency-sensitive flows.
----
 ----
 
 The repository owns the truth. AI-generated metadata or prose is only a
 suggestion until a reviewer accepts it.
 
-== Common Artifact Metadata
+=== Common Artifact Metadata
 
 [cols="1,1,3", options="header"]
 |===
@@ -100,7 +107,7 @@ suggestion until a reviewer accepts it.
 | Explicit outgoing relationships to other artifacts.
 |===
 
-== Supported Artifact Types
+=== Supported Artifact Types
 
 [cols="1,3", options="header"]
 |===
@@ -137,7 +144,7 @@ suggestion until a reviewer accepts it.
 | Supporting documentation that participates in traceability.
 |===
 
-== Relationship Types and Semantics
+=== Relationship Types and Semantics
 
 Relationships are directed: `source --type--> target`. Relationship semantics
 should be read from the source artifact toward the target artifact.
@@ -183,7 +190,7 @@ should be read from the source artifact toward the target artifact.
 | Weak relation for early capture. Prefer a more specific type after review.
 |===
 
-== Relationship Status
+=== Relationship Status
 
 [cols="1,3", options="header"]
 |===
@@ -202,7 +209,7 @@ should be read from the source artifact toward the target artifact.
 | Considered and intentionally rejected.
 |===
 
-== Dogfood Example
+=== Dogfood Example
 
 This repository uses its own arc42 documentation as the living example for the
 metamodel:
@@ -211,15 +218,10 @@ metamodel:
 * `src/docs/arc42/`
 
 The current dogfood documentation demonstrates `Document` artifacts and explicit
-`refines` relations between the arc42 root, chapter pages, and detail pages.
+metadata relations between the arc42 root, chapter pages, detail pages, ADRs,
+quality scenarios, and risks.
 
-Open follow-up: the removed sample project also showed standalone `ADR`,
-`QualityScenario`, and `Risk` artifacts connected as an ADR-to-quality-to-risk
-traceability chain. The project documentation still needs equivalent project
-specific artifacts before that complete chain is demonstrated in the dogfood
-docs.
-
-== Extension Rules
+=== Extension Rules
 
 * Add new artifact types only when existing types are insufficient.
 * Add new relationship types only when the semantics cannot be expressed clearly

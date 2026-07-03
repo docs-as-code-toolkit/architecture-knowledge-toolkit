@@ -24,6 +24,12 @@ relations:
   rationale: The chapter includes this detail page as reviewed source content.
   evidence: src/docs/arc42/04-solution-strategy.adoc
   reviewed: false
+- type: documents
+  target: DOC-003-metamodel
+  status: proposed
+  rationale: The chapter includes the architecture metamodel as a solution strategy detail.
+  evidence: src/docs/arc42/04-solution-strategy.adoc
+  reviewed: false
 metadata_version: '1.0'
 ---
 = [[solution-strategy]]Solution Strategy
@@ -38,6 +44,11 @@ xref:quality-goals[].
 
 | xref:strategy-overview[]
 | Main architectural approaches and quality-goal traceability.
+
+| xref:architecture-metamodel[]
+| Metadata and relation model used for validation, traceability, and generated views.
 |===
 
 include::04-solution-strategy/strategy-overview.adoc[]
+
+include::04-solution-strategy/metamodel.adoc[]

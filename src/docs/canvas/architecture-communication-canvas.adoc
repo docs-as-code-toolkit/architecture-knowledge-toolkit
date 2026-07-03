@@ -46,7 +46,6 @@ during project inception and review.
 * `src/docs/canvas/` for inception canvases and workshop questions.
 * `src/docs/` for reviewed inception documentation and future reusable source
   fragments.
-* `docs/concepts/` for retained legacy concept notes.
 * `src/docs/arc42.adoc` and `src/docs/arc42/` as the living dogfood example.
 * `skills/` for reusable AI-assisted workflows.
 * `scripts/validate-metamodel.rb` for executable validation.
