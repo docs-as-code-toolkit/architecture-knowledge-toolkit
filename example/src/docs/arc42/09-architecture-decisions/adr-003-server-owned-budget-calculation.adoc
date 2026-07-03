@@ -1,0 +1,55 @@
+---
+id: ADR-003-server-owned-budget-calculation
+type: ADR
+title: Server-Owned Budget Calculation
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Proposed decision to calculate budget totals on the backend.
+tags:
+- decision
+- integrity
+relations:
+- type: addresses
+  target: QS-001-budget-total-integrity
+  status: proposed
+  rationale: Server-owned calculation supports consistent budget totals.
+  evidence: src/docs/arc42/10-quality-requirements/qs-001-budget-total-integrity.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-003-server-owned-budget-calculation]]
+= ADR-003: Server-Owned Budget Calculation
+
+== Status
+
+Proposed.
+
+== Decision
+
+We propose to calculate budget totals and remaining amounts on the backend.
+
+== Context
+
+The web UI and mobile app should display the same budget state. Client-only
+calculation would duplicate business rules.
+
+== Pugh Matrix
+
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Server-owned | Client-owned | Database views only
+| Consistency | +1 | -1 | +1
+| Rule ownership | +1 | -1 | 0
+| Client simplicity | +1 | -1 | +1
+s| Sum s| 3 s| -3 s| 2
+|===
+
+== Consequences
+
+* Budget rules have one implementation point.
+* Backend availability affects live budget summaries.
+
+include::generated/adr-003-server-owned-budget-calculation-traceability.adoc[]
+

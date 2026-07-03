@@ -1,0 +1,117 @@
+---
+id: DOC-001-private-budget-arc42
+type: Document
+title: Private Budget arc42 Architecture
+status: draft
+owner: project maintainers
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Draft assembled arc42 architecture documentation for the Private Budget application.
+tags:
+- arc42
+- private-budget
+relations:
+- type: documents
+  target: DOC-101-introduction-and-goals
+  status: proposed
+  rationale: The assembled architecture includes the introduction and goals chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-102-architecture-constraints
+  status: proposed
+  rationale: The assembled architecture includes the constraints chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-103-system-scope-and-context
+  status: proposed
+  rationale: The assembled architecture includes the scope and context chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-104-solution-strategy
+  status: proposed
+  rationale: The assembled architecture includes the solution strategy chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-105-building-block-view
+  status: proposed
+  rationale: The assembled architecture includes the building block chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-106-runtime-view
+  status: proposed
+  rationale: The assembled architecture includes the runtime chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-107-deployment-view
+  status: proposed
+  rationale: The assembled architecture includes the deployment chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-108-crosscutting-concepts
+  status: proposed
+  rationale: The assembled architecture includes the crosscutting concepts chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-109-architecture-decisions
+  status: proposed
+  rationale: The assembled architecture includes the architecture decisions chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-110-quality-requirements
+  status: proposed
+  rationale: The assembled architecture includes the quality requirements chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-111-risks-and-technical-debt
+  status: proposed
+  rationale: The assembled architecture includes the risks and technical debt chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-112-glossary
+  status: proposed
+  rationale: The assembled architecture includes the glossary chapter.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+- type: documents
+  target: DOC-113-appendix
+  status: proposed
+  rationale: The assembled architecture includes the appendix.
+  evidence: src/docs/arc42.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+= [[private-budget-arc42]]Private Budget arc42 Architecture
+:toc:
+:toclevels: 2
+:sectnums:
+:skip-front-matter:
+
+This documentation is an artificial but complete bootstrap example for the
+architecture-knowledge-toolkit.
+
+include::arc42/01-introduction-and-goals.adoc[leveloffset=+1]
+include::arc42/02-architecture-constraints.adoc[leveloffset=+1]
+include::arc42/03-system-scope-and-context.adoc[leveloffset=+1]
+include::arc42/04-solution-strategy.adoc[leveloffset=+1]
+include::arc42/05-building-block-view.adoc[leveloffset=+1]
+include::arc42/06-runtime-view.adoc[leveloffset=+1]
+include::arc42/07-deployment-view.adoc[leveloffset=+1]
+include::arc42/08-crosscutting-concepts.adoc[leveloffset=+1]
+include::arc42/09-architecture-decisions.adoc[leveloffset=+1]
+include::arc42/10-quality-requirements.adoc[leveloffset=+1]
+include::arc42/11-risks-and-technical-debt.adoc[leveloffset=+1]
+include::arc42/12-glossary.adoc[leveloffset=+1]
+include::arc42/13-appendix.adoc[leveloffset=+1]
+

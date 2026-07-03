@@ -1,0 +1,28 @@
+---
+id: DOC-102-architecture-constraints
+type: Document
+title: Architecture Constraints
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Initial architecture and documentation constraints.
+tags:
+- arc42
+- constraints
+relations: []
+metadata_version: '1.0'
+---
+[[architecture-constraints]]
+= Architecture Constraints
+
+[cols="1,3", options="header"]
+|===
+| Constraint | Description
+| Documentation format | Architecture source uses AsciiDoc with YAML metadata.
+| Privacy by default | No analytics or third-party telemetry in the first increment.
+| API boundary | Clients communicate with the backend through versioned HTTP APIs.
+| Offline app | The mobile app keeps a local queue for expense entries.
+|===
+

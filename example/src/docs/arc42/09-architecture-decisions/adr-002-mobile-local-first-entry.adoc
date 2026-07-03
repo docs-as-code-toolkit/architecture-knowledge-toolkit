@@ -1,0 +1,63 @@
+---
+id: ADR-002-mobile-local-first-entry
+type: ADR
+title: Mobile Local-First Expense Entry
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Proposed decision to let the mobile app queue expense entries offline.
+tags:
+- decision
+- mobile
+- offline
+relations:
+- type: addresses
+  target: QS-003-offline-expense-capture
+  status: proposed
+  rationale: Local-first entry directly supports offline expense capture.
+  evidence: src/docs/arc42/10-quality-requirements/qs-003-offline-expense-capture.adoc
+  reviewed: false
+- type: introduces_risk
+  target: R-002-sync-conflict-loss
+  status: proposed
+  rationale: Offline queues can create sync conflicts if server data changed meanwhile.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-002-sync-conflict-loss.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-002-mobile-local-first-entry]]
+= ADR-002: Mobile Local-First Expense Entry
+
+== Status
+
+Proposed.
+
+== Decision
+
+We propose that the mobile app stores pending expense commands locally and syncs
+them when connectivity returns.
+
+== Context
+
+Expense entry often happens away from a stable network. Losing an entry makes
+the budget less trustworthy.
+
+== Pugh Matrix
+
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Local queue | Online only | Full offline database
+| Offline entry | +1 | -1 | +1
+| Implementation effort | 0 | +1 | -1
+| Conflict complexity | 0 | +1 | -1
+s| Sum s| 1 s| 1 s| -1
+|===
+
+== Consequences
+
+* Users can enter expenses offline.
+* Sync conflict handling becomes an explicit architecture concern.
+
+include::generated/adr-002-mobile-local-first-entry-traceability.adoc[]
+

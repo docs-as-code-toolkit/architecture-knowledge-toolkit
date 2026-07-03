@@ -1,0 +1,116 @@
+---
+id: ADR-000-short-title
+type: ADR
+title: Short decision topic
+status: proposed
+owner: architecture
+created: YYYY-MM-DD
+reviewed: false
+summary: Proposed decision summary.
+tags:
+  - decision
+relations:
+  - type: addresses
+    target: QS-000-short-title
+    status: proposed
+    rationale: Explain why this decision supports the target artifact.
+    reviewed: false
+---
+[[adr-000-short-title]]
+= ADR-000: Short Decision Topic
+
+== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+== Decision
+
+We propose to choose the selected option.
+
+== Context
+
+Describe the problem, forces, constraints, affected architecture artifacts, and
+source-code evidence inspected before writing this decision.
+
+== Decision Drivers
+
+* Driver 1.
+* Driver 2.
+* Driver 3.
+
+== Considered Options
+
+=== Option 1: Name
+
+Describe benefits, costs, risks, and fit to the drivers.
+
+=== Option 2: Name
+
+Describe benefits, costs, risks, and fit to the drivers.
+
+=== Option 3: Name
+
+Describe benefits, costs, risks, and fit to the drivers.
+
+== Pugh Matrix
+
+Use `+1` for better support, `0` for neutral support, and `-1` for weaker
+support. Mark cells with `?` when assessment requires human review. Add each
+option column manually in the `Sum` row; if any cell in an option column is `?`,
+the sum for that option is `?`.
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Option 1 | Option 2 | Option 3
+| Driver 1 | 0 | +1 | ?
+| Driver 2 | +1 | -1 | 0
+| Driver 3 | ? | 0 | +1
+s| Sum s| ? s| 0 s| ?
+|===
+
+== Consequences
+
+=== Positive
+
+* Positive consequence.
+
+=== Negative
+
+* Negative consequence.
+
+=== Neutral or Follow-Up
+
+* Follow-up decision or implementation concern.
+
+== Impact
+
+[cols="1,1,3", options="header"]
+|===
+| Artifact | Impact | Rationale
+| xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | addressed | Explain the quality impact.
+| xref:risk.adoc#risk-000-short-title[RISK-000-short-title] | introduced | Explain the risk impact.
+|===
+
+== Traceability
+
+[cols="1,1,3", options="header"]
+|===
+| Relation | Target | Rationale
+| `addresses` | xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | Explain the relation.
+|===
+
+== Assumptions
+
+* Assumption requiring review.
+
+== Open Questions
+
+* Question for the accountable owner.
+
+== Review Notes
+
+State what must be confirmed before this ADR can be marked reviewed or accepted.

@@ -1,0 +1,49 @@
+---
+id: R-001-private-data-exposure
+type: Risk
+title: Private Budget Data Exposure
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Personal spending data may be exposed through weak access control or logging.
+tags:
+- risk
+- privacy
+relations:
+- type: affects
+  target: QS-001-budget-total-integrity
+  status: proposed
+  rationale: Exposure or tampering can undermine trust in recorded budget data.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-001-private-data-exposure.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-001-private-data-exposure]]
+= R-001: Private Budget Data Exposure
+
+== Risk Statement
+
+Because budget data contains personal spending patterns, weak authorization,
+transport security, or logging may expose sensitive information to unauthorized
+parties.
+
+== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | Medium.
+| Impact | High.
+| Priority | High.
+| Timeframe | First increment.
+| Confidence | Medium.
+|===
+
+== Mitigation Options
+
+Use authenticated API access, server-side authorization, transport encryption,
+password hashing, and log redaction.
+
+include::generated/r-001-private-data-exposure-traceability.adoc[]
+

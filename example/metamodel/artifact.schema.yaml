@@ -1,0 +1,108 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://architecture-knowledge-toolkit.example/metamodel/artifact.schema.yaml"
+title: Architecture Artifact Metadata
+description: >-
+  Common YAML front matter metadata for reviewed architecture knowledge
+  artifacts. The metadata is intentionally small and extensible; prose remains
+  in the AsciiDoc body, while traceability is captured explicitly here.
+type: object
+additionalProperties: false
+required:
+  - id
+  - type
+  - title
+  - status
+  - owner
+  - created
+properties:
+  id:
+    type: string
+    description: Stable architecture artifact identifier. IDs must not be reused.
+    pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
+    examples:
+      - DOC-001-arc42
+      - DOC-109-architecture-decisions
+      - DOC-220-adr-index
+  type:
+    type: string
+    description: Supported architecture artifact type.
+    enum:
+      - ADR
+      - QualityScenario
+      - Risk
+      - Requirement
+      - Constraint
+      - Component
+      - Interface
+      - Stakeholder
+      - Concept
+      - Document
+  title:
+    type: string
+    minLength: 1
+  status:
+    type: string
+    description: Lifecycle state of the artifact.
+    enum:
+      - draft
+      - proposed
+      - reviewed
+      - accepted
+      - rejected
+      - superseded
+      - deprecated
+  owner:
+    type: string
+    minLength: 1
+  created:
+    type: string
+    format: date
+  updated:
+    type: string
+    format: date
+  reviewed:
+    type: boolean
+    description: True only after human review of the artifact content.
+    default: false
+  generated:
+    type: boolean
+    description: True when the file is derived output rather than source content.
+    default: false
+  summary:
+    type: string
+    description: Short human-readable summary for indexes and generated views.
+  tags:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      pattern: "^[a-z0-9][a-z0-9-]*$"
+  source:
+    type: string
+    description: Optional repository-relative source path when metadata is stored separately.
+  superseded_by:
+    type: string
+    description: Stable ID of the artifact that supersedes this one.
+  relations:
+    type: array
+    description: Explicit outgoing relationships from this artifact.
+    items:
+      $ref: "relations.schema.yaml#/$defs/relation"
+  metadata_version:
+    type: string
+    default: "1.0"
+examples:
+  - id: DOC-220-adr-index
+    type: Document
+    title: ADR Index
+    status: draft
+    owner: project maintainers
+    created: "2026-06-28"
+    reviewed: false
+    tags:
+      - arc42
+    relations:
+      - type: refines
+        target: DOC-109-architecture-decisions
+        status: proposed
+        rationale: This detail page elaborates the corresponding arc42 chapter.

@@ -1,0 +1,70 @@
+---
+id: ADR-001-backend-api-boundary
+type: ADR
+title: Backend API Boundary
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Proposed decision to expose backend capabilities through a versioned HTTP API.
+tags:
+- decision
+- api
+relations:
+- type: addresses
+  target: QS-002-expense-entry-latency
+  status: proposed
+  rationale: A stable API boundary supports predictable client expense entry.
+  evidence: src/docs/arc42/10-quality-requirements/qs-002-expense-entry-latency.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-001-backend-api-boundary]]
+= ADR-001: Backend API Boundary
+
+== Status
+
+Proposed.
+
+== Decision
+
+We propose a versioned HTTP JSON API as the boundary between web UI, mobile app,
+and backend.
+
+== Context
+
+The application has two clients and one backend system of record. Both clients
+need the same budget commands and summaries.
+
+== Considered Options
+
+=== HTTP JSON API
+
+Simple to consume from web and mobile clients.
+
+=== GraphQL
+
+Flexible for clients, but more complexity than the first increment needs.
+
+=== Client-specific backends
+
+Allows tailored client APIs, but duplicates budget behavior early.
+
+== Pugh Matrix
+
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | HTTP JSON | GraphQL | Client-specific backends
+| Simplicity | +1 | 0 | -1
+| Multi-client fit | +1 | +1 | 0
+| First increment effort | +1 | -1 | -1
+s| Sum s| 3 s| 0 s| -2
+|===
+
+== Consequences
+
+* Web UI and mobile app share the same backend contract.
+* API versioning must be managed deliberately.
+
+include::generated/adr-001-backend-api-boundary-traceability.adoc[]
+

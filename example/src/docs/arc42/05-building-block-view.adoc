@@ -1,0 +1,45 @@
+---
+id: DOC-105-building-block-view
+type: Document
+title: Building Block View
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Level-1 building blocks for backend, web UI, mobile app, and database.
+tags:
+- arc42
+- building-blocks
+relations: []
+metadata_version: '1.0'
+---
+[[building-block-view]]
+= Building Block View
+
+[plantuml,private-budget-building-blocks,png]
+----
+@startuml
+!include <C4/C4_Component>
+Container(web, "Web UI", "TypeScript SPA", "Budget overview and entry forms")
+Container(app, "Mobile App", "Mobile client", "Offline expense entry")
+Container(api, "Backend API", "HTTP API", "Authentication, validation, budget commands")
+Container(domain, "Budget Domain", "Backend module", "Budget rules and summaries")
+ContainerDb(db, "Application Database", "SQL", "Users, categories, transactions, budgets")
+Rel(web, api, "Uses", "HTTPS/JSON")
+Rel(app, api, "Syncs", "HTTPS/JSON")
+Rel(api, domain, "Invokes")
+Rel(domain, db, "Persists")
+@enduml
+----
+
+[cols="1,2,2,2", options="header"]
+|===
+| Building block | Responsibility | Interface | Storage location
+| Web UI | Budget dashboard and forms | Backend API | `/web`
+| Mobile App | Offline expense capture and sync | Backend API | `/app`
+| Backend API | Client boundary and validation | HTTP JSON | `/backend`
+| Budget Domain | Budget rules and summaries | Application services | `/backend/domain`
+| Application Database | Persistent budget records | SQL | Managed database
+|===
+

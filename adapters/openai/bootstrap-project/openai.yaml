@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bootstrap Project"
+  short_description: "Start projects with toolkit architecture docs"
+  default_prompt: "Use $bootstrap-project to create the initial architecture documentation structure for this new repository."

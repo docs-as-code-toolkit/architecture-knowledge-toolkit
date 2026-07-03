@@ -1,0 +1,40 @@
+---
+id: DOC-111-risks-and-technical-debt
+type: Document
+title: Risks And Technical Debt
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Initial risks and technical debt for the Private Budget application.
+tags:
+- arc42
+- risk
+relations:
+- type: documents
+  target: R-001-private-data-exposure
+  status: proposed
+  rationale: The chapter contains this risk.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+- type: documents
+  target: R-002-sync-conflict-loss
+  status: proposed
+  rationale: The chapter contains this risk.
+  evidence: src/docs/arc42/11-risks-and-technical-debt.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[risks-and-technical-debt]]
+= Risks And Technical Debt
+
+include::11-risks-and-technical-debt/generated/risks.adoc[]
+include::11-risks-and-technical-debt/r-001-private-data-exposure.adoc[]
+include::11-risks-and-technical-debt/r-002-sync-conflict-loss.adoc[]
+
+== Technical Debt
+
+No accepted technical debt is recorded yet. Draft debt candidates belong here
+after the first implementation slice creates evidence.
+

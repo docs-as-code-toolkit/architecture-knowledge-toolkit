@@ -107,6 +107,16 @@ The primary success evidence for this first slice is the completeness of the
 initial artifact set; faster drafting and reduced review effort are secondary
 outcomes.
 
+See [`example/`](example/) for a complete artificial bootstrap example of a
+private budget application with backend, web UI, and mobile app. The example
+includes copied toolkit templates, metamodel schemas, the validation/generation
+script, three ADRs, quality goals, quality scenarios, risks, generated
+traceability fragments, and two reusable prompts:
+
+- a greenfield prompt for projects that only have an idea;
+- an existing-artifacts prompt for adapting code, README files, diagrams, ADRs,
+  or generic architecture documentation to the toolkit structure.
+
 ## Intended Workflow
 
 1. Create or update an architecture artifact using an AsciiDoc template.
@@ -134,6 +144,7 @@ change, that is a defect in the generator or environment.
 
 Use the skill contracts under `skills/` for focused architecture workflows:
 
+- [`skills/bootstrap-project`](/skills/bootstrap-project/SKILL.md) for bootstrapping new project architecture documentation in the toolkit structure.
 - [`skills/adr`](/skills/adr/SKILL.md) for Architecture Decision Records and impact analysis.
 - [`skills/quality-scenario`](/skills/quality-scenario/SKILL.md) for measurable quality scenarios.
 - [`skills/risk`](/skills/risk/SKILL.md) for architecture risks and mitigations.

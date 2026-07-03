@@ -1,0 +1,6 @@
+[[value-proposition-canvas]]
+= Value Proposition Canvas
+
+Users want fast expense entry, clear remaining budgets, and confidence that
+private spending data stays private.
+

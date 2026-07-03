@@ -76,6 +76,12 @@ unique asciidoc anchor. Every source document that refers to a question must
 link to the question with `xref:` and the explicit question anchor. For example,
 the BMC question about the key partners is placed in the Q&A file with the
 anchor `bmc-key-partners` and linked as `xref:bmc-key-partners[]`.
+Include `src/docs/questions-and-answers.adoc` from
+`src/docs/arc42/13-appendix.adoc` so open and answered questions are part of the
+assembled architecture documentation. Keep the Q&A document itself free of YAML
+front matter unless the project explicitly promotes questions to first-class
+architecture artifacts; otherwise the appendix carries the standalone artifact
+metadata.
 
 Apply the Docs-as-Code Toolkit philosophy `Write once. Publish everywhere.` in
 two ways: publish the same source documentation to different target formats, and

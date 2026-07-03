@@ -1,0 +1,6 @@
+[[business-model-canvas]]
+= Business Model Canvas
+
+Private Budget is an example product. The initial value proposition is private,
+simple household budget management without bank integration.
+

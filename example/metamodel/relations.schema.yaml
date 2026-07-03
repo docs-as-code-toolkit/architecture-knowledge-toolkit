@@ -1,0 +1,117 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://architecture-knowledge-toolkit.example/metamodel/relations.schema.yaml"
+title: Architecture Relationship Metadata
+description: >-
+  Schema for explicit traceability relationships between architecture artifacts.
+  Relationships can be embedded in YAML front matter or collected in a separate
+  relation index.
+  
+  **Relationship Directionality Convention:** All relations in source artifacts are
+  authoritative outgoing relations. Incoming relations are derived during generation
+  and appear only in generated traceability views, not in source metadata. This prevents
+  bidirectional duplication and reduces maintenance overhead.
+type: object
+additionalProperties: false
+required:
+  - relations
+properties:
+  relations:
+    type: array
+    items:
+      $ref: "#/$defs/indexedRelation"
+$defs:
+  artifactId:
+    type: string
+    pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
+  relationshipType:
+    type: string
+    enum:
+      - addresses
+      - depends_on
+      - constrains
+      - refines
+      - supersedes
+      - conflicts_with
+      - mitigates
+      - introduces_risk
+      - affects
+      - verifies
+      - documents
+      - relates_to
+  relationshipStatus:
+    type: string
+    enum:
+      - proposed
+      - reviewed
+      - accepted
+      - rejected
+  relation:
+    type: object
+    additionalProperties: false
+    required:
+      - type
+      - target
+      - status
+    properties:
+      type:
+        $ref: "#/$defs/relationshipType"
+      target:
+        $ref: "#/$defs/artifactId"
+      status:
+        $ref: "#/$defs/relationshipStatus"
+      rationale:
+        type: string
+      evidence:
+        type: string
+        description: Repository-relative path or section reference supporting the relation.
+      reviewed:
+        type: boolean
+        default: false
+  indexedRelation:
+    type: object
+    additionalProperties: false
+    required:
+      - id
+      - source
+      - type
+      - target
+      - status
+    properties:
+      id:
+        type: string
+        description: Stable relationship identifier for relation index files.
+        pattern: "^REL-[0-9]{3,}(-[a-z0-9]+)*$"
+      source:
+        $ref: "#/$defs/artifactId"
+      type:
+        $ref: "#/$defs/relationshipType"
+      target:
+        $ref: "#/$defs/artifactId"
+      status:
+        $ref: "#/$defs/relationshipStatus"
+      rationale:
+        type: string
+      evidence:
+        type: string
+        description: Repository-relative path or section reference supporting the relation.
+      reviewed:
+        type: boolean
+        default: false
+examples:
+  - relations:
+      - id: REL-001-adr-index-refines-decisions
+        source: DOC-220-adr-index
+        type: refines
+        target: DOC-109-architecture-decisions
+        status: proposed
+        rationale: The ADR index detail page elaborates the arc42 architecture decisions chapter.
+        evidence: src/docs/arc42/09-architecture-decisions/adr-index.adoc
+        reviewed: false
+      - id: REL-002-risks-refines-risk-chapter
+        source: DOC-223-risks
+        type: refines
+        target: DOC-111-risks-and-technical-debt
+        status: proposed
+        rationale: The risks detail page elaborates the arc42 risks and technical debt chapter.
+        evidence: src/docs/arc42/11-risks-and-technical-debt/risks.adoc
+        reviewed: false

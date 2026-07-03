@@ -1,0 +1,39 @@
+---
+id: QS-001-budget-total-integrity
+type: QualityScenario
+title: Budget Total Integrity
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Budget summaries reflect persisted transactions without silent loss or duplication.
+tags:
+- quality
+- integrity
+relations:
+- type: refines
+  target: DOC-202-quality-goals
+  status: proposed
+  rationale: The scenario concretizes QG-002 Data integrity.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-001-budget-total-integrity]]
+= QS-001: Budget Total Integrity
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Household member.
+| Stimulus | Adds or edits a transaction.
+| Artifact | Monthly budget summary.
+| Environment | Normal operation.
+| Response | The summary reflects the committed transaction exactly once.
+| Response Measure | Assumption: service-level tests cover create, edit, delete, and retry cases with no unexplained total drift.
+|===
+
+include::generated/qs-001-budget-total-integrity-traceability.adoc[]
+

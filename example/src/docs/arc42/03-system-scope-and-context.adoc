@@ -1,0 +1,41 @@
+---
+id: DOC-103-system-scope-and-context
+type: Document
+title: System Scope And Context
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Business and technical context for Private Budget.
+tags:
+- arc42
+- context
+relations: []
+metadata_version: '1.0'
+---
+[[system-scope-and-context]]
+= System Scope And Context
+
+Private Budget is a self-contained budget management system with backend, web
+UI, and mobile app.
+
+[plantuml,private-budget-context,png]
+----
+@startuml
+left to right direction
+actor "Household member" as User
+rectangle "Private Budget" {
+  component "Web UI" as Web
+  component "Mobile App" as App
+  component "Backend API" as Api
+}
+database "Application Database" as Db
+User --> Web
+User --> App
+Web --> Api
+App --> Api
+Api --> Db
+@enduml
+----
+

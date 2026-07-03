@@ -1,0 +1,39 @@
+---
+id: QS-003-offline-expense-capture
+type: QualityScenario
+title: Offline Expense Capture
+status: proposed
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+summary: Mobile users can capture expenses during short network outages.
+tags:
+- quality
+- offline
+relations:
+- type: refines
+  target: DOC-202-quality-goals
+  status: proposed
+  rationale: The scenario concretizes QG-003 Offline resilience.
+  evidence: src/docs/arc42/01-introduction-and-goals/quality-goals.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[qs-003-offline-expense-capture]]
+= QS-003: Offline Expense Capture
+
+== Scenario
+
+[cols="1,3", options="header"]
+|===
+| Element | Description
+| Source | Mobile user.
+| Stimulus | Enters an expense while offline.
+| Artifact | Mobile app local queue and sync workflow.
+| Environment | Network unavailable for up to 30 minutes.
+| Response | The app stores the pending expense and syncs it when connectivity returns.
+| Response Measure | Assumption: no pending expense is lost across app restart during the outage.
+|===
+
+include::generated/qs-003-offline-expense-capture-traceability.adoc[]
+

@@ -1,0 +1,44 @@
+---
+id: DOC-104-solution-strategy
+type: Document
+title: Solution Strategy
+status: draft
+owner: architecture
+created: '2026-07-03'
+reviewed: false
+generated: false
+summary: Main architectural approaches for the budget application.
+tags:
+- arc42
+- strategy
+relations:
+- type: documents
+  target: ADR-001-backend-api-boundary
+  status: proposed
+  rationale: The API boundary is a central solution strategy decision.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-001-backend-api-boundary.adoc
+  reviewed: false
+- type: documents
+  target: ADR-002-mobile-local-first-entry
+  status: proposed
+  rationale: Local-first entry supports the offline resilience strategy.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-002-mobile-local-first-entry.adoc
+  reviewed: false
+- type: documents
+  target: ADR-003-server-owned-budget-calculation
+  status: proposed
+  rationale: Server-owned calculations support integrity and consistency.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-003-server-owned-budget-calculation.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[solution-strategy]]
+= Solution Strategy
+
+The architecture keeps the backend as the system of record, offers web and
+mobile clients through an API boundary, and lets the mobile app queue expense
+entries while offline.
+
+The first increment is a walking skeleton: create a category, add an expense,
+sync it, and show the remaining monthly budget.
+
