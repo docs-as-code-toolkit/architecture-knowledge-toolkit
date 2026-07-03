@@ -45,3 +45,7 @@ and committed.
   skills.
 - Put Codex-specific, Vibe-specific, or other runtime integration under
   `adapters/`.
+- Put GitHub Copilot-specific repository instructions in `.github/` only as an
+  entry point that points back to `adapters/github-copilot/` and the
+  engine-independent skills. For pull request reviews, use
+  `skills/pr-review/SKILL.md`.
