@@ -39,31 +39,15 @@ relations:
 metadata_version: '1.0'
 ---
 = [[introduction-and-goals]]Introduction And Goals
+:toc:
+:toclevels: 2
 
 This chapter describes why the toolkit exists, who it serves first, and which
 quality objectives shape architectural decisions.
-
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:requirements-overview[]
-| Product purpose, mission, scope, and out-of-scope statements.
-
-| xref:quality-goals[]
-| The top quality objectives that drive architecture choices.
-
-| xref:stakeholders[]
-| Stakeholders and their architecture concerns.
-|===
 
 == Status
 
 This chapter is derived from reviewed repository inputs and draft canvases. It
 does not turn derived content into accepted architecture truth.
 
-include::01-introduction-and-goals/doc-01002-requirements-overview.adoc[]
-
-include::01-introduction-and-goals/doc-01001-quality-goals.adoc[]
-
-include::01-introduction-and-goals/doc-01003-stakeholders.adoc[]
+include::generated/doc-01000-introduction-and-goals-includes.adoc[]

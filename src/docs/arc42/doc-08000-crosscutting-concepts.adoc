@@ -57,41 +57,10 @@ relations:
 metadata_version: '1.0'
 ---
 = [[crosscutting-concepts]]Crosscutting Concepts
+:toc:
+:toclevels: 2
 
 This chapter follows the required concept order and records draft crosscutting
 concepts for the toolkit.
 
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:threat-model[]
-| STRIDE threat model.
-
-| xref:security[]
-| Security mitigations.
-
-| xref:testing[]
-| Testing concept.
-
-| xref:observability[]
-| Observability concept.
-
-| xref:error-handling[]
-| Error-handling concept.
-
-| xref:source-fragments[]
-| Reusable source-fragment concept.
-|===
-
-include::08-crosscutting-concepts/doc-08001-threat-model.adoc[]
-
-include::08-crosscutting-concepts/doc-08002-security.adoc[]
-
-include::08-crosscutting-concepts/doc-08003-testing.adoc[]
-
-include::08-crosscutting-concepts/doc-08004-observability.adoc[]
-
-include::08-crosscutting-concepts/doc-08005-error-handling.adoc[]
-
-include::08-crosscutting-concepts/doc-08006-source-fragments.adoc[]
+include::generated/doc-08000-crosscutting-concepts-includes.adoc[]

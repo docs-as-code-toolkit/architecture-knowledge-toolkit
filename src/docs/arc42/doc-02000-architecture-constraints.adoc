@@ -33,21 +33,10 @@ relations:
 metadata_version: '1.0'
 ---
 = [[architecture-constraints]]Architecture Constraints
+:toc:
+:toclevels: 2
 
 This chapter records the binding constraints already visible from repository
 rules, canvases, and current implementation choices.
 
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:documentation-constraints[]
-| Source format, diagrams, includes, generated output, and review status.
-
-| xref:technology-constraints[]
-| Current implementation and publication constraints.
-|===
-
-include::02-architecture-constraints/doc-02001-documentation-constraints.adoc[]
-
-include::02-architecture-constraints/doc-02002-technology-constraints.adoc[]
+include::generated/doc-02000-architecture-constraints-includes.adoc[]

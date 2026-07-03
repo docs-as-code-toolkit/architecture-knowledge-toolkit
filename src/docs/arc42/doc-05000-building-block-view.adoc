@@ -27,17 +27,11 @@ relations:
 metadata_version: '1.0'
 ---
 = [[building-block-view]]Building Block View
+:toc:
+:toclevels: 2
 
 This chapter decomposes the toolkit into source-owned building blocks. The
 level 1 set aligns with the external systems and boundary named in
 xref:system-scope-and-context[].
 
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:level-1[]
-| Level 1 system decomposition.
-|===
-
-include::05-building-block-view/doc-05001-level-1.adoc[]
+include::generated/doc-05000-building-block-view-includes.adoc[]

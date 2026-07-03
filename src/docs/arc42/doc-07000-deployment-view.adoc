@@ -27,17 +27,11 @@ relations:
 metadata_version: '1.0'
 ---
 = [[deployment-view]]Deployment View
+:toc:
+:toclevels: 2
 
 The toolkit is currently a repository-based toolchain rather than a deployed
 service. Deployment means making source assets available to contributors and
 publishing generated documentation through automation.
 
-[cols="1,3", options="header"]
-|===
-| Detail | Description
-
-| xref:local-and-ci[]
-| Local contributor environment and CI/CD publication path.
-|===
-
-include::07-deployment-view/doc-07001-local-and-ci.adoc[]
+include::generated/doc-07000-deployment-view-includes.adoc[]
