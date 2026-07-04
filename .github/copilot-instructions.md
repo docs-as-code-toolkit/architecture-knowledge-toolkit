@@ -17,3 +17,7 @@ For pull request reviews, apply `skills/pr-review/SKILL.md` and the adapter
 rules in `adapters/github-copilot/README.md`. Prefer direct GitHub PR comments.
 If direct PR comments are not available, write
 `.pr_comments/.pr<pr-number>_comments.md` on the PR branch.
+
+When this repository is copied or referenced from a target project, keep
+project-specific Copilot instructions in the target project's `.github/`
+directory and point them back to this toolkit instead of duplicating the full contract text.

@@ -29,6 +29,20 @@ Use repository source files as the source of truth. Conversational context,
 inferred relations, generated prose, and AI output are advisory until reviewed
 and committed.
 
+## Using This Toolkit From Other Projects
+
+When this repository is used as a toolkit dependency from another software
+project, automated agents should treat this repository as the canonical source
+for architecture documentation conventions, templates, skills, metamodel
+schemas, validators, and generator behavior.
+
+Target projects may contain their own `AGENTS.md`. In that case, apply the
+target project's local instructions first, then use this toolkit to fill in
+architecture-knowledge-toolkit-specific conventions.
+
+Do not copy all toolkit rules into global agent installations. Global agent
+instructions should only tell agents how to discover and apply this toolkit.
+
 ## Agent-Specific Rules
 
 - Prefer small, reviewable changes.
