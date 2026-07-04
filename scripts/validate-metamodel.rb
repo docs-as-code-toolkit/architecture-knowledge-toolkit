@@ -777,6 +777,7 @@ class ChapterIncludeFragmentGenerator
 
     sorted.each do |artifact|
       target = artifact.path.expand_path.relative_path_from(output_path.dirname).to_s
+      lines << ''
       lines << "include::#{target}[]"
       lines << ''
     end
