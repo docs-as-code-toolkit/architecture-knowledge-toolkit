@@ -153,7 +153,7 @@ set and regenerate derived fragments with the copied validator/generator.
 1. Inspect the target repository before writing files.
 2. Read the local project contract files if present: `AGENTS.md`,
    `general-semantic-contracts.md`, and relevant `skills/**/SKILL.md`.
-3. If no local project contract files are available, copy the contract files from docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents as described above
+3. If no local project contract files are available, copy the relevant agent instruction templates from docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents as described above
 4. Determine whether the task is greenfield or based on existing artifacts.
 5. Identify whether documentation is absent, partial, or already present in a
    non-toolkit shape.
