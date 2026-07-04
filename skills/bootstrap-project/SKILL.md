@@ -143,7 +143,7 @@ set and regenerate derived fragments with the copied validator/generator.
 9. Prepare source artifacts and generator inputs before generated outputs.
 10. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
 11. Run toolkit generators, validators, or documentation builds when available.
-12. Make any used SCM system 
+12. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
 
 ## Target Structure
 
