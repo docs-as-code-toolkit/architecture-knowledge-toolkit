@@ -22,7 +22,7 @@ engine-independent skill.
 
 The bootstrap-project skill is responsible for:
 
-- creating a inital Project structure
+- creating an inital Project structure
 - creating the initial documentation structure;
 - creating required source artifacts;
 - identifying missing documentation;
