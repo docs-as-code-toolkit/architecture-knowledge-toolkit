@@ -26,49 +26,49 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-003-source-fragments-location]]
-= ADR-003: Reusable Source Fragment Location
+== ADR-003: Reusable Source Fragment Location
 
-== Status
+=== Status
 
 Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
 
-== Decision
+=== Decision
 
 We propose to store reusable source fragments under `src/docs/fragments/`.
 
-== Context
+=== Context
 
 The toolkit distinguishes reusable source fragments from generated fragments.
 xref:q-arch-007[Q-ARCH-007] still marks the final fragment location as open. The
 current arc42 draft already uses `src/docs/fragments/` as the proposed
 convention.
 
-== Decision Drivers
+=== Decision Drivers
 
 * Keep reusable source content near the architecture documentation.
 * Avoid confusing reviewed source fragments with generated output.
 * Keep include paths predictable.
 
-== Considered Options
+=== Considered Options
 
-=== Option 1: `src/docs/fragments/`
+==== Option 1: `src/docs/fragments/`
 
 Fragments live under the documentation source tree and remain clearly separate
 from generated output.
 
-=== Option 2: `src/docs/shared/`
+==== Option 2: `src/docs/shared/`
 
 The name is general, but less explicit about fragment semantics.
 
-=== Option 3: Generated-output directory
+==== Option 3: Generated-output directory
 
 This would mix source truth and derived output and contradict
 xref:q-arch-009[Q-ARCH-009].
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [.pugh-matrix]
 [cols="2,1,1,1", options="header"]
@@ -80,36 +80,36 @@ xref:q-arch-009[Q-ARCH-009].
 s| Sum s| 3 s| 1 s| -3
 |===
 
-== Consequences
+=== Consequences
 
-=== Positive
+==== Positive
 
 * Fragments are reviewed source content and can be included from multiple
   documents.
 * Generated output remains outside the source-fragment area.
 
-=== Negative
+==== Negative
 
 * Shared fragments can break several documents at once when they use fixed
   heading levels or target-specific constructs. This is tracked by
   xref:r-003-source-fragments-break-rendering[].
 
-=== Neutral or Follow-Up
+==== Neutral or Follow-Up
 
 * Fragment structure rules still need human confirmation through
   xref:q-arch-008[Q-ARCH-008].
 
-include::generated/adr-003-source-fragments-location-traceability.adoc[]
+include::generated/adr-003-source-fragments-location-traceability.adoc[leveloffset=+1]
 
-== Assumptions
+=== Assumptions
 
 * Source fragments stay in reviewed source directories, never generated output.
 
-== Open Questions
+=== Open Questions
 
 * Which fragment structures are allowed for every supported target format?
 
-== Review Notes
+=== Review Notes
 
 Confirm xref:q-arch-007[Q-ARCH-007] and xref:q-arch-008[Q-ARCH-008] before
 accepting this ADR.

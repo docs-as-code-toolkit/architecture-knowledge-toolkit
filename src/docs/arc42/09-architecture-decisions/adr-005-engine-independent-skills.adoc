@@ -32,50 +32,50 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-005-engine-independent-skills]]
-= ADR-005: Engine-Specific Runtime Integration Boundary
+== ADR-005: Engine-Specific Runtime Integration Boundary
 
-== Status
+=== Status
 
 Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
 
-== Decision
+=== Decision
 
 We propose to keep core skills engine-independent and move runtime integration
 to adapter documentation.
 
-== Context
+=== Context
 
 `AGENTS.md` states that Codex-specific, Vibe-specific, or other runtime
 integration belongs under `adapters/`. xref:q-arch-006[Q-ARCH-006] still marks
 the exact adapter documentation boundary as open.
 
-== Decision Drivers
+=== Decision Drivers
 
 * Keep reusable skills independent of one AI engine.
 * Let runtime-specific integrations evolve without changing core contracts.
 * Preserve portability across AI assistants and documentation workflows.
 
-== Considered Options
+=== Considered Options
 
-=== Option 1: Engine-independent core with adapters
+==== Option 1: Engine-independent core with adapters
 
 Core contracts and skills remain engine-independent. Runtime details live under
 `adapters/`.
 
-=== Option 2: Put runtime guidance directly into skills
+==== Option 2: Put runtime guidance directly into skills
 
 This keeps one file close to the workflow, but couples reusable skills to
 specific AI engines.
 
-=== Option 3: Separate one skill set per engine
+==== Option 3: Separate one skill set per engine
 
 This makes engine behavior explicit, but duplicates architecture rules and
 raises drift risk.
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [.pugh-matrix]
 [cols="2,1,1,1", options="header"]
@@ -87,35 +87,35 @@ raises drift risk.
 s| Sum s| 2 s| 0 s| 0
 |===
 
-== Consequences
+=== Consequences
 
-=== Positive
+==== Positive
 
 * Core contracts can be reused by different AI engines.
 * Runtime-specific details can change without rewriting shared skill rules.
 
-=== Negative
+==== Negative
 
 * Contributors must decide whether a detail belongs in a core skill or an
   adapter until xref:q-arch-006[Q-ARCH-006] is resolved.
 
-=== Neutral or Follow-Up
+==== Neutral or Follow-Up
 
 * Adapter conventions need examples as the project learns more engine
   differences.
 
-include::generated/adr-005-engine-independent-skills-traceability.adoc[]
+include::generated/adr-005-engine-independent-skills-traceability.adoc[leveloffset=+1]
 
-== Assumptions
+=== Assumptions
 
 * Engine-independent rules can be expressed without losing necessary runtime
   behavior.
 
-== Open Questions
+=== Open Questions
 
 * Which workflow details belong in adapters instead of core skills?
 
-== Review Notes
+=== Review Notes
 
 Confirm xref:q-arch-006[Q-ARCH-006] with concrete engine evidence before
 accepting this ADR.

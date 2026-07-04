@@ -17,16 +17,16 @@ relations:
     reviewed: false
 ---
 [[qs-000-short-title]]
-= QS-000: Short Quality Scenario Title
+== QS-000: Short Quality Scenario Title
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -39,15 +39,15 @@ assumptions until confirmed.
 | Response Measure | Measurable threshold or target.
 |===
 
-== Rationale
+=== Rationale
 
 Explain why this scenario matters and which stakeholder outcome it supports.
 
-== Assumptions
+=== Assumptions
 
 * Assumption requiring review.
 
-== Traceability
+=== Traceability
 
 [cols="1,1,3", options="header"]
 |===
@@ -55,11 +55,11 @@ Explain why this scenario matters and which stakeholder outcome it supports.
 | `depends_on` | xref:adr.adoc#adr-000-short-title[ADR-000-short-title] | Explain the relation.
 |===
 
-== Open Questions
+=== Open Questions
 
 * Question for the accountable owner.
 
-== Review Notes
+=== Review Notes
 
 Mark this scenario as reviewed only after the measure, environment, and
 stakeholder value are confirmed.

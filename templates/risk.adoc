@@ -17,20 +17,20 @@ relations:
     reviewed: false
 ---
 [[risk-000-short-title]]
-= RISK-000: Short Risk Title
+== RISK-000: Short Risk Title
 
-== Status
+=== Status
 
 Proposed.
 
 This risk is AI-assisted. It identifies a concern for review and does not decide
 risk acceptance.
 
-== Risk Statement
+=== Risk Statement
 
 Because <cause>, <event> may occur, leading to <impact>.
 
-== Assessment
+=== Assessment
 
 [cols="1,3", options="header"]
 |===
@@ -42,17 +42,17 @@ Because <cause>, <event> may occur, leading to <impact>.
 | Confidence | Low, medium, or high.
 |===
 
-== Mitigation Options
+=== Mitigation Options
 
 * Mitigation option.
 * Monitoring or review option.
 
-== Decision or Acceptance
+=== Decision or Acceptance
 
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-== Traceability
+=== Traceability
 
 [cols="1,1,3", options="header"]
 |===
@@ -60,10 +60,10 @@ assessment and mitigation path.
 | `depends_on` | xref:adr.adoc#adr-000-short-title[ADR-000-short-title] | Explain the relation.
 |===
 
-== Open Questions
+=== Open Questions
 
 * Question for risk owner.
 
-== Review Notes
+=== Review Notes
 
 State what must be confirmed before this risk can be marked reviewed or accepted.

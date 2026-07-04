@@ -20,16 +20,16 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-005-adapter-boundary]]
-= QS-005: Runtime-Specific Guidance Stays In Adapters
+== QS-005: Runtime-Specific Guidance Stays In Adapters
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -42,23 +42,23 @@ assumptions until confirmed.
 | Response Measure | Evidence target: runtime-specific changes are located under `adapters/`.
 |===
 
-== Rationale
+=== Rationale
 
 This scenario concretizes QG-005 Portability. Core skills should stay useful
 across engines while adapters carry runtime-specific guidance.
 
-== Assumptions
+=== Assumptions
 
 * Reviewers can identify runtime-specific guidance during repository review.
 
-include::generated/qs-005-adapter-boundary-traceability.adoc[]
+include::generated/qs-005-adapter-boundary-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which examples define the line between core skill guidance and adapter
   guidance?
 
-== Review Notes
+=== Review Notes
 
 Confirm xref:q-arch-006[Q-ARCH-006] with concrete engine examples before marking
 this scenario reviewed.

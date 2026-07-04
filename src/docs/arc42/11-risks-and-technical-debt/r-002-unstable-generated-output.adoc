@@ -20,22 +20,22 @@ relations:
 metadata_version: '1.0'
 ---
 [[r-002-unstable-generated-output]]
-= R-002: Generated Output Becomes Unstable
+== R-002: Generated Output Becomes Unstable
 
-== Status
+=== Status
 
 Proposed.
 
 This risk is AI-assisted. It identifies a concern for review and does not
 decide risk acceptance.
 
-== Risk Statement
+=== Risk Statement
 
 Because generators may depend on unordered metadata, timestamps, local paths,
 or environment-specific behavior, generated output may change without source
 changes, leading to review noise and loss of trust in generated views.
 
-== Assessment
+=== Assessment
 
 [cols="1,3", options="header"]
 |===
@@ -47,25 +47,25 @@ changes, leading to review noise and loss of trust in generated views.
 | Confidence | Medium.
 |===
 
-== Mitigation Options
+=== Mitigation Options
 
 * Enforce deterministic ordering and avoid timestamps, random values, and local
   paths in generated views.
 * Add golden-file regression tests for generated views.
 * Verify xref:qs-001-reproducible-generation[] in local and CI workflows.
 
-== Decision or Acceptance
+=== Decision or Acceptance
 
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-002-unstable-generated-output-traceability.adoc[]
+include::generated/r-002-unstable-generated-output-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which generated outputs need golden-file tests in version 1?
 
-== Review Notes
+=== Review Notes
 
 Confirm generation determinism rules and regression-test scope before marking
 this risk reviewed.

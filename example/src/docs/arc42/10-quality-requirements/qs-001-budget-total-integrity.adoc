@@ -20,9 +20,9 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-001-budget-total-integrity]]
-= QS-001: Budget Total Integrity
+== QS-001: Budget Total Integrity
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -35,5 +35,5 @@ metadata_version: '1.0'
 | Response Measure | Assumption: service-level tests cover create, edit, delete, and retry cases with no unexplained total drift.
 |===
 
-include::generated/qs-001-budget-total-integrity-traceability.adoc[]
+include::generated/qs-001-budget-total-integrity-traceability.adoc[leveloffset=+1]
 

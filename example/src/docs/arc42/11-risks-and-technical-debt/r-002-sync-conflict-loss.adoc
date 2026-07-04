@@ -20,15 +20,15 @@ relations:
 metadata_version: '1.0'
 ---
 [[r-002-sync-conflict-loss]]
-= R-002: Sync Conflict Causes Expense Loss
+== R-002: Sync Conflict Causes Expense Loss
 
-== Risk Statement
+=== Risk Statement
 
 Because the mobile app queues offline commands, a retry or conflict may lose,
 duplicate, or misapply an expense unless commands are idempotent and conflicts
 are visible.
 
-== Assessment
+=== Assessment
 
 [cols="1,3", options="header"]
 |===
@@ -40,10 +40,10 @@ are visible.
 | Confidence | Medium.
 |===
 
-== Mitigation Options
+=== Mitigation Options
 
 Use client-generated command IDs, idempotent backend processing, and explicit
 conflict feedback.
 
-include::generated/r-002-sync-conflict-loss-traceability.adoc[]
+include::generated/r-002-sync-conflict-loss-traceability.adoc[leveloffset=+1]
 

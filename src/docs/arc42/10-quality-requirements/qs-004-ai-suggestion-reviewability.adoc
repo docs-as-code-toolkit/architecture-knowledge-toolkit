@@ -20,16 +20,16 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-004-ai-suggestion-reviewability]]
-= QS-004: AI Suggestions Remain Reviewable
+== QS-004: AI Suggestions Remain Reviewable
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -42,23 +42,23 @@ assumptions until confirmed.
 | Response Measure | Assumption: status or prose marker is visible in the reviewed artifact.
 |===
 
-== Rationale
+=== Rationale
 
 This scenario concretizes QG-002 Reviewability. The repository permits
 AI-assisted drafting, but accepted architecture truth must remain a human
 review decision.
 
-== Assumptions
+=== Assumptions
 
 * Proposed or draft metadata is visible in review.
 * Human acceptance is recorded before an artifact becomes accepted.
 
-include::generated/qs-004-ai-suggestion-reviewability-traceability.adoc[]
+include::generated/qs-004-ai-suggestion-reviewability-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which marker is mandatory: metadata status, visible prose, or both?
 
-== Review Notes
+=== Review Notes
 
 Confirm the review marker convention before marking this scenario reviewed.

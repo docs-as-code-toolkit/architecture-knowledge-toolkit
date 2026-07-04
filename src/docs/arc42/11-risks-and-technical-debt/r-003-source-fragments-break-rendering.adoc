@@ -20,23 +20,23 @@ relations:
 metadata_version: '1.0'
 ---
 [[r-003-source-fragments-break-rendering]]
-= R-003: Reusable Source Fragments Break Rendered Target Formats
+== R-003: Reusable Source Fragments Break Rendered Target Formats
 
-== Status
+=== Status
 
 Proposed.
 
 This risk is AI-assisted. It identifies a concern for review and does not
 decide risk acceptance.
 
-== Risk Statement
+=== Risk Statement
 
 Because reusable source fragments can be included in several document
 locations, a fragment with fixed heading assumptions or target-specific markup
 may render incorrectly, leading to broken output in one or more publication
 formats.
 
-== Assessment
+=== Assessment
 
 [cols="1,3", options="header"]
 |===
@@ -48,25 +48,25 @@ formats.
 | Confidence | Medium.
 |===
 
-== Mitigation Options
+=== Mitigation Options
 
 * Keep fragments heading-neutral unless the include location explicitly expects
   a heading.
 * Avoid formatter-specific constructs until target formats are known and tested.
 * Add render regression tests for xref:qs-003-reusable-fragments-render[].
 
-== Decision or Acceptance
+=== Decision or Acceptance
 
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-003-source-fragments-break-rendering-traceability.adoc[]
+include::generated/r-003-source-fragments-break-rendering-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which fragment structures are allowed for every supported output target?
 
-== Review Notes
+=== Review Notes
 
 Confirm fragment conventions and render-test scope before marking this risk
 reviewed.
