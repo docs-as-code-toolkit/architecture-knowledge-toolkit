@@ -281,6 +281,7 @@ class ValidateMetamodelTest < Minitest::Test
 
     assert_equal first, second
     assert_includes first, '// Generated from arc42 chapter metadata for DOC-01000-introduction-and-goals. Do not edit manually.'
+    assert_includes first, "\n\ninclude::../01-introduction-and-goals/doc-01001-quality-goals.adoc[]\n\n"
     assert_operator first.index('include::../01-introduction-and-goals/doc-01001-quality-goals.adoc[]'), :<,
                     first.index('include::../01-introduction-and-goals/doc-01002-requirements-overview.adoc[]')
   ensure
