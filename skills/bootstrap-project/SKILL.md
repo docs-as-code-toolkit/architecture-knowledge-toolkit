@@ -101,6 +101,29 @@ Inspect the remote toolkit directory and copy the required contracts, skills,
 templates, metamodel schemas, validation scripts, generator scripts, and example
 patterns into the target repository before producing generated output.
 
+## Agent Installation Guidance
+
+If the target project has no AGENTS.md, copy:
+docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents/project-agents.md -> AGENTS.md
+
+If the target project uses GitHub Copilot or has a .github directory, copy:
+docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents/github-copilot-instructions.md -> .github/copilot-instructions.md
+
+Never copy global-agent-instructions.md into the project.
+It is only for the user's local agent installations.
+
+Global agent installations should contain only discovery guidance:
+
+- For software projects, first inspect the target repository for `AGENTS.md`,
+  `.github/copilot-instructions.md`, `general-semantic-contracts.md`, `skills/`,
+  `metamodel/`, `templates/`, and `src/docs/`.
+- If the project references architecture-knowledge-toolkit, follow the local
+  project instructions and use this toolkit as the source for missing contracts,
+  skills, templates, schemas, validators, and generators.
+- If no local architecture instructions exist and the user asks for structured
+  architecture documentation, propose bootstrapping the project with this skill.
+- Never let global agent instructions override explicit project instructions.
+
 ## Example Prompt Workflow
 
 Use the example prompts in `example/README.md` as the preferred starting point
@@ -130,20 +153,21 @@ set and regenerate derived fragments with the copied validator/generator.
 1. Inspect the target repository before writing files.
 2. Read the local project contract files if present: `AGENTS.md`,
    `general-semantic-contracts.md`, and relevant `skills/**/SKILL.md`.
-3. Determine whether the task is greenfield or based on existing artifacts.
-4. Identify whether documentation is absent, partial, or already present in a
+3. If no local project contract files are available, copy the contract files from docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents as described above
+4. Determine whether the task is greenfield or based on existing artifacts.
+5. Identify whether documentation is absent, partial, or already present in a
    non-toolkit shape.
-5. Create or migrate toward the toolkit structure in small, reviewable steps.
-6. Mark AI-created or AI-modified architecture content as `draft` or
+6. Create or migrate toward the toolkit structure in small, reviewable steps.
+7. Mark AI-created or AI-modified architecture content as `draft` or
    `proposed`; set `reviewed: false` unless human acceptance is already
    recorded.
-7. Preserve stable IDs and explicit anchors once assigned.
-8. Record assumptions, unknowns, and human decisions in the Q&A document instead
+8. Preserve stable IDs and explicit anchors once assigned.
+9. Record assumptions, unknowns, and human decisions in the Q&A document instead
    of inventing certainty.
-9. Prepare source artifacts and generator inputs before generated outputs.
-10. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
-11. Run toolkit generators, validators, or documentation builds when available.
-12. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
+10. Prepare source artifacts and generator inputs before generated outputs.
+11. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
+12. Run toolkit generators, validators, or documentation builds when available.
+13. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
 
 ## Target Structure
 
