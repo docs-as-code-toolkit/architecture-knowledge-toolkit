@@ -20,9 +20,9 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-002-expense-entry-latency]]
-= QS-002: Expense Entry Latency
+== QS-002: Expense Entry Latency
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -35,5 +35,5 @@ metadata_version: '1.0'
 | Response Measure | Assumption: p95 interaction time stays below 2 seconds after the user submits the form.
 |===
 
-include::generated/qs-002-expense-entry-latency-traceability.adoc[]
+include::generated/qs-002-expense-entry-latency-traceability.adoc[leveloffset=+1]
 

@@ -20,22 +20,22 @@ relations:
 metadata_version: '1.0'
 ---
 [[r-005-ruby-seen-as-target-architecture]]
-= R-005: Ruby Is Mistaken For A Fixed Target Architecture
+== R-005: Ruby Is Mistaken For A Fixed Target Architecture
 
-== Status
+=== Status
 
 Proposed.
 
 This risk is AI-assisted. It identifies a concern for review and does not
 decide risk acceptance.
 
-== Risk Statement
+=== Risk Statement
 
 Because the current validator and generator are implemented in Ruby,
 contributors may treat Ruby as the accepted long-term implementation language,
 leading to premature coupling and reduced openness for future runtime choices.
 
-== Assessment
+=== Assessment
 
 [cols="1,3", options="header"]
 |===
@@ -47,7 +47,7 @@ leading to premature coupling and reduced openness for future runtime choices.
 | Confidence | Medium.
 |===
 
-== Mitigation Options
+=== Mitigation Options
 
 * Keep the technology constraints clear that Ruby is the current implementation
   language only.
@@ -56,19 +56,19 @@ leading to premature coupling and reduced openness for future runtime choices.
 * Use xref:q-dev-001[Q-DEV-001] and xref:q-dev-004[Q-DEV-004] as review
   evidence for future runtime decisions.
 
-== Decision or Acceptance
+=== Decision or Acceptance
 
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-005-ruby-seen-as-target-architecture-traceability.adoc[]
+include::generated/r-005-ruby-seen-as-target-architecture-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * When should the project decide the long-term implementation language for
   validators and generators?
 
-== Review Notes
+=== Review Notes
 
 Confirm decision timing and language-selection criteria before marking this
 risk reviewed.

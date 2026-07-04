@@ -32,49 +32,49 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-004-github-pages-static-html]]
-= ADR-004: First Publication Target
+== ADR-004: First Publication Target
 
-== Status
+=== Status
 
 Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
 
-== Decision
+=== Decision
 
 We propose to use GitHub Pages with plain Asciidoctor-generated static HTML as
 the first publication target.
 
-== Context
+=== Context
 
 xref:q-ops-004[Q-OPS-004] and xref:q-ops-005[Q-OPS-005] identify GitHub Pages
 and plain Asciidoctor-generated static HTML as the first publication path. The
 toolkit may later support more formats, but version 1 needs a simple publication
 target.
 
-== Decision Drivers
+=== Decision Drivers
 
 * Keep the first publication workflow simple.
 * Use the existing AsciiDoc source model.
 * Avoid early dependency on a larger publishing platform.
 
-== Considered Options
+=== Considered Options
 
-=== Option 1: GitHub Pages with plain Asciidoctor HTML
+==== Option 1: GitHub Pages with plain Asciidoctor HTML
 
 This option uses static files and a familiar open-source hosting path.
 
-=== Option 2: Dedicated documentation server
+==== Option 2: Dedicated documentation server
 
 A separate server can provide more control, but adds operational burden early.
 
-=== Option 3: Multiple publication targets from the start
+==== Option 3: Multiple publication targets from the start
 
 This supports portability early, but expands validation and rendering work
 before the source model is stable.
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [.pugh-matrix]
 [cols="2,1,1,1", options="header"]
@@ -86,33 +86,33 @@ before the source model is stable.
 s| Sum s| 2 s| 0 s| 0
 |===
 
-== Consequences
+=== Consequences
 
-=== Positive
+==== Positive
 
 * The first publication workflow stays small and reviewable.
 * Fragment rendering can be tested against one concrete target first.
 
-=== Negative
+==== Negative
 
 * Non-HTML publication needs later design and verification.
 * GitHub Pages availability and repository settings become operational inputs.
 
-=== Neutral or Follow-Up
+==== Neutral or Follow-Up
 
 * The decision does not prevent later PDF, site-generator, or docs-toolbox
   publication paths.
 
-include::generated/adr-004-github-pages-static-html-traceability.adoc[]
+include::generated/adr-004-github-pages-static-html-traceability.adoc[leveloffset=+1]
 
-== Assumptions
+=== Assumptions
 
 * GitHub Pages is available for the repository that publishes the toolkit docs.
 
-== Open Questions
+=== Open Questions
 
 * Which publication targets follow after static HTML?
 
-== Review Notes
+=== Review Notes
 
 Confirm the hosting path and CI publishing workflow before accepting this ADR.

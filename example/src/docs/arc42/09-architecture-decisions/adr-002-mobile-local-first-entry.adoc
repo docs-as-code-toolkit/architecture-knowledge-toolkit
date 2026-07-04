@@ -27,23 +27,23 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-002-mobile-local-first-entry]]
-= ADR-002: Mobile Local-First Expense Entry
+== ADR-002: Mobile Local-First Expense Entry
 
-== Status
+=== Status
 
 Proposed.
 
-== Decision
+=== Decision
 
 We propose that the mobile app stores pending expense commands locally and syncs
 them when connectivity returns.
 
-== Context
+=== Context
 
 Expense entry often happens away from a stable network. Losing an entry makes
 the budget less trustworthy.
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [cols="2,1,1,1", options="header"]
 |===
@@ -54,10 +54,10 @@ the budget less trustworthy.
 s| Sum s| 1 s| 1 s| -1
 |===
 
-== Consequences
+=== Consequences
 
 * Users can enter expenses offline.
 * Sync conflict handling becomes an explicit architecture concern.
 
-include::generated/adr-002-mobile-local-first-entry-traceability.adoc[]
+include::generated/adr-002-mobile-local-first-entry-traceability.adoc[leveloffset=+1]
 

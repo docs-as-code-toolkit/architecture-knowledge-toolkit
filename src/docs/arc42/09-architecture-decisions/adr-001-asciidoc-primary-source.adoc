@@ -32,50 +32,50 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-001-asciidoc-primary-source]]
-= ADR-001: Primary Architecture Source Format
+== ADR-001: Primary Architecture Source Format
 
-== Status
+=== Status
 
 Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
 
-== Decision
+=== Decision
 
 We propose to use AsciiDoc as the primary architecture source format.
 
-== Context
+=== Context
 
 The toolkit follows a Docs-as-Code approach and uses arc42 documentation under
 `src/docs/`. The current technology constraints already name AsciiDoc as the
 primary documentation source. The repository also uses PlantUML and
 `include::[]` for reusable source fragments.
 
-== Decision Drivers
+=== Decision Drivers
 
 * Support arc42 documentation and local static rendering.
 * Support reusable source fragments without duplicating source text.
 * Keep source files reviewable in pull requests.
 
-== Considered Options
+=== Considered Options
 
-=== Option 1: AsciiDoc as primary source
+==== Option 1: AsciiDoc as primary source
 
 AsciiDoc fits the current repository structure, supports includes, and matches
 the Docs-as-Code Toolkit ecosystem.
 
-=== Option 2: Markdown as primary source
+==== Option 2: Markdown as primary source
 
 Markdown is familiar to many contributors, but it gives weaker native support
 for structured includes and arc42-style publishing.
 
-=== Option 3: Mixed source formats
+==== Option 3: Mixed source formats
 
 Mixed formats may help some contributors, but they increase validation,
 generation, and style complexity.
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [.pugh-matrix]
 [cols="2,1,1,1", options="header"]
@@ -87,35 +87,35 @@ generation, and style complexity.
 s| Sum s| 3 s| 0 s| -1
 |===
 
-== Consequences
+=== Consequences
 
-=== Positive
+==== Positive
 
 * Architecture content can use native AsciiDoc includes for shared fragments.
 * The publication path can start with plain Asciidoctor-generated HTML.
 
-=== Negative
+==== Negative
 
 * Contributors need basic AsciiDoc knowledge.
 * Reusable fragments create rendering risk if they assume a fixed heading level
   or target format. This is tracked by xref:r-003-source-fragments-break-rendering[].
 
-=== Neutral or Follow-Up
+==== Neutral or Follow-Up
 
 * Markdown may still be used outside the architecture source set when it is not
   part of the arc42 publication path.
 
-include::generated/adr-001-asciidoc-primary-source-traceability.adoc[]
+include::generated/adr-001-asciidoc-primary-source-traceability.adoc[leveloffset=+1]
 
-== Assumptions
+=== Assumptions
 
 * The first publication path remains Asciidoctor-generated static HTML.
 
-== Open Questions
+=== Open Questions
 
 * Which non-HTML publication targets must be supported in version 1?
 
-== Review Notes
+=== Review Notes
 
 Confirm that AsciiDoc remains the preferred source format before marking this
 ADR reviewed or accepted.

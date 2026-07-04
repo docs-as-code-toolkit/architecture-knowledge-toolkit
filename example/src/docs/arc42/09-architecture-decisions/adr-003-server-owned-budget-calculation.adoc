@@ -20,22 +20,22 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-003-server-owned-budget-calculation]]
-= ADR-003: Server-Owned Budget Calculation
+== ADR-003: Server-Owned Budget Calculation
 
-== Status
+=== Status
 
 Proposed.
 
-== Decision
+=== Decision
 
 We propose to calculate budget totals and remaining amounts on the backend.
 
-== Context
+=== Context
 
 The web UI and mobile app should display the same budget state. Client-only
 calculation would duplicate business rules.
 
-== Pugh Matrix
+=== Pugh Matrix
 
 [cols="2,1,1,1", options="header"]
 |===
@@ -46,10 +46,10 @@ calculation would duplicate business rules.
 s| Sum s| 3 s| -3 s| 2
 |===
 
-== Consequences
+=== Consequences
 
 * Budget rules have one implementation point.
 * Backend availability affects live budget summaries.
 
-include::generated/adr-003-server-owned-budget-calculation-traceability.adoc[]
+include::generated/adr-003-server-owned-budget-calculation-traceability.adoc[leveloffset=+1]
 

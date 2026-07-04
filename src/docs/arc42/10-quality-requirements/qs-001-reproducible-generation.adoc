@@ -20,16 +20,16 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-001-reproducible-generation]]
-= QS-001: Reproducible Generation
+== QS-001: Reproducible Generation
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -42,25 +42,25 @@ assumptions until confirmed.
 | Response Measure | Assumption: the second run produces no meaningful diff.
 |===
 
-== Rationale
+=== Rationale
 
 This scenario concretizes QG-001 Reproducibility. It supports
 xref:adr-002-generated-output-not-source[] because generated output is useful
 outside source control only when it can be recreated from the same committed
 inputs.
 
-== Assumptions
+=== Assumptions
 
 * "Meaningful diff" excludes timestamps, local paths, ordering drift, and
   other non-source changes.
 
-include::generated/qs-001-reproducible-generation-traceability.adoc[]
+include::generated/qs-001-reproducible-generation-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which generated views require golden-file regression tests first?
 
-== Review Notes
+=== Review Notes
 
 Confirm the exact diff policy and verification command before marking this
 scenario reviewed.

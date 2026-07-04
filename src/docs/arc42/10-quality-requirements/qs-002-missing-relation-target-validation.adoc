@@ -20,16 +20,16 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-002-missing-relation-target-validation]]
-= QS-002: Missing Relation Target Validation
+== QS-002: Missing Relation Target Validation
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -42,22 +42,22 @@ assumptions until confirmed.
 | Response Measure | Evidence target: command exits non-zero and names the missing target ID.
 |===
 
-== Rationale
+=== Rationale
 
 This scenario concretizes QG-003 Traceability. Stable IDs are useful only when
 invalid relation targets are detected before review.
 
-== Assumptions
+=== Assumptions
 
 * The local validation command is documented for contributors.
 
-include::generated/qs-002-missing-relation-target-validation-traceability.adoc[]
+include::generated/qs-002-missing-relation-target-validation-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which validation output format is most useful for local runs and CI logs?
 
-== Review Notes
+=== Review Notes
 
 Confirm the local validation command and expected error wording before marking
 this scenario reviewed.

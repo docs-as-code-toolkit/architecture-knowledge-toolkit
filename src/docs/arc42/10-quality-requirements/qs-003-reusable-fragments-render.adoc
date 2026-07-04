@@ -20,16 +20,16 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-003-reusable-fragments-render]]
-= QS-003: Reusable Fragments Render Correctly
+== QS-003: Reusable Fragments Render Correctly
 
-== Status
+=== Status
 
 Proposed.
 
 The response measure is a reviewable target. Treat uncertain values as
 assumptions until confirmed.
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -42,24 +42,24 @@ assumptions until confirmed.
 | Response Measure | Assumption: generated HTML contains one rendered copy per include location and no broken include directive.
 |===
 
-== Rationale
+=== Rationale
 
 This scenario concretizes QG-004 Content reuse. The toolkit's
 `Write once. Publish everywhere.` rule needs source fragments that render
 cleanly wherever they are included.
 
-== Assumptions
+=== Assumptions
 
 * Static HTML is the first supported render target.
 * More targets require additional render checks.
 
-include::generated/qs-003-reusable-fragments-render-traceability.adoc[]
+include::generated/qs-003-reusable-fragments-render-traceability.adoc[leveloffset=+1]
 
-== Open Questions
+=== Open Questions
 
 * Which render targets beyond static HTML must be covered in version 1?
 
-== Review Notes
+=== Review Notes
 
 Confirm the supported target formats and fixture expectations before marking
 this scenario reviewed.

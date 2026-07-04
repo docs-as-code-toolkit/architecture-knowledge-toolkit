@@ -20,9 +20,9 @@ relations:
 metadata_version: '1.0'
 ---
 [[qs-003-offline-expense-capture]]
-= QS-003: Offline Expense Capture
+== QS-003: Offline Expense Capture
 
-== Scenario
+=== Scenario
 
 [cols="1,3", options="header"]
 |===
@@ -35,5 +35,5 @@ metadata_version: '1.0'
 | Response Measure | Assumption: no pending expense is lost across app restart during the outage.
 |===
 
-include::generated/qs-003-offline-expense-capture-traceability.adoc[]
+include::generated/qs-003-offline-expense-capture-traceability.adoc[leveloffset=+1]
 
