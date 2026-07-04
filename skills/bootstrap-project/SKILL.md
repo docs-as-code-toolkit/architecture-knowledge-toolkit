@@ -22,6 +22,7 @@ engine-independent skill.
 
 The bootstrap-project skill is responsible for:
 
+- creating a inital Project structure
 - creating the initial documentation structure;
 - creating required source artifacts;
 - identifying missing documentation;
@@ -142,6 +143,7 @@ set and regenerate derived fragments with the copied validator/generator.
 9. Prepare source artifacts and generator inputs before generated outputs.
 10. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
 11. Run toolkit generators, validators, or documentation builds when available.
+12. Make any used SCM system 
 
 ## Target Structure
 
