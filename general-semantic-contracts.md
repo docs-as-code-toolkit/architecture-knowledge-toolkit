@@ -22,6 +22,7 @@ expectations explicit and reviewable.
 
 ## Table of Content <!-- omit from toc -->
 - [New projects](#new-projects)
+- [Using this toolkit as a dependency](#using-this-toolkit-as-a-dependency)
 - [Specification](#specification)
 - [Requirements Elicitation](#requirements-elicitation)
 - [Architecture Documentation](#architecture-documentation)
@@ -94,6 +95,28 @@ output and must not become the primary editing surface. Fragments must be safe
 for supported target formats and should avoid fixed heading-level assumptions,
 environment-specific paths, and formatter-specific behavior unless those
 constraints are explicit inputs.
+
+## Using this toolkit as a dependency
+
+When a target project references the architecture-knowledge-toolkit, use the
+target project's local instructions first. If an architecture or
+software-development-lifecycle task is not explicitly described in that project,
+consult the corresponding toolkit contract or skill before acting.
+
+This applies to product clarification, arc42 documentation, ADRs, quality
+scenarios, risks, runtime scenarios, traceability metadata, issue slicing, issue
+implementation, commit messages, pull request reviews, documentation
+validation, generation, and related maintenance tasks.
+
+Do not duplicate the full toolkit rule set into consuming projects or global
+agent profiles. Local project instructions should point back to this toolkit as
+the source of truth for missing conventions, skills, templates, metamodel
+schemas, validators, and generators.
+
+If the architecture-knowledge-toolkit is not available on the local filesystem,
+use the public repository as the fallback source of truth:
+
+https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
 ## Specification
 

@@ -2,13 +2,19 @@ Use this template for your `<project>/AGENTS.md`
 
 # Project Agent Instructions
 
-This project uses architecture-knowledge-toolkit for architecture work.
+This project uses architecture-knowledge-toolkit for architecture work and
+software-development-lifecycle tasks that are not described more specifically
+in this repository.
 
 Apply instructions in this order:
 
 1. User instruction
 2. This project `AGENTS.md`
-3. Relevant toolkit skill, for example `skills/bootstrap-project/SKILL.md`, `skills/adr/SKILL.md`, `skills/quality-scenario/SKILL.md`, or `skills/risk/SKILL.md`
+3. Relevant toolkit skill, for example `skills/bootstrap-project/SKILL.md`,
+   `skills/implement-issue-workflow/SKILL.md`, `skills/commit-message/SKILL.md`,
+   `skills/pr-review/SKILL.md`, `skills/slice-issues/SKILL.md`,
+   `skills/adr/SKILL.md`, `skills/quality-scenario/SKILL.md`, or
+   `skills/risk/SKILL.md`
 4. Toolkit `general-semantic-contracts.md`
 
 Use the toolkit for:
@@ -23,14 +29,30 @@ Use the toolkit for:
 - templates
 - validation
 - generated include fragments
+- issue slicing
+- issue implementation workflow
+- commit messages
+- pull request reviews
+- traceability reviews
+
+If an SDLC task is requested and this repository does not describe the task
+explicitly, look up the corresponding toolkit skill or contract before acting.
+Do not invent a project-local workflow when the toolkit provides one.
 
 Toolkit source of truth:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
-Before creating or changing architecture content:
+If the architecture-knowledge-toolkit is not available on the local filesystem,
+inspect the public repository above and use it as the fallback source for
+missing contracts, skills, templates, schemas, validators, and generators.
+
+Before architecture or SDLC workflow work:
 
 - inspect existing `src/docs/`, `metamodel/`, `templates/`, `scripts/`, and `skills/`
+- inspect the toolkit skills before issue implementation, commit message,
+  pull request review, issue slicing, ADR, quality scenario, risk, or
+  traceability-review work when local instructions are missing
 - preserve stable artifact IDs
 - use AsciiDoc as the default documentation format
 - mark AI-created architecture content as `draft` or `proposed`

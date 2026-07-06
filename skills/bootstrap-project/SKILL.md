@@ -75,7 +75,16 @@ Treat the architecture-knowledge-toolkit as the authoritative source for:
 - metamodel schemas;
 - semantic contracts;
 - validation rules;
-- architecture documentation conventions.
+- architecture documentation conventions;
+- SDLC task and workflow skills.
+
+For any software-development-lifecycle task that is not explicitly described
+in the target repository, consult the architecture-knowledge-toolkit before
+acting. This includes issue slicing, issue implementation, commit messages,
+pull request reviews, ADRs, quality scenarios, risks, traceability reviews,
+architecture documentation updates, and documentation validation/generation.
+Do not invent a local workflow when the toolkit contains an applicable skill or
+contract; reference or copy the relevant toolkit guidance instead.
 
 When local project conventions conflict with toolkit conventions, apply this
 order:
@@ -118,8 +127,11 @@ Global agent installations should contain only discovery guidance:
   `.github/copilot-instructions.md`, `general-semantic-contracts.md`, `skills/`,
   `metamodel/`, `templates/`, and `src/docs/`.
 - If the project references architecture-knowledge-toolkit, follow the local
-  project instructions and use this toolkit as the source for missing contracts,
-  skills, templates, schemas, validators, and generators.
+  project instructions and use this toolkit as the source for missing SDLC
+  task guidance, contracts, skills, templates, schemas, validators, and
+  generators.
+- For local SDLC tasks that are not explicitly described in the target project,
+  look up the corresponding toolkit skill before acting.
 - If no local architecture instructions exist and the user asks for structured
   architecture documentation, propose bootstrapping the project with this skill.
 - Never let global agent instructions override explicit project instructions.
@@ -153,21 +165,24 @@ set and regenerate derived fragments with the copied validator/generator.
 1. Inspect the target repository before writing files.
 2. Read the local project contract files if present: `AGENTS.md`,
    `general-semantic-contracts.md`, and relevant `skills/**/SKILL.md`.
-3. If no local project contract files are available, copy the relevant agent instruction templates from docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents as described above
+3. If no local project contract files are available, copy the relevant agent instruction templates from docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents as described above.
 4. Determine whether the task is greenfield or based on existing artifacts.
 5. Identify whether documentation is absent, partial, or already present in a
    non-toolkit shape.
-6. Create or migrate toward the toolkit structure in small, reviewable steps.
-7. Mark AI-created or AI-modified architecture content as `draft` or
+6. Verify that the target project's agent guidance delegates missing SDLC task
+   instructions to the architecture-knowledge-toolkit instead of recreating
+   toolkit rules locally.
+7. Create or migrate toward the toolkit structure in small, reviewable steps.
+8. Mark AI-created or AI-modified architecture content as `draft` or
    `proposed`; set `reviewed: false` unless human acceptance is already
    recorded.
-8. Preserve stable IDs and explicit anchors once assigned.
-9. Record assumptions, unknowns, and human decisions in the Q&A document instead
+9. Preserve stable IDs and explicit anchors once assigned.
+10. Record assumptions, unknowns, and human decisions in the Q&A document instead
    of inventing certainty.
-10. Prepare source artifacts and generator inputs before generated outputs.
-11. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
-12. Run toolkit generators, validators, or documentation builds when available.
-13. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
+11. Prepare source artifacts and generator inputs before generated outputs.
+12. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
+13. Run toolkit generators, validators, or documentation builds when available.
+14. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
 
 ## Target Structure
 
