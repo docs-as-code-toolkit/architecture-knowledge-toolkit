@@ -3,14 +3,19 @@
 This directory contains reusable prompts for applying the
 architecture-knowledge-toolkit skills and contracts from another project.
 
-Each prompt follows the same lookup rule:
+Most prompts follow this lookup rule:
 
-1. Use an applicable local skill first.
-2. If no local skill exists, look for the skill in the local
-   architecture-knowledge-toolkit.
-3. If no local architecture-knowledge-toolkit is available, look for a suitable
-   skill in the public toolkit repository:
+1. Use project-local contracts and skills first.
+2. If `ARCHITECTURE_KNOWLEDGE_TOOLKIT` is set, use that path.
+3. Otherwise check `../architecture-knowledge-toolkit`.
+4. Otherwise check any project-local recorded toolkit reference, such as a
+   submodule, vendored copy, or pinned path.
+5. Otherwise use the public toolkit repository, preferably at a pinned release
+   tag or commit SHA:
    https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
+
+Migration prompts are different: the local skill or contract is the migration
+input, not the governing workflow.
 
 ## Bootstrap Prompts
 

@@ -7,11 +7,16 @@ contract from the architecture-knowledge-toolkit.
 Local contract:
 <local contract path or name>
 
-If you have local project contracts for this task, use them first. If not,
-search for the relevant contract in the local architecture-knowledge-toolkit. If
-no local architecture-knowledge-toolkit is available, search for a suitable
-contract in
-https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit.
+Use the toolkit migration guidance as the governing workflow. Treat the local
+contract as migration input and project-specific evidence, not as the
+authoritative process for this migration. Locate toolkit guidance in this order:
+1. If ARCHITECTURE_KNOWLEDGE_TOOLKIT is set, use that path.
+2. Otherwise check ../architecture-knowledge-toolkit.
+3. Otherwise check any project-local recorded toolkit reference, such as a
+   submodule, vendored copy, or pinned path.
+4. Otherwise use
+   https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit,
+   preferably at a pinned release tag or commit SHA.
 
 Compare the local contract with the generic toolkit contract that addresses the
 same problem. If the local contract describes things that the generic contract

@@ -7,10 +7,16 @@ architecture-knowledge-toolkit.
 Local skill:
 <local skill path or name>
 
-If you have a local skill for this task, use it. If not, search for the skill in
-the local architecture-knowledge-toolkit. If no local
-architecture-knowledge-toolkit is available, search for a suitable skill in
-https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit.
+Use the toolkit migration guidance as the governing workflow. Treat the local
+skill as migration input and project-specific evidence, not as the authoritative
+process for this migration. Locate toolkit guidance in this order:
+1. If ARCHITECTURE_KNOWLEDGE_TOOLKIT is set, use that path.
+2. Otherwise check ../architecture-knowledge-toolkit.
+3. Otherwise check any project-local recorded toolkit reference, such as a
+   submodule, vendored copy, or pinned path.
+4. Otherwise use
+   https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit,
+   preferably at a pinned release tag or commit SHA.
 
 Compare the local skill with the generic toolkit skill that addresses the same
 problem. If the local skill describes things that the generic skill does not

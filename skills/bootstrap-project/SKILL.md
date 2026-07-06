@@ -22,7 +22,7 @@ engine-independent skill.
 
 The bootstrap-project skill is responsible for:
 
-- creating an inital Project structure
+- creating an initial project structure;
 - creating the initial documentation structure;
 - creating required source artifacts;
 - identifying missing documentation;
@@ -195,7 +195,9 @@ set and regenerate derived fragments with the copied validator/generator.
 11. Prepare source artifacts and generator inputs before generated outputs.
 12. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
 13. Run toolkit generators, validators, or documentation builds when available.
-14. Make sure the SCM you’re using is aware of the generator’s output, so that no generated artefacts are checked in. For example, you would add **/generated/ to the project’s .gitignore file
+14. Make sure the SCM you’re using is aware of the generator's output so no
+   generated artifacts are checked in. For example, add `**/generated/` to the
+   project's `.gitignore` file.
 
 ## Target Structure
 
