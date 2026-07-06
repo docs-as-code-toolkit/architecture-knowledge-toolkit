@@ -18,8 +18,8 @@ schemas, validators, and generators.
 For any SDLC task that is not explicitly described in the local repository,
 look up the corresponding architecture-knowledge-toolkit skill or contract
 before acting. This includes issue slicing, issue implementation, commit
-messages, pull request reviews, ADRs, quality scenarios, risks, traceability
-reviews, and architecture documentation updates.
+messages, pull request reviews, post-merge synchronization, ADRs, quality
+scenarios, risks, traceability reviews, and architecture documentation updates.
 
 If the architecture-knowledge-toolkit is not available on the local filesystem,
 use the public repository as the fallback source of truth:

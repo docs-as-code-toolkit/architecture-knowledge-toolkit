@@ -149,6 +149,8 @@ Use the skill contracts under `skills/` for focused architecture workflows:
 - [`skills/risk`](/skills/risk/SKILL.md) for architecture risks and mitigations.
 - [`skills/traceability-review`](/skills/traceability-review/SKILL.md) for metadata relation reviews.
 - [`skills/pr-review`](/skills/pr-review/SKILL.md) for pull request reviews, including GitHub PR comments or `.pr_comments/.pr<pr-number>_comments.md` fallback files.
+- [`skills/post-merge-sync`](/skills/post-merge-sync/SKILL.md) for returning a
+  local checkout to the latest base branch after a pull request has been merged.
 - [`skills/domain-modeling`](/skills/domain-modeling/SKILL.md) Actively build and sharpen a project's domain model — challenge terms against the glossary, stress-test with edge-case scenarios, and update CONTEXT.md and ADRs inline.
 - [`skills/grilling/with-docs`](/skills/grilling/with-docs/SKILL.md) Grilling session that also builds your project's domain model, sharpening terminology and updating CONTEXT.md and ADRs inline
 - [`skills/grilling/me`](/skills/grilling/me/SKILL.md) Get relentlessly interviewed about a plan or design until every branch of the decision tree is resolved.

@@ -111,8 +111,9 @@ Lookup order for missing toolkit guidance is:
 
 This applies to product clarification, arc42 documentation, ADRs, quality
 scenarios, risks, runtime scenarios, traceability metadata, issue slicing, issue
-implementation, commit messages, pull request reviews, documentation
-validation, generation, and related maintenance tasks.
+implementation, commit messages, pull request reviews, post-merge
+synchronization, documentation validation, generation, and related maintenance
+tasks.
 
 Do not duplicate the full toolkit rule set into consuming projects or global
 agent profiles. Local project instructions should point back to this toolkit as

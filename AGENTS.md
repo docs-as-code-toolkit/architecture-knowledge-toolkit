@@ -43,8 +43,9 @@ architecture-knowledge-toolkit-specific conventions.
 If a target project references this toolkit but does not explicitly describe an
 SDLC task locally, inspect the relevant toolkit contract or skill before acting.
 Examples include issue slicing, issue implementation, commit messages, pull
-request reviews, ADRs, quality scenarios, risks, traceability reviews,
-architecture documentation updates, and documentation validation/generation.
+request reviews, post-merge synchronization, ADRs, quality scenarios, risks,
+traceability reviews, architecture documentation updates, and documentation
+validation/generation.
 
 If the architecture-knowledge-toolkit is not available on the local filesystem,
 use the public repository as the fallback source of truth:

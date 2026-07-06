@@ -25,6 +25,7 @@ For architecture-related or SDLC workflow changes:
 - keep AI-generated or AI-modified architecture content in `draft` or `proposed` state unless reviewed
 - do not manually maintain generated fragments
 - consult the relevant toolkit skill before issue slicing, issue
-  implementation, commit message, pull request review, ADR, quality scenario,
-  risk, or traceability-review work when local instructions are missing
+  implementation, commit message, pull request review, post-merge
+  synchronization, ADR, quality scenario, risk, or traceability-review work
+  when local instructions are missing
 - do not introduce Copilot-specific rules into engine-independent toolkit files
