@@ -201,6 +201,8 @@ ruby scripts/validate-metamodel.rb
 
 Validation and generation are intended to work both locally and in CI. GitHub
 Actions and GitLab CI are the primary reproducible CI environments to support.
+This repository validates pull requests and pushes to `main` with GitHub
+Actions.
 
 By default, the validator scans:
 
