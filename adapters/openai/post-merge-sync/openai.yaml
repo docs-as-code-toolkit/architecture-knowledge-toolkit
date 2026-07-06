@@ -1,0 +1,4 @@
+interface:
+  display_name: "Post-Merge Sync"
+  short_description: "Update local checkout after PR merge"
+  default_prompt: "Use $post-merge-sync after PR #123 has been merged to switch back to main, pull the latest changes, and clean up the merged local branch if safe."

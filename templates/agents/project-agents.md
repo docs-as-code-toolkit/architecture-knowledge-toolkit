@@ -13,6 +13,7 @@ Apply instructions in this order:
 3. Relevant toolkit skill, for example `skills/bootstrap-project/SKILL.md`,
    `skills/implement-issue-workflow/SKILL.md`, `skills/commit-message/SKILL.md`,
    `skills/pr-review/SKILL.md`, `skills/slice-issues/SKILL.md`,
+   `skills/post-merge-sync/SKILL.md`,
    `skills/adr/SKILL.md`, `skills/quality-scenario/SKILL.md`, or
    `skills/risk/SKILL.md`
 4. Toolkit `general-semantic-contracts.md`
@@ -33,6 +34,7 @@ Use the toolkit for:
 - issue implementation workflow
 - commit messages
 - pull request reviews
+- post-merge synchronization
 - traceability reviews
 
 If an SDLC task is requested and this repository does not describe the task
@@ -55,8 +57,9 @@ Before architecture or SDLC workflow work:
 - verify that referenced toolkit skill paths exist before copying or linking
   them into project guidance
 - inspect the toolkit skills before issue implementation, commit message,
-  pull request review, issue slicing, ADR, quality scenario, risk, or
-  traceability-review work when local instructions are missing
+  pull request review, issue slicing, post-merge synchronization, ADR,
+  quality scenario, risk, or traceability-review work when local instructions
+  are missing
 - preserve stable artifact IDs
 - use AsciiDoc as the default documentation format
 - mark AI-created architecture content as `draft` or `proposed`

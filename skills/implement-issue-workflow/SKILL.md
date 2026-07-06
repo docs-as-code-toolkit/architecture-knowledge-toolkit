@@ -48,10 +48,7 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 
 ## After PR Integration
 
-When the pull request is rebased or merged onto `main`:
-
-1. Switch back to `main`.
-2. Fast-forward or pull the latest `main`.
-3. Confirm the latest `main` contains the PR changes.
-4. Delete the local `issue_<number>` branch.
-5. Continue future work from the latest commit on `main`.
+When the pull request is rebased or merged onto `main`, use
+`../post-merge-sync/SKILL.md` to return the checkout to the latest base branch,
+confirm the merged changes are present, and clean up the local PR branch when it
+is safe to do so.
