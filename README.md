@@ -116,6 +116,11 @@ traceability fragments, and two reusable prompts:
 - an existing-artifacts prompt for adapting code, README files, diagrams, ADRs,
   or generic architecture documentation to the toolkit structure.
 
+Reusable prompt templates live in [`templates/prompts/`](templates/prompts/).
+They include direct bootstrap prompts, one prompt per toolkit skill, contract
+application prompts, and migration prompts for aligning local skills or
+contracts with the generic toolkit guidance.
+
 ## Intended Workflow
 
 1. Create or update an architecture artifact using an AsciiDoc template.
