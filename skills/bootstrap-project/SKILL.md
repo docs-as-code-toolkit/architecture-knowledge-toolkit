@@ -144,13 +144,20 @@ Global agent installations should contain only discovery guidance:
 
 ## Example Prompt Workflow
 
-Use the example prompts in `example/README.md` as the preferred starting point
-for future project bootstraps:
+Use the prompt templates in `templates/prompts/` as the preferred starting point
+for future project bootstraps. The same prompts are demonstrated in
+`example/README.md`:
 
-- Greenfield prompt: use when the target repository has only a project idea and
-  no architecture artifacts yet.
-- Existing-artifacts prompt: use when the target repository already contains
-  code, README files, diagrams, ADRs, or generic architecture documentation.
+- `templates/prompts/bootstrap-greenfield.md`: use when the target repository
+  has only a project idea and no architecture artifacts yet.
+- `templates/prompts/bootstrap-existing-artifacts.md`: use when the target
+  repository already contains code, README files, diagrams, ADRs, or generic
+  architecture documentation.
+- `templates/prompts/migrate-local-skill.md` and
+  `templates/prompts/migrate-local-skill-set.md`: use when local project skills
+  should be aligned with the generic toolkit skills.
+- `templates/prompts/migrate-local-contract.md`: use when local project
+  contracts should be aligned with the generic toolkit contract.
 
 Both prompts expect the bootstrap to make validation immediately available in
 the target repository. A complete bootstrap therefore includes, when required:

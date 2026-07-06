@@ -41,6 +41,9 @@ question index, and the traceability matrix.
 
 ## Prompt 1: Greenfield Project
 
+The reusable version of this prompt lives in
+`../templates/prompts/bootstrap-greenfield.md`.
+
 Use this prompt when only the project idea exists and the target repository does
 not yet contain architecture documentation:
 
@@ -75,6 +78,9 @@ the source artifacts are ready, and report any assumptions or open questions.
 ```
 
 ## Prompt 2: Existing Project Artifacts
+
+The reusable version of this prompt lives in
+`../templates/prompts/bootstrap-existing-artifacts.md`.
 
 Use this prompt when a repository already contains code, README files,
 diagrams, ADRs, or a generic architecture document:
