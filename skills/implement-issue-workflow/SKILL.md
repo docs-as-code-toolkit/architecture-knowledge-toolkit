@@ -52,3 +52,4 @@ When the pull request is rebased or merged onto `main`, use
 `../post-merge-sync/SKILL.md` to return the checkout to the latest base branch,
 confirm the merged changes are present, and clean up the local PR branch when it
 is safe to do so.
+Use post-merge-sync to tidy local branches before starting the next issue.
