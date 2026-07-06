@@ -26,6 +26,9 @@ use the public repository as the fallback source of truth:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
+Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
+project records a long-lived dependency on the public repository.
+
 Do not duplicate toolkit rules into this global file.
 Project-local instructions override this file.
 
