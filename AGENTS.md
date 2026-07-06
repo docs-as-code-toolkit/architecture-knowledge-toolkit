@@ -51,6 +51,9 @@ use the public repository as the fallback source of truth:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
+Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
+target project records a long-lived dependency on the public repository.
+
 Do not copy all toolkit rules into global agent installations. Global agent
 instructions should only tell agents how to discover and apply this toolkit.
 

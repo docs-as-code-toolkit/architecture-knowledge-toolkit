@@ -106,6 +106,12 @@ repository as the source of truth:
 
 `https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/tree/main`
 
+Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
+target project records a long-lived dependency on the public repository. For
+example, record a reference such as
+`docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3` when an applicable
+release exists.
+
 Inspect the remote toolkit directory and copy the required contracts, skills,
 templates, metamodel schemas, validation scripts, generator scripts, and example
 patterns into the target repository before producing generated output.

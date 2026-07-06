@@ -103,6 +103,12 @@ target project's local instructions first. If an architecture or
 software-development-lifecycle task is not explicitly described in that project,
 consult the corresponding toolkit contract or skill before acting.
 
+Lookup order for missing toolkit guidance is:
+
+1. local project instructions and copied toolkit files;
+2. organization-specific or pinned toolkit copy, when available;
+3. public architecture-knowledge-toolkit repository as fallback.
+
 This applies to product clarification, arc42 documentation, ADRs, quality
 scenarios, risks, runtime scenarios, traceability metadata, issue slicing, issue
 implementation, commit messages, pull request reviews, documentation
@@ -117,6 +123,10 @@ If the architecture-knowledge-toolkit is not available on the local filesystem,
 use the public repository as the fallback source of truth:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
+
+Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
+project records a long-lived dependency. Example:
+`docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3`.
 
 ## Specification
 
