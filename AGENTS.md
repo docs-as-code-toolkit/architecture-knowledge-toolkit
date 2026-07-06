@@ -34,11 +34,22 @@ and committed.
 When this repository is used as a toolkit dependency from another software
 project, automated agents should treat this repository as the canonical source
 for architecture documentation conventions, templates, skills, metamodel
-schemas, validators, and generator behavior.
+schemas, validators, generator behavior, and SDLC task workflows.
 
 Target projects may contain their own `AGENTS.md`. In that case, apply the
 target project's local instructions first, then use this toolkit to fill in
 architecture-knowledge-toolkit-specific conventions.
+
+If a target project references this toolkit but does not explicitly describe an
+SDLC task locally, inspect the relevant toolkit contract or skill before acting.
+Examples include issue slicing, issue implementation, commit messages, pull
+request reviews, ADRs, quality scenarios, risks, traceability reviews,
+architecture documentation updates, and documentation validation/generation.
+
+If the architecture-knowledge-toolkit is not available on the local filesystem,
+use the public repository as the fallback source of truth:
+
+https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
 Do not copy all toolkit rules into global agent installations. Global agent
 instructions should only tell agents how to discover and apply this toolkit.
