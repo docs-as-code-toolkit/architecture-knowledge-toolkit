@@ -1,6 +1,6 @@
 ---
 name: post-merge-sync
-description: "Synchronize a local checkout after a pull request has been merged: verify a clean worktree, switch to the base branch, fast-forward from the remote, confirm the merge commit is present, and optionally remove merged local branches. Use when an agent is asked to clean up after a merged PR or return the repository to the latest main branch."
+description: "Synchronize a local checkout after a pull request has been merged: verify a clean worktree, switch to the base branch, fast-forward from the remote, confirm the merge commit is present, and optionally remove merged local branches. Use when an agent is asked to clean up after a merged PR or return the repository to the latest base branch."
 ---
 
 # Post-Merge Sync
@@ -20,20 +20,34 @@ from the integrated base branch instead of an obsolete PR branch.
 7. Delete the merged local PR branch only when it has no unmerged local commits.
 8. Report the final branch, latest commit, and whether cleanup was skipped.
 
+Determine the base branch from the pull request metadata when possible, for
+example with `gh pr view <pr> --json baseRefName`, or from the repository
+default branch when the PR context is unavailable.
+
 ## Commands
 
 Prefer non-destructive commands:
 
 ```sh
 git status --short --branch
-git switch main
+git switch <base-branch>
 git pull --ff-only
-git branch --merged main
+git branch --merged <base-branch>
 git branch -d <merged-branch>
 ```
 
 Use the actual base branch when the pull request targeted something other than
 `main`.
+
+When a separate fetch step is clearer, prefer:
+
+```sh
+git fetch origin
+git merge --ff-only origin/<base-branch>
+```
+
+Run `git fetch --prune origin` before listing merged branches when remote branch
+state may be stale.
 
 ## Safety Rules
 
@@ -42,6 +56,8 @@ Use the actual base branch when the pull request targeted something other than
   for forced deletion and understands that unmerged local commits may be lost.
 - Do not delete remote branches unless the user explicitly requests it.
 - If the remote update cannot fast-forward, stop and explain the divergence.
+  Preserve local commits by creating a backup branch before asking the user how
+  to proceed.
 - If the branch was already deleted locally or remotely, report that as a
   harmless no-op.
 
