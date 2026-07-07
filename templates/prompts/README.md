@@ -29,6 +29,9 @@ input, not the governing workflow.
 
 - [`apply-contracts.md`](apply-contracts.md) for applying local and toolkit
   contracts to a task.
+- [`architecture-impact.md`](architecture-impact.md) for feature, refactoring,
+  and review tasks that must keep implementation, issue markings, Epics, and
+  architecture documentation aligned.
 - [`adr.md`](adr.md) for Architecture Decision Records and impact analysis.
 - [`bootstrap-project.md`](bootstrap-project.md) for toolkit-oriented project
   bootstrapping.

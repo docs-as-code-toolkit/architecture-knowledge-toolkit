@@ -20,4 +20,12 @@ issue body and acceptance criteria, implement the smallest focused change, run
 the relevant checks, commit using the local commit-message convention, push the
 branch, and open a pull request. Preserve unrelated local changes and do not
 stage files outside the issue scope.
+
+If this is feature work, refactoring work, or an architecture-significant
+change, use the local architecture-impact skill before and during
+implementation. Read the current architecture documentation and relevant
+implementation, name affected ADRs, quality goals, risks, components, runtime
+scenarios, and deployment views, and update or explicitly report the required
+architecture documentation changes. Mark refactoring issues with repository
+metadata when available; otherwise prefix the issue title with [REFACTORING].
 ```

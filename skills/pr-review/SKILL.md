@@ -26,14 +26,19 @@ review workflow needs a stricter rule.
    style.
 4. Check changed architecture documents, skills, templates, schemas, adapters,
    and generated-output boundaries against the repository contracts.
-5. Run relevant validators, tests, linters, render checks, or targeted commands
+5. For feature work, refactoring work, or architecture-significant review tasks, use
+   `../architecture-impact/SKILL.md` to verify that current architecture
+   documentation, implementation, ADRs, quality goals, risks, affected feature
+   or refactoring references, Epic links, and refactoring issue markings stay
+   aligned.
+6. Run relevant validators, tests, linters, render checks, or targeted commands
    when available and reasonable for the changed files.
-6. Prioritize defects, behavioral regressions, broken contracts, missing
+7. Prioritize defects, behavioral regressions, broken contracts, missing
    verification, unsafe assumptions, stale links, and traceability problems.
-7. Write findings first, ordered by severity. Keep summaries secondary.
-8. Prefer precise file and line references for actionable findings.
-9. Separate blocking findings from non-blocking suggestions and questions.
-10. If no actionable findings are found, say so clearly and still report any
+8. Write findings first, ordered by severity. Keep summaries secondary.
+9. Prefer precise file and line references for actionable findings.
+10. Separate blocking findings from non-blocking suggestions and questions.
+11. If no actionable findings are found, say so clearly and still report any
     residual risk or verification that could not be performed.
 
 ## Review Focus
@@ -59,6 +64,8 @@ Read these files when the PR touches the corresponding scope:
 - `../../general-semantic-contracts.md` for architecture content, Docs-as-Code,
   metadata, traceability, quality, risks, SDLC workflow, and writing style.
 - `../../AGENTS.md` for automated-contributor rules.
+- `../architecture-impact/SKILL.md` before reviewing feature work, refactoring
+  work, architecture-significant changes, Epic-linked PRs, or refactoring PRs.
 - `../traceability-review/SKILL.md` before reviewing relation metadata or
   traceability changes.
 - `../adr/SKILL.md`, `../quality-scenario/SKILL.md`, or `../risk/SKILL.md`

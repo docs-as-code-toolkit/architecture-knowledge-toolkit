@@ -298,6 +298,10 @@ For each ticket:
 
 The aims of refactoring are to address specific ‘code smells’, not a vague urge to ‘tidy up’.
 
+Create or update a remote issue for every requested refactoring task. Mark it
+with the repository's refactoring issue type, label, or metadata if available;
+otherwise prefix the issue title with `[REFACTORING]`.
+
 For any refactoring task that cannot be completed in a single step, use the Mikado method: try the change, note down what no longer works as a result, revert the change and address the prerequisites first – never leave the build in a failed state whilst you are working on it.
 
 Refactoring commits must only change the structure. Behavioural changes are made in separate commits, and the test suite must pass with every commit.

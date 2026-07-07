@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Impact"
+  short_description: "Trace feature impact through architecture docs"
+  default_prompt: "Use $architecture-impact to assess this feature, refactoring, or review task against the current architecture documentation and implementation."

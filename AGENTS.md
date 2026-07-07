@@ -74,6 +74,9 @@ instructions should only tell agents how to discover and apply this toolkit.
   skills.
 - Put Codex-specific, Vibe-specific, or other runtime integration under
   `adapters/`.
+- Put OpenAI-specific skill UI metadata, such as `openai.yaml`, under
+  `adapters/openai/<skill-name>/`; do not place it under
+  `skills/<skill-name>/agents/`.
 - Put GitHub Copilot-specific repository instructions in `.github/` only as an
   entry point that points back to `adapters/github-copilot/` and the
   engine-independent skills. For pull request reviews, use

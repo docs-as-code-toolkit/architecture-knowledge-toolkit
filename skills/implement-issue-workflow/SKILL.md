@@ -7,6 +7,12 @@ description: "Implement GitHub issue work using the repository workflow: start f
 
 Use this workflow for issue implementation so changes are reviewable and never land directly on `main`.
 
+If the issue is a feature request, Epic, refactoring task, or
+architecture-significant change, use `../architecture-impact/SKILL.md` before
+and during implementation so the current architecture documentation,
+implementation, ADRs, quality goals, risks, affected feature or refactoring
+references, and issue markings stay aligned.
+
 If the issue is too broad for one focused pull request, or the user asks to
 split, slice, decompose, or plan it before implementation, use
 `../slice-issues/SKILL.md` first. Continue with this implementation workflow
@@ -30,6 +36,8 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 3. Run the relevant tests, linters, validators, generators, or manual checks before committing.
 4. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
 5. Leave unrelated worktree changes untouched.
+6. For feature or refactoring work, update or explicitly report the
+   architecture impact using `../architecture-impact/SKILL.md`.
 
 ## Commit, Push, And PR
 
