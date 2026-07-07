@@ -21,6 +21,13 @@ the relevant checks, commit using the local commit-message convention, push the
 branch, and open a pull request. Preserve unrelated local changes and do not
 stage files outside the issue scope.
 
+When asked to integrate the pull request and the PR is clean, mergeable, and has
+green checks, prefer linear history with
+`gh pr merge <number> --rebase --delete-branch`. Preserve individual commits;
+do not squash or use merge commits unless explicitly requested or required by
+repository policy. Skip branch cleanup and report to the developer when PR
+state, checks, merge state, local commits, or branch ownership are uncertain.
+
 If this is feature work, refactoring work, or an architecture-significant
 change, use the local architecture-impact skill before and during
 implementation. Read the current architecture documentation and relevant

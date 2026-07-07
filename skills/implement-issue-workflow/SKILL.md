@@ -54,10 +54,30 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 3. Push the new commits to the existing PR branch.
 4. Re-run and report relevant verification.
 
+## PR Integration
+
+Prefer a linear history when integrating pull requests. For a clean, mergeable
+pull request with green checks, use rebase integration with remote branch
+cleanup:
+
+```sh
+gh pr merge <number> --rebase --delete-branch
+```
+
+This preserves the PR's individual commits on the base branch. Do not squash
+unless the user explicitly requests squash integration or repository policy
+requires it. Use merge commits only when the user explicitly requests them or
+repository policy requires merge commits.
+
+Do not integrate or clean up branches automatically when there are warning
+signs, such as failed or unknown checks, unresolved merge state, a diverged
+local branch, unpushed local commits, uncertain PR state, or unclear branch
+ownership. Report the situation and let the developer decide.
+
 ## After PR Integration
 
-When the pull request is rebased or merged onto `main`, use
+When the pull request is integrated onto `main`, use
 `../post-merge-sync/SKILL.md` to return the checkout to the latest base branch,
-confirm the merged changes are present, and clean up the local PR branch when it
-is safe to do so.
+confirm the integrated changes are present, and clean up local and remote PR
+branches when it is safe to do so.
 Use post-merge-sync to tidy local branches before starting the next issue.
