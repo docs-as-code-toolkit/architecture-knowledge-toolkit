@@ -46,7 +46,7 @@ input, not the governing workflow.
   updates.
 - [`implement-issue-workflow.md`](implement-issue-workflow.md) for GitHub issue
   implementation.
-- [`post-merge-sync.md`](post-merge-sync.md) for local cleanup after PR merge.
+- [`post-merge-sync.md`](post-merge-sync.md) for cleanup after PR integration.
 - [`pr-review.md`](pr-review.md) for pull request review.
 - [`quality-scenario.md`](quality-scenario.md) for measurable quality
   scenarios.
