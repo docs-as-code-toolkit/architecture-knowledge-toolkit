@@ -27,7 +27,7 @@ arc42, metadata, anchor, Docs-as-Code, or traceability rules here.
    scenarios, deployment views, and relevant source files.
 3. Create or update the remote project Epic for every feature request. Mark it
    with the repository's Epic issue type when available; if no Epic type exists,
-   prefix the issue description with `[EPIC]`.
+   prefix the issue title with `[EPIC]`.
 4. Mark every requested refactoring in the remote project issue. Use the
    repository's refactoring issue type, label, or metadata when available; if no
    dedicated metadata exists, prefix the issue title with `[REFACTORING]`.
@@ -82,7 +82,7 @@ Read these files when the feature or review touches the corresponding scope:
 - Treat the Epic as the coordination artifact for the feature.
 - Prefer a real Epic issue type if the remote repository supports it.
 - If no Epic type is available through the repository UI, CLI, or API, prefix
-  the Epic issue description with `[EPIC]`.
+  the Epic issue title with `[EPIC]`.
 - Link child issues, PRs, ADRs, affected quality scenarios, risks, and relevant
   architecture documents from the Epic.
 - Keep child issues small and independently reviewable; use sub-issues when
@@ -140,7 +140,7 @@ Read these files when the feature or review touches the corresponding scope:
   behavior, boundary, dependency, interface, deployment concern, quality
   attribute, risk, or operational workflow?
 - Is the Epic or refactoring issue marked with the repository's native metadata,
-  or with `[EPIC]` in the Epic description / `[REFACTORING]` in the refactoring
+  or with `[EPIC]` in the Epic issue title / `[REFACTORING]` in the refactoring
   issue title when no metadata exists?
 - Are affected ADRs and quality goals explicitly named?
 - Is there a conflict that requires a new or changed ADR?

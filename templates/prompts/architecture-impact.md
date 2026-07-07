@@ -25,6 +25,6 @@ short descriptions for new components, runtime scenarios, or deployment changes.
 Use tagged AsciiDoc includes instead of copying diagrams or descriptions that
 also appear in the official architecture documentation. Ensure the feature has a
 remote Epic issue; if the repository has no Epic issue type, prefix the Epic
-description with [EPIC]. Ensure each refactoring task is marked with repository
+issue title with [EPIC]. Ensure each refactoring task is marked with repository
 metadata when available; otherwise prefix the issue title with [REFACTORING].
 ```
