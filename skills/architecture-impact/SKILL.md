@@ -16,6 +16,11 @@ Apply the repository contract hierarchy: this skill narrows `AGENTS.md`, and
 `AGENTS.md` adapts `general-semantic-contracts.md`. Do not duplicate general
 arc42, metadata, anchor, Docs-as-Code, or traceability rules here.
 
+This skill intentionally repeats a few backlog and issue-marking rules from
+`general-semantic-contracts.md` because they are operationally important while
+handling feature and review work. Keep the general contract as the long-term
+source of truth when these rules evolve.
+
 ## Core Workflow
 
 1. Identify the feature request, Epic issue, UserStory issue, refactoring task,
