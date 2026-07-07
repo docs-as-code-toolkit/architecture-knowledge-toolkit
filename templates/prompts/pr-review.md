@@ -21,4 +21,10 @@ missing tests, documentation-contract violations, traceability gaps, unsafe
 assumptions, and reviewability. Put actionable findings first with precise file
 and line references. If there are no actionable findings, say so and report
 remaining risks or test gaps.
+
+For feature work, refactoring work, or architecture-significant review tasks,
+use the local architecture-impact skill. Verify that current architecture
+documentation, implementation, ADRs, quality goals, risks, affected feature or
+refactoring references, Epic/UserStory links, and refactoring issue markings
+stay aligned.
 ```

@@ -269,6 +269,17 @@ At each layer boundary:
 ## Backlog Management
 
 Create EPICs and user stories as GitHub issues based on the specification.
+- Use an EPIC for larger feature requests that coordinate multiple user stories
+  or implementation slices. Use a user story for feature requests that are small
+  enough for one focused, reviewable slice. If the scope is unclear and the
+  issue type affects backlog structure, ask before creating the issue.
+- Start every EPIC and user story description with
+  `As a [Role], I want to [Action], so that [Benefit].`
+- Mark EPICs and user stories with the repository's issue type, label, or
+  metadata if available. If no metadata exists, prefix the issue title with
+  `[EPIC]` or `[UserStory]`.
+- Assign each user story to a matching EPIC when one exists. Prefer real
+  sub-issues or parent-child issue relations when the repository supports them.
 - User stories follow the INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
 - Prioritise using MoSCoW (Must/Should/Could/Won’t)
 - Highlight dependencies between issues
@@ -297,6 +308,10 @@ For each ticket:
 ## Refactoring
 
 The aims of refactoring are to address specific ‘code smells’, not a vague urge to ‘tidy up’.
+
+Create or update a remote issue for every requested refactoring task. Mark it
+with the repository's refactoring issue type, label, or metadata if available;
+otherwise prefix the issue title with `[REFACTORING]`.
 
 For any refactoring task that cannot be completed in a single step, use the Mikado method: try the change, note down what no longer works as a result, revert the change and address the prerequisites first – never leave the build in a failed state whilst you are working on it.
 

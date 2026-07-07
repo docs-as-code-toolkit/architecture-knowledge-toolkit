@@ -149,6 +149,7 @@ change, that is a defect in the generator or environment.
 Use the skill contracts under `skills/` for focused architecture workflows:
 
 - [`skills/bootstrap-project`](/skills/bootstrap-project/SKILL.md) for bootstrapping new project architecture documentation in the toolkit structure.
+- [`skills/architecture-impact`](/skills/architecture-impact/SKILL.md) for keeping feature requests, refactorings, reviews, Epics, UserStories, and architecture documentation aligned.
 - [`skills/adr`](/skills/adr/SKILL.md) for Architecture Decision Records and impact analysis.
 - [`skills/quality-scenario`](/skills/quality-scenario/SKILL.md) for measurable quality scenarios.
 - [`skills/risk`](/skills/risk/SKILL.md) for architecture risks and mitigations.
