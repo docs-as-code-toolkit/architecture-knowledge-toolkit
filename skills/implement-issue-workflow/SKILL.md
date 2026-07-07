@@ -7,7 +7,7 @@ description: "Implement GitHub issue work using the repository workflow: start f
 
 Use this workflow for issue implementation so changes are reviewable and never land directly on `main`.
 
-If the issue is a feature request, Epic, refactoring task, or
+If the issue is a feature request, Epic, UserStory, refactoring task, or
 architecture-significant change, use `../architecture-impact/SKILL.md` before
 and during implementation so the current architecture documentation,
 implementation, ADRs, quality goals, risks, affected feature or refactoring

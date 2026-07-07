@@ -2,7 +2,8 @@
 
 ```text
 Assess and update the architecture impact for the following feature request,
-Epic, refactoring task, implementation issue, pull request, or review task:
+Epic, UserStory, refactoring task, implementation issue, pull request, or
+review task:
 
 <feature, issue, pull request, or review task>
 
@@ -23,8 +24,12 @@ exist, propose a new or changed ADR. Record the feature or refactoring at every
 affected place in the architecture documentation. Add PlantUML diagrams and
 short descriptions for new components, runtime scenarios, or deployment changes.
 Use tagged AsciiDoc includes instead of copying diagrams or descriptions that
-also appear in the official architecture documentation. Ensure the feature has a
-remote Epic issue; if the repository has no Epic issue type, prefix the Epic
-issue title with [EPIC]. Ensure each refactoring task is marked with repository
-metadata when available; otherwise prefix the issue title with [REFACTORING].
+also appear in the official architecture documentation. Classify feature
+requests as Epics when they coordinate multiple UserStories or slices, and as
+UserStories when they fit one focused reviewable slice; ask when unclear. Start
+every Epic and UserStory description with "As a [Role], I want to [Action], so
+that [Benefit]." Assign each UserStory to a matching Epic when one exists,
+using real sub-issues or parent-child relations when supported. Mark Epics,
+UserStories, and refactorings with repository metadata when available;
+otherwise prefix issue titles with [EPIC], [UserStory], or [REFACTORING].
 ```

@@ -26,6 +26,8 @@ change, use the local architecture-impact skill before and during
 implementation. Read the current architecture documentation and relevant
 implementation, name affected ADRs, quality goals, risks, components, runtime
 scenarios, and deployment views, and update or explicitly report the required
-architecture documentation changes. Mark refactoring issues with repository
-metadata when available; otherwise prefix the issue title with [REFACTORING].
+architecture documentation changes. Classify feature work as Epic or UserStory,
+assign UserStories to matching Epics when available, and mark backlog issues
+with repository metadata when available; otherwise prefix issue titles with
+[EPIC], [UserStory], or [REFACTORING].
 ```

@@ -1,6 +1,6 @@
 ---
 name: architecture-impact
-description: Analyze and document architecture impact for feature requests, Epic issues, refactoring tasks, issue implementation, and review tasks. Use when Codex is asked to handle a feature request, create or refine an Epic, mark a refactoring issue, implement feature or refactoring work, review a pull request or review task, assess whether code changes affect architecture documentation, update affected arc42 sections, connect features or refactorings to ADRs, quality goals, quality scenarios, risks, components, runtime scenarios, deployment views, or create follow-up ADRs with diagrams.
+description: Analyze and document architecture impact for feature requests, Epic issues, UserStory issues, refactoring tasks, issue implementation, and review tasks. Use when Codex is asked to handle a feature request, decide whether feature work should become an Epic or UserStory, create or refine an Epic, mark a UserStory or refactoring issue, implement feature or refactoring work, review a pull request or review task, assess whether code changes affect architecture documentation, update affected arc42 sections, connect features or refactorings to ADRs, quality goals, quality scenarios, risks, components, runtime scenarios, deployment views, or create follow-up ADRs with diagrams.
 ---
 
 # Architecture Impact
@@ -18,42 +18,52 @@ arc42, metadata, anchor, Docs-as-Code, or traceability rules here.
 
 ## Core Workflow
 
-1. Identify the feature request, Epic issue, refactoring task, implementation
-   issue, pull request, or review task and read its title, description,
-   acceptance criteria, comments, linked issues, and linked PRs.
+1. Identify the feature request, Epic issue, UserStory issue, refactoring task,
+   implementation issue, pull request, or review task and read its title,
+   description, acceptance criteria, comments, linked issues, and linked PRs.
 2. Inspect the current architecture documentation before changing code or
    judging a review. Read the affected arc42 chapter files, ADR index, existing
    ADRs, quality goals, quality scenarios, risks, building blocks, runtime
    scenarios, deployment views, and relevant source files.
-3. Create or update the remote project Epic for every feature request. Mark it
-   with the repository's Epic issue type when available; if no Epic type exists,
-   prefix the issue title with `[EPIC]`.
-4. Mark every requested refactoring in the remote project issue. Use the
+3. Classify each feature request before creating or updating backlog issues. If
+   the request is broad enough to coordinate multiple user stories or slices,
+   create or update an Epic. If it is small enough for one reviewable slice,
+   create or update a UserStory. If the size is unclear and the decision affects
+   issue structure, ask a short clarifying question before creating the issue.
+4. Mark Epics and UserStories in the remote project backlog. Use the
+   repository's Epic or UserStory issue type, label, or metadata when available;
+   otherwise prefix the issue title with `[EPIC]` or `[UserStory]`.
+5. Start every Epic and UserStory description with the pattern
+   `As a [Role], I want to [Action], so that [Benefit].`
+6. Assign each UserStory to a matching Epic when one exists. Prefer real
+   sub-issues or parent-child issue relations when the repository supports them;
+   otherwise link the UserStory from the Epic and the Epic from the UserStory.
+7. Mark every requested refactoring in the remote project issue. Use the
    repository's refactoring issue type, label, or metadata when available; if no
    dedicated metadata exists, prefix the issue title with `[REFACTORING]`.
-5. Record the feature or refactoring at every affected place in the
+8. Record the feature or refactoring at every affected place in the
    architecture documentation. Prefer a short `Affected Features` or
    `Affected Refactorings` section or table with stable issue links, status,
    and explicit `xref` links to related architecture artifacts.
-6. Explicitly mention affected existing ADRs, quality goals, quality scenarios,
+9. Explicitly mention affected existing ADRs, quality goals, quality scenarios,
    risks, constraints, components, interfaces, runtime scenarios, and deployment
    elements in the issue, implementation notes, review output, or architecture
    changes.
-7. If the feature or refactoring conflicts with an accepted or proposed ADR,
+10. If the feature or refactoring conflicts with an accepted or proposed ADR,
    quality goal, quality scenario, risk treatment, or constraint, stop treating
    the conflict as an implementation detail. Use `../adr/SKILL.md` to draft a
    new proposed ADR or update the affected decision trail.
-8. Document new or changed components, runtime scenarios, and deployment
+11. Document new or changed components, runtime scenarios, and deployment
    changes with a matching PlantUML diagram plus a short textual description.
    Use C4-PlantUML for building-block diagrams.
-9. Add diagrams to new ADRs when they help readers compare options. If the same
+12. Add diagrams to new ADRs when they help readers compare options. If the same
    diagram or description is also included in the official arc42 structure,
    author it once and include it with `include::...[tags=...]` instead of
    copying it.
-10. Add or update quality scenarios and risks only when existing artifacts do
+13. Add or update quality scenarios and risks only when existing artifacts do
    not already cover the feature impact. Use `../quality-scenario/SKILL.md` and
    `../risk/SKILL.md` for those artifacts.
-11. Run the relevant validators, generators, render checks, tests, or manual
+14. Run the relevant validators, generators, render checks, tests, or manual
     checks. Report any unavailable verification and remaining open human
     decisions.
 
@@ -71,24 +81,32 @@ Read these files when the feature or review touches the corresponding scope:
 - `../risk/SKILL.md` before creating or changing risks.
 - `../traceability-review/SKILL.md` before changing relation metadata or
   reviewing traceability.
-- `../slice-issues/SKILL.md` when the Epic needs child issues or reviewable
-  implementation slices.
+- `../slice-issues/SKILL.md` when the Epic or UserStory needs child issues or
+  reviewable implementation slices.
 - `../implement-issue-workflow/SKILL.md` when continuing from feature analysis
   into implementation.
 - `../pr-review/SKILL.md` when the task is a pull request or review task.
 
-## Feature Issue Rules
+## Backlog Issue Rules
 
-- Treat the Epic as the coordination artifact for the feature.
-- Prefer a real Epic issue type if the remote repository supports it.
-- If no Epic type is available through the repository UI, CLI, or API, prefix
-  the Epic issue title with `[EPIC]`.
-- Link child issues, PRs, ADRs, affected quality scenarios, risks, and relevant
-  architecture documents from the Epic.
-- Keep child issues small and independently reviewable; use sub-issues when
-  available.
-- Do not create duplicate Epics. Search open and recently closed issues before
-  creating a new one.
+- Treat an Epic as the coordination artifact for a feature that is too large for
+  one reviewable slice or naturally contains multiple UserStories.
+- Treat a UserStory as a reviewable slice of user value that can fit into one
+  focused implementation flow.
+- Prefer real Epic and UserStory issue types, labels, or metadata if the remote
+  repository supports them.
+- If no Epic metadata is available, prefix the Epic issue title with `[EPIC]`.
+- If no UserStory metadata is available, prefix the UserStory issue title with
+  `[UserStory]`.
+- Start every Epic and UserStory description with
+  `As a [Role], I want to [Action], so that [Benefit].`
+- Assign a UserStory to an existing matching Epic when one exists. Prefer a real
+  GitHub sub-issue or parent-child relation; use linked issue references only
+  when sub-issues are unavailable.
+- Keep child issues small and independently reviewable. Create sub-issues as
+  real sub-issues for Epics and UserStories when the repository allows it.
+- Do not create duplicate Epics or UserStories. Search open and recently closed
+  issues before creating a new one.
 
 ## Refactoring Issue Rules
 
@@ -139,16 +157,19 @@ Read these files when the feature or review touches the corresponding scope:
 - Does the feature, refactoring, or PR change an architecture-significant
   behavior, boundary, dependency, interface, deployment concern, quality
   attribute, risk, or operational workflow?
-- Is the Epic or refactoring issue marked with the repository's native metadata,
-  or with `[EPIC]` in the Epic issue title / `[REFACTORING]` in the refactoring
+- Is each Epic, UserStory, or refactoring issue marked with the repository's
+  native metadata, or with `[EPIC]`, `[UserStory]`, or `[REFACTORING]` in the
   issue title when no metadata exists?
+- Does every Epic and UserStory begin with
+  `As a [Role], I want to [Action], so that [Benefit].`?
+- Is each UserStory assigned to a matching Epic when one exists?
 - Are affected ADRs and quality goals explicitly named?
 - Is there a conflict that requires a new or changed ADR?
 - Are all affected architecture locations updated with feature references?
 - Are new components, runtime scenarios, and deployment changes documented with
   PlantUML diagrams and short text?
 - Are shared diagrams and descriptions included by tag instead of copied?
-- Does the Epic link the implementation, documentation, ADRs, risks, quality
-  scenarios, and PRs?
+- Do the Epic and UserStory links cover implementation, documentation, ADRs,
+  risks, quality scenarios, PRs, and real sub-issues where supported?
 - Are validators, generators, tests, and render checks run or explicitly noted
   as not run?

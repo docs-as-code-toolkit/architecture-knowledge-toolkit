@@ -25,5 +25,6 @@ remaining risks or test gaps.
 For feature work, refactoring work, or architecture-significant review tasks,
 use the local architecture-impact skill. Verify that current architecture
 documentation, implementation, ADRs, quality goals, risks, affected feature or
-refactoring references, Epic links, and refactoring issue markings stay aligned.
+refactoring references, Epic/UserStory links, and refactoring issue markings
+stay aligned.
 ```
