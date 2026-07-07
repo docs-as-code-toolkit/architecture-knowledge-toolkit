@@ -37,6 +37,4 @@ metadata_version: '1.0'
 Private Budget helps individuals track income, expenses, budgets, and spending
 trends across web and mobile clients.
 
-include::01-introduction-and-goals/doc-01002-requirements-overview.adoc[]
-include::01-introduction-and-goals/doc-01001-quality-goals.adoc[]
-include::01-introduction-and-goals/doc-01003-stakeholders.adoc[]
+include::generated/doc-01000-introduction-and-goals-includes.adoc[]

@@ -36,8 +36,6 @@ metadata_version: '1.0'
 = Architecture Decisions
 
 include::09-architecture-decisions/generated/doc-09001-adr-index.adoc[]
-include::09-architecture-decisions/adr-001-backend-api-boundary.adoc[]
-include::09-architecture-decisions/adr-002-mobile-local-first-entry.adoc[]
-include::09-architecture-decisions/adr-003-server-owned-budget-calculation.adoc[]
 include::09-architecture-decisions/generated/open-questions.adoc[]
 
+include::generated/doc-09000-architecture-decisions-includes.adoc[]

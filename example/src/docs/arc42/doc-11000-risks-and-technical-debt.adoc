@@ -30,11 +30,10 @@ metadata_version: '1.0'
 = Risks And Technical Debt
 
 include::11-risks-and-technical-debt/generated/doc-11001-risks.adoc[]
-include::11-risks-and-technical-debt/r-001-private-data-exposure.adoc[]
-include::11-risks-and-technical-debt/r-002-sync-conflict-loss.adoc[]
+
+include::generated/doc-11000-risks-and-technical-debt-includes.adoc[]
 
 == Technical Debt
 
 No accepted technical debt is recorded yet. Draft debt candidates belong here
 after the first implementation slice creates evidence.
-

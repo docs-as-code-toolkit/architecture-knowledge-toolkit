@@ -43,7 +43,5 @@ metadata_version: '1.0'
 * Usability
 
 include::10-quality-requirements/generated/doc-10001-quality-scenarios.adoc[]
-include::10-quality-requirements/qs-001-budget-total-integrity.adoc[]
-include::10-quality-requirements/qs-002-expense-entry-latency.adoc[]
-include::10-quality-requirements/qs-003-offline-expense-capture.adoc[]
 
+include::generated/doc-10000-quality-requirements-includes.adoc[]
