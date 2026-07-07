@@ -275,11 +275,13 @@ Create EPICs and user stories as GitHub issues based on the specification.
   issue type affects backlog structure, ask before creating the issue.
 - Start every EPIC and user story description with
   `As a [Role], I want to [Action], so that [Benefit].`
-- When creating or editing GitHub issues with multi-line Markdown bodies, use
-  `gh issue create --body-file <file>` or
-  `gh issue edit <issue> --body-file <file>` so GitHub receives real line
-  breaks and code fences. Do not pass escaped newline sequences through
-  `--body`.
+- When creating or editing GitHub issues or pull requests with multi-line
+  Markdown bodies, use `--body-file` so GitHub receives real line breaks and
+  code fences. Examples: `gh issue create --body-file <file>`,
+  `gh issue edit <issue> --body-file <file>`,
+  `gh pr create --body-file <file>`, and
+  `gh pr edit <pr> --body-file <file>`. Do not pass escaped newline sequences
+  through `--body`.
 - Mark EPICs and user stories with the repository's issue type, label, or
   metadata if available. If no metadata exists, prefix the issue title with
   `[EPIC]` or `[UserStory]`.
