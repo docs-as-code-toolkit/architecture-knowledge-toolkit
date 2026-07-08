@@ -10,27 +10,36 @@ async function main() {
     "<!-- GENERATED FILE: edit skills/**/SKILL.md or scripts/build-agent-adapters.js, then regenerate. -->",
     "",
   ].join("\n");
+  const defaultWrap = (body) => `${generatedNotice}${body}`;
 
   const targets = [
     {
       path: "adapters/codex/AGENTS.md",
       title: "Codex Adapter",
       agent: "Codex",
+      wrap: defaultWrap,
     },
     {
       path: "adapters/vibe/AGENTS.md",
       title: "Vibe Adapter",
       agent: "Vibe",
+      wrap: defaultWrap,
     },
     {
       path: "adapters/github-copilot/copilot-instructions.md",
       title: "GitHub Copilot Adapter",
       agent: "GitHub Copilot",
+      wrap: defaultWrap,
     },
     {
       path: "adapters/cursor/rules/architecture-knowledge-toolkit.mdc",
       title: "Cursor Rule",
       agent: "Cursor",
+      wrap: (body) => `---
+description: Architecture Knowledge Toolkit adapter
+alwaysApply: true
+---
+${generatedNotice}${body}`,
     },
   ];
 
@@ -65,6 +74,7 @@ async function main() {
     return {
       path: skillPath,
       name: meta.name || path.default.basename(path.default.dirname(skillPath)),
+      adapterExpose: meta.adapter_expose !== "false",
     };
   }
 
@@ -73,20 +83,23 @@ async function main() {
       .map((skill) => `- \`${skill.name}\`: \`${skill.path}\``)
       .join("\n");
 
-    return `${generatedNotice}# ${target.title}
+    const body = `# ${target.title}
 
 This is a thin ${target.agent}-specific wrapper for the
 architecture-knowledge-toolkit. Keep architecture semantics in
-\`general-semantic-contracts.md\` and canonical \`skills/**/SKILL.md\` files.
+repository-root \`general-semantic-contracts.md\` and canonical
+\`skills/**/SKILL.md\` files.
 
 When ${target.agent} performs architecture-sensitive work:
 
-1. Read \`AGENTS.md\`.
-2. Read \`general-semantic-contracts.md\`.
+1. Read repository-root \`AGENTS.md\`.
+2. Read repository-root \`general-semantic-contracts.md\`.
 3. Select and read the relevant canonical skill from the list below.
 4. Treat this adapter as routing guidance only.
 
 ## Canonical Skills
+
+Paths are relative to the architecture-knowledge-toolkit repository root.
 
 ${skillRows}
 
@@ -96,6 +109,8 @@ Do not duplicate ADR, quality scenario, risk, traceability, metadata, or arc42
 rules here. Agent-specific files may only wrap, point to, or invoke the
 canonical sources.
 `;
+
+    return target.wrap(body);
   }
 
   const args = process.argv.slice(2);
@@ -106,7 +121,7 @@ canonical sources.
     process.exit(2);
   }
 
-  const skills = listSkillFiles().map(parseSkill);
+  const skills = listSkillFiles().map(parseSkill).filter((skill) => skill.adapterExpose);
   const stale = [];
 
   for (const target of targets) {

@@ -3,16 +3,19 @@
 
 This is a thin Codex-specific wrapper for the
 architecture-knowledge-toolkit. Keep architecture semantics in
-`general-semantic-contracts.md` and canonical `skills/**/SKILL.md` files.
+repository-root `general-semantic-contracts.md` and canonical
+`skills/**/SKILL.md` files.
 
 When Codex performs architecture-sensitive work:
 
-1. Read `AGENTS.md`.
-2. Read `general-semantic-contracts.md`.
+1. Read repository-root `AGENTS.md`.
+2. Read repository-root `general-semantic-contracts.md`.
 3. Select and read the relevant canonical skill from the list below.
 4. Treat this adapter as routing guidance only.
 
 ## Canonical Skills
+
+Paths are relative to the architecture-knowledge-toolkit repository root.
 
 - `adr`: `skills/adr/SKILL.md`
 - `architecture-core`: `skills/architecture-core/SKILL.md`
@@ -20,7 +23,6 @@ When Codex performs architecture-sensitive work:
 - `bootstrap-project`: `skills/bootstrap-project/SKILL.md`
 - `commit-message`: `skills/commit-message/SKILL.md`
 - `domain-modeling`: `skills/domain-modeling/SKILL.md`
-- `grilling`: `skills/grilling/SKILL.md`
 - `implement-issue-workflow`: `skills/implement-issue-workflow/SKILL.md`
 - `post-merge-sync`: `skills/post-merge-sync/SKILL.md`
 - `pr-review`: `skills/pr-review/SKILL.md`

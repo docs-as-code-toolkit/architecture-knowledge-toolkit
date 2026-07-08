@@ -42,6 +42,7 @@ Generated or hand-written agent adapters may:
 - describe how a specific agent loads or invokes those sources;
 - include minimal, engine-specific routing or file-location details;
 - declare that architecture semantics are governed elsewhere.
+- omit canonical helper skills that set `adapter_expose: false`.
 
 Agent adapters must not:
 
@@ -56,7 +57,7 @@ When the user explicitly asks for GreenIT, token footprint, agent efficiency, or
 repeated context loading, agents may use selected external Honey skills from
 `Green-PT/honey-for-devs`:
 
-- `honey-eco` for token/CO2/session-footprint reporting
+- `honey-eco` for token/CO₂/session-footprint reporting
 - `honey-memory` for stable project memory
 - `honey-compress` for frequently loaded prose context files
 
