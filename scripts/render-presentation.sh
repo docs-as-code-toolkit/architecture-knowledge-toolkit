@@ -20,9 +20,9 @@ USAGE
 }
 
 find_engine() {
-  if command -v podman >/dev/null 2>&1; then
+  if command -v podman >/dev/null 2>&1 && podman info >/dev/null 2>&1; then
     printf '%s\n' "podman"
-  elif command -v docker >/dev/null 2>&1; then
+  elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
     printf '%s\n' "docker"
   else
     printf '%s\n' ""
