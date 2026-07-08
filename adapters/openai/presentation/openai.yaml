@@ -1,0 +1,4 @@
+interface:
+  display_name: "Presentation"
+  short_description: "Create AsciiDoc reveal.js decks for docs-toolbox."
+  default_prompt: "Use $presentation to create a docs-as-code slide deck as AsciiDoc and prepare it for reveal.js rendering with docs-toolbox."
