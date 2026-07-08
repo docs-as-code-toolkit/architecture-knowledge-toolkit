@@ -343,7 +343,8 @@ For AI-assisted reviews, use a different AI model or a new session to avoid blin
 ## Docs-as-Code
 
 Documentation follows the ‘Docs-as-Code’ approach as outlined by Ralf D. Müller:
-- AsciiDoc as the format, PlantUML for inline diagrams, generated using docToolchain
+- AsciiDoc as the format, PlantUML for inline diagrams, and rendering through
+  docToolchain, docs-toolbox-based pipelines, or similar publishing tools
 - Version-controlled, peer-reviewed and automatically generated
 - Plain English according to Strunk & White (or ‘Good German’ according to Wolf Schneider)
 - Every reference to a documentation artifact must be addressable by an

@@ -42,8 +42,9 @@ metadata_version: '1.0'
 | Reproduces local behavior and publishes derived documentation.
 
 | Documentation publication target
-| Static HTML output first
-| GitHub Pages is the first automated publication target.
+| Static HTML output first; docToolchain and similar tools remain compatible neighbors
+| GitHub Pages is the first automated publication target. Publishing tools render
+derived documentation; they do not own the architecture knowledge base.
 
 | Consuming repository
 | AsciiDoc includes, templates, metadata schemas, and generated fragments
@@ -59,12 +60,14 @@ Person(contributor, "Contributor", "Edits source files and runs local checks.")
 System(toolkit, "Architecture Knowledge Toolkit", "Source files, schemas, scripts, skills, and adapters.")
 System_Ext(ci, "CI/CD", "Runs validation, generation, and publication.")
 System_Ext(pages, "GitHub Pages", "Publishes generated static HTML.")
+System_Ext(publishingToolchain, "Publishing toolchain", "docToolchain, docs-toolbox-based rendering, or similar tools.")
 System_Ext(ai, "AI runtime", "Produces suggestions through adapters.")
 
 Rel(contributor, toolkit, "Edits AsciiDoc, metadata, templates, and scripts")
 Rel(contributor, toolkit, "Runs Ruby validator/generator locally")
 Rel(toolkit, ci, "Provides reproducible inputs")
 Rel(ci, pages, "Publishes generated static HTML")
+Rel(toolkit, publishingToolchain, "Provides structured AsciiDoc sources and metadata")
 Rel(toolkit, ai, "Provides context and receives suggested content")
 @enduml
 ----

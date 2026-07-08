@@ -36,7 +36,7 @@ Person(adapterMaintainer, "Adapter maintainer", "Maintains runtime-specific inte
 System(toolkit, "Architecture Knowledge Toolkit", "Docs-as-Code architecture knowledge toolkit.")
 
 System_Ext(aiRuntime, "AI runtime", "Suggests architecture content; does not own truth.")
-System_Ext(publishing, "Publishing platform", "Publishes generated documentation.")
+System_Ext(publishing, "Publishing platform", "Publishes generated documentation through docToolchain, docs-toolbox-based rendering, or similar tools.")
 System_Ext(projectRepo, "Consuming project repository", "Uses toolkit conventions and generated views.")
 
 Rel(architect, toolkit, "Authors and evolves source architecture knowledge")
@@ -44,7 +44,7 @@ Rel(reviewer, toolkit, "Reviews changes")
 Rel(developer, toolkit, "Runs validation and consumes generated views")
 Rel(adapterMaintainer, toolkit, "Maintains adapter guidance")
 Rel(toolkit, aiRuntime, "Receives suggestions from")
-Rel(toolkit, publishing, "Publishes derived documentation to")
+Rel(toolkit, publishing, "Provides derived documentation for")
 Rel(projectRepo, toolkit, "Adopts templates, skills, schemas, and scripts")
 @enduml
 ----

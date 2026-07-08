@@ -99,6 +99,8 @@ Goal: make reviewed metadata useful in generated documentation.
   the first automated target.
 * Support plain Asciidoctor-generated static HTML as the first GitHub Pages
   delivery path before broader static-site-generator options.
+* Keep the generated source and metadata compatible with docToolchain,
+  docs-toolbox-based rendering, and similar publishing pipelines.
 * Provide one maintained default CSS theme for version 1 generated
   documentation.
 * Use the `profile dieterbaier` theme as a candidate base for a separate
@@ -147,3 +149,5 @@ Exit criteria:
   architecture review?
 * Which target formats beyond plain static HTML must define acceptance tests for
   reusable source fragments?
+* Which examples should demonstrate combining the toolkit with docToolchain or
+  similar publishing tools?

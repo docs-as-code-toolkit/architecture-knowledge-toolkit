@@ -109,7 +109,8 @@ living document and must be updated when the implementation evolves.
   implementation language open and define ecosystem fit plus contributor reach
   as the primary selection criteria.
 * xref:q-ops-005[Q-OPS-005] confirms plain Asciidoctor-generated static HTML as
-  the first GitHub Pages path, but leaves broader DocToolchain, jbake, and
-  static-site-generator guidance for later refinement.
+  the first GitHub Pages path, while keeping docToolchain, docs-toolbox-based
+  rendering, jbake, and static-site-generator guidance compatible as publishing
+  neighbors.
 * xref:q-arch-006[Q-ARCH-006] leaves the adapter documentation boundary open
   until the project has more evidence about AI engine differences.

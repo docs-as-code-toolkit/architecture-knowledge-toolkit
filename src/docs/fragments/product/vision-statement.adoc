@@ -10,6 +10,11 @@ than one document context, such as a business value statement used in both
 architecture documentation and a vision statement, it should be maintained once
 as a reusable AsciiDoc source fragment and included wherever it is needed.
 
+The toolkit should operate one layer above publishing. Reviewed source
+documents, metadata, and relations are the authoritative architecture knowledge
+base; rendered documentation is a derived artifact that may be published by
+docToolchain, docs-toolbox-based pipelines, or similar tools.
+
 Teams should be able to use AI to improve architecture work without losing
 control of the source of truth.
 

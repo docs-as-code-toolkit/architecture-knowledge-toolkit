@@ -30,6 +30,8 @@ derived documents still need review before they become accepted project truth.
   authoritative status.
 * Deterministic validation and generation are core differentiators.
 * The Docs-as-Code Toolkit philosophy is write once, publish everywhere.
+* The toolkit operates one layer above publishing: reviewed source documents,
+  metadata, and relations are authoritative; rendered documentation is derived.
 * Reusable AsciiDoc source fragments and generated documentation fragments are
   different concepts: source fragments may be committed and reviewed;
   generated fragments are derived output and must not become source truth.
@@ -311,7 +313,7 @@ Answer: GitHub Pages should be the first supported publish target for automated 
 For the first GitHub Pages support, should deployment be based on plain
 Asciidoctor-generated static HTML, Antora, or another static site flow?
 
-Answer: Plain Asciidoctor-generated static HTML should be the first supported delivery path for GitHub Pages. It is simple to set up, requires minimal configuration, and allows for easy customization of the generated documentation. As we also need to decide, if we are going to use the https://doctoolchain.org[DocToolchain] for generation, jbake could be a good alternative to Antora. As a matter of fact, the best option would be to let the user decide which static site generator to use, as long as it can generate static HTML from AsciiDoc sources. The toolkit should provide guidance and examples for using different static site generators, but the primary focus should be on supporting plain Asciidoctor-generated static HTML for GitHub Pages in version 1. The toolkit should also provide the possibility to use different CSS themes. The docs-as-code-toolkit should provide such themes.
+Answer: Plain Asciidoctor-generated static HTML should be the first supported delivery path for GitHub Pages. It is simple to set up, requires minimal configuration, and allows for easy customization of the generated documentation. This does not compete with https://github.com/docToolchain[docToolchain]. The toolkit should stay compatible with docToolchain, jbake, Antora, docs-toolbox-based rendering, or similar publishing flows, as long as they can render the structured AsciiDoc sources and derived metadata views. The primary focus for version 1 remains plain Asciidoctor-generated static HTML for GitHub Pages, with guidance for other publishing tools added as examples rather than hard dependencies. The toolkit should also provide the possibility to use different CSS themes. The docs-as-code-toolkit should provide such themes.
 
 [[q-ops-006]]
 === Q-OPS-006: Initial theme scope
@@ -325,7 +327,7 @@ Answer: There is no need to provide multiple selectable themes for version 1. A 
 === Q-OPS-007: Target formats for fragment acceptance
 
 Which target formats must reusable source fragments support first: static HTML,
-PDF, Antora, DocToolchain, jbake, or another publication path?
+PDF, Antora, docToolchain, jbake, or another publication path?
 
 Answer: Open.
 
@@ -333,3 +335,17 @@ Current assumption: Plain Asciidoctor-generated static HTML is the first
 acceptance target because it is already the first GitHub Pages delivery path.
 PDF and broader static-site-generator behavior should be added when those
 publication paths become supported.
+
+[[q-ops-008]]
+=== Q-OPS-008: Relationship to docToolchain
+
+Should the toolkit explicitly describe its relationship to docToolchain?
+
+Answer: Yes. The toolkit should be explicit that it does not compete with
+https://github.com/docToolchain[docToolchain]. docToolchain helps teams render,
+convert, publish, and integrate documentation. The architecture-knowledge-toolkit
+operates one layer above publishing: it structures, relates, reviews, validates,
+and evolves architecture knowledge. Both approaches can be combined: the toolkit
+can provide structured AsciiDoc sources and metadata, while docToolchain,
+docs-toolbox-based pipelines, or similar tools render and publish the derived
+documentation.

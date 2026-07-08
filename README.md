@@ -14,6 +14,25 @@ without making AI a required dependency.
 AI may suggest architecture artifacts and relationships, but the repository owns
 the truth. Reviewed metadata and source documents are the authoritative record.
 
+## Relationship to docToolchain
+
+This project is not intended to compete with
+[docToolchain](https://github.com/docToolchain).
+
+docToolchain is a mature Docs-as-Code toolchain for building, converting,
+publishing, and integrating technical and software architecture documentation.
+The architecture-knowledge-toolkit focuses on the layer above publishing:
+semantic contracts, metadata conventions, artifact templates, traceability
+relations, review workflows, deterministic generators, and AI-assistable
+architecture work.
+
+Both approaches can be combined. This toolkit can provide structured AsciiDoc
+sources and metadata, while docToolchain or similar tools render and publish the
+resulting documentation. The wider Docs-as-Code Toolkit also provides
+`docs-toolbox` as a reproducible local and CI runtime for rendering.
+
+In short: **we operate one layer above publishing.**
+
 ## Principles
 
 - Docs-as-Code first: architecture knowledge lives in version-controlled text.
@@ -32,6 +51,8 @@ the truth. Reviewed metadata and source documents are the authoritative record.
 - Generators must be deterministic, idempotent, and reproducible.
 - Generated documentation is a derived artifact and is not committed as source
   content.
+- Publishing toolchains are replaceable neighbors; reviewed source documents,
+  metadata, and relations remain the authoritative architecture knowledge base.
 - Skills are engine-independent where possible.
 - Engine-specific integration belongs under `adapters/`.
 

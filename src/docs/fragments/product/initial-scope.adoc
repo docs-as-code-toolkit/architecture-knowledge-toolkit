@@ -16,6 +16,8 @@ The first scope is a walking skeleton for architecture knowledge management:
 * Validate this project's own arc42 metadata.
 * Generate deterministic matrices, per-artifact relationship views,
   artifact-type indexes, and other includable documentation fragments.
+* Keep publishing integration friendly to docToolchain, docs-toolbox-based
+  rendering, and similar tools while treating generated output as derived.
 * Start with artifact-type indexes as separate generated `.adoc` files linked
   from a main index page.
 * Support GitHub Pages as the first automated publishing target for generated

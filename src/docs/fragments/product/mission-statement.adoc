@@ -7,6 +7,7 @@ generation, and generated relationship views so teams can create and maintain
 reviewable arc42 architecture documentation.
 
 It also provides conventions for reusable documentation fragments that can be
-included safely across document contexts and target formats. The first setup
-workflow is considered successful primarily when it yields a complete initial
-artifact set.
+included safely across document contexts and target formats. It stays
+publishing-toolchain-friendly without becoming a publishing toolchain itself.
+The first setup workflow is considered successful primarily when it yields a
+complete initial artifact set.
