@@ -1,7 +1,7 @@
 ---
 id: DOC-001-arc42
 type: Document
-title: arc42 Architecture Documentation
+title: architecture-knowledge-toolit - Architecture Documentation
 status: draft
 owner: project maintainers
 created: '2026-06-28'
@@ -104,7 +104,7 @@ relations:
   reviewed: false
 metadata_version: '1.0'
 ---
-= [[arc42]]arc42 Architecture Documentation
+= [[arc42]]architecture-knowledge-toolit -  Architecture Documentation
 :toc:
 :toclevels: 2
 :sectnums:

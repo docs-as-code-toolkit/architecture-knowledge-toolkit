@@ -28,9 +28,6 @@ jobs:
         with:
           ruby-version: "3.3"
 
-      - name: Install Asciidoctor
-        run: gem install asciidoctor
-
       - name: Validate metamodel
         run: ruby scripts/validate-metamodel.rb
 
@@ -40,20 +37,8 @@ jobs:
       - name: Check generated agent adapters
         run: node scripts/check-agent-adapters.js
 
-      - name: Generate derived documentation fragments
-        run: ruby scripts/validate-metamodel.rb --generate
-
-      - name: Build static HTML
-        run: |
-          mkdir -p public
-          asciidoctor \
-            -a skip-front-matter \
-            -a toc=left \
-            -a sectanchors \
-            -a icons=font \
-            -D public \
-            -o index.html \
-            src/docs/doc-001-arc42.adoc
+      - name: Build static HTML with docs-toolbox
+        run: ./build.sh build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -61,7 +46,7 @@ jobs:
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: build/architecture
 
   deploy:
     environment:

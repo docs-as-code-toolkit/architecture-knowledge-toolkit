@@ -221,6 +221,17 @@ Run the default validation against this project's own arc42 documentation:
 ruby scripts/validate-metamodel.rb
 ```
 
+Build the assembled architecture documentation with the same `docs-toolbox`
+container image used in CI:
+
+```sh
+./build.sh build
+```
+
+The build output is written to `build/architecture/index.html`. The script uses
+Docker or Podman when available and falls back to the local toolchain only when
+no container engine is installed.
+
 Validation and generation are intended to work both locally and in CI. GitHub
 Actions and GitLab CI are the primary reproducible CI environments to support.
 This repository validates pull requests and pushes to `main` with GitHub
