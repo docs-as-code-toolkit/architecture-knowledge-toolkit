@@ -1,3 +1,4 @@
+[[honey-for-devs-reference-patterns]]
 = Honey for Devs Reference Patterns
 
 This page records the structural patterns from

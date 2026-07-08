@@ -58,9 +58,10 @@ quality-scenario, risk, traceability, metadata, or arc42 rules.
 
 `Green-PT/honey-for-devs` is a useful structural reference because it authors a
 canonical skill once, derives per-agent rule files, and provides a check mode to
-detect drift. This decision adopts that structural pattern only. It does not
-adopt Honey token-optimization behavior, ESON, CCR, PX, automatic compression,
-or Honey-specific runtime commands.
+detect drift. xref:honey-for-devs-reference-patterns[] records the relevant
+patterns and boundaries in the appendix. This decision adopts that structural
+pattern only. It does not adopt Honey token-optimization behavior, ESON, CCR,
+PX, automatic compression, or Honey-specific runtime commands.
 
 === Decision Drivers
 

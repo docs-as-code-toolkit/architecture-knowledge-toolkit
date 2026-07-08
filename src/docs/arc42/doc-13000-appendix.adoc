@@ -32,3 +32,5 @@ metadata until the project decides whether questions become first-class
 architecture artifacts.
 
 include::../doc-005-questions-and-answers.adoc[leveloffset=+1]
+
+include::../doc-006-honey-for-devs.adoc[leveloffset=+1]

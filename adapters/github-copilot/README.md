@@ -9,8 +9,14 @@ GitHub Copilot should use:
 - `../../.github/copilot-instructions.md` as the repository-level entry point.
 - `../../.github/instructions/pr-review.instructions.md` for PR-review-specific
   repository instructions.
+- `../../adapters/github-copilot/copilot-instructions.md` for generated
+  adapter routing to canonical skills.
 - `../../skills/pr-review/SKILL.md` as the engine-independent PR review
   workflow.
+
+The `.github/` files are GitHub Copilot entry points only. Keep durable
+Copilot-specific integration here, and keep architecture or review semantics in
+canonical skills and contracts.
 
 ## PR Review Behavior
 

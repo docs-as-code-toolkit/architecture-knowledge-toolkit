@@ -53,3 +53,11 @@ Open deployment decisions:
 * The long-term validator and generator runtime is open.
 * Plain Asciidoctor-generated static HTML is the first GitHub Pages path.
 * Other publication paths remain later extension points.
+
+Current CI deployment:
+
+* `.github/workflows/validate.yml` validates metadata, generator tests, adapter
+  drift, and generated documentation freshness.
+* `.github/workflows/publish-docs.yml` runs on pushes to `main`, regenerates
+  derived fragments, renders `src/docs/doc-001-arc42.adoc` to `public/index.html`
+  with Asciidoctor, and deploys the result to GitHub Pages.
