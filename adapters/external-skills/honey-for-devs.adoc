@@ -16,7 +16,7 @@ capabilities for GreenIT-aware agent work.
 
 === honey-eco
 
-Use when the user asks for token, cost, CO2, or AI-session footprint reporting.
+Use when the user asks for token, cost, CO₂, or AI-session footprint reporting.
 Do not estimate manually. Use Honey's committed scripts when available.
 
 === honey-memory

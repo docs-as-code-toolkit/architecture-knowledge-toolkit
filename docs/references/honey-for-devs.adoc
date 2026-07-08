@@ -23,6 +23,8 @@ keep architecture semantics in `skills/**/SKILL.md` and
 Honey publishes per-agent rule files for tools such as Codex, Cursor, GitHub
 Copilot, Cline, and others. The matching toolkit pattern is to generate thin
 files under `adapters/**` that point back to canonical skills and contracts.
+Canonical skills that should not appear in generated adapters can opt out with
+`adapter_expose: false` in their `SKILL.md` front matter.
 
 === CI drift check
 
@@ -51,7 +53,7 @@ review-critical content.
 The following Honey-specific behaviors are not adopted here:
 
 * ESON, CCR, PX, or Honey wire formats.
-* Token accounting, CO2 accounting, or cost estimation as architecture
+* Token accounting, CO₂ accounting, or cost estimation as architecture
   semantics.
 * Automatic prompt compression or output-minimization rules.
 * Honey runtime commands, hooks, badges, installers, or subagent behavior.
