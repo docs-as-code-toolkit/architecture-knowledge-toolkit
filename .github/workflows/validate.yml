@@ -27,6 +27,9 @@ jobs:
       - name: Run validator tests
         run: ruby -Itest test/validate_metamodel_test.rb
 
+      - name: Check generated agent adapters
+        run: node scripts/check-agent-adapters.js
+
       - name: Verify generated documentation is current
         run: |
           ruby scripts/validate-metamodel.rb --generate

@@ -1,0 +1,45 @@
+= External Skill Reference: Honey for Devs
+
+The architecture-knowledge-toolkit may use selected skills from
+`Green-PT/honey-for-devs` as optional external agent capabilities.
+
+Honey is not part of the architecture semantics of this toolkit. It is
+referenced for GreenIT, token/cost awareness, context reduction, and agent
+memory hygiene.
+
+== External Skill Integration: Honey for Devs
+
+This toolkit may reference selected Honey skills as optional external
+capabilities for GreenIT-aware agent work.
+
+== Allowed Honey Skills
+
+=== honey-eco
+
+Use when the user asks for token, cost, CO2, or AI-session footprint reporting.
+Do not estimate manually. Use Honey's committed scripts when available.
+
+=== honey-memory
+
+Use when setting up or refreshing stable project memory so agents avoid
+re-discovering architecture context in every cold session.
+
+=== honey-compress
+
+Use when reducing frequently loaded prose context files, such as `AGENTS.md`,
+`CLAUDE.md`, `PROJECT.md`, or adapter instructions.
+
+== Boundaries
+
+Honey skills do not define architecture semantics. Architecture decisions,
+quality scenarios, risks, arc42 structure, metadata, and traceability remain
+governed by this toolkit.
+
+Do not apply Honey compression to:
+
+* ADR content where rationale would be lost
+* quality scenarios
+* risk descriptions
+* stakeholder requirements
+* code, config, schemas, or generated data
+* security-, migration-, auth-, money-, or delete-related directives
