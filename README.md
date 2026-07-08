@@ -299,6 +299,17 @@ The container-based render scripts (`build.sh` itself and
 `scripts/render-presentation.sh`) are not covered yet; testing them requires a
 container engine and is tracked as a follow-up.
 
+## Talks
+
+Talk-specific material lives in [`talks/`](talks/) so event proposals, slide
+decks, demo scripts, and speaker notes can evolve independently from the core
+toolkit documentation. Slide decks are authored as AsciiDoc and rendered to
+reveal.js with docs-toolbox.
+
+- [`ai-assisted-coding meetup by envite`](talks/ai-assisted-coding-meetup-envite/)
+  introduces the architecture-knowledge-toolkit as an AI harness for
+  reproducible, reviewable architecture work.
+
 ## Current Status
 
 This is the initial repository skeleton. It intentionally does not include a full

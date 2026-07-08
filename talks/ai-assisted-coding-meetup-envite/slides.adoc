@@ -1,0 +1,151 @@
+= Prompting skaliert schlecht: Architecture Knowledge as Code
+:author: architecture-knowledge-toolkit
+:revdate: 2026-07-08
+:event: ai-assisted-coding meetup by envite
+:source-issue: https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/53
+:revealjs_theme: white
+:revealjs_slideNumber: true
+:revealjs_hash: true
+:source-highlighter: highlight.js
+:icons: font
+
+== AI-assisted Coding ist schnell. Architekturarbeit braucht mehr.
+
+AI kann Code und Dokumentation schnell erzeugen.
+
+Ohne expliziten Kontext entstehen aber Artefakte, die schwer vergleichbar,
+schwer reviewbar und nur zufällig brauchbar sind.
+
+[NOTE.speaker]
+--
+Direkt mit der Erfahrung des Meetups starten: AI hilft sichtbar beim Coding.
+Dann die Spannung aufmachen, dass Geschwindigkeit bei Architekturarbeit nicht
+automatisch Teamfähigkeit erzeugt.
+--
+
+== Das Problem ist nicht die AI. Das Problem ist ihre Arbeitsumgebung.
+
+Ein Coding-Agent ohne explizite Architekturumgebung muss zu viel raten.
+
+Architekturentscheidungen brauchen Kontext, Qualitätsziele, Risiken,
+Alternativen und Konsequenzen.
+
+[NOTE.speaker]
+--
+Hier nicht gegen AI argumentieren. Die These ist: Die Umgebung ist zu dünn.
+Ohne explizite Architekturinformationen wird der Agent zum Plausibilitätsmotor.
+--
+
+== Leitthese
+
+AI-Agenten brauchen für Architekturarbeit nicht mehr Freiheit, sondern bessere
+Leitplanken.
+
+Prompting skaliert schlecht. Verträge, Skills und Docs-as-Code skalieren
+besser.
+
+[NOTE.speaker]
+--
+Das ist der Merksatz. Kurz stehen lassen.
+--
+
+== Ein AI-Harness für Architekturarbeit
+
+* Repository als Source of Truth
+* Semantic Contracts als explizite Erwartungen
+* Skills als wiederholbare Arbeitsanweisungen
+* Templates als stabile Artefaktformate
+* Validatoren als Feedbackschleife
+* Generatoren als reproduzierbare Ausgabe
+
+[NOTE.speaker]
+--
+Den Begriff Harness greifbar machen: nicht ein Tool mehr, sondern eine
+Arbeitsumgebung, in der Agenten verlässlichere Arbeit leisten können.
+--
+
+== Beispiel: Eine Architekturfrage wird ein ADR
+
+Frage: Soll diese Anwendung eine offene REST API für Fremdsysteme anbieten?
+
+Der Agent liest die vorhandene Dokumentation, nutzt den ADR-Skill, füllt ein
+strukturiertes Artefakt und verknüpft Entscheidung, Qualität und Risiko.
+
+[NOTE.speaker]
+--
+Dieses Beispiel ist bewusst klein. Es soll zeigen, dass die Architekturfrage
+nicht nur beantwortet, sondern in eine reviewbare Entscheidungsstruktur
+überführt wird.
+--
+
+== Warum das reviewbar wird
+
+Die Arbeit landet nicht nur im Chatverlauf.
+
+Sie landet als versioniertes Artefakt mit Metadaten, Relationen, Validierung und
+deterministisch erzeugbaren Sichten im Repository.
+
+[NOTE.speaker]
+--
+Den Gegensatz zum Chatverlauf deutlich machen: Der Chat kann helfen, aber das
+Repository besitzt die Wahrheit.
+--
+
+== Abgrenzung
+
+docToolchain publiziert.
+
+docs-toolbox baut.
+
+architecture-knowledge-toolkit strukturiert Architekturarbeit.
+
+[NOTE.speaker]
+--
+Diese Abgrenzung nimmt Tool-Konkurrenz aus der Geschichte. Das Toolkit ersetzt
+Publishing nicht, sondern ergänzt die semantische und methodische Ebene.
+--
+
+== Warum das für AI-assisted Coding spannend ist
+
+Der Agent bekommt nicht nur eine Aufgabe, sondern eine Arbeitsumgebung.
+
+Wissen bleibt im Repository, nicht im Chat.
+
+Das Toolkit bleibt agentenagnostisch.
+
+[NOTE.speaker]
+--
+Agentenagnostisch heißt hier praktisch: Codex, Copilot, Vibe oder andere können
+dieselben Contracts und Skills lesen, solange die Projektregeln im Repository
+liegen.
+--
+
+== Demo-Pfad
+
+* Repository-Struktur zeigen
+* `AGENTS.md` und Skill öffnen
+* Semantic Contract oder Template zeigen
+* ADR-Beispiel durchgehen
+* Validierung und Generierung zeigen
+* Publishing-Abgrenzung erklären
+
+[NOTE.speaker]
+--
+Wenn live riskant ist, diesen Pfad als vorbereitete Artefaktfolge erzählen.
+Die Demo darf die Story stützen, aber nicht tragen müssen.
+--
+
+== Abschluss
+
+Das Ziel ist nicht, Architekt:innen zu ersetzen.
+
+Das Ziel ist, Architekturarbeit besser vorzubereiten, zu strukturieren und zu
+dokumentieren.
+
+AI wird dadurch nicht magisch richtig, aber weniger zufällig falsch.
+
+[NOTE.speaker]
+--
+Nicht mit "Danke" als eigener Folie enden. Die Abschlussaussage ist die Antwort
+auf die Einstiegsspannung.
+--
