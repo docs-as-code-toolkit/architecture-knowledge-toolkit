@@ -1,0 +1,22 @@
+= Demo Script
+
+== Goal
+
+Show the architecture-knowledge-toolkit as a working environment for
+AI-assisted architecture work, not as a generic template repository.
+
+== Primary Demo Path
+
+include::fragments/demo-path.adoc[]
+
+== Fallback Path
+
+include::fragments/fallback-demo-path.adoc[]
+
+== Demo Risks
+
+* Do not spend too much time explaining repository internals.
+* Keep the example architecture question simple.
+* Avoid presenting validation as a replacement for human review.
+* Be explicit that the toolkit is a direction and working skeleton, not a
+  finished architecture platform.

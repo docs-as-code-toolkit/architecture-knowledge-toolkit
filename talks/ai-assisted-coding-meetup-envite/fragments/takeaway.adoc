@@ -1,0 +1,2 @@
+AI agents do not need unlimited freedom for architecture work. They need better
+guardrails.

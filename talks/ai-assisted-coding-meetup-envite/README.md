@@ -20,9 +20,10 @@ need a stronger way to handle architecture knowledge.
 ## Artifacts
 
 - [AsciiDoc reveal.js slide deck](slides.adoc)
-- [Proposal abstract](proposal.md)
-- [Demo script](demo-script.md)
-- [Speaker brief](speaker-brief.md)
+- [Proposal abstract](proposal.adoc)
+- [Demo script](demo-script.adoc)
+- [Speaker brief](speaker-brief.adoc)
+- [Reusable AsciiDoc fragments](fragments/)
 
 Render the deck with docs-toolbox:
 

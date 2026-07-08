@@ -29,6 +29,11 @@ metadata_version: '1.0'
 | AsciiDoc is the primary source format.
 | `src/docs/canvas/canvas-005-techstack.adoc`
 
+| Presentation source
+| Project-owned presentation decks and supporting talk artifacts use AsciiDoc;
+README files may remain Markdown where that is the platform convention.
+| xref:adr-001-asciidoc-primary-source[ADR-001].
+
 | Diagrams
 | PlantUML is the diagram format for architecture documentation.
 | `general-semantic-contracts.md`

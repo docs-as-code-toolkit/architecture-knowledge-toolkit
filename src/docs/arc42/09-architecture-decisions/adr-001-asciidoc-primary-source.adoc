@@ -6,7 +6,7 @@ status: proposed
 owner: architecture
 created: '2026-06-28'
 reviewed: false
-summary: Proposed decision to use AsciiDoc as the primary source format for architecture documentation.
+summary: Proposed decision to use AsciiDoc as the primary source format for architecture and project-owned documentation artifacts.
 tags:
 - decision
 - docs-as-code
@@ -32,7 +32,7 @@ relations:
 metadata_version: '1.0'
 ---
 [[adr-001-asciidoc-primary-source]]
-== ADR-001: Primary Architecture Source Format
+== ADR-001: Primary Architecture and Documentation Source Format
 
 === Status
 
@@ -43,14 +43,17 @@ until reviewed and accepted by the accountable owner.
 
 === Decision
 
-We propose to use AsciiDoc as the primary architecture source format.
+We propose to use AsciiDoc as the primary architecture and project-owned
+documentation source format.
 
 === Context
 
 The toolkit follows a Docs-as-Code approach and uses arc42 documentation under
 `src/docs/`. The current technology constraints already name AsciiDoc as the
 primary documentation source. The repository also uses PlantUML and
-`include::[]` for reusable source fragments.
+`include::[]` for reusable source fragments. This also applies to
+project-owned presentation material: slide decks and supporting talk artifacts
+should use AsciiDoc when they are maintained as repository documentation.
 
 === Decision Drivers
 
@@ -63,7 +66,8 @@ primary documentation source. The repository also uses PlantUML and
 ==== Option 1: AsciiDoc as primary source
 
 AsciiDoc fits the current repository structure, supports includes, and matches
-the Docs-as-Code Toolkit ecosystem.
+the Docs-as-Code Toolkit ecosystem. It also supports reveal.js decks and
+reusable talk fragments through the same source format.
 
 ==== Option 2: Markdown as primary source
 
@@ -91,7 +95,8 @@ s| Sum s| 3 s| 0 s| -1
 
 ==== Positive
 
-* Architecture content can use native AsciiDoc includes for shared fragments.
+* Architecture and project-owned documentation content can use native AsciiDoc
+  includes for shared fragments.
 * The publication path can start with plain Asciidoctor-generated HTML.
 
 ==== Negative
@@ -102,8 +107,8 @@ s| Sum s| 3 s| 0 s| -1
 
 ==== Neutral or Follow-Up
 
-* Markdown may still be used outside the architecture source set when it is not
-  part of the arc42 publication path.
+* Markdown may still be used where it is already the platform standard, such as
+  repository README files, GitHub issue bodies, and other external surfaces.
 
 === Impact
 

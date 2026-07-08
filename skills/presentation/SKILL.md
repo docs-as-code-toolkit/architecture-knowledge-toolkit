@@ -26,14 +26,17 @@ engine-independent; put runtime-specific metadata under `adapters/**`.
    feature inventory.
 4. Create or update a talk directory below `talks/<event-or-talk-slug>/`.
 5. Keep the deck source in `slides.adoc`.
-6. Add supporting source artifacts when useful, such as `proposal.md`,
-   `demo-script.md`, `speaker-brief.md`, references, abstracts, or follow-up
-   notes.
-7. Add or update `talks/README.md` and the repository `README.md` when a new
+6. Add supporting source artifacts as AsciiDoc when useful, such as
+   `proposal.adoc`, `demo-script.adoc`, `speaker-brief.adoc`, references,
+   abstracts, or follow-up notes. Keep Markdown for README files and platforms
+   where Markdown is the local standard.
+7. Apply "write once, use everywhere": put repeated talk text in reusable,
+   heading-neutral AsciiDoc fragments and include it with `include::[]`.
+8. Add or update `talks/README.md` and the repository `README.md` when a new
    public talk entry should be discoverable.
-8. Render the deck with docs-toolbox through the repository helper when
+9. Render the deck with docs-toolbox through the repository helper when
    available.
-9. Treat generated reveal.js HTML below `build/` as derived output, not reviewed
+10. Treat generated reveal.js HTML below `build/` as derived output, not reviewed
    source content.
 
 ## Required Reading
@@ -53,14 +56,21 @@ talks/
   <talk-slug>/
     README.md
     slides.adoc
-    proposal.md
-    demo-script.md
-    speaker-brief.md
+    proposal.adoc
+    demo-script.adoc
+    speaker-brief.adoc
+    fragments/
+      *.adoc
 ```
 
 Use lowercase hyphen-case slugs. Prefer the event name when material is
 event-specific. Keep future variants in separate talk directories when the
 audience, event, or framing changes materially.
+
+Use `fragments/` for talk-local reusable source text. If a fragment becomes
+useful across several talks, move it to a shared talk fragment location and
+update include paths deliberately. Do not mix reviewed source fragments with
+generated output.
 
 ## Slide Writing Rules
 
@@ -88,6 +98,8 @@ state that render verification could not be completed.
 
 - Do not commit generated files under `build/`.
 - Do not add binary slide deck artifacts by default.
+- Do not use Markdown for project-owned talk artifacts except README files or
+  external platform content where Markdown is the expected format.
 - Keep source links explicit. When slides are based on an issue, proposal, or
   source document, mention it in the talk README or proposal artifact.
 - Keep changes small enough to review.

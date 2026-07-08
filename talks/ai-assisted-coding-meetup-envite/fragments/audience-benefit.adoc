@@ -1,0 +1,3 @@
+Participants leave with a practical mental model for making AI-assisted
+architecture work less accidental: keep knowledge in the repository, make the
+rules explicit, and make generated output reproducible and reviewable.

@@ -38,8 +38,7 @@ Ohne explizite Architekturinformationen wird der Agent zum Plausibilitätsmotor.
 
 == Leitthese
 
-AI-Agenten brauchen für Architekturarbeit nicht mehr Freiheit, sondern bessere
-Leitplanken.
+include::fragments/takeaway.adoc[]
 
 Prompting skaliert schlecht. Verträge, Skills und Docs-as-Code skalieren
 besser.
@@ -122,12 +121,7 @@ liegen.
 
 == Demo-Pfad
 
-* Repository-Struktur zeigen
-* `AGENTS.md` und Skill öffnen
-* Semantic Contract oder Template zeigen
-* ADR-Beispiel durchgehen
-* Validierung und Generierung zeigen
-* Publishing-Abgrenzung erklären
+include::fragments/demo-promise.adoc[]
 
 [NOTE.speaker]
 --

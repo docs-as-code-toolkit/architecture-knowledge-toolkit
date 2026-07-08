@@ -1,0 +1,4 @@
+AI-assisted coding is powerful, but architecture work becomes reproducible,
+reviewable, and team-capable only when the agent works inside an explicit
+architecture environment: repository truth, semantic contracts, skills,
+templates, validation, and deterministic generation.

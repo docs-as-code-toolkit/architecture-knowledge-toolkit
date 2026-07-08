@@ -1,0 +1,8 @@
+If live execution is risky, avoid editing during the meetup. Show prepared
+artifacts instead:
+
+. A skill file.
+. A semantic contract excerpt.
+. One existing ADR or a prepared ADR draft.
+. A validation command and expected kind of feedback.
+. A generated or rendered documentation view.

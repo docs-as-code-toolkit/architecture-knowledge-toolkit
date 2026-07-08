@@ -1,0 +1,9 @@
+The demo can be run live or narrated from prepared artifacts:
+
+. Show the repository structure.
+. Open `AGENTS.md` and a task-specific skill such as `skills/adr/SKILL.md`.
+. Show a semantic contract or template.
+. Walk through an ADR creation or review flow.
+. Run validation or explain the validation feedback loop.
+. Show how docs-toolbox/docToolchain remain publishing neighbors rather than
+  being replaced by the toolkit.

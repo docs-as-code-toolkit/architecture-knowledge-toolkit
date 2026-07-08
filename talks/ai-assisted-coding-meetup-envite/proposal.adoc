@@ -1,0 +1,25 @@
+= Proposal: Prompting skaliert schlecht
+
+== Event
+
+include::fragments/event-context.adoc[]
+
+== Title
+
+include::fragments/talk-title.adoc[]
+
+== Abstract
+
+include::fragments/abstract.adoc[]
+
+== Takeaway
+
+include::fragments/takeaway.adoc[]
+
+== Audience Benefit
+
+include::fragments/audience-benefit.adoc[]
+
+== Demo Promise
+
+include::fragments/demo-promise.adoc[]

@@ -1,0 +1,15 @@
+AI-assisted coding is strong at producing code and text quickly. But architecture
+work needs more than speed: it needs context, alternatives, quality goals,
+risks, decisions, traceability, and reviewable artifacts.
+
+This talk shows why architecture support for AI agents should not be built from
+ever longer prompts. Instead, architecture knowledge should live in the
+repository as structured Docs-as-Code assets. The
+architecture-knowledge-toolkit turns that idea into a practical harness:
+semantic contracts define expectations, skills guide repeatable work, templates
+stabilize artifacts, validators create feedback, and generators keep published
+views consistent.
+
+The audience will see a concrete ADR-oriented workflow and how the toolkit fits
+beside existing publishing tooling such as docToolchain and reproducible build
+environments such as docs-toolbox.

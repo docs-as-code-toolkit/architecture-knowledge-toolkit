@@ -1,0 +1,28 @@
+. Open the repository root and start from `README.md`.
+. Show the contract stack:
+  * `general-semantic-contracts.md`
+  * `AGENTS.md`
+  * `skills/adr/SKILL.md`
+. Explain that the repository stays the source of truth. The chat is advisory
+  until reviewed and committed.
+. Use this example question:
+  * Should an application expose an open REST API for external systems?
+. Open the ADR skill and point out the expected structure:
+  * context
+  * decision drivers
+  * options
+  * Pugh matrix
+  * decision
+  * consequences and risks
+. Open an ADR template or existing ADR in
+  `src/docs/arc42/09-architecture-decisions/`.
+. Show how metadata and relations make the artifact traceable.
+. Run or describe:
+  * `ruby scripts/validate-metamodel.rb`
+  * `ruby scripts/validate-metamodel.rb --generate`
+  * `./build.sh build`
+. Show that generated documentation is derived output, not the editing surface.
+. Close the demo with the separation of concerns:
+  * docToolchain publishes
+  * docs-toolbox builds
+  * architecture-knowledge-toolkit structures architecture work

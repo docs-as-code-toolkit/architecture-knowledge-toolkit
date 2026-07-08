@@ -5,8 +5,10 @@ Asciidoctor reveal.js.
 
 ## Source Shape
 
-Use one `.adoc` file per deck as the reviewed source. Use generated HTML under
-`build/` as derived output.
+Use `.adoc` files as the reviewed source for decks and supporting talk
+documents. Use generated HTML under `build/` as derived output. Markdown is
+acceptable for README files and external platform surfaces where Markdown is the
+expected format, but project-owned talk artifacts should use AsciiDoc.
 
 Minimal deck:
 
@@ -35,6 +37,8 @@ Presenter notes that are not visible on the slide.
 - Keep visible slide copy short and audience-facing.
 - Put talk-track detail in `[NOTE.speaker]` blocks.
 - Prefer AsciiDoc lists, tables, source blocks, and includes over embedded HTML.
+- Put repeated copy in heading-neutral `.adoc` fragments and include it with
+  `include::[]` from slides, proposals, speaker briefs, or demo scripts.
 - Use PlantUML for architecture diagrams when the talk needs diagrams, matching
   the repository's architecture documentation convention.
 

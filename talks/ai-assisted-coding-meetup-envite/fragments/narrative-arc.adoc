@@ -1,0 +1,10 @@
+. Start with the familiar win: AI-assisted coding is fast.
+. Introduce the failure mode: architecture artifacts become random when the
+  agent has no explicit architecture environment.
+. Reframe the problem: architecture work is not code completion; it needs
+  context, decisions, qualities, risks, and traceability.
+. Present the architecture-knowledge-toolkit as an AI harness.
+. Walk through an ADR flow to make the idea concrete.
+. Place the toolkit beside docs-toolbox and docToolchain.
+. Close with a grounded promise: less magic, less randomness, more reviewable
+  work.
