@@ -34,6 +34,22 @@ scripts/render-presentation.sh talks/ai-assisted-coding-meetup-envite/slides.ado
 The generated reveal.js deck is written to
 `build/talks/ai-assisted-coding-meetup-envite/index.html`.
 
+Serve the generated deck through docs-toolbox when using Reveal.js browser
+features such as speaker notes:
+
+```sh
+DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:latest}"
+
+docker run --rm \
+  -p 8000:8000 \
+  -v "$(pwd)":/app \
+  -w /app \
+  "$DOCS_TOOLBOX_IMAGE" \
+  docs-toolbox-serve build/talks/ai-assisted-coding-meetup-envite 8000
+```
+
+Then open `http://localhost:8000/index.html`.
+
 ## Source
 
 The first proposal is based on
