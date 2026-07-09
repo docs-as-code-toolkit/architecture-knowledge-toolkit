@@ -14,7 +14,7 @@
   * [ ] Erster Prompt:
 +
 ----
-Soll eine Anwendung eine offene REST API für externe Systeme anbieten?
+Soll diese Anwendung eine offene REST API für externe Systeme anbieten?
 ----
 . Zeigen oder erzählen: Der Agent beantwortet die Frage im Chat, erstellt aber
   noch keine Architekturartefakte.
@@ -22,8 +22,6 @@ Soll eine Anwendung eine offene REST API für externe Systeme anbieten?
   * [ ] Zweiter Prompt:
 +
 ----
-Behandle diese Frage als Architekturfrage dieses Projekts.
-
 Wir sollten die Antwort als Entscheidung behandeln und in der Architekturdokumentation dokumentieren. Behandle die Entscheidung als entschieden.
 ----
 . Den ADR-Skill öffnen und die erwartete Struktur zeigen. Maximal zwei Minuten
