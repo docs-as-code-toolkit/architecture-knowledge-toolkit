@@ -15,13 +15,12 @@ and deterministic generation.
 practitioners who already see the productivity upside of coding agents and now
 need a stronger way to handle architecture knowledge.
 
-**Suggested length:** 10-20 minutes plus discussion.
+**Suggested length:** 10-15 minutes plus 5 minutes Q&A.
 
 **Language:** The talk will be delivered in German. Talk-facing artifacts such
 as the deck, proposal, speaker brief, demo script, and reusable fragments are
 therefore written in German, while established technical terms such as
-Docs-as-Code, Skills, ADR, docs-toolbox, and docToolchain remain unchanged where
-useful.
+Docs-as-Code, Skills, ADR, and docs-toolbox remain unchanged where useful.
 
 ## Artifacts
 

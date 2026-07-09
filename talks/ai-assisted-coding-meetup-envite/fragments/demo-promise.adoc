@@ -1,11 +1,5 @@
-Die Demo kann live laufen oder anhand vorbereiteter Artefakte erzählt werden:
+Gezeigt wird:
 
-. Repository-Struktur zeigen.
-. `AGENTS.md` und einen aufgabenspezifischen Skill wie `skills/adr/SKILL.md`
-  öffnen.
-. Zeigen, wie ein Semantic Contract oder Template die gewünschte Arbeitsweise
-  beschreibt, nicht nur einen AI-Prompt.
-. Durch einen ADR-Erstellungs- oder Review-Flow gehen.
-. Validierung ausführen oder die Validierungs-Feedbackschleife erklären.
-. Zeigen, dass docs-toolbox/docToolchain Publishing-Nachbarn bleiben und nicht
-  durch das Toolkit ersetzt werden.
+* Frage im Chat vs. Architekturauftrag
+* Contract Stack und ADR-Skill
+* Artefakte statt nur Antwort

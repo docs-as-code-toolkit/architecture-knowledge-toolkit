@@ -12,6 +12,10 @@ include::fragments/talk-title.adoc[]
 
 include::fragments/abstract.adoc[]
 
+== Zeitrahmen
+
+include::fragments/timing.adoc[]
+
 == Takeaway
 
 include::fragments/takeaway.adoc[]

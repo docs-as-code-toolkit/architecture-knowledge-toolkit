@@ -7,6 +7,28 @@ Architekturarbeit zeigen, nicht als generisches Template-Repository. Die Demo
 soll deutlich machen, dass Contracts und Skills eine gewünschte Arbeitsweise
 beschreiben, der Menschen und unterschiedliche AI-Agents folgen können.
 
+== Zeitbox
+
+Der Praxisanteil ist auf 3-4 Minuten begrenzt. Er zeigt vorhandene Artefakte und
+den Ablauf einer ADR-orientierten Architekturarbeit. Es muss dabei nichts neu
+implementiert werden.
+
+== Demo-Beobachtung
+
+Die Demo kann mit einem bewusst kleinen Kontrast starten: Eine reine Frage wird
+vom Agenten als Chatfrage beantwortet. Erst der explizite Auftrag, sie als
+Architekturfrage dieses Projekts zu behandeln, aktiviert den erwarteten
+Workflow mit ADR-Skill, Artefakten und Validierung.
+
+Das ist kein Fehler der Demo, sondern die Pointe: Der Agent soll nicht jede
+beliebige Frage automatisch in Repository-Änderungen übersetzen. Architektur-
+und Dokumentationsarbeit braucht einen klaren Arbeitsauftrag.
+
+Wichtig ist aber: Auch die reine Beratung muss den Projektkontext
+berücksichtigen. Wenn Chatantwort und spätere Architekturarbeit zu
+widersprüchlichen Empfehlungen kommen, ist das ein Problem der
+Kontextanwendung, nicht nur ein Präsentationsdetail.
+
 == Primärer Demo-Pfad
 
 include::fragments/demo-path.adoc[]
@@ -24,3 +46,10 @@ include::fragments/fallback-demo-path.adoc[]
   fertige Architekturplattform.
 * Das persönliche AI-Lernmotiv kurz halten; es ist Kontext, nicht das zentrale
   Argument.
+* Die Zeitbox aktiv schützen: maximal eine Minute Repository-Orientierung,
+  maximal zwei Minuten ADR-Flow, maximal eine Minute Validierung/Publishing.
+* Nicht suggerieren, dass jede Architekturfrage automatisch Artefakte erzeugen
+  sollte. Der Unterschied zwischen Beratung und Arbeitsauftrag ist Teil der
+  Botschaft.
+* Vor der Demo prüfen, ob die Chatantwort und der ADR-orientierte Workflow
+  dieselben bestehenden Entscheidungen, Constraints und Risiken berücksichtigen.

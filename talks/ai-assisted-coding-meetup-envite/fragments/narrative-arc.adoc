@@ -9,6 +9,5 @@
 . Das architecture-knowledge-toolkit als AI-Harness und Team-Handbuch
   vorstellen.
 . Einen ADR-Flow durchgehen, um die Idee konkret zu machen.
-. Das Toolkit neben docs-toolbox und docToolchain einordnen.
 . Mit einem geerdeten Versprechen schließen: weniger Magie, weniger Zufall,
   reviewfähigere Arbeit.

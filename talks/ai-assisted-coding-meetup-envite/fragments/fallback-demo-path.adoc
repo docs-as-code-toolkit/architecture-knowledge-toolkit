@@ -1,5 +1,5 @@
-Wenn Live-Ausführung riskant ist, während des Meetups nicht live editieren.
-Stattdessen vorbereitete Artefakte zeigen:
+Wenn Live-Ausführung riskant ist oder die Zeit knapp wird, während des Meetups
+nicht live editieren. Stattdessen vorbereitete Artefakte zeigen:
 
 . Eine Skill-Datei.
 . Einen Ausschnitt aus einem Semantic Contract.

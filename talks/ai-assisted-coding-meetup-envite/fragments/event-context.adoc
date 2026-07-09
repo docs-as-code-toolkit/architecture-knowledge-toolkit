@@ -1,5 +1,6 @@
 * Event: ai-assisted-coding meetup
 * Gastgeber: envite
-* Format: 10-20 Minuten Talk mit optionaler kurzer Demo
+* Format: 10-15 Minuten Talk plus 5 Minuten Q&A
+* Praxisanteil: kurzer geführter Repository-Walkthrough
 * Deck-Format: AsciiDoc-Quelle, gerendert nach reveal.js mit docs-toolbox
 * Status: Entwurf

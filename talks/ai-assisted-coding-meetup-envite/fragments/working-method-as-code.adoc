@@ -1,9 +1,7 @@
-Das Toolkit hält Architekturarbeit als explizite Arbeitsanweisungen fest.
+Das Toolkit macht meine Architekturarbeitsweise explizit.
 
-Diese Anweisungen sind für AI-Agents nützlich, aber sie sind nicht AI-only.
-Sie machen auch meine eigene Arbeitsweise leichter überprüfbar, wiederholbar,
-vermittelbar und delegierbar.
+Nicht nur für AI.
+Auch für mich und für Kolleg:innen.
 
-Der Punkt ist nicht, dass jeder Assistent eine plausible Antwort improvisiert.
-Der Punkt ist, dass ein neuer menschlicher Kollege oder ein anderer AI-Agent in
-das Repository einsteigen und derselben Architekturarbeitsweise folgen kann.
+Der Assistent kann wechseln.
+Die Arbeitsweise bleibt.

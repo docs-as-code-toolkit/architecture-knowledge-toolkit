@@ -1,0 +1,4 @@
+* Talk: 10-15 Minuten
+* Q&A: 5 Minuten
+* Praxisanteil: 3-4 Minuten geführter Repository-Walkthrough statt offene
+  Live-Implementierung

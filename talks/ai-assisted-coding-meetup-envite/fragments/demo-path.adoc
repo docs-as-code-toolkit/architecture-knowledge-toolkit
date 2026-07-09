@@ -1,4 +1,5 @@
-. Repository-Root öffnen und bei `README.md` starten.
+. Repository-Root öffnen und bei `README.md` starten. Maximal eine Minute für
+  Orientierung verwenden.
 . Contract Stack zeigen:
   * `general-semantic-contracts.md`
   * `AGENTS.md`
@@ -8,21 +9,25 @@
 . Den Contract Stack als Arbeitsanweisungen für Architekturarbeit rahmen:
   nützlich für mich selbst, für Kolleg:innen und für unterschiedliche
   AI-Agents.
-. Diese Beispielfrage verwenden:
+. Diese Beispielfrage zuerst nur als Chatfrage verwenden:
   * _Soll eine Anwendung eine offene REST API für externe Systeme anbieten?_
   * [ ] Erster Prompt:
 +
 ----
 Soll eine Anwendung eine offene REST API für externe Systeme anbieten?
-
-Behandle diese Frage als Architekturfrage dieses Projekts.
 ----
+. Zeigen oder erzählen: Der Agent beantwortet die Frage im Chat, erstellt aber
+  noch keine Architekturartefakte.
+. Danach denselben Inhalt als expliziten Architekturauftrag formulieren:
   * [ ] Zweiter Prompt:
 +
 ----
+Behandle diese Frage als Architekturfrage dieses Projekts.
+
 Wir sollten die Antwort als Entscheidung behandeln und in der Architekturdokumentation dokumentieren. Behandle die Entscheidung als entschieden.
 ----
-. Den ADR-Skill öffnen und die erwartete Struktur zeigen:
+. Den ADR-Skill öffnen und die erwartete Struktur zeigen. Maximal zwei Minuten
+  für den ADR-Flow verwenden:
   * Kontext
   * Entscheidungstreiber
   * Optionen
@@ -32,13 +37,11 @@ Wir sollten die Antwort als Entscheidung behandeln und in der Architekturdokumen
 . Ein ADR-Template oder ein bestehendes ADR öffnen unter
   `src/docs/arc42/09-architecture-decisions/`.
 . Zeigen, wie Metadaten und Relationen das Artefakt traceable machen.
-. Ausführen oder beschreiben:
+. Ausführen oder beschreiben. Maximal eine Minute für Validierung verwenden:
   * `ruby scripts/validate-metamodel.rb`
   * `ruby scripts/validate-metamodel.rb --generate`
   * `./build.sh build`
 . Zeigen, dass generierte Dokumentation abgeleitete Ausgabe ist, nicht die
   Bearbeitungsoberfläche.
-. Die Demo mit der Aufgabenteilung schließen:
-  * docToolchain publiziert
-  * docs-toolbox baut
-  * architecture-knowledge-toolkit strukturiert Architekturarbeit
+. Die Demo mit der Kernbotschaft schließen: Das Toolkit strukturiert die
+  Architekturarbeit, der Chat bleibt nur das Interaktionsmedium.

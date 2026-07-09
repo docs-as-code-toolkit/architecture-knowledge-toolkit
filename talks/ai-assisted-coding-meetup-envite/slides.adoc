@@ -56,8 +56,10 @@ include::fragments/working-method-as-code.adoc[]
 --
 Hier kann der persönliche Einstieg kurz rein: Ein Motiv ist natürlich, selbst
 Erfahrung mit AI-Zusammenarbeit zu sammeln. Die tragfähigere Erkenntnis ist
-aber: Skills und Contracts sind nicht nur Prompts. Sie sind die explizite Form
-der Architekturarbeit, die ich haben will.
+aber: Skills und Contracts sind nicht nur Prompts. Sie beschreiben, wie
+Architekturarbeit durchgeführt werden soll. Dadurch werden sie als persönliches
+Nachschlagewerk, als Anleitung für Kolleg:innen und als stabiler Vertrag beim
+Wechsel zwischen AI-Agents nützlich.
 --
 
 == Ein Harness für Architekturarbeit
@@ -103,20 +105,6 @@ Den Gegensatz zum Chatverlauf deutlich machen: Der Chat kann helfen, aber das
 Repository besitzt die Wahrheit.
 --
 
-== Abgrenzung
-
-docToolchain publiziert.
-
-docs-toolbox baut.
-
-architecture-knowledge-toolkit strukturiert Architekturarbeit.
-
-[NOTE.speaker]
---
-Diese Abgrenzung nimmt Tool-Konkurrenz aus der Geschichte. Das Toolkit ersetzt
-Publishing nicht, sondern ergänzt die semantische und methodische Ebene.
---
-
 == Warum das für AI-assisted Coding spannend ist
 
 Der Agent bekommt nicht nur eine Aufgabe, sondern eine Arbeitsumgebung.
@@ -135,14 +123,24 @@ bekommt nicht nur Tickets, sondern auch die Art, wie Architekturarbeit im Team
 gemacht werden soll.
 --
 
-== Demo-Pfad
+== Praxis: ein kurzer Repository-Walkthrough
 
 include::fragments/demo-promise.adoc[]
 
 [NOTE.speaker]
 --
-Wenn live riskant ist, diesen Pfad als vorbereitete Artefaktfolge erzählen.
-Die Demo darf die Story stützen, aber nicht tragen müssen.
+Zeitbox aktiv schützen: drei bis vier Minuten. Wenn live riskant ist oder die
+Zeit knapp wird, diesen Pfad als vorbereitete Artefaktfolge erzählen. Die Demo
+darf die Story stützen, aber nicht tragen müssen.
+
+Die wichtige Beobachtung: Eine reine Frage lädt den Agenten oft zu einer
+Chatantwort ein. Erst "Behandle diese Frage als Architekturfrage dieses
+Projekts" macht daraus einen Arbeitsauftrag mit Repository-Artefakten. Das ist
+gewollt: Nicht jede Frage soll automatisch Dateien verändern.
+
+Wichtig für die Probe: Die Chatantwort muss trotzdem bestehende Entscheidungen,
+Constraints und Risiken berücksichtigen. Beratung und Artefaktarbeit dürfen
+nicht aus demselben Projektkontext zu widersprüchlichen Empfehlungen kommen.
 --
 
 == Abschluss

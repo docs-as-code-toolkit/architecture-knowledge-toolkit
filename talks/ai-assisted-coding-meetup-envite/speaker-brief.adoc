@@ -10,6 +10,14 @@ include::fragments/core-message.adoc[]
 
 include::fragments/narrative-arc.adoc[]
 
+== Zeitrahmen
+
+include::fragments/timing.adoc[]
+
+Der praktische Teil sollte als vorbereiteter Walkthrough erzählt werden. Eine
+echte Live-Änderung ist optional, aber nicht notwendig, damit die Botschaft
+funktioniert.
+
 == Gewünschter Ton
 
 Konkret, technisch und ehrlich darüber, dass das Toolkit noch im Aufbau ist.
@@ -34,13 +42,24 @@ einen neuen Prozess zu erfinden.
 * Prompting skaliert schlecht. Contracts, Skills und Docs-as-Code skalieren
   besser.
 * AI wird dadurch nicht magisch richtig, aber weniger zufällig falsch.
-* docToolchain publiziert. docs-toolbox baut. architecture-knowledge-toolkit
-  strukturiert Architekturarbeit.
 * Der Assistent kann wechseln, die Arbeitsweise bleibt.
+
+== Q&A-Hinweis
+
+Die Abgrenzung zu anderen Werkzeugen oder Frameworks nicht im Talk ausführen.
+Wenn die Frage kommt: docToolchain ist eher Publishing-Orchestrierung,
+docs-toolbox eher reproduzierbare Build-Umgebung, und dieses Toolkit beschreibt
+die methodische und semantische Ebene der Architekturarbeit.
+
+Bei Fragen zur Demo klar unterscheiden: Beratung im Chat darf ohne
+Repository-Änderung bleiben, muss aber trotzdem auf demselben Projektkontext
+beruhen wie spätere Architekturartefakte. Fatal wäre nicht, dass erst der
+Arbeitsauftrag Artefakte erzeugt; fatal wäre, wenn Beratung und ADR aus
+demselben Kontext unterschiedliche Architekturwirkungen ableiten.
 
 == Offene menschliche Entscheidungen
 
 * Finaler Titel.
-* Ob die Demo live, aufgezeichnet oder anhand vorbereiteter Artefakte erzählt
+* Ob der praktische Walkthrough live oder anhand vorbereiteter Artefakte erzählt
   wird.
 * Welches konkrete ADR-Beispiel in der Demo verwendet wird.

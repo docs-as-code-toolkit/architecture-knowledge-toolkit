@@ -17,6 +17,6 @@ Architekturarbeit durchgeführt werden soll. Dadurch werden sie als persönliche
 Nachschlagewerk, als Orientierung für Kolleg:innen und als stabiler Vertrag
 beim Wechsel zwischen AI-Agents nützlich.
 
-Das Publikum sieht einen konkreten ADR-orientierten Workflow und wie das
-Toolkit neben vorhandene Publishing-Werkzeuge wie docToolchain und
-reproduzierbare Build-Umgebungen wie docs-toolbox passt.
+Das Publikum sieht in einem kurzen Repository-Walkthrough einen konkreten
+ADR-orientierten Workflow: vom Contract Stack über einen ADR-Skill bis zur
+Validierung als Feedbackschleife.
