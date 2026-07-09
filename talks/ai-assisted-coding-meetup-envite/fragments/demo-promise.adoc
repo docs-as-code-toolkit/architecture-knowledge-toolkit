@@ -1,9 +1,11 @@
-The demo can be run live or narrated from prepared artifacts:
+Die Demo kann live laufen oder anhand vorbereiteter Artefakte erzählt werden:
 
-. Show the repository structure.
-. Open `AGENTS.md` and a task-specific skill such as `skills/adr/SKILL.md`.
-. Show a semantic contract or template.
-. Walk through an ADR creation or review flow.
-. Run validation or explain the validation feedback loop.
-. Show how docs-toolbox/docToolchain remain publishing neighbors rather than
-  being replaced by the toolkit.
+. Repository-Struktur zeigen.
+. `AGENTS.md` und einen aufgabenspezifischen Skill wie `skills/adr/SKILL.md`
+  öffnen.
+. Zeigen, wie ein Semantic Contract oder Template die gewünschte Arbeitsweise
+  beschreibt, nicht nur einen AI-Prompt.
+. Durch einen ADR-Erstellungs- oder Review-Flow gehen.
+. Validierung ausführen oder die Validierungs-Feedbackschleife erklären.
+. Zeigen, dass docs-toolbox/docToolchain Publishing-Nachbarn bleiben und nicht
+  durch das Toolkit ersetzt werden.

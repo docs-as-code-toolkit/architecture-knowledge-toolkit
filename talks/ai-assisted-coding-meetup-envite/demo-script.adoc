@@ -1,22 +1,26 @@
-= Demo Script
+= Demo-Skript
 
-== Goal
+== Ziel
 
-Show the architecture-knowledge-toolkit as a working environment for
-AI-assisted architecture work, not as a generic template repository.
+Das architecture-knowledge-toolkit als Arbeitsumgebung für AI-unterstützte
+Architekturarbeit zeigen, nicht als generisches Template-Repository. Die Demo
+soll deutlich machen, dass Contracts und Skills eine gewünschte Arbeitsweise
+beschreiben, der Menschen und unterschiedliche AI-Agents folgen können.
 
-== Primary Demo Path
+== Primärer Demo-Pfad
 
 include::fragments/demo-path.adoc[]
 
-== Fallback Path
+== Ausweichpfad
 
 include::fragments/fallback-demo-path.adoc[]
 
-== Demo Risks
+== Demo-Risiken
 
-* Do not spend too much time explaining repository internals.
-* Keep the example architecture question simple.
-* Avoid presenting validation as a replacement for human review.
-* Be explicit that the toolkit is a direction and working skeleton, not a
-  finished architecture platform.
+* Nicht zu viel Zeit mit Repository-Interna verbringen.
+* Die beispielhafte Architekturfrage einfach halten.
+* Validierung nicht als Ersatz für menschliches Review darstellen.
+* Klar sagen, dass das Toolkit eine Richtung und ein Arbeitsskelett ist, keine
+  fertige Architekturplattform.
+* Das persönliche AI-Lernmotiv kurz halten; es ist Kontext, nicht das zentrale
+  Argument.

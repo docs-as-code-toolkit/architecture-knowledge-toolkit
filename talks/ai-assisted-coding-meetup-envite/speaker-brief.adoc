@@ -1,32 +1,46 @@
-= Speaker Brief
+= Sprecher-Briefing
 
-== Communication Job
+== Kommunikationsziel
 
-By the end, the meetup audience should understand that:
+Am Ende soll das Meetup-Publikum verstanden haben:
 
 include::fragments/core-message.adoc[]
 
-== Narrative Arc
+== Dramaturgie
 
 include::fragments/narrative-arc.adoc[]
 
-== Preferred Tone
+== Gewünschter Ton
 
-Concrete, technical, and honest about the toolkit still being under
-construction. Avoid selling the repository as a finished platform. The story is
-stronger when it shows the direction and the constraints clearly.
+Konkret, technisch und ehrlich darüber, dass das Toolkit noch im Aufbau ist.
+Das Repository nicht als fertige Plattform verkaufen. Die Geschichte wird
+stärker, wenn Richtung und Grenzen klar sichtbar bleiben.
 
-== Phrases To Keep
+== Ergänzte Rahmung
+
+Die tiefere Rahmung ist: Das Toolkit ist nicht nur ein Mechanismus, um AI zu
+befähigen. Es hält eine bevorzugte Architekturarbeitsweise als explizite
+Anweisungen fest. Dadurch wird dasselbe Material als persönliches
+Nachschlagewerk, als Onboarding-Hilfe für Kolleg:innen und als
+agentenunabhängiger Vertrag für AI-Assistenten nutzbar.
+
+Das persönliche Lernmotiv kann kurz erwähnt werden, sollte aber nicht zum
+Hauptversprechen des Talks werden. Der stärkere öffentliche Punkt ist: Der
+Assistent soll dem Architekturprozess des Teams folgen, statt bei jedem Prompt
+einen neuen Prozess zu erfinden.
+
+== Formulierungen, die bleiben sollen
 
 * Prompting skaliert schlecht. Contracts, Skills und Docs-as-Code skalieren
   besser.
 * AI wird dadurch nicht magisch richtig, aber weniger zufällig falsch.
 * docToolchain publiziert. docs-toolbox baut. architecture-knowledge-toolkit
   strukturiert Architekturarbeit.
+* Der Assistent kann wechseln, die Arbeitsweise bleibt.
 
-== Human Decisions Still Open
+== Offene menschliche Entscheidungen
 
-* Final title.
-* Whether the demo is live, recorded, or narrated from prepared artifacts.
-* Whether the talk should be in German, English, or mixed language.
-* Which concrete ADR example should be used in the demo.
+* Finaler Titel.
+* Ob die Demo live, aufgezeichnet oder anhand vorbereiteter Artefakte erzählt
+  wird.
+* Welches konkrete ADR-Beispiel in der Demo verwendet wird.

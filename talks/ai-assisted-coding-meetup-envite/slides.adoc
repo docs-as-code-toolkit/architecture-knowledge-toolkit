@@ -14,7 +14,7 @@
 AI kann Code und Dokumentation schnell erzeugen.
 
 Ohne expliziten Kontext entstehen aber Artefakte, die schwer vergleichbar,
-schwer reviewbar und nur zufällig brauchbar sind.
+schwer reviewfähig und nur zufällig brauchbar sind.
 
 [NOTE.speaker]
 --
@@ -48,7 +48,19 @@ besser.
 Das ist der Merksatz. Kurz stehen lassen.
 --
 
-== Ein AI-Harness für Architekturarbeit
+== Eigentlich dokumentiere ich eine Arbeitsweise
+
+include::fragments/working-method-as-code.adoc[]
+
+[NOTE.speaker]
+--
+Hier kann der persönliche Einstieg kurz rein: Ein Motiv ist natürlich, selbst
+Erfahrung mit AI-Zusammenarbeit zu sammeln. Die tragfähigere Erkenntnis ist
+aber: Skills und Contracts sind nicht nur Prompts. Sie sind die explizite Form
+der Architekturarbeit, die ich haben will.
+--
+
+== Ein Harness für Architekturarbeit
 
 * Repository als Source of Truth
 * Semantic Contracts als explizite Erwartungen
@@ -60,7 +72,8 @@ Das ist der Merksatz. Kurz stehen lassen.
 [NOTE.speaker]
 --
 Den Begriff Harness greifbar machen: nicht ein Tool mehr, sondern eine
-Arbeitsumgebung, in der Agenten verlässlichere Arbeit leisten können.
+Arbeitsumgebung, in der Menschen und Agenten verlässlichere Arbeit leisten
+können.
 --
 
 == Beispiel: Eine Architekturfrage wird ein ADR
@@ -73,16 +86,16 @@ strukturiertes Artefakt und verknüpft Entscheidung, Qualität und Risiko.
 [NOTE.speaker]
 --
 Dieses Beispiel ist bewusst klein. Es soll zeigen, dass die Architekturfrage
-nicht nur beantwortet, sondern in eine reviewbare Entscheidungsstruktur
+nicht nur beantwortet, sondern in eine reviewfähige Entscheidungsstruktur
 überführt wird.
 --
 
-== Warum das reviewbar wird
+== Warum das reviewfähig wird
 
 Die Arbeit landet nicht nur im Chatverlauf.
 
-Sie landet als versioniertes Artefakt mit Metadaten, Relationen, Validierung und
-deterministisch erzeugbaren Sichten im Repository.
+Sie landet als versioniertes Artefakt mit Metadaten, Relationen, Validierung
+und deterministisch erzeugbaren Sichten im Repository.
 
 [NOTE.speaker]
 --
@@ -110,13 +123,16 @@ Der Agent bekommt nicht nur eine Aufgabe, sondern eine Arbeitsumgebung.
 
 Wissen bleibt im Repository, nicht im Chat.
 
-Das Toolkit bleibt agentenagnostisch.
+Das Toolkit bleibt agentenagnostisch: der Assistent kann wechseln, die
+Arbeitsweise bleibt.
 
 [NOTE.speaker]
 --
 Agentenagnostisch heißt hier praktisch: Codex, Copilot, Vibe oder andere können
 dieselben Contracts und Skills lesen, solange die Projektregeln im Repository
-liegen.
+liegen. Die Analogie zu neuen Mitarbeitenden ist hilfreich: Wer neu dazukommt,
+bekommt nicht nur Tickets, sondern auch die Art, wie Architekturarbeit im Team
+gemacht werden soll.
 --
 
 == Demo-Pfad

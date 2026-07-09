@@ -7,15 +7,21 @@ Proposal material for the `ai-assisted-coding meetup` hosted by `envite`.
 **Working title:** Prompting skaliert schlecht: Architecture Knowledge as Code
 
 **Core message:** AI-assisted coding is powerful, but architecture work becomes
-reproducible, reviewable, and team-capable only when the agent works inside an
-explicit architecture environment: repository truth, semantic contracts, skills,
-templates, validation, and deterministic generation.
+reproducible, reviewable, and team-capable only when the working method is
+explicit: repository truth, semantic contracts, skills, templates, validation,
+and deterministic generation.
 
 **Audience:** Developers, architects, technical leads, and AI-assisted coding
 practitioners who already see the productivity upside of coding agents and now
 need a stronger way to handle architecture knowledge.
 
 **Suggested length:** 10-20 minutes plus discussion.
+
+**Language:** The talk will be delivered in German. Talk-facing artifacts such
+as the deck, proposal, speaker brief, demo script, and reusable fragments are
+therefore written in German, while established technical terms such as
+Docs-as-Code, Skills, ADR, docs-toolbox, and docToolchain remain unchanged where
+useful.
 
 ## Artifacts
 

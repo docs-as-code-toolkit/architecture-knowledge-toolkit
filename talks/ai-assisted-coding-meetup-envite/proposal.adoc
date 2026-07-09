@@ -1,10 +1,10 @@
-= Proposal: Prompting skaliert schlecht
+= Vorschlag: Prompting skaliert schlecht
 
 == Event
 
 include::fragments/event-context.adoc[]
 
-== Title
+== Titel
 
 include::fragments/talk-title.adoc[]
 
@@ -16,10 +16,10 @@ include::fragments/abstract.adoc[]
 
 include::fragments/takeaway.adoc[]
 
-== Audience Benefit
+== Nutzen für das Publikum
 
 include::fragments/audience-benefit.adoc[]
 
-== Demo Promise
+== Demo-Versprechen
 
 include::fragments/demo-promise.adoc[]

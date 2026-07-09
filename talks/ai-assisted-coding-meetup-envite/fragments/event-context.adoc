@@ -1,5 +1,5 @@
 * Event: ai-assisted-coding meetup
-* Host: envite
-* Format: 10-20 minute talk with optional short demo
-* Deck format: AsciiDoc source rendered to reveal.js with docs-toolbox
-* Status: Draft proposal
+* Gastgeber: envite
+* Format: 10-20 Minuten Talk mit optionaler kurzer Demo
+* Deck-Format: AsciiDoc-Quelle, gerendert nach reveal.js mit docs-toolbox
+* Status: Entwurf

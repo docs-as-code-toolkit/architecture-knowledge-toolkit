@@ -1,40 +1,44 @@
-. Open the repository root and start from `README.md`.
-. Show the contract stack:
+. Repository-Root öffnen und bei `README.md` starten.
+. Contract Stack zeigen:
   * `general-semantic-contracts.md`
   * `AGENTS.md`
   * `skills/adr/SKILL.md`
-. Explain that the repository stays the source of truth. The chat is advisory
-  until reviewed and committed.
-. Use this example question:
-  * _Should an application expose an open REST API for external systems?_
-  * [ ] First prompt:
+. Erklären, dass das Repository die Source of Truth bleibt. Der Chat ist
+  beratend, bis etwas reviewed und committed ist.
+. Den Contract Stack als Arbeitsanweisungen für Architekturarbeit rahmen:
+  nützlich für mich selbst, für Kolleg:innen und für unterschiedliche
+  AI-Agents.
+. Diese Beispielfrage verwenden:
+  * _Soll eine Anwendung eine offene REST API für externe Systeme anbieten?_
+  * [ ] Erster Prompt:
 +
 ----
-Should an application expose an open REST API for external systems?
+Soll eine Anwendung eine offene REST API für externe Systeme anbieten?
 
-Treat this question as architectural question of this project
+Behandle diese Frage als Architekturfrage dieses Projekts.
 ----
-  * [ ] Second prompt:
+  * [ ] Zweiter Prompt:
 +
 ----
-We should treat the answer as decision and document it within the architecture documentation. Treat the decision as decided
+Wir sollten die Antwort als Entscheidung behandeln und in der Architekturdokumentation dokumentieren. Behandle die Entscheidung als entschieden.
 ----
-. Open the ADR skill and point out the expected structure:
-  * context
-  * decision drivers
-  * options
-  * Pugh matrix
-  * decision
-  * consequences and risks
-. Open an ADR template or existing ADR in
+. Den ADR-Skill öffnen und die erwartete Struktur zeigen:
+  * Kontext
+  * Entscheidungstreiber
+  * Optionen
+  * Pugh-Matrix
+  * Entscheidung
+  * Konsequenzen und Risiken
+. Ein ADR-Template oder ein bestehendes ADR öffnen unter
   `src/docs/arc42/09-architecture-decisions/`.
-. Show how metadata and relations make the artifact traceable.
-. Run or describe:
+. Zeigen, wie Metadaten und Relationen das Artefakt traceable machen.
+. Ausführen oder beschreiben:
   * `ruby scripts/validate-metamodel.rb`
   * `ruby scripts/validate-metamodel.rb --generate`
   * `./build.sh build`
-. Show that generated documentation is derived output, not the editing surface.
-. Close the demo with the separation of concerns:
-  * docToolchain publishes
-  * docs-toolbox builds
-  * architecture-knowledge-toolkit structures architecture work
+. Zeigen, dass generierte Dokumentation abgeleitete Ausgabe ist, nicht die
+  Bearbeitungsoberfläche.
+. Die Demo mit der Aufgabenteilung schließen:
+  * docToolchain publiziert
+  * docs-toolbox baut
+  * architecture-knowledge-toolkit strukturiert Architekturarbeit

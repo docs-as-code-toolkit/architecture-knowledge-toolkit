@@ -1,3 +1,4 @@
-Participants leave with a practical mental model for making AI-assisted
-architecture work less accidental: keep knowledge in the repository, make the
-rules explicit, and make generated output reproducible and reviewable.
+Die Teilnehmenden nehmen ein praktisches Denkmodell mit, um AI-unterstützte
+Architekturarbeit weniger zufällig zu machen: Wissen bleibt im Repository, die
+Arbeitsweise wird explizit und generierte Ergebnisse werden reproduzierbar und
+reviewfähig.

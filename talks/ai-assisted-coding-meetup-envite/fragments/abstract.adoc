@@ -1,15 +1,22 @@
-AI-assisted coding is strong at producing code and text quickly. But architecture
-work needs more than speed: it needs context, alternatives, quality goals,
-risks, decisions, traceability, and reviewable artifacts.
+AI-assisted Coding ist stark darin, Code und Text schnell zu erzeugen. Aber
+Architekturarbeit braucht mehr als Geschwindigkeit: Kontext, Alternativen,
+Qualitätsziele, Risiken, Entscheidungen, Traceability und reviewfähige
+Artefakte.
 
-This talk shows why architecture support for AI agents should not be built from
-ever longer prompts. Instead, architecture knowledge should live in the
-repository as structured Docs-as-Code assets. The
-architecture-knowledge-toolkit turns that idea into a practical harness:
-semantic contracts define expectations, skills guide repeatable work, templates
-stabilize artifacts, validators create feedback, and generators keep published
-views consistent.
+Dieser Talk zeigt, warum Architekturunterstützung für AI-Agents nicht aus immer
+längeren Prompts bestehen sollte. Architekturwissen sollte stattdessen als
+strukturierte Docs-as-Code-Artefakte im Repository liegen. Das
+architecture-knowledge-toolkit macht daraus ein praktisches Harness: Semantic
+Contracts definieren Erwartungen, Skills leiten wiederholbare Arbeit an,
+Templates stabilisieren Artefakte, Validatoren erzeugen Feedback und
+Generatoren halten veröffentlichte Sichten konsistent.
 
-The audience will see a concrete ADR-oriented workflow and how the toolkit fits
-beside existing publishing tooling such as docToolchain and reproducible build
-environments such as docs-toolbox.
+Die grundlegendere Idee ist: Diese Contracts und Skills beschreiben eine
+Arbeitsweise, nicht nur eine Prompt-Sammlung. Sie sind Anweisungen dafür, wie
+Architekturarbeit durchgeführt werden soll. Dadurch werden sie als persönliches
+Nachschlagewerk, als Orientierung für Kolleg:innen und als stabiler Vertrag
+beim Wechsel zwischen AI-Agents nützlich.
+
+Das Publikum sieht einen konkreten ADR-orientierten Workflow und wie das
+Toolkit neben vorhandene Publishing-Werkzeuge wie docToolchain und
+reproduzierbare Build-Umgebungen wie docs-toolbox passt.

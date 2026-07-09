@@ -1,2 +1,2 @@
-AI agents do not need unlimited freedom for architecture work. They need better
-guardrails.
+Architekturarbeit sollte nicht davon abhängen, welcher Assistent gerade
+antwortet. Sie sollte von der expliziten Arbeitsweise im Repository abhängen.

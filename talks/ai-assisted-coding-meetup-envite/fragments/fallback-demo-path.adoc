@@ -1,8 +1,8 @@
-If live execution is risky, avoid editing during the meetup. Show prepared
-artifacts instead:
+Wenn Live-Ausführung riskant ist, während des Meetups nicht live editieren.
+Stattdessen vorbereitete Artefakte zeigen:
 
-. A skill file.
-. A semantic contract excerpt.
-. One existing ADR or a prepared ADR draft.
-. A validation command and expected kind of feedback.
-. A generated or rendered documentation view.
+. Eine Skill-Datei.
+. Einen Ausschnitt aus einem Semantic Contract.
+. Ein bestehendes ADR oder einen vorbereiteten ADR-Entwurf.
+. Einen Validierungsbefehl und die erwartete Art von Feedback.
+. Eine generierte oder gerenderte Dokumentationssicht.
