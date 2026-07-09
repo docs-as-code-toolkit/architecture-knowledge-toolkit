@@ -49,6 +49,10 @@ Look especially for:
 - Missing tests or validators for changed behavior.
 - Documentation that treats generated or AI-suggested content as reviewed
   truth.
+- Review reasoning that uses derived output such as `generated/`, `build/`,
+  `dist/`, `target/`, `out/`, rendered HTML/PDF, generated indexes,
+  traceability views, or assembled documentation as architecture evidence
+  instead of checking the reviewed source inputs.
 - Architecture artifact metadata that violates `metamodel/artifact.schema.yaml`.
 - Relation metadata that violates `metamodel/relations.schema.yaml`.
 - New or changed links that ignore explicit AsciiDoc anchors.

@@ -85,7 +85,10 @@ Produce a review report with:
 
 ## Inspection Rules
 
-- Prefer repository source files over conversational memory.
+- Prefer reviewed repository source files over conversational memory.
+- Do not load derived output as evidence or architecture context. This includes
+  `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered HTML/PDF,
+  generated indexes, traceability views, and assembled documentation.
 - Treat explicit metadata as authoritative over inferred prose.
 - Treat visible `xref` links as documentation references, not as substitutes for
   metadata relations when traceability is required.

@@ -27,7 +27,10 @@ writing style.
 
 Use repository source files as the source of truth. Conversational context,
 inferred relations, generated prose, and AI output are advisory until reviewed
-and committed.
+and committed. Do not use derived output such as `generated/`, `build/`,
+`dist/`, `target/`, `out/`, rendered HTML/PDF, generated indexes, traceability
+views, or assembled documentation as evidence or source context for
+architecture claims.
 
 ## Using This Toolkit From Other Projects
 

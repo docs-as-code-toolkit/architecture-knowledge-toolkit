@@ -49,6 +49,10 @@ Generator policy:
 4. Generated files are not primary editing surfaces.
 5. Source artifacts are the authoritative source.
 6. Generated artifacts must be reproducible from source artifacts.
+7. Generated or otherwise derived artifacts are not architecture context or
+   evidence. This includes `generated/`, `build/`, `dist/`, `target/`, `out/`,
+   rendered HTML/PDF, generated indexes, traceability views, and assembled
+   documentation.
 
 Bootstrap generator support from the architecture-knowledge-toolkit when
 required:
@@ -195,9 +199,10 @@ set and regenerate derived fragments with the copied validator/generator.
 11. Prepare source artifacts and generator inputs before generated outputs.
 12. Prefer AsciiDoc source documents, PlantUML diagrams, and metadata relations.
 13. Run toolkit generators, validators, or documentation builds when available.
-14. Make sure the SCM you’re using is aware of the generator's output so no
-   generated artifacts are checked in. For example, add `**/generated/` to the
-   project's `.gitignore` file.
+14. Make sure the SCM you’re using is aware of derived output so generated or
+   rendered artifacts are not checked in unless the repository explicitly
+   requires it. For example, ignore `**/generated/`, `build/`, `dist/`,
+   `target/`, and `out/`.
 
 ## Target Structure
 

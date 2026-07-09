@@ -22,6 +22,10 @@ For architecture-related or SDLC workflow changes:
 
 - prefer small, reviewable changes
 - preserve stable IDs
+- use reviewed source files as architecture context; do not use derived output
+  such as `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered
+  HTML/PDF, generated indexes, traceability views, or assembled documentation
+  as evidence
 - keep AI-generated or AI-modified architecture content in `draft` or `proposed` state unless reviewed
 - do not manually maintain generated fragments
 - consult the relevant toolkit skill before issue slicing, issue

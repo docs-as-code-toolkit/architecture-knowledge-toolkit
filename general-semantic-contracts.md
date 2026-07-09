@@ -23,6 +23,7 @@ expectations explicit and reviewable.
 ## Table of Content <!-- omit from toc -->
 - [New projects](#new-projects)
 - [Using this toolkit as a dependency](#using-this-toolkit-as-a-dependency)
+- [Source and derived output boundaries](#source-and-derived-output-boundaries)
 - [Specification](#specification)
 - [Requirements Elicitation](#requirements-elicitation)
 - [Architecture Documentation](#architecture-documentation)
@@ -128,6 +129,25 @@ https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
 project records a long-lived dependency. Example:
 `docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3`.
+
+## Source and derived output boundaries
+
+Use reviewed repository source files as the source of truth for architecture
+knowledge, metadata, traceability, ADRs, quality scenarios, risks, requirements,
+and explanatory prose. Generated or otherwise derived output must not be loaded
+as evidence, context, or source material for architecture claims.
+
+Derived output includes every artifact that can be recreated from source files,
+including files below `generated/`, `build/`, `dist/`, `target/`, `out/`,
+published-site directories, rendered HTML, PDFs, slide decks, generated indexes,
+traceability views, assembled documentation, and adapter output produced from
+canonical skills or contracts.
+
+Agents, validators, and generators may inspect derived output only to verify
+deterministic generation, rendering, delivery packaging, or drift against the
+source inputs. If derived output contradicts reviewed source files, treat the
+derived output as stale and regenerate or report it instead of using it to
+answer questions or update source artifacts.
 
 ## Specification
 

@@ -273,6 +273,11 @@ The documentation generator creates deterministic AsciiDoc fragments from
 validated architecture artifact metadata. These fragments are includeable
 derived output, not reviewed source content.
 
+Do not use generated fragments or other derived output as architecture context
+or evidence. Treat files below `generated/`, `build/`, `dist/`, `target/`, or
+`out/`, rendered HTML/PDF, generated indexes, traceability views, and assembled
+documentation as outputs to verify or regenerate from reviewed source inputs.
+
 Generate the project arc42 derived documentation with:
 
 ```sh

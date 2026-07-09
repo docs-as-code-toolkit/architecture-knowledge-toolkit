@@ -32,6 +32,11 @@ project records a long-lived dependency on the public repository.
 Do not duplicate toolkit rules into this global file.
 Project-local instructions override this file.
 
+When gathering architecture context, use reviewed source files. Do not use
+derived output such as `generated/`, `build/`, `dist/`, `target/`, `out/`,
+rendered HTML/PDF, generated indexes, traceability views, or assembled
+documentation as evidence unless a project-local contract explicitly says so.
+
 If no local architecture instructions exist and the user asks for structured architecture documentation, propose bootstrapping the project with:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit

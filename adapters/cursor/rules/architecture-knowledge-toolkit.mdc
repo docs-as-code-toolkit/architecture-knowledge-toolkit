@@ -30,6 +30,7 @@ Paths are relative to the architecture-knowledge-toolkit repository root.
 - `implement-issue-workflow`: `skills/implement-issue-workflow/SKILL.md`
 - `post-merge-sync`: `skills/post-merge-sync/SKILL.md`
 - `pr-review`: `skills/pr-review/SKILL.md`
+- `presentation`: `skills/presentation/SKILL.md`
 - `quality-scenario`: `skills/quality-scenario/SKILL.md`
 - `risk`: `skills/risk/SKILL.md`
 - `slice-issues`: `skills/slice-issues/SKILL.md`

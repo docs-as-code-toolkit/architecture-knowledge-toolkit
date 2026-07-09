@@ -127,8 +127,11 @@ Read these files when the feature or review touches the corresponding scope:
 
 ## Documentation Rules
 
-- Use repository source files as the source of truth; conversational context and
-  generated prose are advisory until reviewed and committed.
+- Use reviewed repository source files as the source of truth; conversational
+  context and generated prose are advisory until reviewed and committed.
+- Do not load derived output as evidence or architecture context. This includes
+  `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered HTML/PDF,
+  generated indexes, traceability views, and assembled documentation.
 - Preserve stable IDs and accepted statuses. Mark AI-created or AI-modified
   architecture content as draft or proposed unless human acceptance is already
   recorded.

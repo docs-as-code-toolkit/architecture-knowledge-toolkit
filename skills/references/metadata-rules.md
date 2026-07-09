@@ -61,8 +61,12 @@ Use YAML front matter for every source artifact created by this skill.
 - Metadata relations should include `rationale`.
 - Add `evidence` when the repository relation schema supports it and a concrete
   file or section supports the claim.
-- Do not use source code comments, generated prose, or chat history as the only
-  authority for accepted metadata.
+- Do not use source code comments, generated prose, derived output, or chat
+  history as the only authority for accepted metadata.
+- Derived output includes `generated/`, `build/`, `dist/`, `target/`, `out/`,
+  rendered HTML/PDF, generated indexes, traceability views, and assembled
+  documentation. Use it only to verify rendering, generation, packaging, or
+  drift against source inputs.
 
 ## Documentation Anchor Rules
 

@@ -34,9 +34,12 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 1. Make small, reviewable changes that directly address the issue.
 2. Keep commits meaningful and use `../commit-message/SKILL.md` for message text.
 3. Run the relevant tests, linters, validators, generators, or manual checks before committing.
-4. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
-5. Leave unrelated worktree changes untouched.
-6. For feature or refactoring work, update or explicitly report the
+4. Do not use derived output as architecture evidence or context. This includes
+   `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered HTML/PDF,
+   generated indexes, traceability views, and assembled documentation.
+5. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
+6. Leave unrelated worktree changes untouched.
+7. For feature or refactoring work, update or explicitly report the
    architecture impact using `../architecture-impact/SKILL.md`.
 
 ## Commit, Push, And PR

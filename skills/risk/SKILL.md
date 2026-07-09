@@ -77,7 +77,10 @@ Use these templates:
 
 ## Inspection Rules
 
-- Prefer repository source files over conversational memory.
+- Prefer reviewed repository source files over conversational memory.
+- Do not load derived output as evidence or architecture context. This includes
+  `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered HTML/PDF,
+  generated indexes, traceability views, and assembled documentation.
 - Treat explicit metadata as more authoritative than inferred prose.
 - Check existing risk IDs before assigning new IDs.
 - Read the closest architecture index, risk list, ADR register, quality

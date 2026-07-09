@@ -25,7 +25,10 @@ wrap, route, or point to those sources.
 2. Select the smallest relevant satellite skill for the task, such as
    `../adr/SKILL.md`, `../quality-scenario/SKILL.md`, `../risk/SKILL.md`,
    `../slice-issues/SKILL.md`, or `../traceability-review/SKILL.md`.
-3. Use repository source files as the source of truth.
+3. Use reviewed repository source files as the source of truth. Exclude derived
+   output such as `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered
+   HTML/PDF, generated indexes, traceability views, assembled documentation,
+   and generated adapter output from evidence and context loading.
 4. Keep AI-created or AI-modified architecture content draft or proposed unless
    human acceptance is already recorded.
 5. Preserve stable IDs, explicit anchors, metadata relations, and generated

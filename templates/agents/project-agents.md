@@ -54,6 +54,10 @@ for example `docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3`.
 Before architecture or SDLC workflow work:
 
 - inspect existing `src/docs/`, `metamodel/`, `templates/`, `scripts/`, and `skills/`
+- use reviewed source files as architecture context; do not use derived output
+  such as `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered
+  HTML/PDF, generated indexes, traceability views, or assembled documentation
+  as evidence
 - verify that referenced toolkit skill paths exist before copying or linking
   them into project guidance
 - inspect the toolkit skills before issue implementation, commit message,
