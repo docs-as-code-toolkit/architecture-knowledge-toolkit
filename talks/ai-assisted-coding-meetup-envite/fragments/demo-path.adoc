@@ -6,7 +6,19 @@
 . Explain that the repository stays the source of truth. The chat is advisory
   until reviewed and committed.
 . Use this example question:
-  * Should an application expose an open REST API for external systems?
+  * _Should an application expose an open REST API for external systems?_
+  * [ ] First prompt:
++
+----
+Should an application expose an open REST API for external systems?
+
+Treat this question as architectural question of this project
+----
+  * [ ] Second prompt:
++
+----
+We should treat the answer as decision and document it within the architecture documentation. Treat the decision as decided
+----
 . Open the ADR skill and point out the expected structure:
   * context
   * decision drivers
