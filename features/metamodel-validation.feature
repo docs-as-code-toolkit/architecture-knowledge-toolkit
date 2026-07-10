@@ -1,7 +1,9 @@
 # Living documentation for the metamodel validator.
 # Bridged to: test/validate_metamodel_test.rb (classic Minitest, no native BDD
-# runner). Each scenario title maps to a test method whose name is the sanitized
-# scenario title, with Given/When/Then comment anchors inside the test.
+# runner). Each scenario maps to at least one automated test; here that happens
+# to be one test method named after the sanitized scenario title, with Given/
+# When/Then comment anchors inside it. Traceability is a reviewer-verifiable
+# convention, not a build-enforced link.
 
 Feature: Metamodel validation
   As an architecture knowledge base maintainer

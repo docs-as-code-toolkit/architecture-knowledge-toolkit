@@ -42,8 +42,10 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 1. Make small, reviewable changes that directly address the issue.
 2. By default, for any behaviour-adding or behaviour-changing work, apply
    `../bdd-specification/SKILL.md`: keep the Gherkin `.feature` spec and its
-   bridged tests in sync with the implementation, one test per scenario with the
-   scenario-to-test naming convention.
+   bridged tests in sync with the implementation. Every scenario has at least one
+   identifiable automated verification, traceable by a stable id or the
+   scenario-to-test naming convention; supporting unit tests need no separate
+   scenario.
 3. Keep commits meaningful and use `../commit-message/SKILL.md` for message text.
 4. Run the relevant tests, linters, validators, generators, or manual checks before committing.
 5. Do not use derived output as architecture evidence or context. This includes

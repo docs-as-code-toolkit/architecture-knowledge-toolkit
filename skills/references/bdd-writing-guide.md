@@ -20,8 +20,17 @@ input second.
 
 ## Scenario-to-Test Naming
 
-The test name MUST be a direct, sanitized translation of the scenario title so a
-reviewer can trace documentation to code by name alone.
+Each scenario must have at least one identifiable automated verification. Prefer
+a one-to-one mapping to an acceptance, component, or use-case test where
+practical; a scenario may instead map to a test class, a nested group, or several
+supporting tests. Supporting unit tests that verify technical decomposition need
+no separate scenario.
+
+Name the test that stands for the scenario as a direct, sanitized translation of
+the scenario title so a reviewer can trace documentation to code by name alone.
+Names are readable but poor identifiers — if you need traceability that survives
+rewording, add a stable scenario id (for example a `@scenario-id(...)` tag) and
+mark the test with the same id.
 
 Normalize the scenario title into an identifier:
 
@@ -42,8 +51,7 @@ Examples:
 | Cart total includes VAT   | `cart_total_includes_vat` | `CartTotalIncludesVat`   |
 
 Apply the language's usual test-name prefix (for example `test_...` in Python,
-`Test...` in Go, `should_...` where the project already does so). Keep one test
-per scenario.
+`Test...` in Go, `should_...` where the project already does so).
 
 ## Given / When / Then Anchors
 
@@ -112,8 +120,11 @@ and are executed through step definitions. In that case:
 
 ## Keeping Documentation and Code in Sync
 
-- Every scenario has exactly one corresponding test; every behaviour test traces
-  to a scenario.
-- When behaviour changes, update the `.feature` file first, then the test.
+- Every scenario has at least one identifiable automated verification. Not every
+  test needs its own scenario: supporting unit tests for boundaries, error paths,
+  and other technical decomposition stay below the scenario level.
+- Traceability is a reviewer-verifiable convention, not a build-enforced link.
+  Keep the scenario-mapped test traceable by a stable id or the scenario title.
+- When behaviour changes, update the `.feature` file first, then the tests.
 - Do not weaken an assertion to make a test pass; a failing test is valid
   feedback about the specification or the implementation.

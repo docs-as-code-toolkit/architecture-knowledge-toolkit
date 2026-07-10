@@ -1,7 +1,9 @@
 # Living documentation for the validator command-line interface.
 # Bridged to: test/validate_metamodel_cli_test.rb (classic Minitest driving the
-# script as a subprocess). Each scenario title maps to a test method with the
-# sanitized scenario title and Given/When/Then comment anchors.
+# script as a subprocess). Each scenario maps to at least one automated test;
+# here that is one test method named after the sanitized scenario title, with
+# Given/When/Then comment anchors. Traceability is a reviewer-verifiable
+# convention, not a build-enforced link.
 
 Feature: Validation command-line interface
   As a contributor or CI job

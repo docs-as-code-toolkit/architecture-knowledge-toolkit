@@ -23,9 +23,12 @@ Follow the bdd-specification skill:
    unit-test framework; prefer what the repository already uses.
 2. Write a language-agnostic Gherkin .feature file with declarative,
    business-focused scenarios.
-3. Bridge each scenario into a test: the test name is a sanitized translation of
-   the scenario title, and Given/When/Then appear as visual anchors (comments)
-   that separate Arrange, Act, and Assert.
+3. Bridge each scenario to at least one automated verification (prefer an
+   acceptance, component, or use-case test where practical; supporting unit tests
+   need no separate scenario). Name the scenario-mapped test as a sanitized
+   translation of the scenario title so it stays traceable, and let
+   Given/When/Then appear as visual anchors (comments) separating Arrange, Act,
+   and Assert.
 
 Run the relevant BDD or unit-test runner and report the result, or report that
 verification was not possible. Keep the .feature file and the tests in sync.
