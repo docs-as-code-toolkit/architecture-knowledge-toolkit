@@ -10,9 +10,10 @@ usage() {
   cat <<'USAGE'
 Usage: scripts/render-presentation.sh <slides.adoc> [output-dir]
 
-Render an AsciiDoc slide deck to reveal.js HTML. The command uses the
-docs-toolbox container image when Docker or Podman is available and falls back
-to a local asciidoctor-revealjs executable.
+Render an AsciiDoc slide deck to reveal.js HTML. By default the command runs
+inside the pinned docs-toolbox container image (Docker or Podman). Set
+DOCS_TOOLBOX_LOCAL=1 to render against a local asciidoctor-revealjs executable
+instead. Without a container engine and without that flag, the command aborts.
 
 Default output:
   build/talks/<talk-slug>/index.html
@@ -112,10 +113,18 @@ if [ "${ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER:-}" = "1" ]; th
   exit 0
 fi
 
+if [ "${DOCS_TOOLBOX_LOCAL:-}" = "1" ]; then
+  echo "DOCS_TOOLBOX_LOCAL=1: rendering against the host toolchain (not reproducible)." >&2
+  run_render
+  exit 0
+fi
+
 engine="$(find_engine)"
 if [ -n "$engine" ]; then
   run_in_container "$engine"
 else
-  echo "No container engine found. Running locally."
-  run_render
+  echo "No running container engine (Docker or Podman) found." >&2
+  echo "Start one to render in the reproducible docs-toolbox image," >&2
+  echo "or set DOCS_TOOLBOX_LOCAL=1 to render against the host toolchain." >&2
+  exit 1
 fi
