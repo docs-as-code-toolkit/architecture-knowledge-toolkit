@@ -21,11 +21,22 @@ jobs:
         with:
           ruby-version: "3.3"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Validate metamodel
         run: ruby scripts/validate-metamodel.rb
 
       - name: Run validator tests
         run: ruby -Itest test/validate_metamodel_test.rb
+
+      - name: Run validator CLI tests
+        run: ruby -Itest test/validate_metamodel_cli_test.rb
+
+      - name: Run adapter generator tests
+        run: node --test test/build-agent-adapters.test.mjs
 
       - name: Check generated agent adapters
         run: node scripts/check-agent-adapters.js
