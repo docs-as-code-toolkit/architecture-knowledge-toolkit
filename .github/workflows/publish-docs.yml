@@ -23,19 +23,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.3"
-
+      # All tasks run through build.sh in the docs-toolbox container image.
       - name: Validate metamodel
-        run: ruby scripts/validate-metamodel.rb
+        run: ./build.sh validate
 
-      - name: Run validator tests
-        run: ruby -Itest test/validate_metamodel_test.rb
+      - name: Run tests
+        run: ./build.sh test
 
       - name: Check generated agent adapters
-        run: node scripts/check-agent-adapters.js
+        run: ./build.sh check-adapters
 
       - name: Build static HTML with docs-toolbox
         run: ./build.sh build

@@ -179,6 +179,8 @@ text as the canonical behaviour statement.
 
 After adding or changing specifications and tests, run the relevant BDD or
 unit-test runner (for example `pytest`, `cucumber`, `dotnet test`, `rake test`)
-and report the result. If no runner is available, report that verification was
-not possible and describe the manual checks performed. Prefer existing commands
-from the repository documentation or scripts.
+and report the result. Prefer existing commands from the repository
+documentation or scripts: when the project provides a task runner — for example
+a `./build.sh test` that executes in the docs-toolbox image — use it so tests
+run in the same environment as CI. If no runner is available, report that
+verification was not possible and describe the manual checks performed.

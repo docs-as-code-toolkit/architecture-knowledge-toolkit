@@ -56,12 +56,15 @@ Open deployment decisions:
 
 Current CI deployment:
 
-* `.github/workflows/validate.yml` validates metadata, generator tests, adapter
-  drift, and generated documentation freshness.
-* `build.sh` is the local and CI entry point for architecture documentation
-  rendering. It uses the `docs-toolbox` container image when Docker or Podman is
-  available, so Asciidoctor, Asciidoctor Diagram, PlantUML, Graphviz, and C4
-  diagram rendering use the same toolchain locally and in CI.
-* `.github/workflows/publish-docs.yml` runs on pushes to `main`, validates the
-  repository, calls `./build.sh build`, uploads `build/architecture`, and
-  deploys the result to GitHub Pages.
+* `build.sh` is the single local and CI entry point for every task: `validate`,
+  `generate`, `test`, `check-adapters`, `build`, `presentation`, and `all`. Each
+  task runs inside the `docs-toolbox` container image when Docker or Podman is
+  available, so Ruby, Node.js, Asciidoctor, Asciidoctor Diagram, PlantUML,
+  Graphviz, and C4 diagram rendering use the same toolchain locally and in CI. It
+  falls back to local execution when no container engine is present.
+* `.github/workflows/validate.yml` runs `./build.sh validate`, `./build.sh test`,
+  and `./build.sh check-adapters`, then verifies generated documentation
+  freshness with `./build.sh generate`.
+* `.github/workflows/publish-docs.yml` runs on pushes to `main`, validates and
+  tests the repository through `build.sh`, calls `./build.sh build`, uploads
+  `build/architecture`, and deploys the result to GitHub Pages.
