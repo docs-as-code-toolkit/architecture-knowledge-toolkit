@@ -14,7 +14,7 @@ if [ "$#" -gt 0 ]; then
   shift
 fi
 
-DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:v1.3.1}"
+DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:latest}"
 BUILD_DIR="${BUILD_DIR:-build/architecture}"
 SOURCE_DOC="${SOURCE_DOC:-src/docs/doc-001-arc42.adoc}"
 
