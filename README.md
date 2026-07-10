@@ -204,17 +204,23 @@ a build-enforced link: each scenario maps to at least one classic test that is
 traceable by the sanitized scenario title, with `Given` / `When` / `Then` comment
 anchors. Here the mapping happens to be one-to-one.
 
-Run them locally:
+Run all tests through the docs-toolbox image:
+
+```sh
+./build.sh test
+```
+
+Local equivalent (without docs-toolbox):
 
 ```sh
 ruby -Itest test/validate_metamodel_test.rb       # validator + generator units
 ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
-node --test test/build-agent-adapters.test.mjs     # adapter generator
+node --test test/build-agent-adapters.test.mjs    # adapter generator
 ```
 
-The container-based render scripts (`build.sh`, `scripts/render-presentation.sh`)
-are not covered yet; testing them requires a Docker or Podman engine and is
-tracked as a follow-up.
+The container-based render scripts (`build.sh` itself and
+`scripts/render-presentation.sh`) are not covered yet; testing them requires a
+container engine and is tracked as a follow-up.
 
 ## Current Status
 
@@ -232,16 +238,50 @@ living example. The dogfood docs now include standalone proposed ADR, quality
 scenario, and risk artifacts so the ADR-to-quality-to-risk traceability chain is
 visible in the repository itself.
 
+## Running tasks
+
+`build.sh` is the single entry point for every repository task. By default it
+runs the task inside the `docs-as-code-toolkit/docs-toolbox` container image, so
+local runs and CI share the same reproducible toolchain (Ruby, Node.js,
+Asciidoctor, PlantUML, Graphviz). When no container engine (Docker or Podman) is
+available, the task runs locally instead.
+
+```sh
+./build.sh <task>
+```
+
+| Task | What it does | Local equivalent |
+|------|--------------|------------------|
+| `validate` | Validate artifact metadata and relations | `ruby scripts/validate-metamodel.rb` |
+| `generate` | Validate, then generate derived fragments/indexes | `ruby scripts/validate-metamodel.rb --generate` |
+| `test` | Run all tests (Ruby units, Ruby CLI, JS adapter) | see [Tests](#tests) |
+| `test-ruby` | Ruby validator/generator unit and CLI tests | `ruby -Itest test/validate_metamodel_test.rb` and `ruby -Itest test/validate_metamodel_cli_test.rb` |
+| `test-js` | JS adapter generator tests | `node --test test/build-agent-adapters.test.mjs` |
+| `adapters` | Regenerate agent adapters from skills | `node scripts/build-agent-adapters.js` |
+| `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
+| `build` | Generate fragments and render architecture HTML | see below |
+| `presentation` | Render an AsciiDoc slide deck | `sh scripts/render-presentation.sh <slides.adoc> [out]` |
+| `all` | `validate` + `test` + `check-adapters` + `build` | — |
+| `clean` | Remove `build/architecture` | `rm -rf build/architecture` |
+
+Override the image with `DOCS_TOOLBOX_IMAGE`. The examples below show the
+`./build.sh` task first and the local command you can run instead when you do
+not want to use docs-toolbox.
+
 ## Validation
 
-The first deterministic validation step is available as a small Ruby CLI. It
-scans architecture artifacts with YAML front matter and validates the metadata
-and explicit relationships. Ruby is the current implementation language for the
+The first deterministic validation step is a small Ruby CLI. It scans
+architecture artifacts with YAML front matter and validates the metadata and
+explicit relationships. Ruby is the current implementation language for the
 validator and generator, but not a fixed long-term commitment for the toolkit.
-Future runtime choices should also remain compatible with the wider
-`docs-as-code-toolkit/docs-toolbox` delivery environment.
 
 Run the default validation against this project's own arc42 documentation:
+
+```sh
+./build.sh validate
+```
+
+Local equivalent (without docs-toolbox):
 
 ```sh
 ruby scripts/validate-metamodel.rb
@@ -269,7 +309,8 @@ By default, the validator scans:
 src/docs/
 ```
 
-You can validate another artifact file or directory with:
+You can validate another artifact file or directory with the local CLI (the
+`--docs` flag is not exposed through `build.sh`):
 
 ```sh
 ruby scripts/validate-metamodel.rb --docs path/to/docs
@@ -290,7 +331,14 @@ fails. It does not generate documentation and does not call any AI service.
 Run the validator tests with:
 
 ```sh
+./build.sh test-ruby
+```
+
+Local equivalent (without docs-toolbox):
+
+```sh
 ruby -Itest test/validate_metamodel_test.rb
+ruby -Itest test/validate_metamodel_cli_test.rb
 ```
 
 ## Derived Documentation Generation
@@ -305,6 +353,12 @@ or evidence. Treat files below `generated/`, `build/`, `dist/`, `target/`, or
 documentation as outputs to verify or regenerate from reviewed source inputs.
 
 Generate the project arc42 derived documentation with:
+
+```sh
+./build.sh generate
+```
+
+Local equivalent (without docs-toolbox):
 
 ```sh
 ruby scripts/validate-metamodel.rb --generate
@@ -365,7 +419,8 @@ Render or publish these files only in flows where the generator has run first.
 Source files must not maintain manual impact or traceability matrices for ADR,
 risk, or quality scenario artifacts; metadata relations are the source of truth.
 
-You can choose another traceability matrix output path with:
+You can choose another traceability matrix output path with the local CLI (the
+`--output` flag is not exposed through `build.sh`):
 
 ```sh
 ruby scripts/validate-metamodel.rb --generate --output path/to/traceability-matrix.adoc

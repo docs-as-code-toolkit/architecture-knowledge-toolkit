@@ -30,8 +30,9 @@ Canonical skills that should not appear in generated adapters can opt out with
 === CI drift check
 
 Honey documents a `--check` mode that fails when generated rule files drift
-from the canonical skill. The matching toolkit pattern is
-`node scripts/check-agent-adapters.js`, suitable for CI.
+from the canonical skill. The matching toolkit pattern is `./build.sh
+check-adapters` (locally `node scripts/check-agent-adapters.js`), suitable for
+CI.
 
 === Core skill plus satellite skills
 

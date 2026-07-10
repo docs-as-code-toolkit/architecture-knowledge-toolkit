@@ -75,6 +75,8 @@ money-related directives, or delete-related directives.
 
 ## Validation
 
-Run the metamodel validator after architecture edits when available. Run
-`node scripts/check-agent-adapters.js` after changing canonical skills or
+Run the metamodel validator after architecture edits when available: prefer
+`./build.sh validate` (runs in the docs-toolbox image), or the local command
+`ruby scripts/validate-metamodel.rb`. Run `./build.sh check-adapters` (locally
+`node scripts/check-agent-adapters.js`) after changing canonical skills or
 generated adapter files.
