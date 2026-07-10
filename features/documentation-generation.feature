@@ -1,7 +1,8 @@
 # Living documentation for the deterministic documentation generators.
 # Bridged to: test/validate_metamodel_test.rb (classic Minitest). Each scenario
-# title maps to a test method with the sanitized scenario title and Given/When/
-# Then comment anchors.
+# maps to at least one automated test; here that is one test method named after
+# the sanitized scenario title, with Given/When/Then comment anchors.
+# Traceability is a reviewer-verifiable convention, not a build-enforced link.
 
 Feature: Documentation generation
   As an architecture knowledge base maintainer

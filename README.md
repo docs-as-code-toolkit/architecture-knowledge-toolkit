@@ -181,7 +181,7 @@ Use the skill contracts under `skills/` for focused architecture workflows:
 - [`skills/post-merge-sync`](/skills/post-merge-sync/SKILL.md) for returning a
   local checkout to the latest base branch after a pull request has been merged.
 - [`skills/domain-modeling`](/skills/domain-modeling/SKILL.md) Actively build and sharpen a project's domain model — challenge terms against the glossary, stress-test with edge-case scenarios, and update CONTEXT.md and ADRs inline.
-- [`skills/bdd-specification`](/skills/bdd-specification/SKILL.md) for enforcing living documentation through Behaviour-Driven Development — the strict default for any new or changed behaviour: a language-agnostic Gherkin feature spec bridged into unit tests via a strict scenario-to-test naming convention and Given/When/Then anchors, relaxed only with an explicit recorded waiver.
+- [`skills/bdd-specification`](/skills/bdd-specification/SKILL.md) for enforcing living documentation through Behaviour-Driven Development — the strict default for any new or changed behaviour: a language-agnostic Gherkin feature spec mapped to at least one automated verification via a reviewer-verifiable scenario-to-test naming convention and Given/When/Then anchors, relaxed only with an explicit recorded waiver.
 - [`skills/grilling/with-docs`](/skills/grilling/with-docs/SKILL.md) Grilling session that also builds your project's domain model, sharpening terminology and updating CONTEXT.md and ADRs inline
 - [`skills/grilling/me`](/skills/grilling/me/SKILL.md) Get relentlessly interviewed about a plan or design until every branch of the decision tree is resolved.
 - [`skills/grilling/`](/skills/grilling/SKILL.md) Interview the user relentlessly about a plan or design until every branch of the decision tree is resolved. The reusable loop behind grill-me and grill-with-docs.
@@ -199,8 +199,10 @@ The toolkit's executable features — the metamodel validator, the documentation
 generators, and the agent adapter generator — are specified as Gherkin
 behaviour in [`features/`](features/) and bridged into tests following the
 [`bdd-specification`](/skills/bdd-specification/SKILL.md) skill. There is no
-native BDD runner: each scenario maps to a classic test whose name is the
-sanitized scenario title, with `Given` / `When` / `Then` comment anchors.
+native BDD runner, and the bridge is a reviewer-verifiable convention rather than
+a build-enforced link: each scenario maps to at least one classic test that is
+traceable by the sanitized scenario title, with `Given` / `When` / `Then` comment
+anchors. Here the mapping happens to be one-to-one.
 
 Run them locally:
 

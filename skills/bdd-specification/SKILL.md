@@ -1,15 +1,23 @@
 ---
 name: bdd-specification
-description: "Enforce Living Documentation through Behaviour-Driven Development by writing a language-agnostic Gherkin feature specification for any new or changed observable behaviour and mapping each scenario into the technical unit tests, even when the target language has no native BDD framework. This is the strict default for features, behavioural enhancements, and behaviour-changing bug fixes; relax it only with an explicit recorded human waiver. Use when Codex is asked to specify feature or behaviour, write or update .feature files, add BDD or acceptance tests, keep behaviour specs and tests in sync, bridge Gherkin scenarios to classic unit tests, or apply a scenario-to-test naming convention with Given/When/Then structure."
+description: "Enforce Living Documentation through Behaviour-Driven Development by writing a language-agnostic Gherkin feature specification for any new or changed observable behaviour and mapping each scenario to at least one automated verification, even when the target language has no native BDD framework. This is the strict default for features, behavioural enhancements, and behaviour-changing bug fixes; relax it only with an explicit recorded human waiver. Use when Codex is asked to specify feature or behaviour, write or update .feature files, add BDD or acceptance tests, keep behaviour specs and tests in sync, bridge Gherkin scenarios to classic tests, or apply a scenario-to-test naming convention with Given/When/Then structure."
 ---
 
 # BDD Specification
 
 Act as a software architect who enforces Living Documentation through
 Behaviour-Driven Development (BDD). For every feature, write a language-agnostic
-Gherkin specification that describes business behaviour, and map that
-specification into the technical unit tests — regardless of whether the target
-language supports a BDD framework natively.
+Gherkin specification that describes business behaviour, and map each scenario to
+at least one automated verification — regardless of whether the target language
+supports a BDD framework natively.
+
+A Gherkin scenario and a unit test sit at different abstraction levels: a
+scenario describes observable business or system behaviour, while unit tests
+verify its technical decomposition. Do not force a one-to-one scenario-to-unit-test
+mapping. One scenario may need several supporting unit tests (boundaries, error
+paths, persistence, events), and many legitimate unit tests do not justify a
+separate business-readable scenario. Keep the feature files as Living
+Documentation, not as technical test catalogues written in Gherkin.
 
 This skill is guidance and reusable content only. Do not implement a runner or
 add automation as part of using this skill. Treat AI-created specifications and
@@ -88,11 +96,16 @@ tension by authoring it once and surfacing it into the docs, never by copying it
   runner discovery wins for the source-of-truth location.
 - **Surface it as documentation with an AsciiDoc `include::`, do not copy it.**
   Gherkin is plain text, so include the `.feature` file into the architecture
-  documentation as a source or literal block. Its natural arc42 home is
-  Chapter 6 (Runtime View) for behavioural scenarios; reference it from
-  Chapter 1 requirements or Chapter 10 quality when the behaviour is
-  requirement- or quality-relevant. This keeps a single source of truth: the
-  runner executes it and the docs render it.
+  documentation as a source or literal block. This keeps a single source of
+  truth: the runner executes it and the docs render it.
+- **Choose the arc42 location by architectural relevance, not by default.** Not
+  every scenario is an architecture-relevant runtime scenario. Use Chapter 6
+  (Runtime View) when the scenario explains runtime collaboration between
+  building blocks, Chapter 10 for quality-related behaviour, and
+  requirement-oriented sections or references for functional acceptance
+  behaviour. A scenario that carries no architectural significance may stay in
+  `features/` and need not be surfaced into arc42 at all. Avoid turning
+  Chapter 6 into a collection of validation and acceptance details.
 - Do not move `.feature` files under `src/docs/` and point the runner at the docs
   tree; that couples runner configuration to the documentation layout and is more
   fragile than including the spec into the docs.
@@ -100,22 +113,38 @@ tension by authoring it once and surfacing it into the docs, never by copying it
 
 ### Step 3: Technical Implementation & Naming Convention (the Bridge)
 
-When implementing in test code, keep a strict coupling between the documentation
-and the code.
+When implementing in test code, keep reviewer-verifiable traceability between the
+documentation and the code. This bridge is a review convention, not build-time
+enforcement: no CI check proves the link, so a reviewer must be able to confirm
+it from stable identifiers or naming.
 
-1. **Strict naming convention.** The name of the test method, block, or function
-   MUST be a direct, sanitized translation of the Gherkin scenario title (for
-   example snake_case or CamelCase per the language's convention).
+1. **Every scenario has at least one identifiable automated verification.**
+   Prefer a one-to-one mapping to an acceptance, component, or use-case test
+   where practical. A scenario may instead map to a test class, a nested test
+   group, or several supporting tests. Supporting unit tests that exist only to
+   verify technical decomposition do not require their own Gherkin scenario.
+
+2. **Naming convention for the scenario-mapped test.** Name the acceptance,
+   component, or group test that stands for the scenario as a direct, sanitized
+   translation of the Gherkin scenario title (for example snake_case or CamelCase
+   per the language's convention), so a reviewer can trace it by name.
 
    - `Scenario: Passwort ist zu kurz` ➡️ `def test_passwort_ist_zu_kurz` (Python)
      or `it "passwort_ist_zu_kurz"` (Ruby/RSpec).
 
+   Names are readable but poor identifiers: improving the wording of a scenario
+   should not silently break traceability. When stronger traceability is wanted,
+   prefer a stable scenario identifier over the title, for example a
+   `@scenario-id(PAYMENT-003)` tag on the scenario and a matching marker on the
+   test (`@Scenario("PAYMENT-003")`, a comment, or the test name). This repository
+   does not add a machine check for the link yet.
+
    See `../references/bdd-writing-guide.md` for slug normalization rules
    (umlauts, punctuation, whitespace).
 
-2. **Structure in code.** Inside each test, mark the `Given`, `When`, and `Then`
-   phases as clear visual anchors (comments). They separate the logic cleanly
-   into Arrange, Act, and Assert.
+3. **Structure in code.** Inside the scenario-mapped test, mark the `Given`,
+   `When`, and `Then` phases as clear visual anchors (comments). They separate
+   the logic cleanly into Arrange, Act, and Assert.
 
    ```python
    def test_passwort_ist_zu_kurz():
@@ -136,10 +165,12 @@ text as the canonical behaviour statement.
 
 ## Output Rules
 
-- Keep the `.feature` file and the tests in sync: every scenario has exactly one
-  corresponding test, and the test name matches the sanitized scenario title.
+- Keep the `.feature` file and the tests in sync: every scenario has at least one
+  identifiable automated verification, and the scenario-mapped test is traceable
+  by a stable identifier or the sanitized scenario title. Removing or renaming a
+  scenario is a documentation change that a reviewer must reconcile with the tests.
 - Keep scenarios declarative and business-focused; push mechanical detail down
-  into step definitions or test helpers.
+  into supporting unit tests, step definitions, or test helpers.
 - Do not weaken assertions to make a test pass; a red test is valid feedback.
 - Mark AI-created specifications and tests as proposed until reviewed, following
   the repository's status conventions where they apply.

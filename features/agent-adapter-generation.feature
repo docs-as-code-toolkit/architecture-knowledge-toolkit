@@ -1,7 +1,9 @@
 # Living documentation for the agent adapter generator.
 # Bridged to: test/build-agent-adapters.test.mjs (node:test, classic runner, no
-# native BDD). Each scenario title maps to a test whose name is the scenario
-# title, with Given/When/Then comment anchors inside the test body.
+# native BDD). Each scenario maps to at least one automated test; here that is
+# one test named after the scenario title, with Given/When/Then comment anchors
+# inside the test body. Traceability is a reviewer-verifiable convention, not a
+# build-enforced link.
 
 Feature: Agent adapter generation
   As a toolkit maintainer
