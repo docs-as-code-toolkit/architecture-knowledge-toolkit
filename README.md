@@ -64,6 +64,8 @@ metamodel/     Schemas for architecture artifacts and relations.
 skills/        Reusable AI skill instructions and review workflows.
 templates/     AsciiDoc templates for common architecture artifacts.
 adapters/      Engine-specific integration layers.
+features/      Gherkin behaviour specifications (living documentation).
+test/          Bridged unit, CLI, and generator tests.
 ```
 
 ## Contract Layers
@@ -190,6 +192,27 @@ GitHub Copilot-specific review entry points live in
 `.github/copilot-instructions.md`, `.github/instructions/`, and
 `adapters/github-copilot/`; those files point back to the engine-independent
 skill contracts.
+
+## Tests
+
+The toolkit's executable features — the metamodel validator, the documentation
+generators, and the agent adapter generator — are specified as Gherkin
+behaviour in [`features/`](features/) and bridged into tests following the
+[`bdd-specification`](/skills/bdd-specification/SKILL.md) skill. There is no
+native BDD runner: each scenario maps to a classic test whose name is the
+sanitized scenario title, with `Given` / `When` / `Then` comment anchors.
+
+Run them locally:
+
+```sh
+ruby -Itest test/validate_metamodel_test.rb       # validator + generator units
+ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
+node --test test/build-agent-adapters.test.mjs     # adapter generator
+```
+
+The container-based render scripts (`build.sh`, `scripts/render-presentation.sh`)
+are not covered yet; testing them requires a Docker or Podman engine and is
+tracked as a follow-up.
 
 ## Current Status
 
