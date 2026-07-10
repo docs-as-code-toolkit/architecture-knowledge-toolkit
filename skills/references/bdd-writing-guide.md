@@ -1,7 +1,7 @@
 # BDD Writing Guide
 
-Write feature files as living documentation and keep them strictly coupled to the
-tests. A `.feature` file is business-readable specification first, and a test
+Write feature files as living documentation and keep them clearly traceable to
+the tests. A `.feature` file is business-readable specification first, and a test
 input second.
 
 ## Feature Files
