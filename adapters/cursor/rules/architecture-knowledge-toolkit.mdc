@@ -24,6 +24,7 @@ Paths are relative to the architecture-knowledge-toolkit repository root.
 - `adr`: `skills/adr/SKILL.md`
 - `architecture-core`: `skills/architecture-core/SKILL.md`
 - `architecture-impact`: `skills/architecture-impact/SKILL.md`
+- `bdd-specification`: `skills/bdd-specification/SKILL.md`
 - `bootstrap-project`: `skills/bootstrap-project/SKILL.md`
 - `commit-message`: `skills/commit-message/SKILL.md`
 - `domain-modeling`: `skills/domain-modeling/SKILL.md`

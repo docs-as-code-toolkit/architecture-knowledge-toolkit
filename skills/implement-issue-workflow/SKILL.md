@@ -13,6 +13,14 @@ and during implementation so the current architecture documentation,
 implementation, ADRs, quality goals, risks, affected feature or refactoring
 references, and issue markings stay aligned.
 
+If the issue adds or changes observable behaviour — a feature, a behavioural
+enhancement, or a behaviour-changing bug fix — use `../bdd-specification/SKILL.md`
+no later than implementation time. This is the strict default: a language-agnostic
+Gherkin `.feature` spec must exist and be bridged into the tests through the
+scenario-to-test naming convention before the change is considered done. Write or
+complete the spec first when analysis did not already produce it. Skip it only
+with an explicit human waiver recorded in the issue or pull request.
+
 If the issue is too broad for one focused pull request, or the user asks to
 split, slice, decompose, or plan it before implementation, use
 `../slice-issues/SKILL.md` first. Continue with this implementation workflow
@@ -32,14 +40,18 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 ## Implement And Verify
 
 1. Make small, reviewable changes that directly address the issue.
-2. Keep commits meaningful and use `../commit-message/SKILL.md` for message text.
-3. Run the relevant tests, linters, validators, generators, or manual checks before committing.
-4. Do not use derived output as architecture evidence or context. This includes
+2. By default, for any behaviour-adding or behaviour-changing work, apply
+   `../bdd-specification/SKILL.md`: keep the Gherkin `.feature` spec and its
+   bridged tests in sync with the implementation, one test per scenario with the
+   scenario-to-test naming convention.
+3. Keep commits meaningful and use `../commit-message/SKILL.md` for message text.
+4. Run the relevant tests, linters, validators, generators, or manual checks before committing.
+5. Do not use derived output as architecture evidence or context. This includes
    `generated/`, `build/`, `dist/`, `target/`, `out/`, rendered HTML/PDF,
    generated indexes, traceability views, and assembled documentation.
-5. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
-6. Leave unrelated worktree changes untouched.
-7. For feature or refactoring work, update or explicitly report the
+6. Do not commit generated derived output when the issue or repository contract says it must remain uncommitted.
+7. Leave unrelated worktree changes untouched.
+8. For feature or refactoring work, update or explicitly report the
    architecture impact using `../architecture-impact/SKILL.md`.
 
 ## Commit, Push, And PR

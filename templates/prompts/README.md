@@ -33,6 +33,9 @@ input, not the governing workflow.
   and review tasks that must keep implementation, issue markings, Epics,
   UserStories, and architecture documentation aligned.
 - [`adr.md`](adr.md) for Architecture Decision Records and impact analysis.
+- [`bdd-specification.md`](bdd-specification.md) for enforcing living
+  documentation through BDD: the strict default for any new or changed behaviour,
+  with Gherkin feature files coupled to unit tests.
 - [`bootstrap-project.md`](bootstrap-project.md) for toolkit-oriented project
   bootstrapping.
 - [`commit-message.md`](commit-message.md) for repository commit messages.

@@ -46,29 +46,39 @@ source of truth when these rules evolve.
 7. Mark every requested refactoring in the remote project issue. Use the
    repository's refactoring issue type, label, or metadata when available; if no
    dedicated metadata exists, prefix the issue title with `[REFACTORING]`.
-8. Record the feature or refactoring at every affected place in the
+8. For any change that adds or changes observable behaviour, specify that
+   behaviour with `../bdd-specification/SKILL.md`. This is the strict default and
+   covers new features, behavioural enhancements, and behaviour-changing bug
+   fixes. Capture the acceptance behaviour as a language-agnostic Gherkin
+   `.feature` spec as early as request or analysis time. The specification and
+   its scenario-to-test bridge are mandatory at the latest when the change is
+   implemented. Relax this only with an explicit human waiver, recorded with its
+   rationale in the issue, pull request, or Q&A document. Pure refactorings add
+   no behaviour and need no new scenarios, but must keep the existing specs and
+   their bridged tests passing.
+9. Record the feature or refactoring at every affected place in the
    architecture documentation. Prefer a short `Affected Features` or
    `Affected Refactorings` section or table with stable issue links, status,
    and explicit `xref` links to related architecture artifacts.
-9. Explicitly mention affected existing ADRs, quality goals, quality scenarios,
+10. Explicitly mention affected existing ADRs, quality goals, quality scenarios,
    risks, constraints, components, interfaces, runtime scenarios, and deployment
    elements in the issue, implementation notes, review output, or architecture
    changes.
-10. If the feature or refactoring conflicts with an accepted or proposed ADR,
+11. If the feature or refactoring conflicts with an accepted or proposed ADR,
    quality goal, quality scenario, risk treatment, or constraint, stop treating
    the conflict as an implementation detail. Use `../adr/SKILL.md` to draft a
    new proposed ADR or update the affected decision trail.
-11. Document new or changed components, runtime scenarios, and deployment
+12. Document new or changed components, runtime scenarios, and deployment
    changes with a matching PlantUML diagram plus a short textual description.
    Use C4-PlantUML for building-block diagrams.
-12. Add diagrams to new ADRs when they help readers compare options. If the same
+13. Add diagrams to new ADRs when they help readers compare options. If the same
    diagram or description is also included in the official arc42 structure,
    author it once and include it with `include::...[tags=...]` instead of
    copying it.
-13. Add or update quality scenarios and risks only when existing artifacts do
+14. Add or update quality scenarios and risks only when existing artifacts do
    not already cover the feature impact. Use `../quality-scenario/SKILL.md` and
    `../risk/SKILL.md` for those artifacts.
-14. Run the relevant validators, generators, render checks, tests, or manual
+15. Run the relevant validators, generators, render checks, tests, or manual
     checks. Report any unavailable verification and remaining open human
     decisions.
 
@@ -80,6 +90,8 @@ Read these files when the feature or review touches the corresponding scope:
   Docs-as-Code, metadata, traceability, quality, risks, backlog management, and
   review rules.
 - `../../AGENTS.md` for automated-contributor rules.
+- `../bdd-specification/SKILL.md` by default for any new or changed observable
+  behaviour, to specify it as Gherkin and bridge it into tests.
 - `../adr/SKILL.md` before creating or changing ADRs, or when a feature
   conflicts with an existing decision.
 - `../quality-scenario/SKILL.md` before creating or changing quality scenarios.
@@ -171,6 +183,9 @@ Read these files when the feature or review touches the corresponding scope:
 - Does every Epic and UserStory begin with
   `As a [Role], I want to [Action], so that [Benefit].`?
 - Is each UserStory assigned to a matching Epic when one exists?
+- Does every behaviour-adding or behaviour-changing change have a Gherkin
+  `.feature` specification bridged to tests per `../bdd-specification/SKILL.md`,
+  or an explicitly recorded human waiver?
 - Are affected ADRs and quality goals explicitly named?
 - Is there a conflict that requires a new or changed ADR?
 - Are all affected architecture locations updated with feature references?
