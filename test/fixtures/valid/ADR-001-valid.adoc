@@ -4,6 +4,10 @@ type: ADR
 title: Valid decision
 status: accepted
 created: 2026-06-25
+derived_from:
+  - type: question
+    description: Should the valid fixture demonstrate ADR provenance?
+    anchor: q-arch-001
 relations:
   - type: relates_to
     target: QS-001-valid

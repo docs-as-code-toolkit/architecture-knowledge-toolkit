@@ -54,7 +54,20 @@ inputs.
 * "Meaningful diff" excludes timestamps, local paths, ordering drift, and
   other non-source changes.
 
-include::generated/qs-001-reproducible-generation-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/qs-001-reproducible-generation-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/qs-001-reproducible-generation-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/qs-001-reproducible-generation-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

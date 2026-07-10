@@ -107,6 +107,16 @@ Use these templates:
   artifact is sufficient.
 - Keep metadata relation targets as stable artifact IDs; render visible
   documentation references as anchor-based AsciiDoc `xref` links.
+- Keep risk impact and traceability data exclusively in YAML front matter
+  relations. Do not add a manual impact matrix, manual traceability matrix, or
+  reciprocal incoming relations to the risk body.
+- Make impact and traceability visible through `=== Impact` and
+  `=== Traceability` sections that include the generated local
+  `generated/<artifact-anchor>-impact.adoc` and
+  `generated/<artifact-anchor>-traceability.adoc` fragments with
+  `leveloffset=+2`. The generator owns the visible tables, and each fragment
+  starts with `== Matrix` because the source document owns the semantic section
+  heading.
 - Use explicit target anchors for visible links; do not derive xrefs from raw
   numbered chapter file names.
 - Apply metadata, relation, anchor, and `xref` rules from

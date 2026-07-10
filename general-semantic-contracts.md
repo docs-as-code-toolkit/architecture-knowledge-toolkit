@@ -215,6 +215,14 @@ classification, such as ADRs, quality scenarios, and risks, keep their own ID
 schemes and are ordered by their chapter location.
 Traceability between arc42 source documents is captured in `relations` using
 stable artifact IDs and relation types from `metamodel/relations.schema.yaml`.
+ADRs, risks, and quality scenarios keep impact and traceability data
+exclusively in YAML front matter relations. Their visible `=== Impact` and
+`=== Traceability` sections include generated local
+`generated/*-impact.adoc` and `generated/*-traceability.adoc` fragments. Do not
+hand-author impact or traceability matrices in ADR, risk, or quality scenario
+source files or templates. Include generated impact and traceability fragments
+with `leveloffset=+2`; each fragment starts with `== Matrix` because the
+including source document owns the semantic section heading.
 Render AsciiDoc sources with YAML front matter using the Asciidoctor
 `skip-front-matter` attribute so metadata does not appear in published output.
 Reusable source fragments that are included directly into other AsciiDoc files
@@ -251,6 +259,14 @@ IDs from Chapter 11 (R-NNN); a decision that creates a risk not yet listed in
 Chapter 11 either adds it there or notes the consequence as explicitly
 accepted, without tracking the risk. Conversely, concepts from Chapter 8 refer
 back to the ADR that adopted them.
+When an ADR originates from a concrete prompt, answered question, external
+document, repository document, or other source, record that provenance in
+optional `derived_from` metadata. Use `relations` for architectural
+traceability between artifacts; use `derived_from` to explain why the ADR was
+created and to link back to the originating question or source when available.
+When source prose needs to render provenance from metadata, include the
+generated per-artifact metadata attribute fragment and guard the text with
+`ifdef::derived_from_description[]`.
 
 ### Cross-Referencing: Static docs as architecture knowledge base
 

@@ -292,13 +292,13 @@ By default, generated files are written below `generated/` directories:
 ```text
 src/docs/arc42/generated/traceability-matrix.adoc
 src/docs/arc42/**/generated/*-includes.adoc
+src/docs/arc42/**/generated/*-attributes.adoc
+src/docs/arc42/**/generated/*-impact.adoc
+src/docs/arc42/**/generated/*-traceability.adoc
 src/docs/arc42/09-architecture-decisions/generated/open-questions.adoc
 src/docs/arc42/09-architecture-decisions/generated/doc-09001-adr-index.adoc
-src/docs/arc42/09-architecture-decisions/generated/*-traceability.adoc
 src/docs/arc42/10-quality-requirements/generated/doc-10001-quality-scenarios.adoc
-src/docs/arc42/10-quality-requirements/generated/*-traceability.adoc
 src/docs/arc42/11-risks-and-technical-debt/generated/doc-11001-risks.adoc
-src/docs/arc42/11-risks-and-technical-debt/generated/*-traceability.adoc
 ```
 
 The generator also creates chapter include fragments. Chapter main files should
@@ -308,21 +308,36 @@ artifacts appear deterministically after regeneration.
 
 The chapter-level index fragments keep the existing table shape where possible.
 Row content is derived from each artifact's metadata and structured source body:
-IDs, titles, lifecycle status, summaries, and relations come from YAML front
-matter; quality scenario and risk assessment fields come from their existing
-definition tables.
+IDs, titles, lifecycle status, provenance, summaries, and relations come from
+YAML front matter; quality scenario and risk assessment fields come from their
+existing definition tables. ADR index entries render optional `derived_from`
+metadata as text, AsciiDoc anchors, external links, repository paths, or
+artifact references where possible.
+
+The generator also creates per-artifact metadata attribute fragments. Source
+documents may include their local `generated/*-attributes.adoc` fragment before
+using conditional AsciiDoc content such as:
+
+```asciidoc
+ifdef::derived_from_description[]
+Derived from {derived_from_description}
+endif::[]
+```
 
 Generated index fragments are included directly in their chapter context. Source
 wrapper documents whose only purpose is to include generated indexes should not
 be introduced; existing wrappers are migration targets.
 
-Traceability sections are generated per artifact from metadata relations instead
-of being maintained manually in each source file. Source artifacts include their
-local generated fragment, for example
-`include::generated/adr-001-asciidoc-primary-source-traceability.adoc[]`.
+Impact and traceability sections are generated per artifact from metadata
+relations instead of being maintained manually in each source file. Source
+artifacts include their local generated fragments below `=== Impact` and
+`=== Traceability` sections, for example
+`include::generated/adr-001-asciidoc-primary-source-impact.adoc[leveloffset=+2]`
+and
+`include::generated/adr-001-asciidoc-primary-source-traceability.adoc[leveloffset=+2]`.
 Render or publish these files only in flows where the generator has run first.
-Source files may still contain temporary manual traceability sections while a
-project migrates, but metadata is the source of truth.
+Source files must not maintain manual impact or traceability matrices for ADR,
+risk, or quality scenario artifacts; metadata relations are the source of truth.
 
 You can choose another traceability matrix output path with:
 

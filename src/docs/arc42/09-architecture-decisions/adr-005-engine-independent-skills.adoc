@@ -104,7 +104,20 @@ s| Sum s| 2 s| 0 s| 0
 * Adapter conventions need examples as the project learns more engine
   differences.
 
-include::generated/adr-005-engine-independent-skills-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/adr-005-engine-independent-skills-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-005-engine-independent-skills-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-005-engine-independent-skills-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

@@ -7,6 +7,10 @@ owner: architecture
 created: YYYY-MM-DD
 reviewed: false
 summary: Proposed decision summary.
+derived_from:
+  - type: question
+    description: Short origin question, prompt, source document, or external reference.
+    anchor: q-arch-000
 tags:
   - decision
 relations:
@@ -25,6 +29,12 @@ Proposed.
 
 This ADR is AI-assisted and must not be treated as accepted architecture truth
 until reviewed and accepted by the accountable owner.
+
+include::generated/adr-000-short-title-attributes.adoc[]
+
+ifdef::derived_from_description[]
+Derived from {derived_from_description}
+endif::[]
 
 === Decision
 
@@ -88,20 +98,18 @@ s| Sum s| ? s| 0 s| ?
 
 === Impact
 
-[cols="1,1,3", options="header"]
-|===
-| Artifact | Impact | Rationale
-| xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | addressed | Explain the quality impact.
-| xref:risk.adoc#risk-000-short-title[RISK-000-short-title] | introduced | Explain the risk impact.
-|===
+include::generated/adr-000-short-title-impact.adoc[leveloffset=+2]
 
 === Traceability
 
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `addresses` | xref:quality-scenario.adoc#qs-000-short-title[QS-000-short-title] | Explain the relation.
-|===
+include::generated/adr-000-short-title-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-000-short-title-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

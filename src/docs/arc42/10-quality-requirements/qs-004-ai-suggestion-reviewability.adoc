@@ -53,7 +53,20 @@ review decision.
 * Proposed or draft metadata is visible in review.
 * Human acceptance is recorded before an artifact becomes accepted.
 
-include::generated/qs-004-ai-suggestion-reviewability-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/qs-004-ai-suggestion-reviewability-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/qs-004-ai-suggestion-reviewability-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/qs-004-ai-suggestion-reviewability-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

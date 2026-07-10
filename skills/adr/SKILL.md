@@ -27,7 +27,7 @@ stricter rule.
 3. Identify existing ADRs, risks, quality scenarios, requirements, constraints,
    components, interfaces, and concepts that may relate to the decision.
 4. Draft a proposed ADR with explicit assumptions, options, consequences,
-   metadata, and a 3-point Pugh matrix.
+   metadata, provenance, and a 3-point Pugh matrix.
 5. Analyze impacts on existing risks and quality scenarios.
 6. Create new risk or quality scenario artifacts only when no existing artifact
    covers the impact.
@@ -97,6 +97,26 @@ Use these templates:
   to an existing artifact is sufficient.
 - Keep metadata relation targets as stable artifact IDs; render visible
   documentation references as anchor-based AsciiDoc `xref` links.
+- Add `derived_from` metadata when the ADR originates from a specific user
+  question, prompt, Q&A entry, external document, repository document, or
+  existing artifact. Prefer an anchor, URL, repository path, or artifact ID when
+  available; otherwise record a concise text description.
+- If the ADR body should display its provenance, include the generated
+  metadata attribute fragment and render `Derived from {derived_from_description}`
+  inside `ifdef::derived_from_description[]`.
+- Use `derived_from` for provenance and `relations` for architecture
+  traceability. Do not invent an artifact relation just to preserve where the
+  ADR came from.
+- Keep ADR impact and traceability data exclusively in YAML front matter
+  relations. Do not add a manual impact matrix, manual traceability matrix, or
+  reciprocal incoming relations to the ADR body.
+- Make impact and traceability visible through `=== Impact` and
+  `=== Traceability` sections that include the generated local
+  `generated/<artifact-anchor>-impact.adoc` and
+  `generated/<artifact-anchor>-traceability.adoc` fragments with
+  `leveloffset=+2`. The generator owns the visible tables, and each fragment
+  starts with `== Matrix` because the source document owns the semantic section
+  heading.
 - Use explicit target anchors for visible links; do not derive xrefs from raw
   numbered chapter file names.
 - Apply metadata, relation, anchor, and `xref` rules from

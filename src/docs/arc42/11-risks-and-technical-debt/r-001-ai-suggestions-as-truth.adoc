@@ -65,7 +65,20 @@ decisions, risks, or requirements entering the source documentation.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-001-ai-suggestions-as-truth-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/r-001-ai-suggestions-as-truth-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/r-001-ai-suggestions-as-truth-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/r-001-ai-suggestions-as-truth-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

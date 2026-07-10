@@ -40,6 +40,10 @@ status: accepted
 owner: platform-architecture
 created: 2026-06-25
 reviewed: true
+derived_from:
+  - type: question
+    description: Should this application offer an open REST API?
+    anchor: q-arch-001
 tags:
   - events
 relations:
@@ -98,6 +102,13 @@ suggestion until a reviewer accepts it.
 | no
 | Short summary suitable for indexes and generated overview pages.
 
+| `derived_from`
+| no
+| Optional provenance for why the artifact was created, for example an input
+question, external document, repository path, URL, conversation note, or source
+artifact. Use this for origin information; use `relations` for architecture
+traceability between artifacts.
+
 | `tags`
 | no
 | Lowercase tags for grouping and filtering.
@@ -148,6 +159,32 @@ suggestion until a reviewer accepts it.
 
 Relationships are directed: `source --type--> target`. Relationship semantics
 should be read from the source artifact toward the target artifact.
+
+`derived_from` is not a relationship type. It records provenance for review and
+navigation when an artifact originated from a question, prompt, external source,
+or source document. If the origin is itself an architecture artifact and the
+connection has architectural meaning, also model the architectural connection as
+an explicit relation.
+
+Generators may expose selected metadata as AsciiDoc attributes in derived
+per-artifact fragments, for example `:derived_from_description:`. Source
+documents can include those fragments before conditional prose that needs model
+values:
+
+[source,asciidoc]
+----
+\include::generated/adr-000-short-title-attributes.adoc[]
+
+\ifdef::derived_from_description[]
+{derived_from_description}
+\endif::[]
+----
+
+Generators also derive per-artifact impact and traceability matrix fragments
+from metadata relations. Source artifacts keep the visible `=== Impact` and
+`=== Traceability` section headings and include the generated fragments with
+`leveloffset=+2`, because the generated fragments begin with `== Matrix` and
+the including source document owns the semantic section heading.
 
 [cols="1,3", options="header"]
 |===

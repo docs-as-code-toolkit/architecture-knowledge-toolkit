@@ -30,3 +30,12 @@ Use cause, event, and impact:
 - Use `affects` from the risk to a quality scenario when the risk threatens the
   scenario.
 - Use `mitigates` from an ADR or concept to a risk when it reduces the risk.
+
+## Generated Matrices
+
+- Keep impact and traceability relations in YAML front matter.
+- Do not hand-author impact or traceability matrices in risk source files.
+- Add `=== Impact` and `=== Traceability` sections that include the generated
+  `generated/<artifact-anchor>-impact.adoc` and
+  `generated/<artifact-anchor>-traceability.adoc` fragments with
+  `leveloffset=+2`; the generated fragments start with `== Matrix`.

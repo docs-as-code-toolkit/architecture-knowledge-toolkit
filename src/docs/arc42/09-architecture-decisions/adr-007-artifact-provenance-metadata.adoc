@@ -1,0 +1,170 @@
+---
+id: ADR-007-artifact-provenance-metadata
+type: ADR
+title: Architecture Artifact Provenance Metadata
+status: proposed
+owner: architecture
+created: '2026-07-09'
+reviewed: false
+summary: Proposed decision to capture optional artifact origin information in derived_from metadata and expose selected metadata as generated AsciiDoc attributes.
+derived_from:
+- type: prompt
+  description: Exploratory test observation that a follow-up prompt created an ADR but did not preserve the originating REST API question as provenance.
+tags:
+- decision
+- metamodel
+- traceability
+relations:
+- type: refines
+  target: DOC-04001-metamodel
+  status: proposed
+  rationale: This ADR adds optional provenance metadata to the architecture metamodel.
+  evidence: src/docs/arc42/04-solution-strategy/doc-04001-metamodel.adoc
+  reviewed: false
+- type: addresses
+  target: QS-004-ai-suggestion-reviewability
+  status: proposed
+  rationale: Visible provenance helps reviewers understand why an AI-assisted architecture artifact was created.
+  evidence: src/docs/arc42/10-quality-requirements/qs-004-ai-suggestion-reviewability.adoc
+  reviewed: false
+- type: mitigates
+  target: R-001-ai-suggestions-as-truth
+  status: proposed
+  rationale: Recording origin information reduces the chance that AI-created artifacts are reviewed without their triggering context.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-001-ai-suggestions-as-truth.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[adr-007-artifact-provenance-metadata]]
+== ADR-007: Architecture Artifact Provenance Metadata
+
+=== Status
+
+Proposed.
+
+This ADR is AI-assisted and must not be treated as accepted architecture truth
+until reviewed and accepted by the accountable owner.
+
+=== Decision
+
+We propose to capture optional artifact provenance in `derived_from` metadata
+and expose selected metadata values through generated per-artifact AsciiDoc
+attribute fragments. `derived_from` records why an artifact was created, while
+`relations` continue to model architecture traceability between artifacts.
+
+=== Context
+
+During exploratory testing, an initial architecture question was answered in
+chat without changing documentation. A follow-up prompt then asked the agent to
+treat that answer as a decided architecture decision. The resulting ADR and
+Q&A entry were useful, but the ADR did not preserve the originating question as
+machine-readable provenance.
+
+The existing relation model intentionally connects architecture artifacts by
+stable IDs. That works well for traceability between ADRs, quality scenarios,
+risks, concepts, and documents. It does not fit every origin: an ADR may be
+derived from a prompt, a Q&A anchor, a repository path, an external URL, or a
+short source note that is not itself an architecture artifact.
+
+AsciiDoc source bodies cannot access YAML front matter directly. To make
+metadata visible in prose without duplicating it manually, the generator creates
+small includeable attribute fragments such as
+`generated/adr-007-artifact-provenance-metadata-attributes.adoc`.
+
+=== Decision Drivers
+
+* Preserve the origin of AI-assisted and human-authored architecture artifacts.
+* Avoid overloading architecture relations with prompt or source provenance.
+* Keep provenance optional so lightweight projects are not forced to model every
+  input as a first-class artifact.
+* Make generated indexes and source prose able to show provenance when
+  available.
+
+=== Considered Options
+
+==== Option 1: Optional `derived_from` metadata with generated attributes
+
+Add a small optional metadata field that accepts text entries or structured
+origin entries with a description, URL, repository path, AsciiDoc anchor, or
+artifact ID. Generate AsciiDoc attributes from selected metadata when source
+prose needs to render model values.
+
+==== Option 2: New `derived_from` relation type
+
+Add provenance as another relationship type in the relation metamodel.
+
+==== Option 3: Prose-only origin notes
+
+Keep provenance only in ADR context sections or review notes.
+
+=== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Metadata and attributes | Relation type | Prose only
+| Supports non-artifact origins | +1 | -1 | 0
+| Keeps relation semantics focused | +1 | -1 | +1
+| Generator can render provenance | +1 | +1 | -1
+| Low authoring burden | 0 | -1 | +1
+s| Sum s| 3 s| -2 s| 1
+|===
+
+=== Consequences
+
+==== Positive
+
+* ADR indexes can show where a decision came from when provenance is recorded.
+* ADR source text can render provenance through generated attributes without
+  duplicating metadata by hand.
+* Agents can link an ADR back to an originating Q&A anchor or external source
+  without inventing a traceability relation.
+* Reviewers can inspect the input context that caused an architecture artifact
+  to exist.
+
+==== Negative
+
+* The metamodel gains one more optional metadata field.
+* Source files that render metadata values depend on generated attribute
+  fragments being present before rendering.
+* Authors must still decide whether an origin is only provenance or also an
+  architecture relation.
+
+==== Neutral or Follow-Up
+
+* Provenance remains optional and does not change artifact lifecycle status.
+* Existing artifacts do not need backfilled `derived_from` metadata unless their
+  origin is useful for review.
+
+=== Impact
+
+include::generated/adr-007-artifact-provenance-metadata-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-007-artifact-provenance-metadata-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-007-artifact-provenance-metadata-traceability.adoc[leveloffset=+2]
+
+=== Assumptions
+
+* Reviewers benefit from seeing an artifact's origin in generated indexes.
+* A provenance field with optional structured links is enough for the current
+  generator and does not require first-class prompt artifacts.
+* Generated attribute fragments are an acceptable way to bridge YAML metadata
+  into AsciiDoc prose.
+
+=== Open Questions
+
+* Should provenance also be shown in per-artifact generated traceability
+  fragments, or is the ADR index sufficient for the first slice?
+
+=== Review Notes
+
+Confirm the `derived_from` schema shape and ADR index rendering before marking
+this ADR reviewed or accepted.

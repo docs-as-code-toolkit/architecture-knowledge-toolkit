@@ -54,6 +54,18 @@ relations:
   rationale: The chapter links to this proposed ADR detail page.
   evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
   reviewed: false
+- type: documents
+  target: ADR-006-agent-generic-skill-adapters
+  status: proposed
+  rationale: The chapter links to this proposed ADR detail page.
+  evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
+  reviewed: false
+- type: documents
+  target: ADR-007-artifact-provenance-metadata
+  status: proposed
+  rationale: The chapter links to this proposed ADR detail page.
+  evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
+  reviewed: false
 metadata_version: '1.0'
 ---
 = [[architecture-decisions]]Architecture Decisions

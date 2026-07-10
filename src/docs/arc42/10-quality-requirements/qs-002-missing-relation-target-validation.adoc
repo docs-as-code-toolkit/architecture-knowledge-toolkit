@@ -51,7 +51,20 @@ invalid relation targets are detected before review.
 
 * The local validation command is documented for contributors.
 
-include::generated/qs-002-missing-relation-target-validation-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/qs-002-missing-relation-target-validation-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/qs-002-missing-relation-target-validation-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/qs-002-missing-relation-target-validation-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

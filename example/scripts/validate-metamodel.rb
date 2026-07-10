@@ -459,14 +459,15 @@ class ArtifactIndexGenerator
       output: '09-architecture-decisions/generated/doc-09001-adr-index.adoc',
       anchor: 'adr-index',
       title: 'ADR Index',
-      cols: '1,2,1,3',
-      columns: %w[ADR Title Status Notes],
+      cols: '1,2,1,2,3',
+      columns: ['ADR', 'Title', 'Status', 'Derived from', 'Notes'],
       row: lambda do |artifact, helper|
         metadata = artifact.metadata
         [
           helper.artifact_link(artifact, label: helper.short_id(metadata['id'])),
           helper.cell(metadata['title']),
           helper.cell(metadata['status']),
+          helper.derived_from_cell(metadata['derived_from']),
           helper.cell(metadata['summary'])
         ]
       end
@@ -686,7 +687,7 @@ class TraceabilityFragmentGenerator
 
     lines = []
     lines << "[[generated-traceability-#{anchor_for(artifact.path)}]]"
-    lines << '== Traceability'
+    lines << '== Matrix'
     lines << ''
     lines << '// Generated from architecture artifact metadata. Do not edit manually.'
     lines << ''
@@ -746,6 +747,161 @@ class TraceabilityFragmentGenerator
 
   def traceability_output_path(artifact)
     artifact.path.dirname.join('generated', "#{anchor_for(artifact.path)}-traceability.adoc")
+  end
+end
+
+class ImpactFragmentGenerator
+  attr_reader :output_paths
+
+  def initialize(root:, docs_dir:)
+    @root = Pathname.new(root).expand_path
+    @output_paths = []
+  end
+
+  def write(artifacts)
+    artifacts_by_id = artifacts.each_with_object({}) do |artifact, index|
+      index[artifact.metadata['id']] = artifact if artifact.metadata
+    end
+
+    @output_paths = artifacts.map do |artifact|
+      output_path = impact_output_path(artifact)
+      content = render(artifact, artifacts_by_id, output_path)
+      FileUtils.mkdir_p(output_path.dirname)
+      output_path.write(content)
+      output_path
+    end
+  end
+
+  def render(artifact, artifacts_by_id, output_path)
+    metadata = artifact.metadata
+    outgoing = Array(metadata['relations'])
+    helper = ArtifactRenderHelper.new(output_path, artifacts_by_id.values)
+
+    lines = []
+    lines << "[[generated-impact-#{anchor_for(artifact.path)}]]"
+    lines << '== Matrix'
+    lines << ''
+    lines << '// Generated from architecture artifact metadata. Do not edit manually.'
+    lines << ''
+    lines << '[cols="1,1,3", options="header"]'
+    lines << '|==='
+    lines << '| Artifact | Impact | Rationale'
+    lines << ''
+
+    if outgoing.empty?
+      lines << '| -'
+      lines << '| -'
+      lines << '| No outgoing impact relations recorded in metadata.'
+      lines << ''
+    else
+      outgoing.sort_by { |relation| [relation['type'].to_s, relation['target'].to_s] }.each do |relation|
+        lines << "| #{helper.artifact_ref(relation['target'], artifacts_by_id)}"
+        lines << "| #{helper.cell(relation['type'])}"
+        lines << "| #{helper.cell(relation['rationale'])}"
+        lines << ''
+      end
+    end
+
+    lines << '|==='
+    lines << ''
+    lines.join("\n")
+  end
+
+  private
+
+  def anchor_for(path)
+    normalized_anchor(path.basename(path.extname).to_s)
+  end
+
+  def normalized_anchor(value)
+    value.to_s
+         .downcase
+         .sub(/\A[0-9]+[-_ ]+/, '')
+         .gsub(/[^a-z0-9]+/, '-')
+         .gsub(/\A-+|-+\z/, '')
+  end
+
+  def impact_output_path(artifact)
+    artifact.path.dirname.join('generated', "#{anchor_for(artifact.path)}-impact.adoc")
+  end
+end
+
+class MetadataAttributeFragmentGenerator
+  attr_reader :output_paths
+
+  def initialize(root:, docs_dir:)
+    @root = Pathname.new(root).expand_path
+    @output_paths = []
+  end
+
+  def write(artifacts)
+    @output_paths = artifacts.map do |artifact|
+      output_path = attributes_output_path(artifact)
+      content = render(artifact)
+      FileUtils.mkdir_p(output_path.dirname)
+      output_path.write(content)
+      output_path
+    end
+  end
+
+  def render(artifact)
+    metadata = artifact.metadata
+    attributes = {
+      'artifact_id' => metadata['id'],
+      'artifact_type' => metadata['type'],
+      'artifact_title' => metadata['title'],
+      'artifact_status' => metadata['status'],
+      'artifact_owner' => metadata['owner'],
+      'artifact_created' => metadata['created'],
+      'artifact_updated' => metadata['updated'],
+      'artifact_summary' => metadata['summary'],
+      'derived_from_description' => derived_from_description(metadata['derived_from'])
+    }
+
+    lines = []
+    lines << "// Generated from architecture artifact metadata for #{metadata['id']}. Do not edit manually."
+    attributes.each do |name, value|
+      next if blank?(value)
+
+      lines << ":#{name}: #{attribute_value(value)}"
+    end
+    lines << ''
+    lines.join("\n")
+  end
+
+  private
+
+  def derived_from_description(entries)
+    origins = Array(entries).compact
+    return nil if origins.empty?
+
+    origins.map do |entry|
+      entry.is_a?(Hash) ? entry['description'] : entry
+    end.compact.join('; ')
+  end
+
+  def attribute_value(value)
+    value.to_s.strip.gsub(/\s+/, ' ')
+  end
+
+  def blank?(value)
+    value.nil? || (value.respond_to?(:empty?) && value.empty?)
+  end
+
+  def anchor_for(path)
+    normalized_anchor(path.basename(path.extname).to_s)
+  end
+
+  def normalized_anchor(value)
+    value.to_s
+         .downcase
+         .sub(/\A[0-9]+[-_ ]+/, '')
+         .gsub(/[^a-z0-9]+/, '-')
+         .gsub(/\A-+|-+\z/, '')
+  end
+
+  def attributes_output_path(artifact)
+    artifact.path.dirname.join('generated', "#{anchor_for(artifact.path)}-attributes.adoc")
   end
 end
 
@@ -874,6 +1030,13 @@ class ArtifactRenderHelper
     matches.map { |relation| artifact_ref(relation['target']) }.join(" +\n")
   end
 
+  def derived_from_cell(entries)
+    origins = Array(entries).compact
+    return '-' if origins.empty?
+
+    origins.map { |entry| derived_from_entry(entry) }.join(" +\n")
+  end
+
   def definition_table_fields(artifact)
     body = artifact.path.read.split(/^---\s*$/, 3).last.to_s
     fields = {}
@@ -895,6 +1058,34 @@ class ArtifactRenderHelper
   end
 
   private
+
+  def derived_from_entry(entry)
+    return cell(entry) unless entry.is_a?(Hash)
+
+    description = entry['description'].to_s.strip
+    label = description.empty? ? derived_from_fallback_label(entry) : description
+
+    if present?(entry['target'])
+      target = artifact_ref(entry['target'])
+      description.empty? ? target : "#{cell(label)} (#{target})"
+    elsif present?(entry['anchor'])
+      "xref:#{cell(entry['anchor'])}[#{cell(label)}]"
+    elsif present?(entry['uri'])
+      "link:#{cell(entry['uri'])}[#{cell(label)}]"
+    elsif present?(entry['path'])
+      "#{cell(label)} (`#{cell(entry['path'])}`)"
+    else
+      cell(label)
+    end
+  end
+
+  def derived_from_fallback_label(entry)
+    entry.values.compact.map(&:to_s).find { |value| !value.strip.empty? }.to_s
+  end
+
+  def present?(value)
+    value.respond_to?(:empty?) ? !value.empty? : !value.nil?
+  end
 
   def anchor_for(path)
     normalized_anchor(path.basename(path.extname).to_s)
@@ -950,6 +1141,12 @@ class DocumentationGenerator
 
     chapter_includes = ChapterIncludeFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(chapter_includes.write(metadata_artifacts))
+
+    metadata_attributes = MetadataAttributeFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
+    written.concat(metadata_attributes.write(metadata_artifacts))
+
+    impact = ImpactFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
+    written.concat(impact.write(metadata_artifacts))
 
     traceability = TraceabilityFragmentGenerator.new(root: @root, docs_dir: @docs_dir)
     written.concat(traceability.write(metadata_artifacts))

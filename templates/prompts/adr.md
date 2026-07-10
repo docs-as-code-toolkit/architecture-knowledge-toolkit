@@ -9,8 +9,14 @@ problem:
 Analyze the relevant source code, architecture documentation, existing ADRs,
 risks, quality scenarios, requirements, constraints, and affected components.
 Compare realistic options, include a Pugh matrix, document consequences, and
-propose traceability metadata relations. Mark AI-created or AI-modified content
-as proposed unless human acceptance is already recorded.
+propose impact and traceability metadata relations. Add `derived_from` metadata when the
+ADR originates from a specific input question, prompt, repository document,
+external source, or existing artifact; link to an anchor, URL, path, or artifact
+ID when available. If provenance should appear in the ADR body, include the
+generated metadata attribute fragment and render it with
+`ifdef::derived_from_description[]`. Include generated Impact and Traceability
+fragments instead of hand-authoring those matrices. Mark AI-created or
+AI-modified content as proposed unless human acceptance is already recorded.
 
 Use project-local contracts and skills first. If they do not cover this task,
 locate toolkit guidance in this order:

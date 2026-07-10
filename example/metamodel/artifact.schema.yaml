@@ -80,6 +80,49 @@ properties:
   source:
     type: string
     description: Optional repository-relative source path when metadata is stored separately.
+  derived_from:
+    type: array
+    description: >-
+      Optional origin notes for artifacts derived from a prompt, question,
+      external document, repository document, or another artifact. Use this for
+      provenance that explains why the artifact was created; use relations for
+      architecture traceability between artifacts.
+    items:
+      oneOf:
+        - type: string
+          minLength: 1
+        - type: object
+          additionalProperties: false
+          required:
+            - description
+          properties:
+            type:
+              type: string
+              enum:
+                - prompt
+                - question
+                - document
+                - external
+                - artifact
+                - conversation
+                - other
+            description:
+              type: string
+              minLength: 1
+            uri:
+              type: string
+              format: uri
+            path:
+              type: string
+              description: Repository-relative source path.
+            anchor:
+              type: string
+              description: Explicit AsciiDoc anchor for a source section or question.
+              pattern: "^[a-z][a-z0-9-]*$"
+            target:
+              type: string
+              description: Stable artifact ID when the origin is another architecture artifact.
+              pattern: "^[A-Z]+-[0-9]{3,}(-[a-z0-9]+)*$"
   superseded_by:
     type: string
     description: Stable ID of the artifact that supersedes this one.

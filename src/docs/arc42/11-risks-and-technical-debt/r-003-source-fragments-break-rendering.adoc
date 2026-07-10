@@ -60,7 +60,20 @@ formats.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-003-source-fragments-break-rendering-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/r-003-source-fragments-break-rendering-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/r-003-source-fragments-break-rendering-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/r-003-source-fragments-break-rendering-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

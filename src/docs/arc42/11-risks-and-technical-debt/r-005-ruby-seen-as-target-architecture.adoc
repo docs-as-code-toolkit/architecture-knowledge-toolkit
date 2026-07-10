@@ -61,7 +61,20 @@ leading to premature coupling and reduced openness for future runtime choices.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
-include::generated/r-005-ruby-seen-as-target-architecture-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/r-005-ruby-seen-as-target-architecture-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/r-005-ruby-seen-as-target-architecture-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/r-005-ruby-seen-as-target-architecture-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

@@ -99,7 +99,20 @@ s| Sum s| 3 s| 1 s| -3
 * Fragment structure rules still need human confirmation through
   xref:q-arch-008[Q-ARCH-008].
 
-include::generated/adr-003-source-fragments-location-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/adr-003-source-fragments-location-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-003-source-fragments-location-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-003-source-fragments-location-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

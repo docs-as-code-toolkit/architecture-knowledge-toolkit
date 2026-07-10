@@ -21,6 +21,9 @@ Use YAML front matter for every source artifact created by this skill.
 - `reviewed`: `false` for AI-generated or AI-modified content until human review
   is recorded.
 - `summary`: One sentence for indexes and generated views.
+- `derived_from`: Optional provenance for artifacts derived from an input
+  question, prompt, external document, repository path, URL, conversation note,
+  or another artifact.
 - `tags`: Stable lowercase tags.
 - `relations`: Explicit outgoing relations.
 - `metadata_version`: Use when the repository already uses it.
@@ -61,6 +64,16 @@ Use YAML front matter for every source artifact created by this skill.
 - Metadata relations should include `rationale`.
 - Add `evidence` when the repository relation schema supports it and a concrete
   file or section supports the claim.
+- Use `derived_from` when an artifact was created because of a specific prompt,
+  answered question, external source, repository document, or originating
+  artifact. Prefer a structured entry with `description` and, when available,
+  `anchor`, `uri`, `path`, or `target`.
+- Use generated metadata attribute fragments when source prose needs access to
+  metadata values as AsciiDoc attributes. For provenance text, include the
+  artifact's local `generated/*-attributes.adoc` fragment before checking
+  `ifdef::derived_from_description[]`.
+- Do not use `relations` only to capture provenance. Relations express
+  architecture traceability between artifacts; `derived_from` explains origin.
 - Do not use source code comments, generated prose, derived output, or chat
   history as the only authority for accepted metadata.
 - Derived output includes `generated/`, `build/`, `dist/`, `target/`, `out/`,

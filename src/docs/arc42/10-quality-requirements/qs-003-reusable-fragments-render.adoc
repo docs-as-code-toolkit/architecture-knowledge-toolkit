@@ -53,7 +53,20 @@ cleanly wherever they are included.
 * Static HTML is the first supported render target.
 * More targets require additional render checks.
 
-include::generated/qs-003-reusable-fragments-render-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/qs-003-reusable-fragments-render-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/qs-003-reusable-fragments-render-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/qs-003-reusable-fragments-render-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

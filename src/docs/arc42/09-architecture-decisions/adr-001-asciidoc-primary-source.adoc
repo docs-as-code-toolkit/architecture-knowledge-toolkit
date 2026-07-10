@@ -105,7 +105,20 @@ s| Sum s| 3 s| 0 s| -1
 * Markdown may still be used outside the architecture source set when it is not
   part of the arc42 publication path.
 
-include::generated/adr-001-asciidoc-primary-source-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/adr-001-asciidoc-primary-source-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-001-asciidoc-primary-source-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-001-asciidoc-primary-source-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

@@ -31,3 +31,13 @@ Every quality scenario should include:
   assumes that decision.
 - Use `affects` from a risk to a quality scenario when the risk can threaten the
   scenario.
+
+## Generated Matrices
+
+- Keep impact and traceability relations in YAML front matter.
+- Do not hand-author impact or traceability matrices in quality scenario source
+  files.
+- Add `=== Impact` and `=== Traceability` sections that include the generated
+  `generated/<artifact-anchor>-impact.adoc` and
+  `generated/<artifact-anchor>-traceability.adoc` fragments with
+  `leveloffset=+2`; the generated fragments start with `== Matrix`.

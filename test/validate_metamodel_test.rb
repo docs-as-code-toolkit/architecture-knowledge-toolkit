@@ -165,9 +165,10 @@ class ValidateMetamodelTest < Minitest::Test
 
     assert_equal first, second
     assert_includes first, '[[adr-index]]'
-    assert_includes first, '| ADR | Title | Status | Notes'
+    assert_includes first, '| ADR | Title | Status | Derived from | Notes'
     assert_includes first, 'xref:adr-001-valid[ADR-001]'
     assert_includes first, '| accepted'
+    assert_includes first, '| xref:q-arch-001[Should the valid fixture demonstrate ADR provenance?]'
   end
 
   def test_open_questions_index_output_is_deterministic
@@ -211,9 +212,33 @@ class ValidateMetamodelTest < Minitest::Test
     content = generator.render(artifacts_by_id.fetch('ADR-001-valid'), artifacts_by_id, incoming, output_path)
 
     assert_includes content, '[[generated-traceability-adr-001-valid]]'
+    assert_includes content, '== Matrix'
     assert_includes content, '| outgoing'
     assert_includes content, '| relates_to'
     assert_includes content, 'xref:qs-001-valid[QS-001-valid]'
+  end
+
+  def test_impact_fragment_includes_outgoing_relation_impacts
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('test/fixtures/valid'),
+      relations_schema: SCHEMA
+    )
+    artifacts = validator.validate
+    artifacts_by_id = artifacts.each_with_object({}) { |artifact, index| index[artifact.metadata['id']] = artifact }
+    generator = ImpactFragmentGenerator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('test/fixtures/valid')
+    )
+    output_path = ROOT.join('tmp/test-adr-impact.adoc')
+
+    content = generator.render(artifacts_by_id.fetch('ADR-001-valid'), artifacts_by_id, output_path)
+
+    assert_includes content, '[[generated-impact-adr-001-valid]]'
+    assert_includes content, '== Matrix'
+    assert_includes content, '| Artifact | Impact | Rationale'
+    assert_includes content, 'xref:qs-001-valid[QS-001-valid]'
+    assert_includes content, '| relates_to'
   end
 
   def test_traceability_fragment_uses_explicit_anchor_for_numbered_chapter_file
@@ -252,6 +277,29 @@ class ValidateMetamodelTest < Minitest::Test
 
     assert_includes content, 'xref:architecture-decisions[DOC-09000-architecture-decisions]'
     refute_includes content, 'xref:09-architecture-decisions'
+  end
+
+  def test_metadata_attribute_fragment_derives_asciidoc_attributes_from_metadata
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('test/fixtures/valid'),
+      relations_schema: SCHEMA
+    )
+    artifacts = validator.validate
+    artifact = artifacts.find { |candidate| candidate.metadata['id'] == 'ADR-001-valid' }
+    generator = MetadataAttributeFragmentGenerator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('test/fixtures/valid')
+    )
+
+    first = generator.render(artifact)
+    second = generator.render(artifact)
+
+    assert_equal first, second
+    assert_includes first, '// Generated from architecture artifact metadata for ADR-001-valid. Do not edit manually.'
+    assert_includes first, ':artifact_id: ADR-001-valid'
+    assert_includes first, ':artifact_status: accepted'
+    assert_includes first, ':derived_from_description: Should the valid fixture demonstrate ADR provenance?'
   end
 
   def test_chapter_include_fragment_output_is_deterministic_and_sorted_by_artifact_id

@@ -51,7 +51,20 @@ across engines while adapters carry runtime-specific guidance.
 
 * Reviewers can identify runtime-specific guidance during repository review.
 
-include::generated/qs-005-adapter-boundary-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/qs-005-adapter-boundary-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/qs-005-adapter-boundary-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/qs-005-adapter-boundary-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

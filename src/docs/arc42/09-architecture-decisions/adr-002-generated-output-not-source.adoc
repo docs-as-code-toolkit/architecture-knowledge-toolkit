@@ -96,7 +96,20 @@ s| Sum s| 3 s| -2 s| 0
 
 * Generated views may still be used as CI artifacts or published files.
 
-include::generated/adr-002-generated-output-not-source-traceability.adoc[leveloffset=+1]
+=== Impact
+
+include::generated/adr-002-generated-output-not-source-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-002-generated-output-not-source-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-002-generated-output-not-source-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

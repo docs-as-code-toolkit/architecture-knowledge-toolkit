@@ -125,20 +125,18 @@ s| Sum s| 3 s| 0 s| -2
 
 === Impact
 
-[cols="1,1,3", options="header"]
-|===
-| Artifact | Impact | Rationale
-| xref:adr-005-engine-independent-skills[ADR-005] | refined | Makes the adapter boundary concrete through generated files and a CI check.
-| xref:qs-005-adapter-boundary[QS-005] | addressed | Thin generated wrappers reduce duplication across adapter surfaces.
-| xref:r-006-unclear-adapter-boundaries[R-006] | mitigated | Canonical skill ownership clarifies where architecture semantics live.
-|===
+include::generated/adr-006-agent-generic-skill-adapters-impact.adoc[leveloffset=+2]
 
 === Traceability
 
-Traceability is captured in this ADR's metadata. Source relations remain
-outgoing only; reciprocal incoming relations are generated.
+include::generated/adr-006-agent-generic-skill-adapters-attributes.adoc[]
 
-include::generated/adr-006-agent-generic-skill-adapters-traceability.adoc[leveloffset=+1]
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-006-agent-generic-skill-adapters-traceability.adoc[leveloffset=+2]
 
 === Assumptions
 

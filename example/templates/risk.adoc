@@ -52,13 +52,20 @@ Because <cause>, <event> may occur, leading to <impact>.
 The risk remains under analysis until the accountable owner confirms the
 assessment and mitigation path.
 
+=== Impact
+
+include::generated/r-000-short-title-impact.adoc[leveloffset=+2]
+
 === Traceability
 
-[cols="1,1,3", options="header"]
-|===
-| Relation | Target | Rationale
-| `depends_on` | xref:adr.adoc#adr-000-short-title[ADR-000-short-title] | Explain the relation.
-|===
+include::generated/r-000-short-title-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/r-000-short-title-traceability.adoc[leveloffset=+2]
 
 === Open Questions
 

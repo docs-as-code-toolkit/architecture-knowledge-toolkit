@@ -9,6 +9,13 @@ Write ADRs as review-ready proposals, not as accepted decisions.
 - Place the `== Decision` section directly after the status block.
 - State the problem and forces clearly in the context. The `Decision` section
   still appears directly after status as the short answer for reviewers.
+- Add `derived_from` metadata when the ADR originated from a specific input
+  question, prompt, external document, repository path, or other source. Link to
+  an existing question anchor or URL when available; otherwise record a concise
+  textual origin note.
+- When provenance should be visible in the ADR body, include the generated
+  metadata attribute fragment before the `ifdef::derived_from_description[]`
+  block and render `{derived_from_description}`.
 - Represent options fairly.
 - Include positive, negative, and neutral consequences.
 - Call out assumptions and open questions.
@@ -41,6 +48,15 @@ stays portable and renderers can add theme-specific styling later.
 - Negative consequences describe costs, risks, coupling, and operational burden.
 - Neutral or follow-up consequences describe work that must be decided later.
 - Reference risk IDs when a consequence is tracked as a risk.
+
+## Generated Matrices
+
+- Keep impact and traceability relations in YAML front matter.
+- Do not hand-author impact or traceability matrices in ADR source files.
+- Add `=== Impact` and `=== Traceability` sections that include the generated
+  `generated/<artifact-anchor>-impact.adoc` and
+  `generated/<artifact-anchor>-traceability.adoc` fragments with
+  `leveloffset=+2`; the generated fragments start with `== Matrix`.
 
 ## Review Notes
 
