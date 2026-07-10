@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:latest}"
+DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:v1.3.1}"
 SOURCE_DOC="${1:-}"
 OUTPUT_DIR="${2:-}"
 REVEALJSDIR="${REVEALJSDIR:-https://cdn.jsdelivr.net/npm/reveal.js@5.1.0}"
@@ -62,15 +62,35 @@ run_render() {
   echo "Built reveal.js presentation: $OUTPUT_DIR/index.html"
 }
 
+# Map file ownership so rendered files stay owned by the invoking user on native
+# Linux: Docker runs as root by default (explicit user + writable HOME), rootless
+# Podman maps container root to the host user with --userns=keep-id.
 run_in_container() {
   engine="$1"
-  "$engine" run --rm \
-    -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER=1 \
-    -e REVEALJSDIR="$REVEALJSDIR" \
-    -v "$PWD":/app \
-    -w /app \
-    "$DOCS_TOOLBOX_IMAGE" \
-    sh scripts/render-presentation.sh "$SOURCE_DOC" "$OUTPUT_DIR"
+  case "$engine" in
+    podman)
+      podman run --rm \
+        --userns=keep-id \
+        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER=1 \
+        -e REVEALJSDIR="$REVEALJSDIR" \
+        -e HOME=/tmp \
+        -v "$PWD":/app \
+        -w /app \
+        "$DOCS_TOOLBOX_IMAGE" \
+        sh scripts/render-presentation.sh "$SOURCE_DOC" "$OUTPUT_DIR"
+      ;;
+    docker)
+      docker run --rm \
+        --user "$(id -u):$(id -g)" \
+        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER=1 \
+        -e REVEALJSDIR="$REVEALJSDIR" \
+        -e HOME=/tmp \
+        -v "$PWD":/app \
+        -w /app \
+        "$DOCS_TOOLBOX_IMAGE" \
+        sh scripts/render-presentation.sh "$SOURCE_DOC" "$OUTPUT_DIR"
+      ;;
+  esac
 }
 
 if [ "$SOURCE_DOC" = "" ] || [ "$SOURCE_DOC" = "-h" ] || [ "$SOURCE_DOC" = "--help" ]; then

@@ -58,10 +58,12 @@ Current CI deployment:
 
 * `build.sh` is the single local and CI entry point for every task: `validate`,
   `generate`, `test`, `check-adapters`, `build`, `presentation`, and `all`. Each
-  task runs inside the `docs-toolbox` container image when Docker or Podman is
-  available, so Ruby, Node.js, Asciidoctor, Asciidoctor Diagram, PlantUML,
-  Graphviz, and C4 diagram rendering use the same toolchain locally and in CI. It
-  falls back to local execution when no container engine is present.
+  task runs inside a pinned `docs-toolbox` container image when Docker or Podman
+  is available, so Ruby, Node.js, Asciidoctor, Asciidoctor Diagram, PlantUML,
+  Graphviz, and C4 diagram rendering use the same toolchain locally and in CI.
+  Container mode is the reproducible default; `DOCS_TOOLBOX_LOCAL=1` opts into the
+  host toolchain, and without a container engine the task aborts rather than
+  silently running locally. Bind-mounted files stay owned by the invoking user.
 * `.github/workflows/validate.yml` runs `./build.sh validate`, `./build.sh test`,
   and `./build.sh check-adapters`, then verifies generated documentation
   freshness with `./build.sh generate`.

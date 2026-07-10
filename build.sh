@@ -3,10 +3,15 @@ set -eu
 
 # Unified task runner for the architecture-knowledge-toolkit.
 #
-# By default every task runs inside the docs-as-code-toolkit `docs-toolbox`
+# By default every task runs inside a pinned docs-as-code-toolkit `docs-toolbox`
 # container image, so local runs and CI use the same reproducible toolchain
-# (Ruby, Node.js, Asciidoctor, PlantUML, Graphviz). When no container engine is
-# available the task runs locally instead. Each task maps to a documented local
+# (Ruby, Node.js, Asciidoctor, PlantUML, Graphviz). The reproducibility
+# guarantee holds only in this container mode.
+#
+# Set DOCS_TOOLBOX_LOCAL=1 to run a task against the host toolchain instead
+# (whatever Ruby/Node versions are installed locally). If no container engine is
+# available and local mode was not requested, the task aborts rather than
+# silently using an unpinned host toolchain. Each task maps to a documented local
 # command; see the README for the local equivalents.
 
 COMMAND="${1:-build}"
@@ -14,7 +19,9 @@ if [ "$#" -gt 0 ]; then
   shift
 fi
 
-DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:latest}"
+# Pin the image tag for reproducibility. Override with DOCS_TOOLBOX_IMAGE, for
+# example to a digest for an even stricter pin.
+DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:v1.3.1}"
 BUILD_DIR="${BUILD_DIR:-build/architecture}"
 SOURCE_DOC="${SOURCE_DOC:-src/docs/doc-001-arc42.adoc}"
 
@@ -32,13 +39,18 @@ Tasks:
   check-adapters   Fail if the generated agent adapters are out of date.
   build            Generate fragments and render the architecture HTML.
   presentation     Render an AsciiDoc slide deck (args: <slides.adoc> [out-dir]).
-  all              Run validate, test, check-adapters, and build.
+  all              Run test, check-adapters, and build (build also validates).
   clean            Remove local architecture build output.
   help             Show this help.
 
-Every task runs inside the docs-toolbox container image when Docker or Podman is
-available, and falls back to local execution otherwise. Override the image with
-DOCS_TOOLBOX_IMAGE.
+Execution modes:
+  Container (default)  Runs inside the pinned docs-toolbox image (Docker/Podman).
+                       This is the reproducible mode.
+  Local                Set DOCS_TOOLBOX_LOCAL=1 to run against the host toolchain.
+                       Not reproducible; uses whatever Ruby/Node is installed.
+
+With neither a container engine nor DOCS_TOOLBOX_LOCAL=1, the task aborts.
+Override the image with DOCS_TOOLBOX_IMAGE.
 USAGE
 }
 
@@ -105,8 +117,9 @@ run_local_presentation() {
   sh scripts/render-presentation.sh "$@"
 }
 
+# `build` already runs generate (and therefore validate), so `all` does not
+# validate separately to avoid a redundant pass.
 run_local_all() {
-  run_local_validate
   run_local_test
   run_local_check_adapters
   run_local_build
@@ -136,21 +149,43 @@ run_local() {
   esac
 }
 
+# Run the task in the container, mapping file ownership so generated files stay
+# owned by the invoking user on native Linux. Docker runs as root by default, so
+# pass an explicit user plus a writable HOME. Rootless Podman maps container root
+# to the host user with --userns=keep-id.
 run_in_container() {
   ENGINE="$1"
   shift
 
-  "$ENGINE" run --rm \
-    -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER=1 \
-    -e BUILD_DIR="$BUILD_DIR" \
-    -e SOURCE_DOC="$SOURCE_DOC" \
-    -v "$PWD":/app \
-    -w /app \
-    "$DOCS_TOOLBOX_IMAGE" \
-    sh ./build.sh "$COMMAND" "$@"
+  case "$ENGINE" in
+    podman)
+      podman run --rm \
+        --userns=keep-id \
+        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER=1 \
+        -e BUILD_DIR="$BUILD_DIR" \
+        -e SOURCE_DOC="$SOURCE_DOC" \
+        -e HOME=/tmp \
+        -v "$PWD":/app \
+        -w /app \
+        "$DOCS_TOOLBOX_IMAGE" \
+        sh ./build.sh "$COMMAND" "$@"
+      ;;
+    docker)
+      docker run --rm \
+        --user "$(id -u):$(id -g)" \
+        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER=1 \
+        -e BUILD_DIR="$BUILD_DIR" \
+        -e SOURCE_DOC="$SOURCE_DOC" \
+        -e HOME=/tmp \
+        -v "$PWD":/app \
+        -w /app \
+        "$DOCS_TOOLBOX_IMAGE" \
+        sh ./build.sh "$COMMAND" "$@"
+      ;;
+  esac
 }
 
-# Inside the container: always run locally.
+# Inside the container: always run locally against the image toolchain.
 if [ "${ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER:-}" = "1" ]; then
   run_local "$@"
   exit 0
@@ -161,12 +196,19 @@ case "$COMMAND" in
     run_local "$@"
     ;;
   validate|generate|test|test-ruby|test-js|adapters|check-adapters|build|presentation|all)
-    ENGINE="$(find_engine)"
-    if [ -n "$ENGINE" ]; then
-      run_in_container "$ENGINE" "$@"
-    else
-      echo "No container engine found. Running '$COMMAND' locally." >&2
+    if [ "${DOCS_TOOLBOX_LOCAL:-}" = "1" ]; then
+      echo "DOCS_TOOLBOX_LOCAL=1: running '$COMMAND' against the host toolchain (not reproducible)." >&2
       run_local "$@"
+    else
+      ENGINE="$(find_engine)"
+      if [ -n "$ENGINE" ]; then
+        run_in_container "$ENGINE" "$@"
+      else
+        echo "No running container engine (Docker or Podman) found." >&2
+        echo "Start one to run '$COMMAND' in the reproducible docs-toolbox image," >&2
+        echo "or set DOCS_TOOLBOX_LOCAL=1 to run against the host toolchain." >&2
+        exit 1
+      fi
     fi
     ;;
   *)

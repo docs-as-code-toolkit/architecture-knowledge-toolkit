@@ -241,14 +241,26 @@ visible in the repository itself.
 ## Running tasks
 
 `build.sh` is the single entry point for every repository task. By default it
-runs the task inside the `docs-as-code-toolkit/docs-toolbox` container image, so
-local runs and CI share the same reproducible toolchain (Ruby, Node.js,
-Asciidoctor, PlantUML, Graphviz). When no container engine (Docker or Podman) is
-available, the task runs locally instead.
+runs the task inside a pinned `docs-as-code-toolkit/docs-toolbox` container image,
+so local runs and CI share the same reproducible toolchain (Ruby, Node.js,
+Asciidoctor, PlantUML, Graphviz).
 
 ```sh
 ./build.sh <task>
 ```
+
+Execution modes:
+
+- **Container (default, reproducible).** Uses the pinned image (Docker or
+  Podman). File ownership is mapped to the invoking user (`--user` on Docker,
+  `--userns=keep-id` on rootless Podman), so generated files are not root-owned.
+  The reproducibility guarantee holds only in this mode.
+- **Local (opt-in, not reproducible).** `DOCS_TOOLBOX_LOCAL=1 ./build.sh <task>`
+  runs against whatever Ruby/Node is installed on the host.
+
+If no container engine is running and `DOCS_TOOLBOX_LOCAL=1` is not set, the task
+aborts rather than silently using the host toolchain. Override the image (for
+example to pin a digest) with `DOCS_TOOLBOX_IMAGE`.
 
 | Task | What it does | Local equivalent |
 |------|--------------|------------------|
@@ -261,7 +273,7 @@ available, the task runs locally instead.
 | `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
 | `build` | Generate fragments and render architecture HTML | see below |
 | `presentation` | Render an AsciiDoc slide deck | `sh scripts/render-presentation.sh <slides.adoc> [out]` |
-| `all` | `validate` + `test` + `check-adapters` + `build` | — |
+| `all` | `test` + `check-adapters` + `build` (`build` also validates) | — |
 | `clean` | Remove `build/architecture` | `rm -rf build/architecture` |
 
 Override the image with `DOCS_TOOLBOX_IMAGE`. The examples below show the
