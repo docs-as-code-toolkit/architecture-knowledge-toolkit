@@ -17,14 +17,44 @@ metamodel schemas, validation, and reproducible generated fragments.
 - Product clarification artifacts under `src/docs/canvas/`,
   `src/docs/doc-002-vision-mission.adoc`, `src/docs/doc-004-roadmap.adoc`, and
   `src/docs/doc-005-questions-and-answers.adoc`.
-- `AGENTS.md` as the example project's local agent adapter, delegating missing
+- `AGENTS.md` as the example project's local agent contract, delegating missing
   architecture and SDLC guidance to the toolkit.
+- `.github/copilot-instructions.md` as a thin GitHub Copilot entry point.
+- Thin, generated agent adapters under `adapters/` (Codex, Vibe, GitHub Copilot,
+  Cursor) that route agents to the toolkit.
 - Copied toolkit templates under `templates/`.
 - Copied metamodel schemas under `metamodel/`.
-- Copied validation and generator script under `scripts/`.
+- Copied validation/generator script and the agent adapter generator under
+  `scripts/`.
 
 Generated files live below `generated/` directories and are not primary editing
-surfaces. Edit source artifacts and regenerate.
+surfaces. The `adapters/` files are likewise generated. Edit source artifacts or
+the generators and regenerate.
+
+## Reference, Don't Copy
+
+This example follows **reference, don't copy**. It does not copy the toolkit's
+`skills/**/SKILL.md`, `features/`, or contract text; it references them through
+the lookup order in `AGENTS.md`. Only executable tooling that must run here —
+metamodel schemas, templates, and validator/generator scripts — is copied and
+kept in sync with the toolkit. The example has no local skills of its own; a
+real project adds local skills only to *extend* the toolkit or to *explicitly
+override* a specific rule.
+
+## Agent Adapters
+
+The per-agent files under `adapters/` are generated from
+`scripts/build-agent-adapters.js`:
+
+```sh
+node scripts/build-agent-adapters.js       # regenerate the adapters
+node scripts/check-agent-adapters.js       # fail if they are stale
+```
+
+Because this example has no local skills, the adapters route agents to the
+toolkit. A project with local skills generates the same adapters from its
+`skills/**/SKILL.md`. Keep `.github/copilot-instructions.md` as an entry point
+that points to `adapters/github-copilot/copilot-instructions.md`.
 
 ## Validate And Generate
 
@@ -73,6 +103,14 @@ Create the initial architecture documentation in the toolkit structure:
   .github/copilot-instructions.md, and general-semantic-contracts.md so that
   future architecture and SDLC work delegates missing method guidance to the
   architecture-knowledge-toolkit;
+- reference the toolkit's skills, features, and contract text through the lookup
+  order above instead of copying them; copy only executable tooling that must
+  run here (metamodel schemas, templates, validators, generators, and the agent
+  adapter generator scripts/build-agent-adapters.js and
+  scripts/check-agent-adapters.js);
+- generate thin agent adapters under adapters/ that route agents to the toolkit
+  and general-semantic-contracts.md, and keep .github/copilot-instructions.md as
+  an entry point to adapters/github-copilot/copilot-instructions.md;
 - product canvases, vision/mission, roadmap, and Q&A;
 - an assembled architecture entry point and all arc42 chapter source files;
 - proposed ADRs with Pugh matrices where decisions are already visible;
@@ -118,6 +156,18 @@ Migrate or adapt the documentation to the toolkit structure:
   .github/copilot-instructions.md, and general-semantic-contracts.md so that
   future architecture and SDLC work delegates missing method guidance to the
   architecture-knowledge-toolkit;
+- reference the toolkit's skills, features, and contract text through the lookup
+  order above instead of copying them; copy only executable tooling that must
+  run here (metamodel schemas, templates, validators, generators, and the agent
+  adapter generator scripts/build-agent-adapters.js and
+  scripts/check-agent-adapters.js);
+- generate thin agent adapters under adapters/ that route agents to the toolkit
+  and general-semantic-contracts.md, keep .github/copilot-instructions.md as an
+  entry point to adapters/github-copilot/copilot-instructions.md, and migrate any
+  existing hand-written per-agent files into generated adapters;
+- if the repository already has local skills or contracts, keep only the parts
+  that extend the toolkit or explicitly override a specific rule, and drop
+  silent duplicates of toolkit rules;
 - preserve existing useful claims only when supported by repository evidence;
 - convert generic architecture.adoc or Markdown ADRs into toolkit AsciiDoc
   source artifacts where appropriate;

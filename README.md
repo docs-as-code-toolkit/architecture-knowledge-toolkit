@@ -82,6 +82,57 @@ Use the general contract as the maintained source for rules that also help
 humans and deterministic tools. Put only runtime-specific AI details below
 `adapters/`.
 
+## Consuming This Toolkit From a Project
+
+A project that uses this toolkit for architecture work should treat the toolkit
+as the single source of truth and keep only its own delta locally. The guiding
+rule is **reference, don't copy**.
+
+### Reference, don't copy
+
+Do **not** copy this toolkit's `skills/**/SKILL.md`, `features/`, or architecture
+contract text into the consuming repository. Copies drift; the toolkit is still
+evolving, and duplicated guidance across projects becomes stale the moment the
+toolkit changes. Instead, point agents at the canonical toolkit sources through
+the lookup order in the project's `AGENTS.md`.
+
+### What a project copies vs. references
+
+- **Copied / vendored into the project** — executable tooling that must run in
+  the project's own build and CI: metamodel schemas (`metamodel/`), AsciiDoc
+  templates (`templates/`), and validator/generator scripts (`scripts/`). Keep
+  these in sync with the toolkit; do not fork their behavior silently. The
+  `bootstrap-project` skill copies them when a project has none.
+- **Referenced, never copied** — the architecture *guidance*: toolkit
+  `skills/**/SKILL.md`, `features/`, and the toolkit's own contract text. Agents
+  resolve these from the toolkit at need.
+
+### Local skills and contracts extend, they do not duplicate
+
+A consuming project may add its own `skills/**/SKILL.md` and task contracts for
+work the toolkit does not cover (for example project-specific content
+workflows). Such local skills **extend** the toolkit: their body should read the
+toolkit baseline first, then add only the project-specific steps. A local rule
+that **overrides** a toolkit rule is allowed only when the project deliberately
+narrows it, and it must say so explicitly. Local skills and contracts must never
+silently re-state toolkit rules.
+
+### Wiring in the consuming project
+
+1. Record the toolkit lookup order in the project `AGENTS.md`
+   (`$ARCHITECTURE_KNOWLEDGE_TOOLKIT`, `../architecture-knowledge-toolkit`, a
+   pinned/vendored reference, then the public repository).
+2. Prefer a stable toolkit reference — a release tag or commit SHA — for any
+   long-lived dependency, so architecture guidance is reproducible.
+3. Generate thin agent adapters locally (see `adapters/` and
+   `scripts/build-agent-adapters.js`) that only route agents to the canonical
+   toolkit skills and the project's `general-semantic-contracts.md`; do not
+   embed toolkit rules in them.
+
+A project that has **no** local architecture skills of its own (for example a
+tooling repository) still references the toolkit for all architecture and SDLC
+work and generates adapters that route to it.
+
 ## Relationship Strategy
 
 **Authoritative Outgoing Relations Only.**

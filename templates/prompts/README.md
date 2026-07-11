@@ -14,6 +14,11 @@ Most prompts follow this lookup rule:
    tag or commit SHA:
    https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
+All prompts follow reference, don't copy: they reference the toolkit's skills,
+features, and contract text through the lookup order and copy only executable
+tooling (schemas, templates, validators, generators, and the agent adapter
+generator) into the target project.
+
 Migration prompts are different: the local skill or contract is the migration
 input, not the governing workflow.
 

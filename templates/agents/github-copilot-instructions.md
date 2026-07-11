@@ -4,6 +4,13 @@ Use this for `<project>/.github/copilot-instructions.md`
 
 Follow the project `AGENTS.md`.
 
+If this project generates agent adapters (see `adapters/` and
+`scripts/build-agent-adapters.js`), keep this file as an entry point only:
+follow `adapters/github-copilot/copilot-instructions.md`, then the contract
+hierarchy in `AGENTS.md` and `general-semantic-contracts.md`, and do not
+duplicate architecture or SDLC rules here. Otherwise this file delegates
+directly to the toolkit as described below.
+
 This project uses architecture-knowledge-toolkit for architecture documentation,
 ADRs, quality scenarios, risks, traceability metadata, templates, validators,
 generated include fragments, and SDLC task workflows that are not described

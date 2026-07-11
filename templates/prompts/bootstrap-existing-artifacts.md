@@ -24,6 +24,18 @@ Migrate or adapt the documentation to the toolkit structure:
   .github/copilot-instructions.md, and general-semantic-contracts.md so that
   future architecture and SDLC work delegates missing method guidance to the
   architecture-knowledge-toolkit;
+- reference the toolkit's skills, features, and contract text through the lookup
+  order above instead of copying them; copy only executable tooling that must
+  run here (metamodel schemas, templates, validators, generators, and the agent
+  adapter generator scripts/build-agent-adapters.js and
+  scripts/check-agent-adapters.js);
+- generate thin agent adapters under adapters/ that route agents to the toolkit
+  and general-semantic-contracts.md, keep .github/copilot-instructions.md as an
+  entry point to adapters/github-copilot/copilot-instructions.md, and migrate any
+  existing hand-written per-agent files into generated adapters;
+- if the repository already has local skills or contracts, keep only the parts
+  that extend the toolkit or explicitly override a specific rule, and drop
+  silent duplicates of toolkit rules;
 - preserve existing useful claims only when supported by repository evidence;
 - convert generic architecture.adoc or Markdown ADRs into toolkit AsciiDoc
   source artifacts where appropriate;
