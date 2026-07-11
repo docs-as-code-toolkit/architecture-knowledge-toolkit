@@ -22,6 +22,14 @@ Create the initial architecture documentation in the toolkit structure:
   .github/copilot-instructions.md, and general-semantic-contracts.md so that
   future architecture and SDLC work delegates missing method guidance to the
   architecture-knowledge-toolkit;
+- reference the toolkit's skills, features, and contract text through the lookup
+  order above instead of copying them; copy only executable tooling that must
+  run here (metamodel schemas, templates, validators, generators, and the agent
+  adapter generator scripts/build-agent-adapters.js and
+  scripts/check-agent-adapters.js);
+- generate thin agent adapters under adapters/ that route agents to the toolkit
+  and general-semantic-contracts.md, and keep .github/copilot-instructions.md as
+  an entry point to adapters/github-copilot/copilot-instructions.md;
 - product canvases, vision/mission, roadmap, and Q&A;
 - an assembled architecture entry point and all arc42 chapter source files;
 - proposed ADRs with Pugh matrices where decisions are already visible;

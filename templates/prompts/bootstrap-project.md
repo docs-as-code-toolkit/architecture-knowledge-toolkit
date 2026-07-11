@@ -23,6 +23,19 @@ as AGENTS.md, .github/copilot-instructions.md, and
 general-semantic-contracts.md so that future architecture and SDLC work
 delegates missing method guidance to the architecture-knowledge-toolkit.
 
+Reference, don't copy: reference the toolkit's skills, features, and contract
+text through the lookup order above instead of copying them into this
+repository; copy only executable tooling that must run here (metamodel schemas,
+templates, validators, generators, and the agent adapter generator
+scripts/build-agent-adapters.js and scripts/check-agent-adapters.js). Generate
+thin agent adapters under adapters/ that route agents to this project's
+AGENTS.md, general-semantic-contracts.md, and the relevant skills; if the
+project has local skills, generate from skills/**/SKILL.md, otherwise route to
+the toolkit. Keep .github/copilot-instructions.md as an entry point pointing to
+adapters/github-copilot/copilot-instructions.md. Any local skills or contracts
+must extend the toolkit or explicitly override a specific rule, never silently
+duplicate it.
+
 Preserve local project instructions, mark AI-created content as draft or
 proposed, do not invent generated output manually, and report assumptions,
 unknowns, and required human decisions.

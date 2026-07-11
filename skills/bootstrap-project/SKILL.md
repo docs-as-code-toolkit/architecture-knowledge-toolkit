@@ -30,7 +30,8 @@ The bootstrap-project skill is responsible for:
 - identifying risks;
 - identifying quality scenarios;
 - identifying runtime scenarios;
-- preparing generator input artifacts.
+- preparing generator input artifacts;
+- installing project agent contracts and generating thin agent adapters.
 
 The bootstrap-project skill is not responsible for:
 
@@ -88,7 +89,28 @@ acting. This includes issue slicing, issue implementation, commit messages,
 pull request reviews, ADRs, quality scenarios, risks, traceability reviews,
 architecture documentation updates, and documentation validation/generation.
 Do not invent a local workflow when the toolkit contains an applicable skill or
-contract; reference or copy the relevant toolkit guidance instead.
+contract; reference the relevant toolkit guidance instead.
+
+### Reference, Don't Copy
+
+Reference, don't copy. Do not copy toolkit `skills/**/SKILL.md`, `features/`, or
+contract text into the target repository; resolve them from the toolkit through
+the lookup order. Only executable tooling that must run in the target repository
+is copied or vendored and kept in sync with the toolkit:
+
+- metamodel schemas;
+- AsciiDoc templates;
+- validator and generator scripts;
+- the agent adapter generator (`scripts/build-agent-adapters.js` and
+  `scripts/check-agent-adapters.js`);
+- documentation build configuration.
+
+The target project's own `AGENTS.md`, `.github/copilot-instructions.md`, and
+`general-semantic-contracts.md` are installed from the toolkit agent templates as
+thin local entry points, not as copies of the toolkit's full contract text. Any
+local `skills/**/SKILL.md` or task contract covers project-specific work only; it
+extends the toolkit or explicitly overrides a specific rule, and never silently
+duplicates toolkit rules.
 
 When local project conventions conflict with toolkit conventions, apply this
 order:
@@ -116,9 +138,12 @@ example, record a reference such as
 `docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3` when an applicable
 release exists.
 
-Inspect the remote toolkit directory and copy the required contracts, skills,
-templates, metamodel schemas, validation scripts, generator scripts, and example
-patterns into the target repository before producing generated output.
+Inspect the remote toolkit directory and copy only the required executable
+tooling — templates, metamodel schemas, validation scripts, generator scripts,
+the agent adapter generator, and documentation build configuration — into the
+target repository before producing generated output. Reference the toolkit's
+skills, features, and contract text through the lookup order instead of copying
+them; install the target project's agent contracts from the agent templates.
 
 ## Agent Installation Guidance
 
@@ -127,6 +152,23 @@ docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents/project-age
 
 If the target project uses GitHub Copilot or has a .github directory, copy:
 docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents/github-copilot-instructions.md -> .github/copilot-instructions.md
+
+Then set up thin, generated agent adapters instead of hand-writing per-agent
+files:
+
+- Copy `scripts/build-agent-adapters.js` and `scripts/check-agent-adapters.js`
+  from the toolkit.
+- Generate `adapters/codex/AGENTS.md`, `adapters/vibe/AGENTS.md`,
+  `adapters/github-copilot/copilot-instructions.md`, and a Cursor rule under
+  `adapters/cursor/rules/` that route agents to the project `AGENTS.md`,
+  `general-semantic-contracts.md`, and the relevant skills.
+- If the project has local `skills/**/SKILL.md`, generate the adapters from
+  them; if it has none, the adapters route to the toolkit.
+- Keep `.github/copilot-instructions.md` as an entry point only that points to
+  `adapters/github-copilot/copilot-instructions.md`.
+- Put OpenAI skill UI metadata under `adapters/openai/<skill-name>/openai.yaml`.
+- Wire `node scripts/check-agent-adapters.js` into the project's checks so stale
+  adapters fail CI.
 
 Never copy global-agent-instructions.md into the project.
 It is only for the user's local agent installations.

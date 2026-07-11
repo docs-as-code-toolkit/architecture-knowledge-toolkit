@@ -70,3 +70,36 @@ Before architecture or SDLC workflow work:
 - set `reviewed: false` unless human acceptance is already recorded
 - do not manually maintain generated fragments when a generator exists
 - copy missing toolkit templates, schemas, validators, and generator scripts from the toolkit instead of inventing alternatives
+
+## Reference, Don't Copy
+
+Treat the architecture-knowledge-toolkit as the single source of truth for
+architecture skills, contracts, and features. Do not copy toolkit
+`skills/**/SKILL.md`, `features/`, or contract text into this repository;
+resolve them from the toolkit through the lookup order above. Only executable
+tooling that must run here — metamodel schemas under `metamodel/`, templates
+under `templates/`, and validator/generator scripts under `scripts/` — is copied
+or vendored and kept in sync with the toolkit.
+
+Any local `skills/**/SKILL.md` or task contract covers project-specific work
+only. Local skills and contracts extend the toolkit — their bodies read the
+toolkit baseline first, then add the project-specific steps — or explicitly
+override a specific toolkit rule; they never silently duplicate toolkit rules.
+
+## Agent Adapters
+
+Keep runtime-specific integration under `adapters/<agent>/` and generate the
+thin routing wrappers instead of hand-writing them:
+
+- Copy `scripts/build-agent-adapters.js` and `scripts/check-agent-adapters.js`
+  from the toolkit.
+- Generate `adapters/codex/AGENTS.md`, `adapters/vibe/AGENTS.md`,
+  `adapters/github-copilot/copilot-instructions.md`, and a Cursor rule under
+  `adapters/cursor/rules/` that route agents to this file,
+  `general-semantic-contracts.md`, and the relevant skills.
+- If this project has local skills, generate the adapters from
+  `skills/**/SKILL.md`; if it has none, the adapters route to the toolkit.
+- Keep `.github/copilot-instructions.md` as an entry point only that points to
+  `adapters/github-copilot/copilot-instructions.md`.
+- Put OpenAI skill UI metadata under `adapters/openai/<skill-name>/openai.yaml`.
+- Run `node scripts/check-agent-adapters.js` in CI to fail on stale adapters.

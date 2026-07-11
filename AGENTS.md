@@ -58,6 +58,14 @@ https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 Prefer a stable toolkit reference, such as a release tag or commit SHA, when a
 target project records a long-lived dependency on the public repository.
 
+Reference, don't copy. Do not copy this toolkit's `skills/**/SKILL.md`,
+`features/`, or contract text into a consuming project; resolve them from the
+toolkit through the lookup order above. Only executable tooling that must run in
+the target project — metamodel schemas, templates, and validator/generator
+scripts — is copied or vendored and kept in sync. A project's local skills and
+contracts extend the toolkit or explicitly override a specific rule; they never
+silently duplicate it. See "Consuming This Toolkit From a Project" in `README.md`.
+
 Do not copy all toolkit rules into global agent installations. Global agent
 instructions should only tell agents how to discover and apply this toolkit.
 
