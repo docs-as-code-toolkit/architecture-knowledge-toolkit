@@ -212,6 +212,43 @@ invoke the canonical toolkit sources, local \`skills/\`, and repository-root
     console.log(`wrote ${target.path}`);
   }
 
+  // The Cursor rule file name follows the project name. If the project name
+  // changes, an older generated rule would otherwise linger and leave several
+  // `alwaysApply: true` rules active at once. Treat generated `.mdc` files under
+  // adapters/cursor/rules as generator-owned: remove them (or flag them in check
+  // mode) when they are not the current rule. Hand-authored rules without the
+  // generated marker are left untouched.
+  const generatedMarker = "GENERATED FILE: edit the canonical skills or scripts/build-agent-adapters.js";
+  const cursorRulesDir = path.default.join(root, "adapters", "cursor", "rules");
+  const expectedCursorPath = path.default.join(root, `adapters/cursor/rules/${project}.mdc`);
+  if (fs.default.existsSync(cursorRulesDir)) {
+    for (const entry of fs.default.readdirSync(cursorRulesDir).sort()) {
+      if (!entry.endsWith(".mdc")) {
+        continue;
+      }
+      const fullPath = path.default.join(cursorRulesDir, entry);
+      if (fullPath === expectedCursorPath) {
+        continue;
+      }
+      let content;
+      try {
+        content = fs.default.readFileSync(fullPath, "utf8");
+      } catch {
+        continue;
+      }
+      if (!content.includes(generatedMarker)) {
+        continue;
+      }
+      const relPath = `adapters/cursor/rules/${entry}`;
+      if (check) {
+        stale.push(relPath);
+      } else {
+        fs.default.rmSync(fullPath);
+        console.log(`removed ${relPath}`);
+      }
+    }
+  }
+
   if (check && stale.length > 0) {
     console.error("Generated agent adapters are stale:");
     for (const file of stale) {
