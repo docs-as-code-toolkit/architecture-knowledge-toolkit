@@ -29,9 +29,10 @@ Migrate or adapt the documentation to the toolkit structure:
   architecture-knowledge-toolkit;
 - reference the toolkit's skills, features, and contract text through the lookup
   order above instead of copying them; copy only executable tooling that must
-  run here (metamodel schemas, templates, validators, generators, and the agent
-  adapter generator scripts/build-agent-adapters.js and
-  scripts/check-agent-adapters.js);
+  run here (metamodel schemas, templates, validators, generators, and the generic
+  agent adapter generator from templates/scripts/build-agent-adapters.js and
+  templates/scripts/check-agent-adapters.js -- not the toolkit's own
+  generator, which is wired to the toolkit);
 - generate thin agent adapters under adapters/ that route agents to the toolkit
   and general-semantic-contracts.md, keep .github/copilot-instructions.md as an
   entry point to adapters/github-copilot/copilot-instructions.md, and migrate any

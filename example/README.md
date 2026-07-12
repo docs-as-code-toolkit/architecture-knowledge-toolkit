@@ -43,18 +43,23 @@ override* a specific rule.
 
 ## Agent Adapters
 
-The per-agent files under `adapters/` are generated from
-`scripts/build-agent-adapters.js`:
+The per-agent files under `adapters/` are generated. `scripts/build-agent-adapters.js`
+here is a verbatim copy of the toolkit's generic generator template
+(`templates/scripts/build-agent-adapters.js`) — not the toolkit's own
+`scripts/build-agent-adapters.js`, which is wired to the toolkit itself.
 
 ```sh
 node scripts/build-agent-adapters.js       # regenerate the adapters
 node scripts/check-agent-adapters.js       # fail if they are stale
 ```
 
-Because this example has no local skills, the adapters route agents to the
-toolkit. A project with local skills generates the same adapters from its
-`skills/**/SKILL.md`. Keep `.github/copilot-instructions.md` as an entry point
-that points to `adapters/github-copilot/copilot-instructions.md`.
+The generic generator derives the project name (here `example`, from the
+repository directory name; override with `AGENT_ADAPTER_PROJECT` or an
+`adapters/agent-adapters.config.json` `project` field) and names the Cursor rule
+`adapters/cursor/rules/example.mdc`. Because this example has no local skills,
+the adapters route agents to the toolkit; a project with local skills would have
+them listed automatically. Keep `.github/copilot-instructions.md` as an entry
+point that points to `adapters/github-copilot/copilot-instructions.md`.
 
 ## Validate And Generate
 
@@ -108,9 +113,10 @@ Create the initial architecture documentation in the toolkit structure:
   architecture-knowledge-toolkit;
 - reference the toolkit's skills, features, and contract text through the lookup
   order above instead of copying them; copy only executable tooling that must
-  run here (metamodel schemas, templates, validators, generators, and the agent
-  adapter generator scripts/build-agent-adapters.js and
-  scripts/check-agent-adapters.js);
+  run here (metamodel schemas, templates, validators, generators, and the generic
+  agent adapter generator from templates/scripts/build-agent-adapters.js and
+  templates/scripts/check-agent-adapters.js -- not the toolkit's own
+  generator, which is wired to the toolkit);
 - generate thin agent adapters under adapters/ that route agents to the toolkit
   and general-semantic-contracts.md, and keep .github/copilot-instructions.md as
   an entry point to adapters/github-copilot/copilot-instructions.md;
@@ -164,9 +170,10 @@ Migrate or adapt the documentation to the toolkit structure:
   architecture-knowledge-toolkit;
 - reference the toolkit's skills, features, and contract text through the lookup
   order above instead of copying them; copy only executable tooling that must
-  run here (metamodel schemas, templates, validators, generators, and the agent
-  adapter generator scripts/build-agent-adapters.js and
-  scripts/check-agent-adapters.js);
+  run here (metamodel schemas, templates, validators, generators, and the generic
+  agent adapter generator from templates/scripts/build-agent-adapters.js and
+  templates/scripts/check-agent-adapters.js -- not the toolkit's own
+  generator, which is wired to the toolkit);
 - generate thin agent adapters under adapters/ that route agents to the toolkit
   and general-semantic-contracts.md, keep .github/copilot-instructions.md as an
   entry point to adapters/github-copilot/copilot-instructions.md, and migrate any
