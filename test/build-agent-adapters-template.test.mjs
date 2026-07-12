@@ -106,6 +106,51 @@ test("Project name falls back to the config file, then the directory name", (t) 
   assert.ok(fs.existsSync(path.join(project, "adapters/cursor/rules/outer-dir.mdc")));
 });
 
+test("Renaming the project removes the old generated Cursor rule", (t) => {
+  // Given: adapters generated under one project name
+  const project = makeProject(t);
+  run(project, { env: { AGENT_ADAPTER_PROJECT: "old-name" } });
+  const oldRule = path.join(project, "adapters/cursor/rules/old-name.mdc");
+  assert.ok(fs.existsSync(oldRule), "old rule should exist first");
+
+  // When: the project name changes and the generator runs again
+  const result = run(project, { env: { AGENT_ADAPTER_PROJECT: "new-name" } });
+
+  // Then: the new rule is written and the stale generated rule is removed, so
+  // only one alwaysApply Cursor rule remains
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(fs.existsSync(path.join(project, "adapters/cursor/rules/new-name.mdc")));
+  assert.ok(!fs.existsSync(oldRule), "old generated rule should be removed");
+  const rules = fs.readdirSync(path.join(project, "adapters/cursor/rules")).filter((f) => f.endsWith(".mdc"));
+  assert.deepEqual(rules, ["new-name.mdc"]);
+});
+
+test("Check flags a leftover generated Cursor rule but leaves hand-authored rules alone", (t) => {
+  // Given: a clean generated tree plus one stale generated rule and one
+  // hand-authored rule
+  const project = makeProject(t);
+  run(project, { env: { AGENT_ADAPTER_PROJECT: "acme-service" } });
+  const rulesDir = path.join(project, "adapters/cursor/rules");
+  // A stale generated rule (carries the generated marker).
+  fs.copyFileSync(path.join(rulesDir, "acme-service.mdc"), path.join(rulesDir, "old-name.mdc"));
+  // A hand-authored rule (no generated marker).
+  fs.writeFileSync(path.join(rulesDir, "manual.mdc"), "---\ndescription: hand written\n---\n# manual\n");
+
+  // When: check mode runs
+  const result = run(project, { args: ["--check"], env: { AGENT_ADAPTER_PROJECT: "acme-service" } });
+
+  // Then: it fails and names the stale generated rule, not the hand-authored one
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /adapters\/cursor\/rules\/old-name\.mdc/);
+  assert.doesNotMatch(result.stderr, /manual\.mdc/);
+
+  // And a regenerate removes only the stale generated rule
+  const rebuild = run(project, { env: { AGENT_ADAPTER_PROJECT: "acme-service" } });
+  assert.equal(rebuild.status, 0, rebuild.stderr);
+  assert.ok(!fs.existsSync(path.join(rulesDir, "old-name.mdc")));
+  assert.ok(fs.existsSync(path.join(rulesDir, "manual.mdc")));
+});
+
 test("Check mode reports current and detects drift", (t) => {
   // Given: a project whose adapters were just generated
   const project = makeProject(t);
