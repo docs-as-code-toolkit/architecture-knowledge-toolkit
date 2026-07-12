@@ -35,9 +35,10 @@ source of truth when these rules evolve.
    create or update an Epic. If it is small enough for one reviewable slice,
    create or update a UserStory. If the size is unclear and the decision affects
    issue structure, ask a short clarifying question before creating the issue.
-4. Mark Epics and UserStories in the remote project backlog. Use the
-   repository's Epic or UserStory issue type, label, or metadata when available;
-   otherwise prefix the issue title with `[EPIC]` or `[UserStory]`.
+4. Mark Epics and UserStories in the remote project backlog following the type
+   and label taxonomy in `../references/issue-labels.md`. Use the repository's
+   Epic or UserStory issue type, label, or metadata when available; otherwise
+   prefix the issue title with `[EPIC]` or `[UserStory]`.
 5. Start every Epic and UserStory description with the pattern
    `As a [Role], I want to [Action], so that [Benefit].`
 6. Assign each UserStory to a matching Epic when one exists. Prefer real
