@@ -11,7 +11,10 @@ Use the toolkit migration guidance as the governing workflow. Treat the local
 skill as migration input and project-specific evidence, not as the authoritative
 process for this migration. Locate toolkit guidance in this order:
 1. If ARCHITECTURE_KNOWLEDGE_TOOLKIT is set, use that path.
-2. Otherwise check ../architecture-knowledge-toolkit.
+2. Otherwise search upward from the project directory for a local
+   architecture-knowledge-toolkit checkout: check ../architecture-knowledge-toolkit,
+   then the same directory name in each parent directory up to the filesystem
+   root.
 3. Otherwise check any project-local recorded toolkit reference, such as a
    submodule, vendored copy, or pinned path.
 4. Otherwise use

@@ -119,9 +119,13 @@ silently re-state toolkit rules.
 
 ### Wiring in the consuming project
 
-1. Record the toolkit lookup order in the project `AGENTS.md`
-   (`$ARCHITECTURE_KNOWLEDGE_TOOLKIT`, `../architecture-knowledge-toolkit`, a
-   pinned/vendored reference, then the public repository).
+1. Record the toolkit lookup order in the project `AGENTS.md`:
+   `$ARCHITECTURE_KNOWLEDGE_TOOLKIT` if set; otherwise the nearest
+   `architecture-knowledge-toolkit` found by searching upward from the project
+   directory (`../architecture-knowledge-toolkit`, then the same directory name
+   in each parent directory up to the filesystem root — do not assume it is a
+   direct sibling); otherwise a pinned/vendored reference; otherwise the public
+   repository.
 2. Prefer a stable toolkit reference — a release tag or commit SHA — for any
    long-lived dependency, so architecture guidance is reproducible.
 3. Generate thin agent adapters locally (see `adapters/` and

@@ -7,7 +7,11 @@ Most prompts follow this lookup rule:
 
 1. Use project-local contracts and skills first.
 2. If `ARCHITECTURE_KNOWLEDGE_TOOLKIT` is set, use that path.
-3. Otherwise check `../architecture-knowledge-toolkit`.
+3. Otherwise search upward from the project directory for a local
+   `architecture-knowledge-toolkit` checkout: check
+   `../architecture-knowledge-toolkit`, then the same directory name in each
+   parent directory up to the filesystem root. Do not assume the toolkit is a
+   direct sibling; the project may live outside the toolkit's parent folder.
 4. Otherwise check any project-local recorded toolkit reference, such as a
    submodule, vendored copy, or pinned path.
 5. Otherwise use the public toolkit repository, preferably at a pinned release
