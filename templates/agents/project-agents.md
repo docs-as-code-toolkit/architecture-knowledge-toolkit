@@ -45,11 +45,23 @@ Toolkit source of truth:
 
 https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit
 
-If the architecture-knowledge-toolkit is not available on the local filesystem,
-inspect the public repository above and use it as the fallback source for
-missing contracts, skills, templates, schemas, validators, and generators.
-Prefer a stable release tag or commit SHA for long-lived project references,
-for example `docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3`.
+Preferred lookup order for the toolkit:
+
+1. `$ARCHITECTURE_KNOWLEDGE_TOOLKIT` if it is set.
+2. Otherwise the nearest local `architecture-knowledge-toolkit` checkout found by
+   searching upward from this project directory:
+   `../architecture-knowledge-toolkit`, then the same directory name in each
+   parent directory up to the filesystem root. Do not assume the toolkit is a
+   direct sibling; this project may live outside the toolkit's parent folder.
+3. Otherwise a project-local recorded toolkit reference such as a submodule,
+   vendored copy, or pinned path.
+4. Otherwise the public repository above, preferably at a stable release tag or
+   commit SHA, for example
+   `docs-as-code-toolkit/architecture-knowledge-toolkit@v1.2.3`.
+
+Use the public repository as the fallback source for missing contracts, skills,
+templates, schemas, validators, and generators only after the local lookup
+fails.
 
 Before architecture or SDLC workflow work:
 
