@@ -1,18 +1,27 @@
 #!/usr/bin/env sh
 set -eu
 
-# Unified task runner for the architecture-knowledge-toolkit.
+# Generic architecture-documentation task runner for projects that consume the
+# architecture-knowledge-toolkit. Copy this file to the consuming project root
+# (as ./build.sh) alongside the vendored metamodel/, templates/, and scripts/.
 #
 # By default every task runs inside a pinned docs-as-code-toolkit `docs-toolbox`
 # container image, so local runs and CI use the same reproducible toolchain
 # (Ruby, Node.js, Asciidoctor, PlantUML, Graphviz). The reproducibility
 # guarantee holds only in this container mode.
 #
+# This wraps the vendored architecture validators and generators. It does NOT
+# build application code (for example a JDK/Gradle or npm project); the
+# docs-toolbox image only carries the documentation toolchain. Keep the
+# application build on its own tooling.
+#
 # Set DOCS_TOOLBOX_LOCAL=1 to run a task against the host toolchain instead
-# (whatever Ruby/Node versions are installed locally). If no container engine is
-# available and local mode was not requested, the task aborts rather than
-# silently using an unpinned host toolchain. Each task maps to a documented local
-# command; see the README for the local equivalents.
+# (whatever Ruby/Node is installed locally). If no container engine is available
+# and local mode was not requested, the task aborts rather than silently using
+# an unpinned host toolchain.
+#
+# Adjust SOURCE_DOC below if the project's arc42 entry document is not the
+# default src/docs/doc-001-arc42.adoc. Modeled on the toolkit's own build.sh.
 
 COMMAND="${1:-build}"
 if [ "$#" -gt 0 ]; then
@@ -32,14 +41,10 @@ Usage: ./build.sh <task> [args]
 Tasks:
   validate         Validate architecture artifact metadata and relations.
   generate         Validate, then generate derived AsciiDoc fragments/indexes.
-  test             Run all tests (Ruby units, Ruby CLI, JS adapter generator).
-  test-ruby        Run the Ruby validator/generator unit and CLI tests.
-  test-js          Run the JS adapter generator tests (node --test).
-  adapters         Regenerate the agent adapters from skills/**/SKILL.md.
+  adapters         Regenerate the agent adapters (scripts/build-agent-adapters.js).
   check-adapters   Fail if the generated agent adapters are out of date.
   build            Generate fragments and render the architecture HTML.
-  presentation     Render an AsciiDoc slide deck (args: <slides.adoc> [out-dir]).
-  all              Run test, check-adapters, and build (build also validates).
+  all              Run check-adapters and build (build also validates+generates).
   clean            Remove local architecture build output.
   help             Show this help.
 
@@ -50,7 +55,8 @@ Execution modes:
                        Not reproducible; uses whatever Ruby/Node is installed.
 
 With neither a container engine nor DOCS_TOOLBOX_LOCAL=1, the task aborts.
-Override the image with DOCS_TOOLBOX_IMAGE.
+Override the image with DOCS_TOOLBOX_IMAGE. Application code is built with its
+own tooling, not this script (docs-toolbox carries only the docs toolchain).
 USAGE
 }
 
@@ -70,20 +76,6 @@ run_local_validate() {
 
 run_local_generate() {
   ruby scripts/validate-metamodel.rb --generate
-}
-
-run_local_test_ruby() {
-  ruby -Itest test/validate_metamodel_test.rb
-  ruby -Itest test/validate_metamodel_cli_test.rb
-}
-
-run_local_test_js() {
-  node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs
-}
-
-run_local_test() {
-  run_local_test_ruby
-  run_local_test_js
 }
 
 run_local_adapters() {
@@ -113,14 +105,9 @@ run_local_build() {
   echo "Built architecture HTML: $BUILD_DIR/index.html"
 }
 
-run_local_presentation() {
-  sh scripts/render-presentation.sh "$@"
-}
-
 # `build` already runs generate (and therefore validate), so `all` does not
 # validate separately to avoid a redundant pass.
 run_local_all() {
-  run_local_test
   run_local_check_adapters
   run_local_build
 }
@@ -129,13 +116,9 @@ run_local() {
   case "$COMMAND" in
     validate) run_local_validate ;;
     generate) run_local_generate ;;
-    test) run_local_test ;;
-    test-ruby) run_local_test_ruby ;;
-    test-js) run_local_test_js ;;
     adapters) run_local_adapters ;;
     check-adapters) run_local_check_adapters ;;
     build) run_local_build ;;
-    presentation) run_local_presentation "$@" ;;
     all) run_local_all ;;
     clean)
       rm -rf "$BUILD_DIR"
@@ -161,7 +144,7 @@ run_in_container() {
     podman)
       podman run --rm \
         --userns=keep-id \
-        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER=1 \
+        -e DOCS_TOOLBOX_IN_CONTAINER=1 \
         -e BUILD_DIR="$BUILD_DIR" \
         -e SOURCE_DOC="$SOURCE_DOC" \
         -e HOME=/tmp \
@@ -173,7 +156,7 @@ run_in_container() {
     docker)
       docker run --rm \
         --user "$(id -u):$(id -g)" \
-        -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER=1 \
+        -e DOCS_TOOLBOX_IN_CONTAINER=1 \
         -e BUILD_DIR="$BUILD_DIR" \
         -e SOURCE_DOC="$SOURCE_DOC" \
         -e HOME=/tmp \
@@ -186,7 +169,7 @@ run_in_container() {
 }
 
 # Inside the container: always run locally against the image toolchain.
-if [ "${ARCHITECTURE_KNOWLEDGE_TOOLKIT_IN_CONTAINER:-}" = "1" ]; then
+if [ "${DOCS_TOOLBOX_IN_CONTAINER:-}" = "1" ]; then
   run_local "$@"
   exit 0
 fi
@@ -195,7 +178,7 @@ case "$COMMAND" in
   clean|help|-h|--help)
     run_local "$@"
     ;;
-  validate|generate|test|test-ruby|test-js|adapters|check-adapters|build|presentation|all)
+  validate|generate|adapters|check-adapters|build|all)
     if [ "${DOCS_TOOLBOX_LOCAL:-}" = "1" ]; then
       echo "DOCS_TOOLBOX_LOCAL=1: running '$COMMAND' against the host toolchain (not reproducible)." >&2
       run_local "$@"

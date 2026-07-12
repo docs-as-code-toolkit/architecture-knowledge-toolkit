@@ -62,6 +62,7 @@ required:
 - copy templates;
 - copy metamodel schemas;
 - copy validation scripts;
+- copy the docs-toolbox task runner (`templates/scripts/build.sh`);
 - copy documentation build configuration.
 
 If generators are unavailable:
@@ -104,6 +105,10 @@ is copied or vendored and kept in sync with the toolkit:
 - the generic agent adapter generator from `templates/scripts/build-agent-adapters.js`
   and `templates/scripts/check-agent-adapters.js` (not the toolkit's own
   `scripts/build-agent-adapters.js`, which is wired to the toolkit itself);
+- the generic docs-toolbox task runner from `templates/scripts/build.sh` (not
+  the toolkit's own root `build.sh`, which is wired to the toolkit itself); it
+  runs the validators, generators, and Asciidoctor render in the pinned
+  docs-toolbox image;
 - documentation build configuration.
 
 The target project's own `AGENTS.md`, `.github/copilot-instructions.md`, and
@@ -225,6 +230,8 @@ the target repository. A complete bootstrap therefore includes, when required:
 - `templates/adr.adoc`;
 - `templates/quality-scenario.adoc`;
 - `templates/risk.adoc`;
+- `build.sh` copied from `templates/scripts/build.sh` (docs-toolbox task runner
+  for `validate`, `generate`, and `build`);
 - documentation build or generator configuration available from the toolkit.
 
 After source artifacts are created or migrated, validate the architecture source

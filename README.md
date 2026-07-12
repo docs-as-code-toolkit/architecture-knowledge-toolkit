@@ -100,12 +100,17 @@ the lookup order in the project's `AGENTS.md`.
 
 - **Copied / vendored into the project** — executable tooling that must run in
   the project's own build and CI: metamodel schemas (`metamodel/`), AsciiDoc
-  templates (`templates/`), validator/generator scripts (`scripts/`), and the
-  generic agent adapter generator from `templates/scripts/`. Keep these in sync
+  templates (`templates/`), validator/generator scripts (`scripts/`), the
+  generic agent adapter generator from `templates/scripts/`, and the generic
+  docs-toolbox task runner `templates/scripts/build.sh` (runs the validators,
+  generators, and Asciidoctor render inside the pinned docs-toolbox image so
+  local and CI runs share one toolchain). Keep these in sync
   with the toolkit; do not fork their behavior silently. The `bootstrap-project`
   skill copies them when a project has none. Do not copy the toolkit's own
-  `scripts/build-agent-adapters.js`; it is wired to the toolkit itself. Use the
-  parameterizable `templates/scripts/build-agent-adapters.js` instead.
+  `scripts/build-agent-adapters.js` or root `build.sh`; they are wired to the
+  toolkit itself. Use the parameterizable
+  `templates/scripts/build-agent-adapters.js` and `templates/scripts/build.sh`
+  instead.
 - **Referenced, never copied** — the architecture *guidance*: toolkit
   `skills/**/SKILL.md`, `features/`, and the toolkit's own contract text. Agents
   resolve these from the toolkit at need.
@@ -140,6 +145,13 @@ silently re-state toolkit rules.
    directory name) and auto-detects whether to list local skills or route to the
    toolkit. Run `node scripts/check-agent-adapters.js` in CI to fail on stale
    adapters.
+4. Copy the docs-toolbox task runner from `templates/scripts/build.sh` to the
+   project root and run architecture tasks through it — `./build.sh validate`,
+   `./build.sh generate`, `./build.sh build` — so validation, generation, and
+   the Asciidoctor render all run in the pinned docs-toolbox image locally and
+   in CI. Set `DOCS_TOOLBOX_LOCAL=1` to fall back to the host toolchain, and
+   adjust `SOURCE_DOC` if the arc42 entry document is not
+   `src/docs/doc-001-arc42.adoc`.
 
 A project that has **no** local architecture skills of its own (for example a
 tooling repository) still references the toolkit for all architecture and SDLC
@@ -279,7 +291,8 @@ Local equivalent (without docs-toolbox):
 ruby -Itest test/validate_metamodel_test.rb       # validator + generator units
 ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
 node --test test/build-agent-adapters.test.mjs \
-  test/build-agent-adapters-template.test.mjs     # adapter generator + template
+  test/build-agent-adapters-template.test.mjs \
+  test/build-sh-template.test.mjs                 # adapter generator + build.sh templates
 ```
 
 The container-based render scripts (`build.sh` itself and
@@ -332,7 +345,7 @@ example to pin a digest) with `DOCS_TOOLBOX_IMAGE`.
 | `generate` | Validate, then generate derived fragments/indexes | `ruby scripts/validate-metamodel.rb --generate` |
 | `test` | Run all tests (Ruby units, Ruby CLI, JS adapter) | see [Tests](#tests) |
 | `test-ruby` | Ruby validator/generator unit and CLI tests | `ruby -Itest test/validate_metamodel_test.rb` and `ruby -Itest test/validate_metamodel_cli_test.rb` |
-| `test-js` | JS adapter generator tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs` |
+| `test-js` | JS adapter generator + build.sh template tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs` |
 | `adapters` | Regenerate agent adapters from skills | `node scripts/build-agent-adapters.js` |
 | `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
 | `build` | Generate fragments and render architecture HTML | see below |
