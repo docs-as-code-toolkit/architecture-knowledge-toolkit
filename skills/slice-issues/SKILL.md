@@ -15,6 +15,12 @@ acceptance criteria, branch, PR, and verification.
 This skill is GitHub-specific but engine-independent. Keep runtime-specific
 integration details in `adapters/`.
 
+## Required Reading
+
+- `../references/issue-labels.md` before creating child issues, to set each
+  slice's issue type and labels so the backlog and any project board can filter
+  them.
+
 ## Workflow
 
 1. Identify the parent issue number or URL.
@@ -22,14 +28,19 @@ integration details in `adapters/`.
 3. Check existing open issues to avoid duplicate slices.
 4. Decide whether the work should be split into sub-issues or kept in one PR
    with clearly separated commits.
-5. For each sliced task, create a child issue with GitHub's sub-issue support:
+5. For each sliced task, create a child issue with GitHub's sub-issue support,
+   setting its type and labels per `../references/issue-labels.md`:
 
    ```sh
-   gh issue create --parent <parent> --title "<title>" --body "<body>"
+   gh issue create --parent <parent> --title "<title>" --body-file <file> \
+     --type <Type> --label "<type-label>,<area>,<grouping>"
    ```
 
-   Use `--body-file` instead of `--body` when the body is multi-line or
-   contains Markdown that would be awkward to quote safely.
+   A slice is normally a `user-story` (a reviewable slice of value) or a `task`
+   (technical work with no direct user value); use `--type` when the platform
+   supports native issue types, otherwise a `type:` label. Use `--body-file`
+   instead of `--body` when the body is multi-line or contains Markdown that
+   would be awkward to quote safely.
 6. Comment on the parent issue with the created child issue links and the
    recommended implementation order.
 7. Report the created child issues and any fallback used.
@@ -39,6 +50,11 @@ integration details in `adapters/`.
 - Make each child issue independently reviewable and small enough for one
   focused PR.
 - Give each child issue a clear goal, scope, and acceptance criteria.
+- Give each child issue an explicit type and labels per
+  `../references/issue-labels.md` (a `type:` value plus `area:` and any project
+  grouping such as a roadmap phase), so it can be triaged onto a project board
+  without re-reading the body. Do not encode workflow status in labels; that
+  belongs to the board.
 - Preserve the parent issue as the coordination point.
 - Prefer dependency order over arbitrary numbering.
 - Keep implementation work out of the slicing step unless the user explicitly
