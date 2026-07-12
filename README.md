@@ -100,12 +100,17 @@ the lookup order in the project's `AGENTS.md`.
 
 - **Copied / vendored into the project** — executable tooling that must run in
   the project's own build and CI: metamodel schemas (`metamodel/`), AsciiDoc
-  templates (`templates/`), validator/generator scripts (`scripts/`), and the
-  generic agent adapter generator from `templates/scripts/`. Keep these in sync
+  templates (`templates/`), validator/generator scripts (`scripts/`), the
+  generic agent adapter generator from `templates/scripts/`, and the generic
+  docs-toolbox task runner `templates/scripts/build.sh` (runs the validators,
+  generators, and Asciidoctor render inside the pinned docs-toolbox image so
+  local and CI runs share one toolchain). Keep these in sync
   with the toolkit; do not fork their behavior silently. The `bootstrap-project`
   skill copies them when a project has none. Do not copy the toolkit's own
-  `scripts/build-agent-adapters.js`; it is wired to the toolkit itself. Use the
-  parameterizable `templates/scripts/build-agent-adapters.js` instead.
+  `scripts/build-agent-adapters.js` or root `build.sh`; they are wired to the
+  toolkit itself. Use the parameterizable
+  `templates/scripts/build-agent-adapters.js` and `templates/scripts/build.sh`
+  instead.
 - **Referenced, never copied** — the architecture *guidance*: toolkit
   `skills/**/SKILL.md`, `features/`, and the toolkit's own contract text. Agents
   resolve these from the toolkit at need.
@@ -140,6 +145,13 @@ silently re-state toolkit rules.
    directory name) and auto-detects whether to list local skills or route to the
    toolkit. Run `node scripts/check-agent-adapters.js` in CI to fail on stale
    adapters.
+4. Copy the docs-toolbox task runner from `templates/scripts/build.sh` to the
+   project root and run architecture tasks through it — `./build.sh validate`,
+   `./build.sh generate`, `./build.sh build` — so validation, generation, and
+   the Asciidoctor render all run in the pinned docs-toolbox image locally and
+   in CI. Set `DOCS_TOOLBOX_LOCAL=1` to fall back to the host toolchain, and
+   adjust `SOURCE_DOC` if the arc42 entry document is not
+   `src/docs/doc-001-arc42.adoc`.
 
 A project that has **no** local architecture skills of its own (for example a
 tooling repository) still references the toolkit for all architecture and SDLC
