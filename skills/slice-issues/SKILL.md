@@ -29,18 +29,24 @@ integration details in `adapters/`.
 4. Decide whether the work should be split into sub-issues or kept in one PR
    with clearly separated commits.
 5. For each sliced task, create a child issue with GitHub's sub-issue support,
-   setting its type and labels per `../references/issue-labels.md`:
+   setting its type and labels per `../references/issue-labels.md`. Use exactly
+   one type representation — a native issue type **or** a `type:` label, never
+   both:
 
    ```sh
+   # Org repos with native issue types:
    gh issue create --parent <parent> --title "<title>" --body-file <file> \
-     --type <Type> --label "<type-label>,<area>,<grouping>"
+     --type <Type> --label "<area>,<grouping>"
+
+   # Personal repos (native issue types unavailable) — carry the type as a label:
+   gh issue create --parent <parent> --title "<title>" --body-file <file> \
+     --label "<type-label>,<area>,<grouping>"
    ```
 
    A slice is normally a `user-story` (a reviewable slice of value) or a `task`
-   (technical work with no direct user value); use `--type` when the platform
-   supports native issue types, otherwise a `type:` label. Use `--body-file`
-   instead of `--body` when the body is multi-line or contains Markdown that
-   would be awkward to quote safely.
+   (technical work with no direct user value). Use `--body-file` instead of
+   `--body` when the body is multi-line or contains Markdown that would be
+   awkward to quote safely.
 6. Comment on the parent issue with the created child issue links and the
    recommended implementation order.
 7. Report the created child issues and any fallback used.
@@ -51,8 +57,9 @@ integration details in `adapters/`.
   focused PR.
 - Give each child issue a clear goal, scope, and acceptance criteria.
 - Give each child issue an explicit type and labels per
-  `../references/issue-labels.md` (a `type:` value plus `area:` and any project
-  grouping such as a roadmap phase), so it can be triaged onto a project board
+  `../references/issue-labels.md` — exactly one type representation (a native
+  issue type or a `type:` label) plus `area:` and any project grouping such as a
+  roadmap phase — so it can be triaged onto a project board
   without re-reading the body. Do not encode workflow status in labels; that
   belongs to the board.
 - Preserve the parent issue as the coordination point.
