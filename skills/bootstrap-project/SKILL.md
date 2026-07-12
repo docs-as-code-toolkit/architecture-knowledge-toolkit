@@ -101,8 +101,9 @@ is copied or vendored and kept in sync with the toolkit:
 - metamodel schemas;
 - AsciiDoc templates;
 - validator and generator scripts;
-- the agent adapter generator (`scripts/build-agent-adapters.js` and
-  `scripts/check-agent-adapters.js`);
+- the generic agent adapter generator from `templates/scripts/build-agent-adapters.js`
+  and `templates/scripts/check-agent-adapters.js` (not the toolkit's own
+  `scripts/build-agent-adapters.js`, which is wired to the toolkit itself);
 - documentation build configuration.
 
 The target project's own `AGENTS.md`, `.github/copilot-instructions.md`, and
@@ -156,14 +157,24 @@ docs-as-code-toolkit/architecture-knowledge-toolkit/templates/agents/github-copi
 Then set up thin, generated agent adapters instead of hand-writing per-agent
 files:
 
-- Copy `scripts/build-agent-adapters.js` and `scripts/check-agent-adapters.js`
-  from the toolkit.
-- Generate `adapters/codex/AGENTS.md`, `adapters/vibe/AGENTS.md`,
-  `adapters/github-copilot/copilot-instructions.md`, and a Cursor rule under
-  `adapters/cursor/rules/` that route agents to the project `AGENTS.md`,
-  `general-semantic-contracts.md`, and the relevant skills.
-- If the project has local `skills/**/SKILL.md`, generate the adapters from
-  them; if it has none, the adapters route to the toolkit.
+- Copy the generic generator `templates/scripts/build-agent-adapters.js` and
+  `templates/scripts/check-agent-adapters.js` into the project's `scripts/`. Do
+  not copy the toolkit's own `scripts/build-agent-adapters.js`; it is wired to
+  the `architecture-knowledge-toolkit` name, Cursor file, and boundary text and
+  would produce adapters for the wrong project.
+- The generic generator derives the project name (from `AGENT_ADAPTER_PROJECT`,
+  an optional `adapters/agent-adapters.config.json` `project` field, or the
+  repository directory name) and names the Cursor rule
+  `adapters/cursor/rules/<project>.mdc`. Set the name explicitly when the
+  repository directory name is not the desired project name.
+- Run `node scripts/build-agent-adapters.js` to generate
+  `adapters/codex/AGENTS.md`, `adapters/vibe/AGENTS.md`,
+  `adapters/github-copilot/copilot-instructions.md`, and the Cursor rule that
+  route agents to the project `AGENTS.md`, `general-semantic-contracts.md`, and
+  the relevant skills.
+- The generator auto-detects routing: if the project has local
+  `skills/**/SKILL.md` it lists them and delegates the rest to the toolkit; if it
+  has none, the adapters route entirely to the toolkit.
 - Keep `.github/copilot-instructions.md` as an entry point only that points to
   `adapters/github-copilot/copilot-instructions.md`.
 - Put OpenAI skill UI metadata under `adapters/openai/<skill-name>/openai.yaml`.

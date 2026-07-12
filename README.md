@@ -100,9 +100,12 @@ the lookup order in the project's `AGENTS.md`.
 
 - **Copied / vendored into the project** — executable tooling that must run in
   the project's own build and CI: metamodel schemas (`metamodel/`), AsciiDoc
-  templates (`templates/`), and validator/generator scripts (`scripts/`). Keep
-  these in sync with the toolkit; do not fork their behavior silently. The
-  `bootstrap-project` skill copies them when a project has none.
+  templates (`templates/`), validator/generator scripts (`scripts/`), and the
+  generic agent adapter generator from `templates/scripts/`. Keep these in sync
+  with the toolkit; do not fork their behavior silently. The `bootstrap-project`
+  skill copies them when a project has none. Do not copy the toolkit's own
+  `scripts/build-agent-adapters.js`; it is wired to the toolkit itself. Use the
+  parameterizable `templates/scripts/build-agent-adapters.js` instead.
 - **Referenced, never copied** — the architecture *guidance*: toolkit
   `skills/**/SKILL.md`, `features/`, and the toolkit's own contract text. Agents
   resolve these from the toolkit at need.
@@ -128,10 +131,15 @@ silently re-state toolkit rules.
    repository.
 2. Prefer a stable toolkit reference — a release tag or commit SHA — for any
    long-lived dependency, so architecture guidance is reproducible.
-3. Generate thin agent adapters locally (see `adapters/` and
-   `scripts/build-agent-adapters.js`) that only route agents to the canonical
-   toolkit skills and the project's `general-semantic-contracts.md`; do not
-   embed toolkit rules in them.
+3. Copy the generic generator from `templates/scripts/` and run
+   `node scripts/build-agent-adapters.js` to generate thin agent adapters under
+   `adapters/` that only route agents to the canonical toolkit skills and the
+   project's `general-semantic-contracts.md`; do not embed toolkit rules in them.
+   The generator derives the project name (from `AGENT_ADAPTER_PROJECT`, an
+   `adapters/agent-adapters.config.json` `project` field, or the repository
+   directory name) and auto-detects whether to list local skills or route to the
+   toolkit. Run `node scripts/check-agent-adapters.js` in CI to fail on stale
+   adapters.
 
 A project that has **no** local architecture skills of its own (for example a
 tooling repository) still references the toolkit for all architecture and SDLC
@@ -270,7 +278,8 @@ Local equivalent (without docs-toolbox):
 ```sh
 ruby -Itest test/validate_metamodel_test.rb       # validator + generator units
 ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
-node --test test/build-agent-adapters.test.mjs    # adapter generator
+node --test test/build-agent-adapters.test.mjs \
+  test/build-agent-adapters-template.test.mjs     # adapter generator + template
 ```
 
 The container-based render scripts (`build.sh` itself and
@@ -323,7 +332,7 @@ example to pin a digest) with `DOCS_TOOLBOX_IMAGE`.
 | `generate` | Validate, then generate derived fragments/indexes | `ruby scripts/validate-metamodel.rb --generate` |
 | `test` | Run all tests (Ruby units, Ruby CLI, JS adapter) | see [Tests](#tests) |
 | `test-ruby` | Ruby validator/generator unit and CLI tests | `ruby -Itest test/validate_metamodel_test.rb` and `ruby -Itest test/validate_metamodel_cli_test.rb` |
-| `test-js` | JS adapter generator tests | `node --test test/build-agent-adapters.test.mjs` |
+| `test-js` | JS adapter generator tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs` |
 | `adapters` | Regenerate agent adapters from skills | `node scripts/build-agent-adapters.js` |
 | `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
 | `build` | Generate fragments and render architecture HTML | see below |

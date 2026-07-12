@@ -78,7 +78,7 @@ run_local_test_ruby() {
 }
 
 run_local_test_js() {
-  node --test test/build-agent-adapters.test.mjs
+  node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs
 }
 
 run_local_test() {

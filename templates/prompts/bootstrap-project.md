@@ -29,9 +29,14 @@ delegates missing method guidance to the architecture-knowledge-toolkit.
 Reference, don't copy: reference the toolkit's skills, features, and contract
 text through the lookup order above instead of copying them into this
 repository; copy only executable tooling that must run here (metamodel schemas,
-templates, validators, generators, and the agent adapter generator
-scripts/build-agent-adapters.js and scripts/check-agent-adapters.js). Generate
-thin agent adapters under adapters/ that route agents to this project's
+templates, validators, generators, and the generic agent adapter generator from
+templates/scripts/build-agent-adapters.js and
+templates/scripts/check-agent-adapters.js, not the toolkit's own
+scripts/build-agent-adapters.js which is wired to the toolkit). The generic
+generator derives the project name (AGENT_ADAPTER_PROJECT, an
+adapters/agent-adapters.config.json project field, or the repository directory
+name) and auto-detects whether to list local skills or route to the toolkit.
+Generate thin agent adapters under adapters/ that route agents to this project's
 AGENTS.md, general-semantic-contracts.md, and the relevant skills; if the
 project has local skills, generate from skills/**/SKILL.md, otherwise route to
 the toolkit. Keep .github/copilot-instructions.md as an entry point pointing to
