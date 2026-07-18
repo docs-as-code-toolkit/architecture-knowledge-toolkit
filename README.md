@@ -540,3 +540,16 @@ selectable themes remain a future option. Reviewed workshop input also confirms
 that generator regression coverage should use golden files across all supported
 generated artifact views, including per-artifact relationship views and
 artifact-type indexes.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE), which also covers
+talks in the [`talks/`](talks/) directory by default.
+
+Individual talk authors may, however, place their own talk under stricter terms
+by adding a `LICENSE` file to that talk's subdirectory; it then governs only
+that subdirectory. For example,
+[`talks/ai-assisted-coding-meetup-envite/`](talks/ai-assisted-coding-meetup-envite/)
+is licensed under **CC BY-NC-ND 4.0** (view and share with attribution, no
+commercial use or adaptation, reuse requires prior written consent). See
+[`talks/README.md`](talks/README.md) for the convention.
