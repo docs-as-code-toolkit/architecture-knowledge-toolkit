@@ -132,7 +132,9 @@ Use these templates:
 - The impact is tied to architecture outcomes, quality scenarios, delivery,
   operations, security, compliance, or stakeholder value.
 - Likelihood, impact, priority, timeframe, and confidence are qualitative and
-  reviewable.
+  reviewable, and each leads with its verdict. The generated risk register
+  carries only the first sentence of likelihood, impact and priority; the
+  reasoning belongs in a paragraph below the assessment table.
 - Mitigations, monitoring, or review actions are realistic and owned.
 - Assumptions and open questions are explicit.
 - Risk acceptance remains a human decision.

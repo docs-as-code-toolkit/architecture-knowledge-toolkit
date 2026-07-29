@@ -32,6 +32,11 @@ Because <cause>, <event> may occur, leading to <impact>.
 
 === Assessment
 
+Likelihood, impact and priority are lifted into the generated risk register,
+which has one narrow column each. Only the first sentence is carried over, so
+lead with the verdict and put the reasoning in a paragraph below the table —
+`Medium. It only takes one lapse of attention.` reaches the register as `Medium`.
+
 [cols="1,3", options="header"]
 |===
 | Field | Value
@@ -41,6 +46,8 @@ Because <cause>, <event> may occur, leading to <impact>.
 | Timeframe | Near-term, medium-term, or long-term.
 | Confidence | Low, medium, or high.
 |===
+
+Why the rating is what it is, in as many sentences as it needs.
 
 === Mitigation Options
 
