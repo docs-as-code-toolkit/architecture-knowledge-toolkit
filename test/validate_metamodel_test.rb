@@ -572,6 +572,30 @@ class ValidateMetamodelTest < Minitest::Test
     assert_includes first, '| xref:q-arch-001[Should the valid fixture demonstrate ADR provenance?]'
   end
 
+  def test_risk_index_separates_what_a_risk_affects_from_what_mitigates_it
+    # Given: the toolkit's own risks, which R-001 affects a quality scenario and
+    # ADR-007 mitigates
+    validator = MetamodelValidator.new(
+      root: ROOT,
+      docs_dir: ROOT.join('src/docs'),
+      relations_schema: SCHEMA
+    )
+    artifacts = validator.validate
+    generator = ArtifactIndexGenerator.new(root: ROOT, docs_dir: ROOT.join('src/docs'))
+    definition = ArtifactIndexGenerator::INDEX_DEFINITIONS.fetch('Risk')
+    output_path = ROOT.join('tmp/test-doc-11001-risks.adoc')
+
+    # When: the risk register is rendered
+    rendered = generator.render(artifacts, definition, output_path)
+
+    # Then: the two are separate columns, and the mitigation column is fed from
+    # the incoming mitigates relation rather than from what the risk endangers
+    assert_includes rendered, '| ID | Risk | Probability | Impact | Priority | Affects | Mitigation/action'
+    assert_includes rendered, 'xref:qs-004-ai-suggestion-reviewability[QS-004-ai-suggestion-reviewability]'
+    assert_includes rendered, 'xref:adr-007-artifact-provenance-metadata[ADR-007-artifact-provenance-metadata]'
+  end
+
+
   def test_open_questions_index_output_is_deterministic
     # Given: the arc42 source tree with open questions
     generator = OpenQuestionsIndexGenerator.new(

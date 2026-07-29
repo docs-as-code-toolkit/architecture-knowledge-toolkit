@@ -496,8 +496,8 @@ class ArtifactIndexGenerator
       output: '11-risks-and-technical-debt/generated/doc-11001-risks.adoc',
       anchor: 'risks',
       title: 'Risks',
-      cols: '1,3,1,1,1,3',
-      columns: ['ID', 'Risk', 'Probability', 'Impact', 'Priority', 'Mitigation/action'],
+      cols: '1,3,1,1,1,2,2',
+      columns: ['ID', 'Risk', 'Probability', 'Impact', 'Priority', 'Affects', 'Mitigation/action'],
       row: lambda do |artifact, helper|
         fields = helper.definition_table_fields(artifact)
         [
@@ -506,7 +506,10 @@ class ArtifactIndexGenerator
           helper.cell(fields['Likelihood']),
           helper.cell(fields['Impact']),
           helper.cell(fields['Priority']),
-          helper.relation_targets(artifact, 'affects')
+          # What the risk endangers, and what is being done about it. These are
+          # opposites and had shared one column headed "Mitigation/action".
+          helper.relation_targets(artifact, 'affects'),
+          helper.incoming_relation_sources(artifact, 'mitigates')
         ]
       end
     }
@@ -1028,6 +1031,27 @@ class ArtifactRenderHelper
     return '-' if matches.empty?
 
     matches.map { |relation| artifact_ref(relation['target']) }.join(" +\n")
+  end
+
+  # The mirror of #relation_targets: who points *at* this artifact with the given
+  # relation type. Relations are only ever authored outgoing, so a question like
+  # "what mitigates this risk?" can only be answered from the other side.
+  def incoming_relation_sources(artifact, type)
+    id = artifact.metadata['id']
+    return '-' unless id
+
+    sources = @artifacts_by_id.values.select do |candidate|
+      next false unless candidate.metadata
+
+      Array(candidate.metadata['relations']).any? do |relation|
+        relation['type'] == type && relation['target'] == id
+      end
+    end
+    return '-' if sources.empty?
+
+    sources.sort_by { |source| source.metadata['id'].to_s }
+           .map { |source| artifact_link(source) }
+           .join(" +\n")
   end
 
   def derived_from_cell(entries)
