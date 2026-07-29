@@ -503,9 +503,11 @@ class ArtifactIndexGenerator
         [
           helper.artifact_link(artifact, label: helper.short_id(artifact.metadata['id'])),
           helper.cell(artifact.metadata['title']),
-          helper.cell(fields['Likelihood']),
-          helper.cell(fields['Impact']),
-          helper.cell(fields['Priority']),
+          # The assessment fields are prose in the source artifact; only their
+          # verdict fits a register column. See #summary_cell.
+          helper.summary_cell(fields['Likelihood']),
+          helper.summary_cell(fields['Impact']),
+          helper.summary_cell(fields['Priority']),
           # What the risk endangers, and what is being done about it. These are
           # opposites and had shared one column headed "Mitigation/action".
           helper.relation_targets(artifact, 'affects'),
@@ -1079,6 +1081,21 @@ class ArtifactRenderHelper
     return '-' if text.empty?
 
     text.gsub('|', '\|').gsub("\n", ' ')
+  end
+
+  # For narrow index columns fed from prose fields. An assessment reads
+  # "Medium. It takes one lapse of attention while transcribing." — the verdict
+  # belongs in the register, the reasoning belongs in the artifact. Without this,
+  # writing a normal sentence in the source silently wrecks the generated table,
+  # and the author only finds out by rendering it.
+  #
+  # Only a sentence boundary counts: "Medium (rises when hosted)" survives whole.
+  def summary_cell(value)
+    text = value.to_s.strip
+    return '-' if text.empty?
+
+    verdict = text[/\A(.+?)\.(?:\s|\z)/, 1]
+    cell(verdict && !verdict.empty? ? verdict : text)
   end
 
   private

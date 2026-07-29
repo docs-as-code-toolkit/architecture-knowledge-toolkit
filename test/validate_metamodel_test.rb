@@ -595,6 +595,17 @@ class ValidateMetamodelTest < Minitest::Test
     assert_includes rendered, 'xref:adr-007-artifact-provenance-metadata[ADR-007-artifact-provenance-metadata]'
   end
 
+  def test_risk_index_reduces_a_prose_assessment_to_its_verdict
+    # Given: an assessment field written as a normal sentence, and one written
+    # with a parenthetical that is not a sentence boundary
+    helper = ArtifactRenderHelper.new(ROOT.join('tmp/test-summary-cell.adoc'), [])
+
+    # When/Then: only a sentence boundary truncates; everything else survives
+    assert_equal 'Medium', helper.summary_cell('Medium. It takes one lapse of attention')
+    assert_equal 'Medium (rises when hosted)', helper.summary_cell('Medium (rises when hosted)')
+    assert_equal 'Low, medium, or high', helper.summary_cell('Low, medium, or high')
+    assert_equal '-', helper.summary_cell('')
+  end
 
   def test_open_questions_index_output_is_deterministic
     # Given: the arc42 source tree with open questions
