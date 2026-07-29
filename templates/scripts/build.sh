@@ -55,13 +55,23 @@ Execution modes:
                        Not reproducible; uses whatever Ruby/Node is installed.
 
 With neither a container engine nor DOCS_TOOLBOX_LOCAL=1, the task aborts.
-Override the image with DOCS_TOOLBOX_IMAGE. Application code is built with its
-own tooling, not this script (docs-toolbox carries only the docs toolchain).
+Override the image with DOCS_TOOLBOX_IMAGE, and the engine with
+DOCS_TOOLBOX_ENGINE (podman or docker) when detection picks a broken one.
+Application code is built with its own tooling, not this script (docs-toolbox
+carries only the docs toolchain).
 USAGE
 }
 
+# DOCS_TOOLBOX_ENGINE forces an engine and skips detection. It exists because
+# `podman info` only reports that the engine is *configured* -- it says nothing
+# about whether the OCI runtime can start a container, and that gap is real: on
+# some hosts `podman info` succeeds while `podman run` dies in crun. When the
+# preferred engine is broken in a way detection cannot see, naming the other one
+# is the only way out.
 find_engine() {
-  if command -v podman >/dev/null 2>&1 && podman info >/dev/null 2>&1; then
+  if [ -n "${DOCS_TOOLBOX_ENGINE:-}" ]; then
+    printf '%s\n' "$DOCS_TOOLBOX_ENGINE"
+  elif command -v podman >/dev/null 2>&1 && podman info >/dev/null 2>&1; then
     printf '%s\n' "podman"
   elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
     printf '%s\n' "docker"
