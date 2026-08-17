@@ -21,6 +21,7 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."
 const ADAPTERS = [
   "adapters/codex/AGENTS.md",
   "adapters/vibe/AGENTS.md",
+  "adapters/pi/AGENTS.md",
   "adapters/github-copilot/copilot-instructions.md",
   "adapters/cursor/rules/architecture-knowledge-toolkit.mdc",
 ];
@@ -51,7 +52,7 @@ function writeSkill(workspace, name, frontMatter) {
   );
 }
 
-test("Build regenerates all four adapters", (t) => {
+test("Build regenerates all five adapters", (t) => {
   // Given: a repository with canonical skills and no generated adapters
   const workspace = makeWorkspace(t);
   fs.rmSync(path.join(workspace, "adapters"), { recursive: true, force: true });
@@ -59,7 +60,7 @@ test("Build regenerates all four adapters", (t) => {
   // When: the adapter generator runs
   const result = runGenerator(workspace);
 
-  // Then: it writes the codex, vibe, github-copilot, and cursor adapters with
+  // Then: it writes the codex, vibe, pi, github-copilot, and cursor adapters with
   // the generated-file notice
   assert.equal(result.status, 0, result.stderr);
   for (const adapter of ADAPTERS) {
