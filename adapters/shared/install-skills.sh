@@ -9,7 +9,7 @@
 #   ./install-skills.sh --root <dir>      # arbitrary SKILL.md harness root
 #   ./install-skills.sh --all             # all known shared roots
 #
-# - agents -> ~/.agents/skills   (default; cross-engine: OpenCode, pi)
+# - agents -> ~/.agents/skills   (default; cross-engine: Codex, Cursor, OpenCode, pi, Vibe)
 # - claude -> ~/.claude/skills   (Claude Code reads only .claude/skills)
 #
 # Skips helper skills marked adapter_expose: false and non-skill directories.

@@ -17,7 +17,7 @@ up any toolkit updates.
 
 | Target  | Root                     | Read by                     |
 |---------|--------------------------|-----------------------------|
-| `agents` (default) | `~/.agents/skills` | OpenCode, pi |
+| `agents` (default) | `~/.agents/skills` | Codex, Cursor, OpenCode, pi, Vibe |
 | `claude` | `~/.claude/skills` | Claude Code, OpenCode |
 | `--root` | any directory | any SKILL.md harness |
 
