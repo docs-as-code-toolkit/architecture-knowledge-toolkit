@@ -268,6 +268,17 @@ GitHub Copilot-specific review entry points live in
 `adapters/github-copilot/`; those files point back to the engine-independent
 skill contracts.
 
+### Native skill loading
+
+Several agents (Codex, Cursor, OpenCode, pi, Vibe) discover skills natively
+from `.agents/skills`; Claude Code additionally reads `.claude/skills`. To
+expose the canonical skills to these without copying them, use the shared
+installer `adapters/shared/install-skills.sh` — it symlinks each exposed skill
+into the chosen root (project by default, `-g`/`--global` for user-wide,
+`remove` to uninstall), and skips helper skills marked
+`adapter_expose: false`. See
+`adapters/shared/README.md`.
+
 ## Tests
 
 The toolkit's executable features — the metamodel validator, the documentation
