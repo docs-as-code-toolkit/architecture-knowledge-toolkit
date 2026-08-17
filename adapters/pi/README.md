@@ -23,7 +23,7 @@ Point Pi at this directory's generated `AGENTS.md`. Pi reads repository-root
 relevant canonical skill from the generated list. This mirrors the Codex, Vibe,
 and GitHub Copilot adapters exactly and keeps Pi on the same routing contract.
 
-### B. Pi-native auto-load (reference, don't copy)
+### B. Native skill loading (reference, don't copy)
 
 Pi's native discovery can surface the canonical skills automatically, without
 copying them, by registering the toolkit's `skills/` directory:
@@ -39,6 +39,10 @@ Pi still references the canonical `SKILL.md` files in place, so content stays in
 the toolkit and never drifts. This gives you automatic discovery and
 `/skill:<name>` commands while keeping the toolkit as the single source of
 truth.
+
+Pi also reads `~/.agents/skills` and project `.agents/skills/`, so the shared
+installer's `agents` mode (`../shared/install-skills.sh`) enables native
+loading for Pi and OpenCode from one root; see `../shared/README.md`.
 
 ## Auto-load caveats
 

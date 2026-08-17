@@ -7,22 +7,19 @@ architecture semantics engine-independent in `skills/` and
 OpenCode natively implements the Agent Skills standard (native `skill` tool,
 `SKILL.md` discovery, `permission.skill` gating). Unlike Pi, it has no config
 array to point at an external skills dir, so we reference the toolkit via a
-symlink farm (see `install-skills.sh`).
+symlink farm.
 
 ## Native skill loading
 
-Run `./install-skills.sh` so OpenCode's skill tool discovers the toolkit's
-exposed skills:
+OpenCode reads `SKILL.md` from `.agents/skills` (and `.claude/skills`). Install
+the toolkit's skills there with the shared installer:
 
 ```bash
-./install-skills.sh           # ~/.config/opencode/skills
-./install-skills.sh --agents  # ~/.agents/skills (shared: pi/Claude/OpenCode)
+../shared/install-skills.sh        # default: ~/.agents/skills (OpenCode, pi)
+../shared/install-skills.sh claude # ~/.claude/skills (also read by OpenCode)
 ```
 
-The script skips helper skills (`adapter_expose: false`) and non-skill dirs.
-All toolkit skill names already match their directory names (required by
-OpenCode), so no renames are needed. Re-run the installer after a toolkit
-update, and pin a stable toolkit tag for a reproducible setup.
+See `../shared/README.md` for usage, targets, and caveats.
 
 ## Permissions example
 
