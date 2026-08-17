@@ -10,10 +10,10 @@ Feature: Agent adapter generation
   I want agent adapters generated from the canonical skills
   So that every agent front-end routes to the same skill contracts
 
-  Scenario: Build regenerates all five adapters
+  Scenario: Build regenerates every configured adapter
     Given a repository with canonical skills and no generated adapters
     When the adapter generator runs
-    Then it writes the codex, vibe, pi, github-copilot, and cursor adapters with the generated-file notice
+    Then it writes every configured adapter with the generated-file notice
 
   Scenario: Check reports adapters are current on a clean tree
     Given a repository whose adapters were just generated

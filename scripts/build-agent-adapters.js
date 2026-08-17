@@ -32,6 +32,12 @@ async function main() {
       wrap: defaultWrap,
     },
     {
+      path: "adapters/opencode/AGENTS.md",
+      title: "OpenCode Adapter",
+      agent: "OpenCode",
+      wrap: defaultWrap,
+    },
+    {
       path: "adapters/github-copilot/copilot-instructions.md",
       title: "GitHub Copilot Adapter",
       agent: "GitHub Copilot",
