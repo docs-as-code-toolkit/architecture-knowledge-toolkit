@@ -12,10 +12,10 @@ farm.
 ## Native skill loading
 
 OpenCode reads `SKILL.md` from `.agents/skills`. Install the toolkit's skills
-there with the shared installer:
+there with the shared installer (default: project `.agents/skills`):
 
 ```bash
-../shared/install-skills.sh   # default: ~/.agents/skills
+../shared/install-skills.sh
 ```
 
 See `../shared/README.md` for usage, targets, and caveats.
