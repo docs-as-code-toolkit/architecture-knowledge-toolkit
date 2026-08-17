@@ -10,9 +10,10 @@ up any toolkit updates.
 ### Usage
 
 ```bash
-./install-skills.sh [claude]      # project: .agents/skills (default) or .claude/skills
-./install-skills.sh -g [claude]   # global: ~/.agents/skills or ~/.claude/skills
-./install-skills.sh --root <dir>  # arbitrary SKILL.md harness root
+./install-skills.sh [install] [claude]   # project: .agents/skills (default) or .claude/skills
+./install-skills.sh remove  [claude]     # remove installed toolkit symlinks
+./install-skills.sh -g [claude]          # global: ~/.agents/skills or ~/.claude/skills
+./install-skills.sh --root <dir>         # arbitrary SKILL.md harness root
 ```
 
 Project-local is the default: it targets `.agents/skills` in the git worktree
@@ -26,6 +27,7 @@ install into the user-global root instead.
 | `-g` / `--global` | `~/.agents/skills` | user-wide for Codex, Cursor, OpenCode, pi, Vibe |
 | `-g claude` | `~/.claude/skills` | user-wide for Claude Code, OpenCode |
 | `--root` | any directory | any SKILL.md harness |
+| `remove` | same root selection | removes only toolkit symlinks |
 
 ### Behavior
 
@@ -34,4 +36,6 @@ install into the user-global root instead.
 - `ARCHITECTURE_KNOWLEDGE_TOOLKIT` overrides the toolkit location.
 - Symlinked entries are generated artifacts, not committed source; keep them
   out of version control.
+- `remove` deletes only symlinks whose target is the toolkit, so
+  project-authored custom skills in the same root are never touched.
 - Re-run after a toolkit update; pin a stable toolkit tag for reproducibility.
