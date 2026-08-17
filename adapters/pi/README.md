@@ -1,70 +1,45 @@
 # Pi Adapter
 
-This directory is reserved for Pi-specific integration.
-
-Keep this adapter thin. Reusable architecture knowledge, templates, schemas, and
-skills should remain engine-independent whenever possible. Pi-specific files may
-include invocation examples, local configuration, or wrappers that translate Pi
-workflows into the repository conventions.
+Pi-specific integration for the architecture-knowledge-toolkit. Keep
+architecture semantics engine-independent in `skills/` and
+`general-semantic-contracts.md`.
 
 Pi implements the [Agent Skills standard](https://agentskills.io/specification)
-natively. It discovers `SKILL.md` packages from `~/.agents/skills/`,
-`~/.pi/agent/skills/`, project `.agents/skills/` / `.pi/skills/`, packages, or
-the `skills` array in `settings.json`. At startup Pi injects each skill's name
-and description into the system prompt and loads the full `SKILL.md` on demand
-via `read`, and each skill is invocable as `/skill:<name>`.
+natively: it injects each skill's name/description into the system prompt and
+loads the full `SKILL.md` on demand, invocable as `/skill:<name>`.
 
-## Two supported ways to wire the toolkit into Pi
+## Wire the toolkit into Pi
 
-### A. Routing adapter (default, like every other harness)
+**A. Routing adapter (default).** Point Pi at this directory's generated
+`AGENTS.md`; it routes to the canonical skills via the same contract as the
+other harnesses.
 
-Point Pi at this directory's generated `AGENTS.md`. Pi reads repository-root
-`AGENTS.md` and `general-semantic-contracts.md`, then selects and reads the
-relevant canonical skill from the generated list. This mirrors the Codex, Vibe,
-and GitHub Copilot adapters exactly and keeps Pi on the same routing contract.
+**B. Native skill loading.** Two ways, both referencing (not copying) the
+canonical skills and enabling auto-discovery + `/skill:<name>`:
 
-### B. Native skill loading (reference, don't copy)
+1. **Via `settings.json`** — register the toolkit's `skills/` directory in
+   `~/.pi/settings.json` (or project `.pi/settings.json`):
 
-Pi's native discovery can surface the canonical skills automatically, without
-copying them, by registering the toolkit's `skills/` directory:
+   ```json
+   {
+     "skills": ["/path/to/architecture-knowledge-toolkit/skills"]
+   }
+   ```
 
-```json
-// ~/.pi/settings.json (or project .pi/settings.json)
-{
-  "skills": ["/path/to/architecture-knowledge-toolkit/skills"]
-}
-```
+2. **Via the shared installer** — since Pi reads `.agents/skills`, run the
+   installer's `agents` mode (see `../shared/README.md`):
 
-Pi still references the canonical `SKILL.md` files in place, so content stays in
-the toolkit and never drifts. This gives you automatic discovery and
-`/skill:<name>` commands while keeping the toolkit as the single source of
-truth.
+   ```bash
+   ../shared/install-skills.sh
+   ```
 
-Pi also reads `~/.agents/skills` and project `.agents/skills/`, so the shared
-installer's `agents` mode (`../shared/install-skills.sh`) enables native
-loading for Pi and OpenCode from one root; see `../shared/README.md`.
+Caveats:
 
-## Auto-load caveats
-
-- **Reference, don't copy.** Register the toolkit `skills/` directory path or a
-  curated wrapper that points back to it. Do not copy `skills/**/SKILL.md`
-  into the consuming project or into global Pi skill locations; copies drift.
-- **Pi ignores `adapter_expose`.** Pi has no notion of the toolkit's
-  `adapter_expose: false` marker, so registering the whole `skills/` directory
-  surfaces helper skills too (currently `grilling`) that the generated routing
-  adapter deliberately omits. Prefer a curated wrapper directory that selects
-  only the intended skills.
-- **Context/token footprint.** Auto-loading injects every skill's description
-  into the Pi system prompt each session. Keep registered skill descriptions
-  concise, or use a curated wrapper list, to avoid permanent system-prompt
-  overhead (relevant to the toolkit's GreenIT-aware guidance).
-- **Pin a stable version.** Favor a release tag or commit SHA for a long-lived
-  Pi setup so the auto-loaded reference is reproducible, rather than pointing at
-  the toolkit's moving `main` branch.
-- **Contract order still governs.** Native auto-loading only changes discovery;
-  the reading order (user instruction, relevant skill, `AGENTS.md`,
-  `general-semantic-contracts.md`) and the "smallest relevant satellite skill"
-  selection still apply.
+- Pi ignores `adapter_expose`, so either approach surfaces helper skills too
+  (currently `grilling`); prefer a curated wrapper.
+- Pin a stable toolkit tag rather than `main` for a reproducible setup.
+- The contract reading order (relevant skill, `AGENTS.md`,
+  `general-semantic-contracts.md`) still applies.
 
 ## Adapter Boundary
 
