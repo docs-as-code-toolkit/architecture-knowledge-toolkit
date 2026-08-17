@@ -5,13 +5,17 @@
 # skill files stay in the toolkit.
 #
 # Usage:
-#   ./install-skills.sh [claude]      # project: .agents/skills (default) or .claude/skills
-#   ./install-skills.sh -g [claude]   # global: ~/.agents/skills or ~/.claude/skills
-#   ./install-skills.sh --root <dir>  # arbitrary SKILL.md harness root
+#   ./install-skills.sh [install] [claude]   # project: .agents/skills (default) or .claude/skills
+#   ./install-skills.sh remove  [claude]     # remove installed toolkit symlinks
+#   ./install-skills.sh [-g|--global] [claude]
+#   ./install-skills.sh --root <dir>         # arbitrary SKILL.md harness root
 #
 # Project-local is the default: it targets `.agents/skills` in the git worktree
 # root (or the current directory outside a git repo). Pass -g/--global to
 # install into the user-global `~/.agents/skills` instead.
+#
+# `remove` only deletes symlinks whose target is the toolkit itself, so
+# project-authored skills in the same root are never touched.
 #
 # Skips helper skills marked adapter_expose: false and non-skill directories.
 # The symlinked entries are generated artifacts, not committed source. Re-run
@@ -37,6 +41,25 @@ link_root() {
   printf 'installed into %s\n' "$root"
 }
 
+remove_root() {
+  local root="$1" name entry
+  for skill in "$TOOLKIT"/skills/*/SKILL.md; do
+    [ -f "$skill" ] || continue
+    name="$(basename "$(dirname "$skill")")"
+    entry="$root/$name"
+    if [ -L "$entry" ] && [ "$(readlink -f "$entry")" = "$(readlink -f "$(dirname "$skill")")" ]; then
+      rm -f "$entry"
+      printf 'removed %s\n' "$name"
+    fi
+  done
+  printf 'done\n'
+}
+
+ACTION=install
+case "${1:-}" in
+  install|remove) ACTION="$1"; shift ;;
+esac
+
 GLOBAL=false
 TARGET=agents
 ROOT=""
@@ -52,13 +75,19 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -n "$ROOT" ]; then
-  link_root "$ROOT"
+  target_root="$ROOT"
 elif [ "$GLOBAL" = true ]; then
-  link_root "${HOME}/.${TARGET}/skills"
+  target_root="${HOME}/.${TARGET}/skills"
 else
   proj="$PWD"
   if toplevel="$(git rev-parse --show-toplevel 2>/dev/null)"; then
     proj="$toplevel"
   fi
-  link_root "$proj/.${TARGET}/skills"
+  target_root="$proj/.${TARGET}/skills"
+fi
+
+if [ "$ACTION" = remove ]; then
+  remove_root "$target_root"
+else
+  link_root "$target_root"
 fi
