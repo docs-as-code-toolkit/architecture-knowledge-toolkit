@@ -10,15 +10,21 @@ up any toolkit updates.
 ### Usage
 
 ```bash
-./install-skills.sh [agents|claude]   # target; default: agents
-./install-skills.sh --root <dir>      # arbitrary SKILL.md harness root
-./install-skills.sh --all             # agents + claude
+./install-skills.sh [claude]      # project: .agents/skills (default) or .claude/skills
+./install-skills.sh -g [claude]   # global: ~/.agents/skills or ~/.claude/skills
+./install-skills.sh --root <dir>  # arbitrary SKILL.md harness root
 ```
 
-| Target  | Root                     | Read by                     |
-|---------|--------------------------|-----------------------------|
-| `agents` (default) | `~/.agents/skills` | Codex, Cursor, OpenCode, pi, Vibe |
-| `claude` | `~/.claude/skills` | Claude Code, OpenCode |
+Project-local is the default: it targets `.agents/skills` in the git worktree
+root (or the current directory outside a git repo). Pass `-g`/`--global` to
+install into the user-global root instead.
+
+| Mode | Root | Read by |
+|------|------|---------|
+| default (project) | `.agents/skills` (git root) | Codex, Cursor, OpenCode, pi, Vibe |
+| `claude` (project) | `.claude/skills` (git root) | Claude Code, OpenCode |
+| `-g` / `--global` | `~/.agents/skills` | user-wide for Codex, Cursor, OpenCode, pi, Vibe |
+| `-g claude` | `~/.claude/skills` | user-wide for Claude Code, OpenCode |
 | `--root` | any directory | any SKILL.md harness |
 
 ### Behavior
@@ -26,4 +32,6 @@ up any toolkit updates.
 - Symlinks each exposed skill directory into the chosen root.
 - Skips helper skills marked `adapter_expose: false` and non-skill dirs.
 - `ARCHITECTURE_KNOWLEDGE_TOOLKIT` overrides the toolkit location.
+- Symlinked entries are generated artifacts, not committed source; keep them
+  out of version control.
 - Re-run after a toolkit update; pin a stable toolkit tag for reproducibility.

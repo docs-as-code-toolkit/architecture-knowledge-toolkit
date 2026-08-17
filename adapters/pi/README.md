@@ -27,7 +27,8 @@ canonical skills and enabling auto-discovery + `/skill:<name>`:
    ```
 
 2. **Via the shared installer** — since Pi reads `.agents/skills`, run the
-   installer's `agents` mode (see `../shared/README.md`):
+   installer (defaults to the project's `.agents/skills`; see
+   `../shared/README.md`):
 
    ```bash
    ../shared/install-skills.sh
