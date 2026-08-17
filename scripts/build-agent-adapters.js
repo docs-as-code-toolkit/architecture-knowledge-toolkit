@@ -26,6 +26,12 @@ async function main() {
       wrap: defaultWrap,
     },
     {
+      path: "adapters/pi/AGENTS.md",
+      title: "Pi Adapter",
+      agent: "Pi",
+      wrap: defaultWrap,
+    },
+    {
       path: "adapters/github-copilot/copilot-instructions.md",
       title: "GitHub Copilot Adapter",
       agent: "GitHub Copilot",
