@@ -35,7 +35,12 @@ link_root() {
       printf 'skip (adapter_expose: false): %s\n' "$name"
       continue
     fi
-    ln -sfn "$(dirname "$skill")" "$root/$name"
+    entry="$root/$name"
+    if [ -e "$entry" ] && [ ! -L "$entry" ]; then
+      printf 'skip (existing non-symlink): %s\n' "$entry" >&2
+      continue
+    fi
+    ln -sfn "$(dirname "$skill")" "$entry"
     printf 'linked %s -> %s\n' "$name" "$root"
   done
   printf 'installed into %s\n' "$root"
