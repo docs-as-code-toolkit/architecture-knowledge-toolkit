@@ -36,8 +36,10 @@ canonical skills and enabling auto-discovery + `/skill:<name>`:
 
 Caveats:
 
-- Pi ignores `adapter_expose`, so either approach surfaces helper skills too
-  (currently `grilling`); prefer a curated wrapper.
+- **Via `settings.json`**: Pi exposes the whole `skills/` directory, so helper
+  skills are surfaced too (currently `grilling`); prefer a curated wrapper.
+  **Via the shared installer**: helper skills are filtered out — it only links
+  skills whose `SKILL.md` is not marked `adapter_expose: false`.
 - Pin a stable toolkit tag rather than `main` for a reproducible setup.
 - The contract reading order (relevant skill, `AGENTS.md`,
   `general-semantic-contracts.md`) still applies.

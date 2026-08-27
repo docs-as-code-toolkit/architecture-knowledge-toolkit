@@ -303,7 +303,8 @@ ruby -Itest test/validate_metamodel_test.rb       # validator + generator units
 ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
 node --test test/build-agent-adapters.test.mjs \
   test/build-agent-adapters-template.test.mjs \
-  test/build-sh-template.test.mjs                 # adapter generator + build.sh templates
+  test/build-sh-template.test.mjs \
+  test/install-skills.test.mjs                    # adapter generator + build.sh + skill installer
 ```
 
 The container-based render scripts (`build.sh` itself and
@@ -367,7 +368,7 @@ example to pin a digest) with `DOCS_TOOLBOX_IMAGE`.
 | `generate` | Validate, then generate derived fragments/indexes | `ruby scripts/validate-metamodel.rb --generate` |
 | `test` | Run all tests (Ruby units, Ruby CLI, JS adapter) | see [Tests](#tests) |
 | `test-ruby` | Ruby validator/generator unit and CLI tests | `ruby -Itest test/validate_metamodel_test.rb` and `ruby -Itest test/validate_metamodel_cli_test.rb` |
-| `test-js` | JS adapter generator + build.sh template tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs` |
+| `test-js` | JS adapter generator + build.sh template tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs test/install-skills.test.mjs` |
 | `adapters` | Regenerate agent adapters from skills | `node scripts/build-agent-adapters.js` |
 | `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
 | `build` | Generate fragments and render architecture HTML | see below |
