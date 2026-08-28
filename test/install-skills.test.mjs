@@ -27,7 +27,7 @@ function workspace(t) {
 function run(root, ...args) {
   return spawnSync(
     "bash",
-    [installer, ...args, "--root", root],
+    [installer, ...args, "--skills-dir", root],
     {
       cwd: repoRoot,
       encoding: "utf8",
