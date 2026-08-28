@@ -82,6 +82,20 @@ test("does not modify an existing project-owned skill directory", (t) => {
   assert.equal(fs.existsSync(path.join(customSkill, "adr")), false);
 });
 
+test("does not replace an existing foreign symlink", (t) => {
+  const root = workspace(t);
+  const foreignTarget = path.join(root, "somewhere-else");
+  fs.mkdirSync(foreignTarget, { recursive: true });
+  fs.writeFileSync(path.join(foreignTarget, "SKILL.md"), "# Foreign skill\n");
+  fs.symlinkSync(foreignTarget, path.join(root, "adr"));
+
+  const result = run(root);
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(fs.lstatSync(path.join(root, "adr")).isSymbolicLink(), true);
+  assert.equal(fs.readlinkSync(path.join(root, "adr")), foreignTarget);
+});
+
 test("remove deletes toolkit links but preserves project-owned skills", (t) => {
   const root = workspace(t);
   const customSkill = path.join(root, "custom");
