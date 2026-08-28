@@ -13,7 +13,7 @@ up any toolkit updates.
 ./install-skills.sh [install] [claude]   # project: .agents/skills (default) or .claude/skills
 ./install-skills.sh remove  [claude]     # remove installed toolkit symlinks
 ./install-skills.sh -g [claude]          # global: ~/.agents/skills or ~/.claude/skills
-./install-skills.sh --root <dir>         # arbitrary SKILL.md harness root
+./install-skills.sh --skills-dir <dir>   # arbitrary SKILL.md discovery root
 ```
 
 Project-local is the default: it targets `.agents/skills` in the git worktree
@@ -26,7 +26,7 @@ install into the user-global root instead.
 | `claude` (project) | `.claude/skills` (git root) | Claude Code, OpenCode |
 | `-g` / `--global` | `~/.agents/skills` | user-wide for Codex, Cursor, OpenCode, pi, Vibe |
 | `-g claude` | `~/.claude/skills` | user-wide for Claude Code, OpenCode |
-| `--root` | any directory | any SKILL.md harness |
+| `--skills-dir` | any directory | any SKILL.md harness |
 | `remove` | same root selection | removes only toolkit symlinks |
 
 ### Behavior

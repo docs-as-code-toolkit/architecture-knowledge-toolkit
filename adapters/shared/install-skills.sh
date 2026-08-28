@@ -8,7 +8,7 @@
 #   ./install-skills.sh [install] [claude]   # project: .agents/skills (default) or .claude/skills
 #   ./install-skills.sh remove  [claude]     # remove installed toolkit symlinks
 #   ./install-skills.sh [-g|--global] [claude]
-#   ./install-skills.sh --root <dir>         # arbitrary SKILL.md harness root
+#   ./install-skills.sh --skills-dir <dir>   # arbitrary SKILL.md discovery root
 #
 # Project-local is the default: it targets `.agents/skills` in the git worktree
 # root (or the current directory outside a git repo). Pass -g/--global to
@@ -85,20 +85,20 @@ esac
 
 GLOBAL=false
 TARGET=agents
-ROOT=""
+SKILLS_DIR=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
     -g|--global) GLOBAL=true ;;
-    --root) ROOT="${2:?--root requires a directory}"; shift ;;
+    --skills-dir) SKILLS_DIR="${2:?--skills-dir requires a directory}"; shift ;;
     agents|claude) TARGET="$1" ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
   shift
 done
 
-if [ -n "$ROOT" ]; then
-  target_root="$ROOT"
+if [ -n "$SKILLS_DIR" ]; then
+  target_root="$SKILLS_DIR"
 elif [ "$GLOBAL" = true ]; then
   target_root="${HOME}/.${TARGET}/skills"
 else
