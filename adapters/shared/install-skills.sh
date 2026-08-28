@@ -25,21 +25,29 @@
 
 set -euo pipefail
 
-TOOLKIT_INPUT="${ARCHITECTURE_KNOWLEDGE_TOOLKIT:-$(dirname "${BASH_SOURCE[0]}")/../..}"
-TOOLKIT="$(cd "$TOOLKIT_INPUT" && pwd -P)"
+TOOLKIT_SRC="${ARCHITECTURE_KNOWLEDGE_TOOLKIT:-$(dirname "${BASH_SOURCE[0]}")/../..}"
+TOOLKIT="$(cd "$TOOLKIT_SRC" && pwd -P)"
 
-link_root() {
-  local root="$1" name target entry
-  mkdir -p "$root"
+for_skill() {
+  local action="$1" root="$2" name target entry
   for skill in "$TOOLKIT"/skills/*/SKILL.md; do
     [ -f "$skill" ] || continue
     name="$(basename "$(dirname "$skill")")"
+    target="$(dirname "$skill")"
     if grep -q '^adapter_expose:[[:space:]]*false' "$skill"; then
       printf 'skip (adapter_expose: false): %s\n' "$name"
       continue
     fi
-    target="$(dirname "$skill")"
     entry="$root/$name"
+    if [ "$action" = remove ]; then
+      if [ -L "$entry" ]; then
+        if [ "$(readlink "$entry")" = "$target" ]; then
+          rm -f "$entry"
+          printf 'removed %s\n' "$name"
+        fi
+      fi
+      continue
+    fi
     if [ -L "$entry" ]; then
       if [ "$(readlink "$entry")" = "$target" ]; then
         printf 'already linked: %s\n' "$name"
@@ -55,24 +63,18 @@ link_root() {
     ln -s "$target" "$entry"
     printf 'linked %s -> %s\n' "$name" "$root"
   done
+}
+
+link_root() {
+  local root="$1"
+  mkdir -p "$root"
+  for_skill install "$root"
   printf 'installed into %s\n' "$root"
 }
 
 remove_root() {
-  local root="$1" name target entry
-  for skill in "$TOOLKIT"/skills/*/SKILL.md; do
-    [ -f "$skill" ] || continue
-    name="$(basename "$(dirname "$skill")")"
-    entry="$root/$name"
-    target="$(dirname "$skill")"
-    if [ -L "$entry" ]; then
-      current_target="$(readlink "$entry")"
-      if [ "$current_target" = "$target" ]; then
-        rm -f "$entry"
-        printf 'removed %s\n' "$name"
-      fi
-    fi
-  done
+  local root="$1"
+  for_skill remove "$root"
   printf 'done\n'
 }
 
