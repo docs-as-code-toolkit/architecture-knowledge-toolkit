@@ -33,6 +33,8 @@ install into the user-global root instead.
 
 - Symlinks each exposed skill directory into the chosen root.
 - Skips helper skills marked `adapter_expose: false` and non-skill dirs.
+- Never overwrites project-owned entries: existing files, directories, or
+  foreign symlinks at a target path are left untouched and reported.
 - `ARCHITECTURE_KNOWLEDGE_TOOLKIT` overrides the toolkit location.
 - Symlinked entries are generated artifacts, not committed source; keep them
   out of version control.

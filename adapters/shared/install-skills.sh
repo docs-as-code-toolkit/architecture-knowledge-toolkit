@@ -18,15 +18,18 @@
 # project-authored skills in the same root are never touched.
 #
 # Skips helper skills marked adapter_expose: false and non-skill directories.
+# Existing files, directories, or foreign symlinks at a target path are left
+# untouched (never overwritten) and reported to stderr.
 # The symlinked entries are generated artifacts, not committed source. Re-run
 # after a toolkit update; pin a stable toolkit tag for reproducibility.
 
 set -euo pipefail
 
-TOOLKIT="${ARCHITECTURE_KNOWLEDGE_TOOLKIT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+TOOLKIT_INPUT="${ARCHITECTURE_KNOWLEDGE_TOOLKIT:-$(dirname "${BASH_SOURCE[0]}")/../..}"
+TOOLKIT="$(cd "$TOOLKIT_INPUT" && pwd -P)"
 
 link_root() {
-  local root="$1" name
+  local root="$1" name target entry
   mkdir -p "$root"
   for skill in "$TOOLKIT"/skills/*/SKILL.md; do
     [ -f "$skill" ] || continue
@@ -35,26 +38,39 @@ link_root() {
       printf 'skip (adapter_expose: false): %s\n' "$name"
       continue
     fi
+    target="$(dirname "$skill")"
     entry="$root/$name"
-    if [ -e "$entry" ] && [ ! -L "$entry" ]; then
+    if [ -L "$entry" ]; then
+      if [ "$(readlink "$entry")" = "$target" ]; then
+        printf 'already linked: %s\n' "$name"
+      else
+        printf 'skip (existing foreign symlink): %s\n' "$entry" >&2
+      fi
+      continue
+    fi
+    if [ -e "$entry" ]; then
       printf 'skip (existing non-symlink): %s\n' "$entry" >&2
       continue
     fi
-    ln -sfn "$(dirname "$skill")" "$entry"
+    ln -s "$target" "$entry"
     printf 'linked %s -> %s\n' "$name" "$root"
   done
   printf 'installed into %s\n' "$root"
 }
 
 remove_root() {
-  local root="$1" name entry
+  local root="$1" name target entry
   for skill in "$TOOLKIT"/skills/*/SKILL.md; do
     [ -f "$skill" ] || continue
     name="$(basename "$(dirname "$skill")")"
     entry="$root/$name"
-    if [ -L "$entry" ] && [ "$(readlink -f "$entry")" = "$(readlink -f "$(dirname "$skill")")" ]; then
-      rm -f "$entry"
-      printf 'removed %s\n' "$name"
+    target="$(dirname "$skill")"
+    if [ -L "$entry" ]; then
+      current_target="$(readlink "$entry")"
+      if [ "$current_target" = "$target" ]; then
+        rm -f "$entry"
+        printf 'removed %s\n' "$name"
+      fi
     fi
   done
   printf 'done\n'
