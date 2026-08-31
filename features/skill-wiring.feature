@@ -26,13 +26,16 @@ Feature: Skill wiring
     When each is inspected for the canonical gate
     Then all three reference skills/convergence-check/SKILL.md
 
-  Scenario: The Convergence Check result states live in exactly one skill
-    Given the canonical skills under skills/
-    When they are searched for a definition of the gate's result states
-    Then only the Convergence Check itself defines them
-    # Naming a state is allowed; defining it elsewhere is the copy that drifts.
+  Scenario: No caller defines any of the Convergence Check result states
+    Given the four result states read from the Convergence Check itself
+    When every other skill is searched for a definition of any of them
+    Then none defines one
+    # Naming a state is allowed and often clearer; defining it elsewhere is the
+    # copy that drifts. All four are checked, not just one.
 
-  Scenario: The Convergence Check questions are not copied into a caller
-    Given the canonical skills under skills/
-    When they are searched for the gate's seven-question structure
-    Then only the Convergence Check itself carries it
+  Scenario: No caller carries the Convergence Check question structure
+    Given the seven question titles read from the Convergence Check itself
+    When every other skill is searched for those titles as headings
+    Then none carries two or more of them
+    # The section heading alone would not catch a copy made without it, so the
+    # question titles themselves are what is checked.
