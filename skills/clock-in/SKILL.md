@@ -45,6 +45,27 @@ it invokes runs **delegated** and does not orchestrate back.
 The multi-project view belongs to the private layer. This skill orients **one**
 repository: the one it was invoked in.
 
+## Never delegate to yourself
+
+Every delegation in this skill finds its target by path, not by identity, and
+three of those paths resolve back to this file:
+
+- Inside the toolkit itself, `skills/clock-in/SKILL.md` "in the repository being
+  worked in" **is** this file.
+- A project that installed the toolkit's skills into its own `skills/` reaches
+  this file through a symlink that looks project-local.
+- A private journal bound to a repository whose clock skill defers back upward —
+  the normal shape of a project delta — arrives here again by way of the
+  binding.
+
+So: **resolve every delegation target to its real path, following symlinks, and
+compare it with the file you are executing.** Same file, and you are already the
+delegate: do not delegate, and use the default layout instead.
+
+The session lead rule does not cover this. It governs the loop *between* the two
+layers and assumes the two skills are different files; self-delegation happens
+*inside* one layer, where that rule never fires.
+
 ## Workflow
 
 **1. Establish the project state before asking anything.**
@@ -62,10 +83,12 @@ facts about where the last session stopped, and they outrank any file.
 
 **2. Delegate to the project's own clock-in skill when it has one.**
 
-Look for `skills/clock-in/SKILL.md` in the repository being worked in. When it
-exists, read and execute it as the authoritative project-specific workflow: it
-owns the project's paths, file formats, and diary wiring, and this skill owns
-only the ritual around it. When it does not exist, use the default layout below.
+Look for `skills/clock-in/SKILL.md` in the repository being worked in, and apply
+"Never delegate to yourself" to what you find. When it exists and is a different
+file, read and execute it as the authoritative project-specific workflow: it owns
+the project's paths, file formats, and diary wiring, and this skill owns only the
+ritual around it. When it does not exist, or resolves to this file, use the
+default layout below.
 
 **3. Resolve the private journal binding.** See "The private journal binding".
 Recover its state *before* the focus question — an open day may be older than
@@ -143,7 +166,12 @@ private journal is asked again every single session, and the mechanism becomes
 the thing people work around.
 
 When the binding is enabled, read `<path>/<clock_in>` and execute it in
-delegated mode. When the path is missing or unreachable — another machine, a
+delegated mode — after checking it against "Never delegate to yourself", and
+after checking that the binding does not name the repository being worked in. A
+binding that points at the current repository describes one layer, not two.
+
+**A delegated invocation does not resolve the binding at all.** The lead resolved
+it already; re-resolving is what turns a project delta into a cycle. When the path is missing or unreachable — another machine, a
 checkout not present — record the gap and finish the project layer anyway. The
 private layer is never allowed to block the project layer.
 

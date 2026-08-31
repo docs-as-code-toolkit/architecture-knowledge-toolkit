@@ -84,6 +84,12 @@ project. This helper keeps it in one user-level file instead.
 - `disable` exists because **"I keep no private journal" is an answer worth
   storing.** Without it, a user without one is asked again every session, and
   the mechanism becomes the thing people work around.
+- Both `set` and the environment override refuse a directory whose clock skills
+  resolve into the toolkit — the journal would delegate to the skill that called
+  it. This catches binding the toolkit itself and binding a project that
+  installed the toolkit's skills into its own `skills/`. It cannot catch a
+  journal holding its own delta file that defers upward in prose; that one is
+  the skills' "Never delegate to yourself" rule.
 - `get` still reports a binding whose checkout is absent on this machine and
   warns `unreachable` on stderr. The private layer never blocks the project
   layer.

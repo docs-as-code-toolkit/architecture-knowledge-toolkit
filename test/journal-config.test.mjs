@@ -167,6 +167,55 @@ test("A directory without clock skills is refused", (t) => {
   assert.equal(fs.existsSync(config), false);
 });
 
+test("Binding the toolkit itself is refused", (t) => {
+  // Given the toolkit, which ships clock-in and clock-out of its own
+  const dir = workspace(t);
+  const config = path.join(dir, "journal.conf");
+
+  // When the journal is bound to the toolkit
+  const result = run(config, ["set", "--path", repoRoot]);
+
+  // Then binding fails because the journal would delegate to the calling skill
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /resolves into the toolkit/);
+  assert.equal(fs.existsSync(config), false);
+});
+
+test("A journal whose clock skills are the toolkit's is refused", (t) => {
+  // Given a directory whose clock skills are symlinks to the toolkit's own —
+  // what `install-skills.sh --skills-dir <dir>/skills` produces.
+  const dir = workspace(t);
+  const journal = path.join(dir, "journal");
+  fs.mkdirSync(path.join(journal, "skills"), { recursive: true });
+  for (const name of ["clock-in", "clock-out"]) {
+    fs.symlinkSync(path.join(repoRoot, "skills", name), path.join(journal, "skills", name));
+  }
+  const config = path.join(dir, "journal.conf");
+
+  // When the journal is bound to that directory
+  const result = run(config, ["set", "--path", journal]);
+
+  // Then binding fails because the journal would delegate to the calling skill
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /resolves into the toolkit/);
+  assert.equal(fs.existsSync(config), false);
+});
+
+test("The environment cannot name the toolkit either", (t) => {
+  // Given no stored binding
+  const dir = workspace(t);
+  const config = path.join(dir, "journal.conf");
+
+  // When the environment names the toolkit as the journal
+  const result = run(config, ["get"], {
+    ARCHITECTURE_KNOWLEDGE_TOOLKIT_JOURNAL: repoRoot,
+  });
+
+  // Then resolving fails rather than returning a self-delegating binding
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /resolves into the toolkit/);
+});
+
 test("Forgetting the binding returns to the setup question", (t) => {
   // Given a stored binding to a journal checkout
   const dir = workspace(t);

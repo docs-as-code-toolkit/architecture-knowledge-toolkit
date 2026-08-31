@@ -25,11 +25,19 @@
 # `disable` exists so that "I keep no private journal" is a stored answer. Without
 # it, a user without one is asked again every session.
 #
+# A directory whose clock skills resolve into the toolkit is refused: the journal
+# would delegate to the skill that called it. What this cannot catch is a journal
+# holding its own delta file that defers upward in prose — that one is the skills'
+# rule, not this helper's.
+#
 # The file is plain `key=value` so that a shell can read it without a JSON
 # parser, and it is created with owner-only permissions because it names a
 # private repository.
 
 set -euo pipefail
+
+TOOLKIT_SRC="${ARCHITECTURE_KNOWLEDGE_TOOLKIT:-$(dirname "${BASH_SOURCE[0]}")/../..}"
+TOOLKIT="$(cd "$TOOLKIT_SRC" && pwd -P)"
 
 CONFIG_FILE=""
 
@@ -79,6 +87,20 @@ discover_skill() {
   printf '%s' "${exact#"$dir"/}"
 }
 
+# A journal whose clock skills are the toolkit's own is not a second layer: the
+# skill would delegate to the file that is executing it. That happens when the
+# toolkit itself is bound, and when a project installed the toolkit's skills into
+# its own `skills/`, where the symlink makes the path look project-local.
+refuse_self_delegation() {
+  local dir="$1" rel="$2" real
+  real="$(cd "$dir/$(dirname "$rel")" && pwd -P)"
+  case "$real/" in
+    "$TOOLKIT"/*)
+      die "$dir/$rel resolves into the toolkit ($real); a journal cannot delegate to the skill that calls it" 4
+      ;;
+  esac
+}
+
 emit_enabled() {
   local path="$1" clock_in="$2" clock_out="$3" source="$4"
   printf 'enabled=true\npath=%s\nclock_in=%s\nclock_out=%s\nsource=%s\n' \
@@ -103,6 +125,8 @@ cmd_get() {
         || die "no clock-in skill found in $resolved/skills" 4
       clock_out="$(discover_skill "$resolved" clock-out)" \
         || die "no clock-out skill found in $resolved/skills" 4
+      refuse_self_delegation "$resolved" "$clock_in"
+      refuse_self_delegation "$resolved" "$clock_out"
       emit_enabled "$resolved" "$clock_in" "$clock_out" env
       return 0
       ;;
@@ -160,6 +184,8 @@ cmd_set() {
   fi
   [ -f "$dir/$clock_in" ] || die "no such file: $dir/$clock_in" 4
   [ -f "$dir/$clock_out" ] || die "no such file: $dir/$clock_out" 4
+  refuse_self_delegation "$dir" "$clock_in"
+  refuse_self_delegation "$dir" "$clock_out"
 
   local file
   file="$(config_file)"

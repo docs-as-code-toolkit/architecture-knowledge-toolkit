@@ -44,6 +44,21 @@ Feature: Private journal binding
     When the journal is bound to that directory
     Then binding fails and names what is missing
 
+  Scenario: Binding the toolkit itself is refused
+    Given the toolkit, which ships clock-in and clock-out of its own
+    When the journal is bound to the toolkit
+    Then binding fails because the journal would delegate to the calling skill
+
+  Scenario: A journal whose clock skills are the toolkit's is refused
+    Given a directory whose clock skills are symlinks to the toolkit's own
+    When the journal is bound to that directory
+    Then binding fails because the journal would delegate to the calling skill
+
+  Scenario: The environment cannot name the toolkit either
+    Given no stored binding
+    When the environment names the toolkit as the journal
+    Then resolving fails rather than returning a self-delegating binding
+
   Scenario: Forgetting the binding returns to the setup question
     Given a stored binding to a journal checkout
     When the binding is forgotten
