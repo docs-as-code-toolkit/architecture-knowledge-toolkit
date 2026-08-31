@@ -82,6 +82,10 @@ source of truth when these rules evolve.
 15. Run the relevant validators, generators, render checks, tests, or manual
     checks. Report any unavailable verification and remaining open human
     decisions.
+16. Before the work is treated as complete, run `../convergence-check/SKILL.md`.
+    Impact analysis establishes what the change touches; the gate asks whether
+    the request, the specification, the architecture record, the implementation
+    and the delivery metadata still agree afterwards.
 
 ## Required Reading
 
@@ -197,3 +201,5 @@ Read these files when the feature or review touches the corresponding scope:
   risks, quality scenarios, PRs, and real sub-issues where supported?
 - Are validators, generators, tests, and render checks run or explicitly noted
   as not run?
+- Does the change carry a Convergence Check result, with every finding given a
+  disposition and every blocker its kind, per `../convergence-check/SKILL.md`?

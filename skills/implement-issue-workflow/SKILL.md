@@ -63,6 +63,10 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 3. Push the `issue_<number>` branch to the remote repository.
 4. Open a pull request against `main`.
 5. Include the issue link, implementation summary, and verification results in the pull request body.
+6. Before declaring the pull request ready, run `../convergence-check/SKILL.md`
+   and record its result and finding dispositions in the pull request body. That
+   skill owns the questions, the result states, and what counts as evidence;
+   this workflow only says when to run it.
 
 ## Address PR Comments
 
@@ -88,8 +92,10 @@ repository policy requires merge commits.
 
 Do not integrate or clean up branches automatically when there are warning
 signs, such as failed or unknown checks, unresolved merge state, a diverged
-local branch, unpushed local commits, uncertain PR state, or unclear branch
-ownership. Report the situation and let the developer decide.
+local branch, unpushed local commits, uncertain PR state, unclear branch
+ownership, or a Convergence Check result that is anything other than converged
+or converged with recorded waivers. Report the situation and let the developer
+decide.
 
 ## After PR Integration
 
