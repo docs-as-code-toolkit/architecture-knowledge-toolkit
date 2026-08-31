@@ -33,12 +33,18 @@ review workflow needs a stricter rule.
    markings stay aligned.
 6. Run relevant validators, tests, linters, render checks, or targeted commands
    when available and reasonable for the changed files.
-7. Prioritize defects, behavioral regressions, broken contracts, missing
+7. Check the Convergence Check result the pull request reports, per
+   `../convergence-check/SKILL.md`. A result claimed without the evidence behind
+   it, a finding left without a disposition, or a blocker reported without its
+   kind is itself a review finding. When the pull request reports no result and
+   the change went through a feature or implementation workflow, say so rather
+   than supplying one from the review.
+8. Prioritize defects, behavioral regressions, broken contracts, missing
    verification, unsafe assumptions, stale links, and traceability problems.
-8. Write findings first, ordered by severity. Keep summaries secondary.
-9. Prefer precise file and line references for actionable findings.
-10. Separate blocking findings from non-blocking suggestions and questions.
-11. If no actionable findings are found, say so clearly and still report any
+9. Write findings first, ordered by severity. Keep summaries secondary.
+10. Prefer precise file and line references for actionable findings.
+11. Separate blocking findings from non-blocking suggestions and questions.
+12. If no actionable findings are found, say so clearly and still report any
     residual risk or verification that could not be performed.
 
 ## Review Focus
@@ -73,6 +79,9 @@ Read these files when the PR touches the corresponding scope:
   PRs, or refactoring PRs.
 - `../traceability-review/SKILL.md` before reviewing relation metadata or
   traceability changes.
+- `../convergence-check/SKILL.md` before judging a reported convergence result,
+  so the review checks it against the canonical definition rather than a
+  remembered one.
 - `../adr/SKILL.md`, `../quality-scenario/SKILL.md`, or `../risk/SKILL.md`
   before reviewing those artifact types.
 - `../../adapters/github-copilot/README.md` when GitHub Copilot performs the
