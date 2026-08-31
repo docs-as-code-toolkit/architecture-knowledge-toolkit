@@ -14,6 +14,115 @@ without making AI a required dependency.
 AI may suggest architecture artifacts and relationships, but the repository owns
 the truth. Reviewed metadata and source documents are the authoritative record.
 
+## Capabilities
+
+A list of skills explains the building blocks. This explains what they add up
+to: each capability names the moment it starts from, the outcome it produces,
+and the canonical skills that collaborate to produce it.
+
+This section is **navigation, not rules**. Every rule lives in the linked skill
+or contract, which stays the single source of truth; nothing here restates one.
+
+Underneath all of them:
+[`skills/architecture-core`](/skills/architecture-core/SKILL.md) is the baseline
+every architecture-sensitive task reads first, and
+[`general-semantic-contracts.md`](general-semantic-contracts.md) is the
+engine-agnostic contract it applies.
+
+### Architecture-aware Spec-Driven Development
+
+**Starts from** a feature request. **Produces** a specified, sliced, and
+architecturally assessed change whose issues, behaviour spec, and architecture
+documentation stay aligned as it is built.
+
+The toolkit's fullest capability, and the one no single skill shows: a feature
+request is classified as an Epic or a reviewable UserStory, its intended value
+expressed as a User Story, its new observable behaviour specified as
+language-agnostic Gherkin bridged to automated verification, its impact on the
+existing architecture analysed, the affected ADRs, quality scenarios, risks,
+components, runtime and deployment views updated, and the work sliced into
+reviewable issues — which then flow into *Reviewable Architecture Delivery*
+below.
+
+[`architecture-impact`](/skills/architecture-impact/SKILL.md) ·
+[`bdd-specification`](/skills/bdd-specification/SKILL.md) ·
+[`slice-issues`](/skills/slice-issues/SKILL.md) ·
+[`adr`](/skills/adr/SKILL.md) ·
+[`quality-scenario`](/skills/quality-scenario/SKILL.md) ·
+[`risk`](/skills/risk/SKILL.md) ·
+[`traceability-review`](/skills/traceability-review/SKILL.md)
+
+### Architecture Decision and Impact Management
+
+**Starts from** an architecture question arriving on its own — a constraint that
+changed, a risk that surfaced, a decision worth revisiting. **Produces** a
+recorded decision with its impact traced through the affected artifacts.
+
+The same skills as above serve a different entry point here, and the difference
+is the trigger rather than the toolkit: no feature request, no behaviour to
+specify, no slicing — an architecture concern that must be assessed, decided,
+and linked.
+
+[`architecture-impact`](/skills/architecture-impact/SKILL.md) ·
+[`adr`](/skills/adr/SKILL.md) ·
+[`quality-scenario`](/skills/quality-scenario/SKILL.md) ·
+[`risk`](/skills/risk/SKILL.md) ·
+[`traceability-review`](/skills/traceability-review/SKILL.md)
+
+### Domain Discovery and Domain Modeling
+
+**Starts from** a vague plan or an unsettled vocabulary. **Produces** a
+sharpened domain model, a glossary that survives contact with edge cases, and
+the decisions that came out of the argument.
+
+[`grill-me`](/skills/grilling/me/SKILL.md) ·
+[`grill-with-docs`](/skills/grilling/with-docs/SKILL.md) ·
+[`domain-modeling`](/skills/domain-modeling/SKILL.md) ·
+[`adr`](/skills/adr/SKILL.md)
+
+### Architecture Knowledge Bootstrap and Adoption
+
+**Starts from** a repository with no architecture documentation, or one whose
+documentation is a single generic file. **Produces** a Docs-as-Code knowledge
+base with metadata, traceability, validators, generators, and agent adapters
+that route to this toolkit instead of copying it.
+
+[`bootstrap-project`](/skills/bootstrap-project/SKILL.md) ·
+[`general-semantic-contracts.md`](general-semantic-contracts.md) ·
+[`metamodel/`](metamodel/) and [`templates/`](templates/) ·
+generated adapters via `scripts/build-agent-adapters.js` ·
+native skill loading via [`adapters/shared/install-skills.sh`](adapters/shared/install-skills.sh)
+
+### Reviewable Architecture Delivery
+
+**Starts from** an issue ready to implement — sliced by the capability above, or
+arriving already specified. **Produces** a reviewed, integrated change with a
+linear history and a checkout ready for the next one.
+
+[`implement-issue-workflow`](/skills/implement-issue-workflow/SKILL.md) ·
+[`commit-message`](/skills/commit-message/SKILL.md) ·
+[`pr-review`](/skills/pr-review/SKILL.md) ·
+[`traceability-review`](/skills/traceability-review/SKILL.md) ·
+[`post-merge-sync`](/skills/post-merge-sync/SKILL.md)
+
+### Session Continuity
+
+**Starts from** "clock in". **Produces** a session resumed from repository
+evidence rather than from what anyone remembers, and — at clock-out — a
+repository the next session can pick up without asking, with the day's findings
+carried into the user's private journal when one is bound.
+
+[`clock-in`](/skills/clock-in/SKILL.md) ·
+[`clock-out`](/skills/clock-out/SKILL.md) ·
+[private journal binding](#private-journal)
+
+### Outside the map
+
+[`presentation`](/skills/presentation/SKILL.md) creates Docs-as-Code slide decks
+and event material under [`talks/`](talks/). It is a genuine capability with no
+place in the architecture knowledge flow above, and it is named here rather than
+stretched into a group it does not belong to.
+
 ## Relationship to docToolchain
 
 This project is not intended to compete with
@@ -243,6 +352,9 @@ the repository as source content. If generated output differs without an input
 change, that is a defect in the generator or environment.
 
 ## AI Skills
+
+The reference list of every skill. [Capabilities](#capabilities) above shows how
+they combine; this is where you look up an individual one.
 
 Use the skill contracts under `skills/` for focused architecture workflows:
 
