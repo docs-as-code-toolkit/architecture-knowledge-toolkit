@@ -14,6 +14,8 @@ up any toolkit updates.
 ./install-skills.sh remove  [claude]     # remove installed toolkit symlinks
 ./install-skills.sh -g [claude]          # global: ~/.agents/skills or ~/.claude/skills
 ./install-skills.sh --skills-dir <dir>   # arbitrary SKILL.md discovery root
+./install-skills.sh --private-journal <dir>   # also bind the user's private journal
+./install-skills.sh --no-private-journal      # ... or record that there is none
 ```
 
 Project-local is the default: it targets `.agents/skills` in the git worktree
@@ -40,7 +42,54 @@ install into the user-global root instead.
   out of version control.
 - `remove` deletes only symlinks whose target is the toolkit, so
   project-authored custom skills in the same root are never touched.
+- `--private-journal` / `--no-private-journal` delegate to `journal-config.sh`
+  after linking. They apply to `install` only: uninstalling skills is not the
+  same as giving up a journal.
 - Re-run after a toolkit update; pin a stable toolkit tag for reproducibility.
+
+## Private Journal Binding (`journal-config.sh`)
+
+Records where the user's private journal repository lives, for the
+[`clock-in`](../../skills/clock-in/SKILL.md) and
+[`clock-out`](../../skills/clock-out/SKILL.md) skills.
+
+A private journal is **per user, not per project**: its path differs on every
+machine, so it must never be recorded in this toolkit or in a consuming
+project. This helper keeps it in one user-level file instead.
+
+### Usage
+
+```bash
+./journal-config.sh get                     # resolved binding; exit 3 if unbound
+./journal-config.sh set --path <dir> [--clock-in <rel>] [--clock-out <rel>]
+./journal-config.sh disable                 # record "no private journal"
+./journal-config.sh forget                  # remove the binding, ask again
+./journal-config.sh config-path             # where the binding is stored
+```
+
+`--config <file>` overrides the storage location for any of them.
+
+### Resolution order
+
+1. `ARCHITECTURE_KNOWLEDGE_TOOLKIT_JOURNAL` — a directory, or `off`.
+2. `${XDG_CONFIG_HOME:-$HOME/.config}/architecture-knowledge-toolkit/journal.conf`.
+3. Neither: exit `3`, meaning "ask the user once, then store the answer".
+
+### Behavior
+
+- `set` resolves the directory to an absolute path and discovers its clock
+  skills, accepting an exact `clock-in` directory or a prefixed one such as
+  `daily-clock-in`; an exact name wins. It refuses a directory where neither is
+  found unless `--clock-in` / `--clock-out` name them explicitly.
+- `disable` exists because **"I keep no private journal" is an answer worth
+  storing.** Without it, a user without one is asked again every session, and
+  the mechanism becomes the thing people work around.
+- `get` still reports a binding whose checkout is absent on this machine and
+  warns `unreachable` on stderr. The private layer never blocks the project
+  layer.
+- The file is plain `key=value` so a shell can read it without a JSON parser,
+  and it is written with owner-only permissions because it names a private
+  repository.
 
 ### Alternative: Vercel `skills` CLI
 

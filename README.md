@@ -255,6 +255,11 @@ Use the skill contracts under `skills/` for focused architecture workflows:
 - [`skills/pr-review`](/skills/pr-review/SKILL.md) for pull request reviews, including GitHub PR comments or `.pr_comments/.pr<pr-number>_comments.md` fallback files.
 - [`skills/post-merge-sync`](/skills/post-merge-sync/SKILL.md) for returning a
   local checkout to the latest base branch after a pull request has been merged.
+- [`skills/clock-in`](/skills/clock-in/SKILL.md) and
+  [`skills/clock-out`](/skills/clock-out/SKILL.md) for the session handoff:
+  start a session from repository evidence rather than memory, end it by
+  refreshing the topics touched, and carry the day's findings up into the user's
+  private journal when one is bound. See "Private journal" below.
 - [`skills/domain-modeling`](/skills/domain-modeling/SKILL.md) Actively build and sharpen a project's domain model — challenge terms against the glossary, stress-test with edge-case scenarios, and update CONTEXT.md and ADRs inline.
 - [`skills/bdd-specification`](/skills/bdd-specification/SKILL.md) for enforcing living documentation through Behaviour-Driven Development — the strict default for any new or changed behaviour: a language-agnostic Gherkin feature spec mapped to at least one automated verification via a reviewer-verifiable scenario-to-test naming convention and Given/When/Then anchors, relaxed only with an explicit recorded waiver.
 - [`skills/grilling/with-docs`](/skills/grilling/with-docs/SKILL.md) Grilling session that also builds your project's domain model, sharpening terminology and updating CONTEXT.md and ADRs inline
@@ -277,6 +282,39 @@ installer `adapters/shared/install-skills.sh` — it symlinks each exposed skill
 into the chosen root (project by default, `-g`/`--global` for user-wide,
 `remove` to uninstall), and skips helper skills marked
 `adapter_expose: false`. See `adapters/shared/README.md`.
+
+### Private journal
+
+`clock-in` and `clock-out` work across two layers: the project the agent is
+invoked in, and the user's own private journal repository, if they keep one.
+Both are always considered, and a layer that is absent is recorded as absent
+rather than invented.
+
+A private journal is **per user, not per project** — it sits at a different path
+on every machine — so its location is never recorded in this toolkit or in a
+consuming project. It is bound once at the user level:
+
+```bash
+adapters/shared/install-skills.sh --private-journal <dir>   # bind at install time
+adapters/shared/journal-config.sh set --path <dir>          # or bind later
+adapters/shared/journal-config.sh disable                   # "I keep none" is an answer too
+adapters/shared/journal-config.sh get                       # resolve; exit 3 means "ask once"
+```
+
+The binding lives in
+`${XDG_CONFIG_HOME:-$HOME/.config}/architecture-knowledge-toolkit/journal.conf`,
+outside every repository, and `ARCHITECTURE_KNOWLEDGE_TOOLKIT_JOURNAL` overrides
+it per shell (a directory, or `off`). When no answer has been recorded,
+`clock-in` asks once — separately from its topic question — and stores the
+result, including a "no".
+
+Exactly one skill leads an invocation. Inside a toolkit project the toolkit's
+`clock-out` leads and hands the day's findings up to the private journal's own
+clock-out skill; outside one, the private journal's skill leads alone, so the
+journal stays usable on a machine that has no toolkit checkout at all. A
+delegated skill never sweeps other repositories and never delegates back. The
+multi-project view belongs to the private layer; findings flow up only, and the
+private path never appears in a project artifact.
 
 ## Tests
 
@@ -303,7 +341,9 @@ ruby -Itest test/validate_metamodel_cli_test.rb   # validator CLI behaviour
 node --test test/build-agent-adapters.test.mjs \
   test/build-agent-adapters-template.test.mjs \
   test/build-sh-template.test.mjs \
-  test/install-skills.test.mjs                    # adapter generator + build.sh + skill installer
+  test/install-skills.test.mjs \
+  test/journal-config.test.mjs                    # adapter generator + build.sh +
+                                                  # skill installer + journal binding
 ```
 
 The container-based render scripts (`build.sh` itself and
@@ -367,7 +407,7 @@ example to pin a digest) with `DOCS_TOOLBOX_IMAGE`.
 | `generate` | Validate, then generate derived fragments/indexes | `ruby scripts/validate-metamodel.rb --generate` |
 | `test` | Run all tests (Ruby units, Ruby CLI, JS adapter) | see [Tests](#tests) |
 | `test-ruby` | Ruby validator/generator unit and CLI tests | `ruby -Itest test/validate_metamodel_test.rb` and `ruby -Itest test/validate_metamodel_cli_test.rb` |
-| `test-js` | JS adapter generator + build.sh template tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs test/install-skills.test.mjs` |
+| `test-js` | JS adapter generator + build.sh template tests | `node --test test/build-agent-adapters.test.mjs test/build-agent-adapters-template.test.mjs test/build-sh-template.test.mjs test/install-skills.test.mjs test/journal-config.test.mjs` |
 | `adapters` | Regenerate agent adapters from skills | `node scripts/build-agent-adapters.js` |
 | `check-adapters` | Fail if the generated adapters are stale | `node scripts/check-agent-adapters.js` |
 | `build` | Generate fragments and render architecture HTML | see below |
