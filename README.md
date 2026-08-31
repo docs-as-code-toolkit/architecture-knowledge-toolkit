@@ -252,6 +252,10 @@ Use the skill contracts under `skills/` for focused architecture workflows:
 - [`skills/quality-scenario`](/skills/quality-scenario/SKILL.md) for measurable quality scenarios.
 - [`skills/risk`](/skills/risk/SKILL.md) for architecture risks and mitigations.
 - [`skills/traceability-review`](/skills/traceability-review/SKILL.md) for metadata relation reviews.
+- [`skills/convergence-check`](/skills/convergence-check/SKILL.md) for the final
+  consistency gate: whether request, behaviour specification, architecture
+  knowledge, implementation, tests and delivery metadata tell one story, reported
+  as converged, converged with recorded waivers, not converged, or blocked.
 - [`skills/pr-review`](/skills/pr-review/SKILL.md) for pull request reviews, including GitHub PR comments or `.pr_comments/.pr<pr-number>_comments.md` fallback files.
 - [`skills/post-merge-sync`](/skills/post-merge-sync/SKILL.md) for returning a
   local checkout to the latest base branch after a pull request has been merged.
