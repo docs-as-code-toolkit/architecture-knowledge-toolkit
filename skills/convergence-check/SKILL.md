@@ -48,6 +48,12 @@ Do not report a question as passed when it never had a way to fail. That is the
 same defect as a scenario written to be green against unfixed code: a guard with
 no failure path is worse than an absent guard, because it reads like coverage.
 
+**Not applicable is not the same as blocked.** A question is *not applicable*
+when it has no bearing on this change — nothing touched the deployment view, so
+there is nothing there to contradict. It is an *unavailable blocker* when it does
+bear on the change but cannot be answered at this layer. The first needs no
+follow-up; the second does. See "Every blocker names its kind".
+
 ## The seven questions
 
 ### 1. Intent and scope
@@ -138,30 +144,58 @@ One of four, stated explicitly:
 | **Converged** | No unresolved contradiction, no missing mandatory evidence |
 | **Converged with recorded waivers** | Deviations a human explicitly accepted, each with a traceable rationale |
 | **Not converged** | Contradictions, missing links, missing verification, or undocumented decisions remain |
-| **Blocked** | The check needs evidence that is unavailable, or a human decision that has not been made |
-
-**A waiver and a blocker are different things**, and confusing them hides work.
-A waiver is a human decision about **proportionality** — "this is too small to
-specify". A blocker is an **impossibility** — the evidence cannot be produced, or
-the question cannot be answered at this layer. No amount of human authority turns
-an impossibility into a waiver; recording one as the other buries the problem in
-an accepted deviation.
+| **Blocked** | The gate cannot reach a result yet: required evidence or a required human decision is missing |
 
 Not converged and blocked are both normal outcomes. Neither is a reason to
 adjust the artifacts until the result improves.
+
+### Every blocker names its kind
+
+"Blocked" alone does not say what to do next, and the two kinds need opposite
+actions:
+
+| Kind | Meaning | What resolves it |
+|---|---|---|
+| **Pending** | The evidence or decision is obtainable; it does not exist yet | Name who must decide, or which check must run. Then run the gate again. |
+| **Unavailable** | The evidence cannot be produced, or the question cannot be answered at this layer | A change of approach, or an explicit record of the limitation. Waiting does not help. |
+
+A pending blocker is temporary and resolves by itself once the person decides or
+the check runs — the gate then returns converged, converged with recorded
+waivers, or not converged. An unavailable blocker does not resolve by waiting,
+and reporting it as pending sends someone to wait for something that will not
+arrive.
+
+### A waiver is not a way out of a blocker
+
+A waiver is a human decision about **proportionality** — "this is too small to
+specify". It is a legitimate outcome of a **pending** blocker: the person decides
+the deviation is acceptable, records the rationale, and the gate returns
+*converged with recorded waivers*.
+
+It is never an outcome of an **unavailable** blocker. There, the missing thing is
+not disproportionate — it cannot be produced at all, and no amount of human
+authority changes that. Recording an impossibility as an accepted deviation
+buries the problem in a result that reads as agreement.
+
+If a question turned out to be unanswerable at this layer, the honest report is
+the unavailable blocker plus what would answer it elsewhere — not a waiver, and
+not a passed question.
 
 ## Findings and follow-up
 
 Every result that is not "converged" names concrete findings: what contradicts
 what, which evidence is missing, and which tier established it.
 
-Each finding gets one of three dispositions, and no finding is left without one:
+Each finding gets one of four dispositions, and no finding is left without one:
 
-- fixed in this change;
-- deferred to a follow-up issue, referenced by number;
-- accepted as a recorded waiver, with the rationale and who accepted it.
+- **fixed** in this change;
+- **deferred** to a follow-up issue, referenced by number;
+- **accepted** as a recorded waiver, with the rationale and who accepted it;
+- **blocked**, naming the kind — pending, with who must decide or which check
+  must run, or unavailable, with why and what would answer it elsewhere.
 
-"Noted" is not a disposition.
+"Noted" is not a disposition. Neither is "blocked" on its own: a blocker without
+its kind and its named next step is an open question wearing a status.
 
 ## Reuse, don't restate
 
