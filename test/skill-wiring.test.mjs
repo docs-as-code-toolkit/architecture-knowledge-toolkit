@@ -94,27 +94,80 @@ function skillsContaining(pattern) {
     .map(rel);
 }
 
-test("The Convergence Check result states live in exactly one skill", () => {
-  // Given the canonical skills under skills/
-  // When they are searched for the gate's result vocabulary
-  //
-  // Naming a result state is allowed and often clearer: implement-issue-workflow
-  // says which results stop integration, which is its own policy expressed in
-  // the gate's vocabulary. What must not spread is the *definition* — the table
-  // row that says what a state means. That is the copy which drifts.
-  const carriers = skillsContaining(
-    /^\|\s*\*\*Converged with recorded waivers\*\*\s*\|/im,
+// Both checks read the canonical file for what to look for, rather than
+// hard-coding it. Rename a result state or a question and the guard follows;
+// hard-coded copies would quietly stop guarding anything.
+function canonicalResultStates() {
+  const section = read(canonical).split("## Result")[1].split("###")[0];
+  return [...section.matchAll(/^\|\s*\*\*([^*]+)\*\*\s*\|/gim)].map((m) =>
+    m[1].trim(),
   );
+}
 
-  // Then only the Convergence Check itself defines it
-  assert.deepEqual(carriers, [rel(canonical)]);
+function canonicalQuestionTitles() {
+  const section = read(canonical)
+    .split("## The seven questions")[1]
+    .split("\n## ")[0];
+  return [...section.matchAll(/^###\s+\d+\.\s+(.+?)\s*$/gim)].map((m) => m[1]);
+}
+
+function escapeForRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+test("The Convergence Check result states live in exactly one skill", () => {
+  // Given the canonical skills under skills/, and the four result states read
+  // from the Convergence Check itself
+  const states = canonicalResultStates();
+  assert.equal(states.length, 4, `expected four result states, got ${states.join(", ")}`);
+
+  // When they are searched for a definition of any of those states
+  //
+  // Naming a state elsewhere is allowed and often clearer: implement-issue-workflow
+  // says which results stop integration, which is its own policy expressed in the
+  // gate's vocabulary. What must not spread is the *definition* — the table row
+  // saying what a state means. That is the copy that drifts.
+  const offenders = states.flatMap((state) => {
+    const row = new RegExp(`^\\|\\s*\\*\\*${escapeForRegex(state)}\\*\\*\\s*\\|`, "im");
+    return skillsContaining(row)
+      .filter((file) => file !== rel(canonical))
+      .map((file) => `${file} defines "${state}"`);
+  });
+
+  // Then only the Convergence Check itself defines them
+  assert.deepEqual(offenders, []);
 });
 
 test("The Convergence Check questions are not copied into a caller", () => {
-  // Given the canonical skills under skills/
-  // When they are searched for the gate's seven-question structure
-  const carriers = skillsContaining(/Every question must be able to fail/i);
+  // Given the canonical skills under skills/, and the seven question titles read
+  // from the Convergence Check itself
+  const titles = canonicalQuestionTitles();
+  assert.equal(titles.length, 7, `expected seven questions, got ${titles.length}`);
 
-  // Then only the Convergence Check itself carries it
-  assert.deepEqual(carriers, [rel(canonical)]);
+  // When every other skill is searched for those titles as headings
+  //
+  // A caller could copy the questions without the section heading above them,
+  // so the heading alone is not what is checked. Two or more of the canonical
+  // titles appearing as headings in one file is the copy; a single shared word
+  // such as "Traceability" is not.
+  const offenders = skillFiles()
+    .filter((file) => file !== canonical)
+    .map((file) => {
+      const text = read(file);
+      const hits = titles.filter((title) =>
+        new RegExp(`^#+\\s+(\\d+\\.\\s+)?${escapeForRegex(title)}\\s*$`, "im").test(text),
+      );
+      return { file: rel(file), hits };
+    })
+    .filter((entry) => entry.hits.length >= 2)
+    .map((entry) => `${entry.file} carries ${entry.hits.length} question headings`);
+
+  // Then only the Convergence Check itself carries the structure
+  assert.deepEqual(offenders, []);
+  // ... and the canonical file still has all seven, so the guard has something
+  // to compare against.
+  const canonicalHits = titles.filter((title) =>
+    new RegExp(`^###\\s+\\d+\\.\\s+${escapeForRegex(title)}\\s*$`, "im").test(read(canonical)),
+  );
+  assert.equal(canonicalHits.length, 7);
 });

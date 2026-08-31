@@ -165,6 +165,26 @@ waivers, or not converged. An unavailable blocker does not resolve by waiting,
 and reporting it as pending sends someone to wait for something that will not
 arrive.
 
+### A standing limitation is not this change's blocker
+
+A blocker is about **this** change: evidence this change owes and cannot
+produce.
+
+A limitation that would appear identically on every change of its kind is not a
+blocker. No execution layer for prose contracts, no environment to run a
+particular check in, a tool that does not exist yet — these are properties of
+the medium or the tooling, not gaps in the change under review. They are
+**residual risks**, and question 6 already requires reporting them, together
+with the follow-up that would remove them.
+
+The test is one question: *would this same blocker appear on every change of
+this kind?* If yes, blocking on it stops all such work indefinitely while
+changing nothing about the change in front of you — and a gate that can never
+be passed is not a gate, it is a stop.
+
+Report the limitation, name the follow-up, and answer the question on the
+evidence that **can** be produced here.
+
 ### A waiver is not a way out of a blocker
 
 A waiver is a human decision about **proportionality** — "this is too small to
