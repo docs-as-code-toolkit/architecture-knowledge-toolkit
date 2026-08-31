@@ -31,9 +31,9 @@ engine-agnostic contract it applies.
 
 ### Architecture-aware Spec-Driven Development
 
-**Starts from** a feature request. **Produces** a specified, sliced, and
-architecturally assessed change whose issues, behaviour spec, and architecture
-documentation stay aligned as it is built.
+**Starts from** a feature request. **Produces** a delivered change whose request,
+behaviour specification, architecture knowledge, implementation, tests and
+delivery metadata tell one consistent story — checked, not assumed.
 
 The toolkit's fullest capability, and the one no single skill shows: a feature
 request is classified as an Epic or a reviewable UserStory, its intended value
@@ -41,8 +41,13 @@ expressed as a User Story, its new observable behaviour specified as
 language-agnostic Gherkin bridged to automated verification, its impact on the
 existing architecture analysed, the affected ADRs, quality scenarios, risks,
 components, runtime and deployment views updated, and the work sliced into
-reviewable issues — which then flow into *Reviewable Architecture Delivery*
-below.
+reviewable issues — which flow into *Reviewable Architecture Delivery* below.
+
+It ends where most workflows stop without noticing: each artifact was reviewed on
+its own, and nothing looked across them. The **Convergence Check** closes the arc
+by asking whether they still agree, and reports *converged*, *converged with
+recorded waivers*, *not converged*, or *blocked* — never repairing an artifact to
+make the answer come out better.
 
 [`architecture-impact`](/skills/architecture-impact/SKILL.md) ·
 [`bdd-specification`](/skills/bdd-specification/SKILL.md) ·
@@ -50,7 +55,8 @@ below.
 [`adr`](/skills/adr/SKILL.md) ·
 [`quality-scenario`](/skills/quality-scenario/SKILL.md) ·
 [`risk`](/skills/risk/SKILL.md) ·
-[`traceability-review`](/skills/traceability-review/SKILL.md)
+[`traceability-review`](/skills/traceability-review/SKILL.md) ·
+[`convergence-check`](/skills/convergence-check/SKILL.md)
 
 ### Architecture Decision and Impact Management
 
@@ -97,12 +103,14 @@ native skill loading via [`adapters/shared/install-skills.sh`](adapters/shared/i
 
 **Starts from** an issue ready to implement — sliced by the capability above, or
 arriving already specified. **Produces** a reviewed, integrated change with a
-linear history and a checkout ready for the next one.
+linear history and a checkout ready for the next one, gated by the same
+Convergence Check before the pull request is declared mergeable.
 
 [`implement-issue-workflow`](/skills/implement-issue-workflow/SKILL.md) ·
 [`commit-message`](/skills/commit-message/SKILL.md) ·
 [`pr-review`](/skills/pr-review/SKILL.md) ·
 [`traceability-review`](/skills/traceability-review/SKILL.md) ·
+[`convergence-check`](/skills/convergence-check/SKILL.md) ·
 [`post-merge-sync`](/skills/post-merge-sync/SKILL.md)
 
 ### Session Continuity
