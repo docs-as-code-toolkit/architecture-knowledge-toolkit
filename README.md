@@ -308,13 +308,21 @@ it per shell (a directory, or `off`). When no answer has been recorded,
 `clock-in` asks once — separately from its topic question — and stores the
 result, including a "no".
 
+A binding whose clock skills resolve into the toolkit is refused: the journal
+would delegate to the skill that called it. That covers binding the toolkit
+itself, and binding a project that installed the toolkit's skills into its own
+`skills/`, where the symlink makes the path look project-local.
+
 Exactly one skill leads an invocation. Inside a toolkit project the toolkit's
 `clock-out` leads and hands the day's findings up to the private journal's own
 clock-out skill; outside one, the private journal's skill leads alone, so the
 journal stays usable on a machine that has no toolkit checkout at all. A
-delegated skill never sweeps other repositories and never delegates back. The
-multi-project view belongs to the private layer; findings flow up only, and the
-private path never appears in a project artifact.
+delegated skill never sweeps other repositories, never delegates back, and never
+re-resolves the binding. Beyond that, every delegation target is resolved to its
+real path and compared with the file being executed, because a skill found by
+path can be the skill doing the looking. The multi-project view belongs to the
+private layer; findings flow up only, and the private path never appears in a
+project artifact.
 
 ## Tests
 

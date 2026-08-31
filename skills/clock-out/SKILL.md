@@ -37,6 +37,14 @@ the private journal's own clock-out skill leads, this skill is not involved, and
 the private journal must be maintainable with nothing but its own skills.
 
 A delegated skill does not sweep other repositories and does not delegate back.
+It also does not resolve the private journal binding: the lead resolved it
+already, and re-resolving is what turns a project delta into a cycle.
+
+**"Never delegate to yourself" in `skills/clock-in/SKILL.md` applies to every
+delegation below.** Both delegation targets here are found by path, and both can
+resolve back to this file — inside the toolkit itself, and through a project that
+installed the toolkit's skills into its own `skills/`. Resolve the target to its
+real path and compare it with the file you are executing before running it.
 
 ## Workflow
 
@@ -53,10 +61,11 @@ gh pr checks <number>
 A session does not end tidily just because it stopped.
 
 **2. Delegate to the project's own clock-out skill when it has one.** Look for
-`skills/clock-out/SKILL.md` in the repository being worked in and execute it as
-the authoritative project-specific workflow — it owns the project's paths, file
-formats, diary wiring, and confirmation rules. Preserve its stopping conditions.
-When it does not exist, apply steps 3 to 5 against the default layout in
+`skills/clock-out/SKILL.md` in the repository being worked in. When it exists and
+is a different file, execute it as the authoritative project-specific workflow —
+it owns the project's paths, file formats, diary wiring, and confirmation rules.
+Preserve its stopping conditions. When it does not exist, or resolves to this
+file, apply steps 3 to 5 against the default layout in
 `skills/clock-in/SKILL.md`.
 
 **3. Refresh the progress file for every topic touched.**
@@ -81,8 +90,10 @@ is exactly when memory feels reliable enough to skip the check.
 is gone tomorrow. A thread that outlives its topic goes to the project's
 long-lived thread list; one that dies with the topic stays in the progress file.
 
-**6. Hand the day up to the private journal.** Resolve the binding as described
-in `skills/clock-in/SKILL.md`. When it is enabled, read `<path>/<clock_out>` and
+**6. Hand the day up to the private journal.** Skip this step entirely when this
+invocation is itself delegated. Otherwise resolve the binding as described in
+`skills/clock-in/SKILL.md`. When it is enabled, and the binding names neither
+this file nor the repository being worked in, read `<path>/<clock_out>` and
 execute it in delegated mode, handing over the record below. When it is
 disabled, unbound, or unreachable, say so in the closing report and finish
 anyway — the private layer never blocks the project layer.
