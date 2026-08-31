@@ -10,6 +10,13 @@
 #   ./install-skills.sh [-g|--global] [claude]
 #   ./install-skills.sh --skills-dir <dir>   # arbitrary SKILL.md discovery root
 #
+# Optionally bind the user's private journal in the same step, so that clock-in
+# does not have to ask for it later:
+#   ./install-skills.sh --private-journal <dir>
+#   ./install-skills.sh --no-private-journal
+# The binding is per user and is stored outside every repository; see
+# journal-config.sh.
+#
 # Project-local is the default: it targets `.agents/skills` in the git worktree
 # root (or the current directory outside a git repo). Pass -g/--global to
 # install into the user-global `~/.agents/skills` instead.
@@ -86,11 +93,16 @@ esac
 GLOBAL=false
 TARGET=agents
 SKILLS_DIR=""
+JOURNAL=""
+JOURNAL_ACTION=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
     -g|--global) GLOBAL=true ;;
     --skills-dir) SKILLS_DIR="${2:?--skills-dir requires a directory}"; shift ;;
+    --private-journal)
+      JOURNAL="${2:?--private-journal requires a directory}"; JOURNAL_ACTION=set; shift ;;
+    --no-private-journal) JOURNAL_ACTION=disable ;;
     agents|claude) TARGET="$1" ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
@@ -113,4 +125,16 @@ if [ "$ACTION" = remove ]; then
   remove_root "$target_root"
 else
   link_root "$target_root"
+fi
+
+# The private journal binding is per user, never per project: record it here
+# rather than in any repository. Only on install; `remove` leaves it alone,
+# because uninstalling skills is not the same as giving up a journal.
+if [ "$ACTION" != remove ] && [ -n "$JOURNAL_ACTION" ]; then
+  journal_config="$(dirname "${BASH_SOURCE[0]}")/journal-config.sh"
+  if [ "$JOURNAL_ACTION" = set ]; then
+    bash "$journal_config" set --path "$JOURNAL"
+  else
+    bash "$journal_config" disable
+  fi
 fi

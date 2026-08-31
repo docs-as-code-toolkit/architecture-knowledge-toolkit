@@ -1,0 +1,38 @@
+= <Topic>
+
+<One sentence: what this topic is, in the owner's words.>
+
+*Status:* <in flight | on ice since <YYYY-MM-DD>> — <why, and what would bring
+it back>
+
+== The plan
+
+The intended order of the work, and the reason for that order. This is what the
+issue board cannot show.
+
+[options="checklist"]
+* [x] <a step a check confirmed>
+* [ ] <the next step> — <#issue, if one exists>
+* [ ] <a later step, with what it waits on>
+
+<A short paragraph where the order is not obvious: what has to come first, and
+what breaks if it does not.>
+
+== Where we are
+
+<Two or three sentences. What is built, what is decided, what the next session
+would otherwise have to reconstruct.>
+
+== Open in this topic
+
+<Questions and blockers that die when this topic ends. Anything that outlives it
+belongs in the project's long-lived thread list instead.>
+
+== Checks
+
+Commands, not results. A number copied in here goes stale silently.
+
+[source,sh]
+----
+<the command that decides whether this topic's work holds up>
+----
