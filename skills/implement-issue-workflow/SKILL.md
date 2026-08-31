@@ -63,10 +63,12 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 3. Push the `issue_<number>` branch to the remote repository.
 4. Open a pull request against `main`.
 5. Include the issue link, implementation summary, and verification results in the pull request body.
-6. Before declaring the pull request ready, run `../convergence-check/SKILL.md`
-   and record its result and finding dispositions in the pull request body. That
-   skill owns the questions, the result states, and what counts as evidence;
-   this workflow only says when to run it.
+6. Optionally run `../convergence-check/SKILL.md` now and record its result and
+   finding dispositions in the pull request body. Mark it **provisional**: the
+   authoritative run happens before integration, because review comments and
+   later commits change the state it inspects. That skill owns the questions,
+   the result states, and what counts as evidence; this workflow only says when
+   to run it.
 
 ## Address PR Comments
 
@@ -74,6 +76,9 @@ If useful work was already done on `main`, stash or otherwise preserve only that
 2. Group fixes into useful commits by intent.
 3. Push the new commits to the existing PR branch.
 4. Re-run and report relevant verification.
+5. A recorded Convergence Check result is void once new commits land. Re-run
+   `../convergence-check/SKILL.md` and replace the recorded result rather than
+   amending it — a result describes one state of the branch, not the branch.
 
 ## PR Integration
 
@@ -90,12 +95,18 @@ unless the user explicitly requests squash integration or repository policy
 requires it. Use merge commits only when the user explicitly requests them or
 repository policy requires merge commits.
 
+The authoritative Convergence Check runs here, immediately before the
+integration decision, against the commit that would be integrated. A result
+recorded earlier is evidence about an earlier state: if any commit landed after
+it, it is stale, and a stale result is not a result. Re-run
+`../convergence-check/SKILL.md` and record the outcome before deciding.
+
 Do not integrate or clean up branches automatically when there are warning
 signs, such as failed or unknown checks, unresolved merge state, a diverged
 local branch, unpushed local commits, uncertain PR state, unclear branch
-ownership, or a Convergence Check result that is anything other than converged
-or converged with recorded waivers. Report the situation and let the developer
-decide.
+ownership, a Convergence Check result that is anything other than converged or
+converged with recorded waivers, or a result that does not cover the current
+head commit. Report the situation and let the developer decide.
 
 ## After PR Integration
 
