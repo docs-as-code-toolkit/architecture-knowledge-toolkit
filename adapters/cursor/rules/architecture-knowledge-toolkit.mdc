@@ -29,6 +29,7 @@ Paths are relative to the architecture-knowledge-toolkit repository root.
 - `clock-in`: `skills/clock-in/SKILL.md`
 - `clock-out`: `skills/clock-out/SKILL.md`
 - `commit-message`: `skills/commit-message/SKILL.md`
+- `convergence-check`: `skills/convergence-check/SKILL.md`
 - `domain-modeling`: `skills/domain-modeling/SKILL.md`
 - `implement-issue-workflow`: `skills/implement-issue-workflow/SKILL.md`
 - `post-merge-sync`: `skills/post-merge-sync/SKILL.md`
