@@ -42,6 +42,15 @@ Feature: Skill wiring
     # feature exists to catch; the command is read from clock-in so that editing
     # it there moves the guard with it.
 
+  Scenario: The branch enumeration reports divergence from the base branch
+    Given the branch enumeration clock-in defines
+    When it is inspected for what it produces
+    Then it resolves the base branch and counts commits in both directions
+    # The wiring scenario above keeps the command in one place. It does not keep
+    # it useful: reduced to a list of ref names, it would still pass while the
+    # divergence the skill promises quietly disappeared. This is the guard for
+    # the promise rather than for the location.
+
   Scenario: No caller carries the Convergence Check question structure
     Given the seven question titles read from the Convergence Check itself
     When every other skill is searched for those titles as headings
