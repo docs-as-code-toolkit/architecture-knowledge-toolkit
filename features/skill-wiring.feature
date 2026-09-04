@@ -42,14 +42,16 @@ Feature: Skill wiring
     # feature exists to catch; the command is read from clock-in so that editing
     # it there moves the guard with it.
 
-  Scenario: The branch enumeration reports divergence from the base branch
-    Given the branch enumeration clock-in defines
-    When it is inspected for what it produces
-    Then it resolves the base branch and counts commits in both directions
+  Scenario: The branch enumeration covers every branch and reports divergence
+    Given the two forms of the branch enumeration clock-in defines
+    When they are inspected for what they produce
+    Then the checkout form resolves the base branch and counts commits in both directions
+    And the API form pages through the whole branch list
     # The wiring scenario above keeps the command in one place. It does not keep
-    # it useful: reduced to a list of ref names, it would still pass while the
-    # divergence the skill promises quietly disappeared. This is the guard for
-    # the promise rather than for the location.
+    # it useful: reduced to a list of ref names, or left on the first API page,
+    # it would still pass while the skill's promise quietly disappeared. Both
+    # regressions report success while looking at part of the repository, which
+    # is the one outcome this step exists to prevent.
 
   Scenario: No caller carries the Convergence Check question structure
     Given the seven question titles read from the Convergence Check itself
