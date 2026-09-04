@@ -34,10 +34,12 @@ repository.
 wants to keep the full template guidance in source.
 
 | TD-002
-| xref:architecture-decisions[] now contains proposed ADR files, but those ADRs
-are not yet human-reviewed or accepted.
+| Most ADR files in xref:architecture-decisions[] are still proposed and not yet
+human-reviewed or accepted. ADR-008 has been reviewed and accepted; the debt is
+the remainder.
 | Source documentation; templates
-| Review the proposed ADRs, resolve open questions, and accept or reject them.
+| Review the remaining proposed ADRs, resolve open questions, and accept or
+reject them.
 
 | TD-003
 | Quality scenarios contain assumed target measures where implementation

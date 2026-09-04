@@ -66,6 +66,12 @@ relations:
   rationale: The chapter links to this proposed risk detail page.
   evidence: src/docs/arc42/doc-11000-risks-and-technical-debt.adoc
   reviewed: false
+- type: documents
+  target: R-007-gate-results-lack-independence
+  status: proposed
+  rationale: The chapter links to this proposed risk detail page.
+  evidence: src/docs/arc42/doc-11000-risks-and-technical-debt.adoc
+  reviewed: false
 metadata_version: '1.0'
 ---
 = [[risks-and-technical-debt]]Risks And Technical Debt

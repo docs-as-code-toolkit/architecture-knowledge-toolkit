@@ -1,0 +1,147 @@
+---
+id: R-007-gate-results-lack-independence
+type: Risk
+title: Gate Results Lack Independent Verification
+status: proposed
+owner: architecture
+created: '2026-09-04'
+reviewed: false
+summary: Proposed risk that a Convergence Check result produced by the context that made the change reads as independent verification without being one.
+derived_from:
+- type: conversation
+  description: Owner review of ADR-008, which decided to record the missing independence of gate verification as a risk to be managed rather than to resolve it by separating roles.
+  uri: https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/pull/88
+tags:
+- risk
+- verification
+relations:
+- type: refines
+  target: R-001-ai-suggestions-as-truth
+  status: proposed
+  rationale: This risk narrows the general concern to gate results, where the mitigation is execution independence rather than a lifecycle status marker.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-001-ai-suggestions-as-truth.adoc
+  reviewed: false
+- type: affects
+  target: QS-004-ai-suggestion-reviewability
+  status: proposed
+  rationale: A self-produced gate result is AI-suggested content that a reviewer cannot distinguish from independent verification.
+  evidence: src/docs/arc42/10-quality-requirements/qs-004-ai-suggestion-reviewability.adoc
+  reviewed: false
+metadata_version: '1.0'
+---
+[[r-007-gate-results-lack-independence]]
+== R-007: Gate Results Lack Independent Verification
+
+=== Status
+
+Proposed.
+
+This risk is AI-assisted. It identifies a concern for review and does not
+decide risk acceptance.
+
+=== Risk Statement
+
+Because a cross-functional agent implements a change and then runs the
+Convergence Check on it from the same context, a gate result may be produced by
+the assumptions it is supposed to test, leading to a *converged* result that
+reads as verification while no independent check took place.
+
+=== Assessment
+
+[cols="1,3", options="header"]
+|===
+| Field | Value
+| Likelihood | High.
+| Impact | Medium.
+| Priority | Medium.
+| Timeframe | Near-term.
+| Confidence | Medium.
+|===
+
+Likelihood is high because it is the default arrangement, not an exception: a
+single agent that carries a change through the workflow ends at the gate with
+the whole implementation dialog still in context. Impact is medium rather than
+high because the result is not usually wrong, it is weaker than it reads, and
+human review at the pull request still stands behind it. The rating assumes that
+compensating control keeps working.
+
+Fresh execution of the gate is what would move this rating, and it moves the
+likelihood rather than the impact: it prevents the event instead of softening
+it. The likelihood is high today because nothing requires it. No skill declares
+an execution context, and this repository has no execution layer that could
+enforce one, so the default arrangement is the only arrangement. The declaration
+that would change this is tracked as
+https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/87[issue 87];
+once a gate skill declares the requirement and a runtime honours it, the
+likelihood falls to the frequency of lapses rather than the frequency of the
+default. Recording that reduction before the requirement exists would put an
+intention where a control belongs, so this rating is expected to be revisited
+when that issue closes.
+
+This has already been observed, on the branch that introduced
+xref:adr-008-skill-decomposition-boundary[]. Every check run from the context
+that wrote the artifacts reported *converged*. Runs from a context that had not
+authored the change repeatedly reported *not converged*, and every finding they
+raised survived inspection. The first defect of all was found by neither: a human
+reading the ADR.
+
+Both records are outside this repository, because the repository holds no
+evidence of how a check was executed — the limitation this risk is about:
+
+* the human-found defect, at
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/86#issuecomment-5539042867[issue 86, comment];
+* the run-by-run outcomes, at
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/pull/88#issuecomment-5541512602[pull request 88, comment].
+
+A pull request body is not cited for either: it is rewritten on every re-run and
+its earlier revisions cannot be retrieved, so it cannot carry evidence.
+
+=== Mitigation Options
+
+Reducing likelihood, by preventing the self-produced run:
+
+* Declare independence as an execution property of the gate skills, so a run
+  states which context it requires. Tracked as
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/87[issue 87].
+* Run the authoritative gate from a fresh context wherever the runtime allows
+  it, without requiring a role-based team structure to obtain it.
+
+Reducing impact, by keeping a self-produced run from reading as an independent
+one:
+
+* Report execution provenance with every result, so a self-produced result is
+  visible as one instead of silently equivalent to an independent run.
+* Keep human review at the pull request as the compensating control for as long
+  as no execution layer can enforce independence.
+
+=== Decision or Acceptance
+
+The risk remains under analysis until the accountable owner confirms the
+assessment and mitigation path.
+
+=== Impact
+
+include::generated/r-007-gate-results-lack-independence-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/r-007-gate-results-lack-independence-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/r-007-gate-results-lack-independence-traceability.adoc[leveloffset=+2]
+
+=== Open Questions
+
+* What evidences that a gate run was independent, given that this repository has
+  no execution layer for prose contracts and can require the claim but not
+  verify it?
+
+=== Review Notes
+
+Confirm the likelihood and impact rating, and whether reporting execution
+provenance is a sufficient control while independence cannot be enforced,
+before marking this risk reviewed.

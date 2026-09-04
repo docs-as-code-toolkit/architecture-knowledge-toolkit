@@ -1,0 +1,274 @@
+---
+id: ADR-008-skill-decomposition-boundary
+type: ADR
+title: Skill Decomposition and Agent Role Boundary
+status: accepted
+owner: architecture
+created: '2026-09-04'
+reviewed: true
+summary: Accepted decision to cut canonical skills by lifecycle capability rather than by agent persona, and to place role-based agents in an orchestration layer above the toolkit.
+derived_from:
+- type: conversation
+  description: Comparison of this toolkit with a role-based software factory agent architecture, which asked whether skills should be cut by role instead of by lifecycle capability.
+  uri: https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/86
+tags:
+- decision
+- skills
+relations:
+- type: refines
+  target: ADR-005-engine-independent-skills
+  status: accepted
+  rationale: This decision makes the runtime boundary from ADR-005 more specific by placing the agent persona on the runtime side of it.
+  evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
+  reviewed: true
+- type: addresses
+  target: QS-005-adapter-boundary
+  status: accepted
+  rationale: Keeping personas out of canonical skills is one case of keeping runtime assumptions out of them.
+  evidence: src/docs/arc42/10-quality-requirements/qs-005-adapter-boundary.adoc
+  reviewed: true
+- type: introduces_risk
+  target: R-007-gate-results-lack-independence
+  status: accepted
+  rationale: A capability cut cannot express who executes a gate, so the implementing context can produce its own authoritative result.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-007-gate-results-lack-independence.adoc
+  reviewed: true
+- type: mitigates
+  target: R-006-unclear-adapter-boundaries
+  status: accepted
+  rationale: Naming the agent persona as a runtime concern removes one concrete case of boundary ambiguity.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-006-unclear-adapter-boundaries.adoc
+  reviewed: true
+metadata_version: '1.0'
+---
+[[adr-008-skill-decomposition-boundary]]
+== ADR-008: Skill Decomposition and Agent Role Boundary
+
+=== Status
+
+Accepted (derived).
+
+The rationale was AI-drafted and then reviewed and accepted by the accountable
+owner. The derived marker records that the drafting was AI-assisted; the
+acceptance is human.
+
+=== Decision
+
+We cut canonical skills by lifecycle capability and verifiable outcome, never by
+agent persona. Role-based agents such as planner, coder, or
+reviewer may exist as an orchestration layer above the toolkit and consume the
+same canonical skills. They do not own a copy of the lifecycle.
+
+This decides the cut. It does not decide how many agents execute a change, and
+the binding between roles and skills stays outside this repository. A consuming
+platform owns it, in whatever form fits its runtime.
+
+The illustration below is what such a binding can look like. It is not a toolkit
+format, and nothing here reads it:
+
+[source,yaml]
+----
+# Owned by the orchestration platform, not by this toolkit.
+roles:
+  implementer:
+    entry: implement-issue-workflow
+  reviewer:
+    entry: pr-review
+    execution: fresh        # started without the implementation context
+----
+
+A role is given an *entry* skill rather than a list of skills. Everything that
+skill mandatorily delegates to comes with it, so the allocation is closed by
+construction and cannot fall behind a change to the delegation. Role names,
+their number, and the mechanism that enforces `execution` are the platform's.
+
+=== Context
+
+The canonical skills are named after work with a checkable result:
+`architecture-impact`, `bdd-specification`, `implement-issue-workflow`,
+`pr-review`, `convergence-check`. None of them is named after a worker. The
+same agent combines whichever of them a task needs, and the delegation between
+them is explicit: `implement-issue-workflow` and `pr-review` both reference the
+Convergence Check rather than restating it, and `features/skill-wiring.feature`
+fails when a delegated rule is copied back into a caller.
+
+Role-based agent platforms are the widespread alternative, and comparing them
+with this toolkit is easy to get wrong, because three separate questions are
+usually asked as one:
+
+[cols="1,3", options="header"]
+|===
+| Question | What it decides
+
+| Cut
+| On which axis process knowledge is decomposed into units: capability or persona.
+
+| Allocation
+| Which units an executing agent receives: whatever the task needs, or a fixed role-specific subset.
+
+| Agent decomposition
+| How many agents execute one change, with which context and which permissions.
+|===
+
+Only the first is decided here. Agent decomposition stays free: running a
+planner, a coder and a reviewer as separate agents is a legitimate runtime
+choice, and this decision neither requires nor forbids it. Allocation belongs to
+whatever orchestrates those agents, subject to one constraint recorded under
+`Consequences`.
+
+The separation matters because a platform that decomposes its *agents* by role
+does not thereby cut its *skills* by role. Both are called role-based, and only
+the second conflicts with this decision. The question of which cut this toolkit
+uses recurs whenever it meets such a platform, and the answer has so far been
+reconstructed each time rather than recorded.
+
+The cut is what the existing machinery depends on: it assumes exactly one
+canonical owner per rule. A persona cut multiplies owners, because planner,
+coder and reviewer each need architecture, contract and lifecycle knowledge, so
+each acquires a version of it.
+
+xref:q-arch-006[Q-ARCH-006] asks which workflow details belong under
+`adapters/` rather than in engine-independent skills. This decision answers one
+instance of that question: the agent persona is a runtime concern.
+
+=== Decision Drivers
+
+* Keep lifecycle knowledge in exactly one place, so a lifecycle change is one
+  edit rather than one edit per role.
+* Let a single agent combine skills for whatever the task actually needs.
+* Keep the toolkit consumable by role-based agent platforms instead of
+  competing with them.
+* Do not encode an organisation chart into reusable architecture guidance.
+
+=== Considered Options
+
+==== Option 1: Skills cut by capability, roles as orchestration above
+
+Skills describe work with a verifiable outcome. Role-based agents are a runtime
+choice made above the toolkit; they select and execute canonical skills without
+holding process knowledge of their own.
+
+==== Option 2: Skills cut by persona
+
+One skill stack per role. Each role's guidance is self-contained and maps
+directly onto a team, a permission set, and an audit trail.
+
+This is a position on the cut, not on agent decomposition. A platform can run
+role-based agents without cutting its skills this way; such a platform sits
+inside Option 1 and is not the alternative rejected here.
+
+==== Option 3: Skills cut by capability, with per-role copies of shared rules
+
+Skills stay capability-shaped, but each role carries its own copy of the process
+rules it needs, so a role can run without resolving the toolkit.
+
+=== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Capability cut | Persona cut | Per-role copies
+| Single source of process truth | +1 | -1 | -1
+| Skill reuse across tasks | +1 | -1 | 0
+| Independence of verification | -1 | +1 | +1
+| Organisational mappability | 0 | +1 | +1
+| Context cost per task | +1 | 0 | 0
+s| Sum s| 2 s| 0 s| 1
+|===
+
+The persona cut genuinely wins two criteria, and it wins them for different
+reasons. Organisational mappability follows from the cut itself: a
+persona-shaped skill set maps onto a team, a permission set and an audit trail.
+Independence of verification does not — it follows from agent decomposition,
+which a persona cut merely tends to arrive with. A capability cut can have it
+too, but only by declaring it. Both strengths are real, and they are why this
+ADR places roles above the toolkit rather than forbidding them.
+
+=== Consequences
+
+==== Positive
+
+* Lifecycle knowledge lives once. A change to the lifecycle is one edit, not one
+  edit per role.
+* An agent combines skills as the task requires, without an artificial
+  responsibility boundary between planning, implementing and reviewing.
+* Role-based agent platforms can consume the toolkit instead of forking its
+  process knowledge.
+* The existing wiring checks stay meaningful, because each rule keeps exactly
+  one owner to delegate to.
+
+==== Negative
+
+* Independence of verification, which a persona cut provides for free, is not
+  expressible by a capability cut. Today the same agent can implement a change
+  and run the authoritative Convergence Check on it. This is tracked as
+  xref:r-007-gate-results-lack-independence[].
+* Ownership, permissions and audit do not map onto skills. A consuming
+  organisation has to establish that mapping in its own orchestration layer.
+* Skill selection remains a semantic decision at the point of use. Explicit
+  wiring exists at the gate moments, but the toolkit does not enforce routing.
+* An orchestration layer that allocates a fixed *list* of skills per role has to
+  maintain closure under skill-to-skill delegation itself, and a list that falls
+  behind a delegation change breaks the gate wiring silently inside that role's
+  context. Allocating an entry skill avoids the obligation; enumerating one
+  accepts it.
+
+==== Neutral or Follow-Up
+
+* The independence gap is tracked as
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/87[issue 87],
+  which proposes independence as a declared execution property of gate skills
+  rather than as a new role.
+* Roles remain permitted above the toolkit. Nothing here forbids planner, coder
+  or reviewer agents; it forbids them owning separate process truth.
+* The toolkit publishes no binding mechanism and no machine-readable delegation
+  closure. Stating the requirement is enough, because an allocation by entry
+  skill inherits the closure anyway. `features/skill-wiring.feature` still
+  resolves that reference graph for the toolkit's own consistency, not for
+  consumers to allocate against.
+
+=== Impact
+
+include::generated/adr-008-skill-decomposition-boundary-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-008-skill-decomposition-boundary-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-008-skill-decomposition-boundary-traceability.adoc[leveloffset=+2]
+
+=== Assumptions
+
+* Every step the lifecycle needs can be expressed as work with a verifiable
+  outcome, without naming a worker.
+* Role-based platforms are able to consume engine-independent skills rather than
+  requiring skills shaped for their own personas.
+* Independence of verification can be expressed as a declared execution property
+  rather than as a role.
+
+=== Open Questions
+
+* None. The illustration under `Decision` stays an illustration: the decision
+  holds without a maintained example, and an orchestration layer needs nothing
+  from this repository beyond the skill names it already reads.
+
+=== Review Notes
+
+Accepted after review of the three questions this decision opened. The `refines`
+relation to xref:adr-005-engine-independent-skills[] was confirmed, the
+independence consequence was recorded as
+xref:r-007-gate-results-lack-independence[], and the role-to-skill binding was
+placed outside this repository.
+
+The impact claims recorded as relations were accepted with the decision. Their
+targets remain proposed artifacts in their own right; an accepted relation states
+that the claim holds, not that the artifact it points at has been accepted.
+
+One assessment remains open elsewhere: the rating in
+xref:r-007-gate-results-lack-independence[], which this decision introduces and
+which stays under analysis.
