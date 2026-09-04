@@ -92,6 +92,12 @@ file, apply steps 3 to 5 against the default layout in
 the pull requests — not from the session. At clock-out the day is fresh, which
 is exactly when memory feels reliable enough to skip the check.
 
+The entry carries what this session actually fetched, under the rules in "Say
+what was read" in `../clock-in/SKILL.md`: references a later session can
+re-fetch, nothing that was not fetched, and every failed fetch named. That list
+is what makes the sentence above checkable by a reader instead of merely
+asserted.
+
 **5. Say what is open — in the files, not only in the conversation.** The chat
 is gone tomorrow. A thread that outlives its topic goes to the project's
 long-lived thread list; one that dies with the topic stays in the progress file.
@@ -118,10 +124,15 @@ private layer cannot reconstruct:
 | `status` | one line, verified against the tools |
 | `findings` | what was learned that is **not** specific to this project; may be empty |
 | `evidence` | pull requests, commits, issues — links, not prose |
+| `read` | what this session fetched to reach the above, as re-fetchable references |
 | `threads` | open threads that outlive this project |
 
 Rules that make it safe to run more than once:
 
+- **`evidence` and `read` are different sets.** `evidence` is what the day
+  produced; `read` is what the session fetched to find out. They overlap and are
+  routinely not the same, and collapsing them loses the only statement that says
+  the day was reconstructed from the repository.
 - **Keyed by project and day.** A second clock-out on the same day replaces that
   project's entry; it never appends a duplicate.
 - **The private layer owns the day.** It decides which day file the record lands
