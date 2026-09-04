@@ -27,6 +27,12 @@ relations:
   rationale: Keeping personas out of canonical skills is one case of keeping runtime assumptions out of them.
   evidence: src/docs/arc42/10-quality-requirements/qs-005-adapter-boundary.adoc
   reviewed: false
+- type: introduces_risk
+  target: R-007-gate-results-lack-independence
+  status: proposed
+  rationale: A capability cut cannot express who executes a gate, so the implementing context can produce its own authoritative result.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-007-gate-results-lack-independence.adoc
+  reviewed: false
 - type: mitigates
   target: R-006-unclear-adapter-boundaries
   status: proposed
@@ -52,7 +58,28 @@ outcome, never by agent persona. Role-based agents such as planner, coder, or
 reviewer may exist as an orchestration layer above the toolkit and consume the
 same canonical skills. They do not own a copy of the lifecycle.
 
-This decides the cut. It does not decide how many agents execute a change.
+This decides the cut. It does not decide how many agents execute a change, and
+the binding between roles and skills stays outside this repository. A consuming
+platform owns it, in whatever form fits its runtime.
+
+The illustration below is what such a binding can look like. It is not a toolkit
+format, and nothing here reads it:
+
+[source,yaml]
+----
+# Owned by the orchestration platform, not by this toolkit.
+roles:
+  implementer:
+    entry: implement-issue-workflow
+  reviewer:
+    entry: pr-review
+    execution: fresh        # started without the implementation context
+----
+
+A role is given an *entry* skill rather than a list of skills. Everything that
+skill mandatorily delegates to comes with it, so the allocation is closed by
+construction and cannot fall behind a change to the delegation. Role names,
+their number, and the mechanism that enforces `execution` are the platform's.
 
 === Context
 
@@ -173,15 +200,17 @@ ADR places roles above the toolkit rather than forbidding them.
 
 * Independence of verification, which a persona cut provides for free, is not
   expressible by a capability cut. Today the same agent can implement a change
-  and run the authoritative Convergence Check on it.
+  and run the authoritative Convergence Check on it. This is tracked as
+  xref:r-007-gate-results-lack-independence[].
 * Ownership, permissions and audit do not map onto skills. A consuming
   organisation has to establish that mapping in its own orchestration layer.
 * Skill selection remains a semantic decision at the point of use. Explicit
   wiring exists at the gate moments, but the toolkit does not enforce routing.
-* An orchestration layer that allocates skills per role has to keep each
-  allocation closed under skill-to-skill delegation. A role holding
-  `implement-issue-workflow` also needs everything that skill mandatorily
-  references, or the gate wiring breaks silently inside that role's context.
+* An orchestration layer that allocates a fixed *list* of skills per role has to
+  maintain closure under skill-to-skill delegation itself, and a list that falls
+  behind a delegation change breaks the gate wiring silently inside that role's
+  context. Allocating an entry skill avoids the obligation; enumerating one
+  accepts it.
 
 ==== Neutral or Follow-Up
 
@@ -191,10 +220,11 @@ ADR places roles above the toolkit rather than forbidding them.
   rather than as a new role.
 * Roles remain permitted above the toolkit. Nothing here forbids planner, coder
   or reviewer agents; it forbids them owning separate process truth.
-* Whether the toolkit should verify allocation closure is undecided.
-  `features/skill-wiring.feature` already resolves the skill-to-skill reference
-  graph, so the data exists; nothing reads it from an allocation's point of
-  view.
+* The toolkit publishes no binding mechanism and no machine-readable delegation
+  closure. Stating the requirement is enough, because an allocation by entry
+  skill inherits the closure anyway. `features/skill-wiring.feature` still
+  resolves that reference graph for the toolkit's own consistency, not for
+  consumers to allocate against.
 
 === Impact
 
@@ -222,20 +252,16 @@ include::generated/adr-008-skill-decomposition-boundary-traceability.adoc[levelo
 
 === Open Questions
 
-* Should the independence gap recorded under `Negative` become a Risk artifact,
-  or is the follow-up issue a sufficient record?
-* Where does an orchestration layer bind roles to skills: in `adapters/`, in the
-  consuming project, or entirely outside the toolkit?
-* Should the toolkit publish each skill's delegation closure so an orchestration
-  layer can allocate against it, rather than only stating the requirement?
+* Should the illustration under `Decision` grow into a maintained example, or
+  does an orchestration layer need nothing further from this repository than the
+  skill names it already reads?
 
 === Review Notes
 
 Confirm before marking this ADR reviewed or accepted:
 
-* whether this decision refines xref:adr-005-engine-independent-skills[] or
-  stands beside it — it is recorded here as a proposed `refines` relation;
-* whether the independence consequence warrants its own Risk artifact;
+* the assessment recorded in xref:r-007-gate-results-lack-independence[], which
+  this decision introduces;
 * that no operational rule from this decision has been duplicated into
   `AGENTS.md` or into the canonical skills;
 * that the separation under `Context` between cut, allocation and agent
