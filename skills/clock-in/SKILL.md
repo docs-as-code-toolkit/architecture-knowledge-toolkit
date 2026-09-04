@@ -150,6 +150,34 @@ preserved.
 `templates/progress.adoc` and fill the plan **with** the owner, not for them. A
 plan invented on their behalf is a guess wearing a checklist.
 
+## Say what was read
+
+This skill claims to start from the repository rather than from memory. A session
+that read the issues, the diary and the topic files and a session that
+reconstructed them from the conversation produce artifacts that look identical,
+so the claim needs a trace or it is only an intention.
+
+Record, in the layer that outlives the session, which repository artifacts this
+session actually fetched — the branch enumeration, the issues read by number, the
+topic files, the diary entry, the delegated skills — each with a reference a later
+session can re-fetch. `clock-out/SKILL.md` says where that record lands.
+
+Two rules keep it worth having:
+
+- **An artifact this session did not fetch does not go in the list.** A plausible
+  entry written from memory is worse than a short list, because it is the one
+  thing a later session will trust without checking.
+- **A failed fetch is an entry too**, naming what could not be read and why.
+
+Be clear about how much this is worth. The branch enumeration above is enforced
+by a command: run it or do not, the output is either there or it is not. This
+record is enforced by review — nothing in the toolkit can tell a truthful list
+from an invented one, because the diary form belongs to the project layer and
+there is no single path to check. A consuming repository whose diary has a fixed
+shape can count the section instead, and one does. Saying that plainly is part of
+the rule: a guard that claims more enforcement than it has is the same defect one
+level up.
+
 ## The private journal binding
 
 A private journal is per user, not per project. Its location must therefore never
