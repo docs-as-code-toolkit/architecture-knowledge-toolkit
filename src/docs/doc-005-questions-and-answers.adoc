@@ -166,6 +166,11 @@ details must move to adapter-specific files under `adapters/`?
 
 Answer: As for now, this is not really clear as the knowledge about differences between the AI engines is too low yet. As the knowledge evolves, we will decide.
 
+One instance is decided. xref:adr-008-skill-decomposition-boundary[] places the
+agent persona on the runtime side of the boundary: canonical skills are cut by
+lifecycle capability, and role-based agents belong to an orchestration layer
+above the toolkit. The general question stays open.
+
 [[q-arch-007]]
 === Q-ARCH-007: Source fragment location
 
