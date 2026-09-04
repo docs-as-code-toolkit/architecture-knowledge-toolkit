@@ -80,9 +80,9 @@ when that issue closes.
 
 This has already been observed, on the branch that introduced
 xref:adr-008-skill-decomposition-boundary[]. Every check run from the context
-that wrote the artifacts reported *converged*. Two runs from a context that had
-not authored the change reported *not converged*, and every finding they raised
-survived inspection. The first defect of all was found by neither: a human
+that wrote the artifacts reported *converged*. Runs from a context that had not
+authored the change repeatedly reported *not converged*, and every finding they
+raised survived inspection. The first defect of all was found by neither: a human
 reading the ADR.
 
 Both records are outside this repository, because the repository holds no
