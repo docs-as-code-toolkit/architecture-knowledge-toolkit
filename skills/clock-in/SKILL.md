@@ -81,6 +81,27 @@ Note anything that contradicts what the topic files will claim. Uncommitted
 work, a branch that is not the base branch, an open pull request — these are
 facts about where the last session stopped, and they outrank any file.
 
+Every one of those four commands describes the *current* branch, plus whatever
+branches happen to carry an open pull request. A branch with commits and no pull
+request is invisible to all four, and that is the ordinary shape of work in
+progress. So establish the state of the whole repository as well:
+
+```sh
+git for-each-ref --sort=-committerdate \
+  --format='%(committerdate:short) %(refname:short) %(contents:subject)' \
+  refs/remotes/origin refs/heads
+```
+
+Read it against the base branch: a ref that is ahead of it carries work this
+session has not seen yet. Without a checkout, the same question is
+`gh api "repos/<owner>/<repo>/branches?per_page=100"` followed by
+`gh api "repos/<owner>/<repo>/compare/<base>...<branch>"`.
+
+This is one repository's branches, not other repositories — the multi-project
+view still belongs to the private layer. When the enumeration fails, that is a
+recorded gap and not an empty result; a session that could not list the branches
+has not established that there were none.
+
 **2. Delegate to the project's own clock-in skill when it has one.**
 
 Look for `skills/clock-in/SKILL.md` in the repository being worked in, and apply
@@ -119,9 +140,9 @@ here.
   is often why the plan says what it says.
 - The issues the plan references, if the plan's next step names any.
 
-**7. Report the delta, then start.** Three things, briefly: where the topic
-stands, what the plan's next step is, and what has changed on the base branch
-since the file was last touched. If the two disagree, say so and fix the file —
+**7. Report the delta, then start.** Four things, briefly: where the topic
+stands, what the plan's next step is, what has changed on the base branch since
+the file was last touched, and which other refs are ahead of it. If the two disagree, say so and fix the file —
 it describes now, so a stale statement in it is corrected on sight, not
 preserved.
 

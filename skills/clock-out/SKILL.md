@@ -58,6 +58,12 @@ gh pr list --state open
 gh pr checks <number>
 ```
 
+These see the current branch and whatever carries an open pull request. Establish
+the state of the whole repository too, with the branch enumeration under step 1
+of `../clock-in/SKILL.md` — that file owns the command, and a second copy here
+would get its own chance to drift from it. A branch that moved today and has no
+pull request is exactly what a closing report must not miss.
+
 A session does not end tidily just because it stopped.
 
 **2. Delegate to the project's own clock-out skill when it has one.** Look for
