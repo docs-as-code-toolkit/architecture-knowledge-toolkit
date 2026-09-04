@@ -33,6 +33,15 @@ Feature: Skill wiring
     # Naming a state is allowed and often clearer; defining it elsewhere is the
     # copy that drifts. All four are checked, not just one.
 
+  Scenario: The repository branch sweep is defined once and deferred to
+    Given clock-in defines the repository-wide branch enumeration
+    When every other skill is searched for that command
+    Then none carries it and clock-out references skills/clock-in/SKILL.md
+    # clock-out needs the same whole-repository view at the end of a session as
+    # clock-in needs at the start. Copying the command into it is the drift this
+    # feature exists to catch; the command is read from clock-in so that editing
+    # it there moves the guard with it.
+
   Scenario: No caller carries the Convergence Check question structure
     Given the seven question titles read from the Convergence Check itself
     When every other skill is searched for those titles as headings

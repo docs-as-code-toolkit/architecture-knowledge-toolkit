@@ -138,6 +138,48 @@ test("The Convergence Check result states live in exactly one skill", () => {
   assert.deepEqual(offenders, []);
 });
 
+// The branch enumeration clock-out needs is defined in clock-in. Read it from
+// there rather than restating it, for the same reason as above: rename or reword
+// the command and the guard follows it.
+function canonicalBranchEnumeration() {
+  const text = read(path.join(skillsDir, "clock-in", "SKILL.md"));
+  const blocks = [...text.matchAll(/```sh\n([\s\S]*?)```/g)].map((m) => m[1]);
+  const sweeps = blocks.filter((block) => block.includes("for-each-ref"));
+  assert.equal(
+    sweeps.length,
+    1,
+    `expected one branch enumeration in clock-in, found ${sweeps.length}`,
+  );
+  return sweeps[0]
+    .split("\n")
+    .find((line) => line.includes("for-each-ref"))
+    .trim();
+}
+
+test("The repository branch sweep is defined once and deferred to", () => {
+  // Given clock-in defines the repository-wide branch enumeration
+  const command = canonicalBranchEnumeration();
+
+  // When every other skill is searched for that command
+  const copies = skillFiles()
+    .filter((file) => rel(file) !== path.join("skills", "clock-in", "SKILL.md"))
+    .filter((file) => read(file).includes(command))
+    .map(rel);
+
+  // Then none carries it and clock-out references skills/clock-in/SKILL.md
+  //
+  // Both halves matter. Without the first, the command gets pasted into
+  // clock-out and the two drift; without the second, it gets dropped from
+  // clock-out entirely and the closing report silently loses the branches
+  // again — which is the regression this scenario was written for.
+  assert.deepEqual(copies, []);
+  const clockOut = path.join(skillsDir, "clock-out", "SKILL.md");
+  assert.ok(
+    skillReferences(clockOut).includes("../clock-in/SKILL.md"),
+    "clock-out no longer reaches the skill that owns the branch enumeration",
+  );
+});
+
 test("The Convergence Check questions are not copied into a caller", () => {
   // Given the canonical skills under skills/, and the seven question titles read
   // from the Convergence Check itself
