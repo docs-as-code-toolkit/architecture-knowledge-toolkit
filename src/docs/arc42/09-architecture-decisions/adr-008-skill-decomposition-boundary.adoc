@@ -2,11 +2,11 @@
 id: ADR-008-skill-decomposition-boundary
 type: ADR
 title: Skill Decomposition and Agent Role Boundary
-status: proposed
+status: accepted
 owner: architecture
 created: '2026-09-04'
-reviewed: false
-summary: Proposed decision to cut canonical skills by lifecycle capability rather than by agent persona, and to place role-based agents in an orchestration layer above the toolkit.
+reviewed: true
+summary: Accepted decision to cut canonical skills by lifecycle capability rather than by agent persona, and to place role-based agents in an orchestration layer above the toolkit.
 derived_from:
 - type: conversation
   description: Comparison of this toolkit with a role-based software factory agent architecture, which asked whether skills should be cut by role instead of by lifecycle capability.
@@ -17,10 +17,10 @@ tags:
 relations:
 - type: refines
   target: ADR-005-engine-independent-skills
-  status: proposed
+  status: reviewed
   rationale: This decision makes the runtime boundary from ADR-005 more specific by placing the agent persona on the runtime side of it.
   evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
-  reviewed: false
+  reviewed: true
 - type: addresses
   target: QS-005-adapter-boundary
   status: proposed
@@ -46,15 +46,16 @@ metadata_version: '1.0'
 
 === Status
 
-Proposed.
+Accepted (derived).
 
-This ADR is AI-assisted and must not be treated as accepted architecture truth
-until reviewed and accepted by the accountable owner.
+The rationale was AI-drafted and then reviewed and accepted by the accountable
+owner. The derived marker records that the drafting was AI-assisted; the
+acceptance is human.
 
 === Decision
 
-We propose to cut canonical skills by lifecycle capability and verifiable
-outcome, never by agent persona. Role-based agents such as planner, coder, or
+We cut canonical skills by lifecycle capability and verifiable outcome, never by
+agent persona. Role-based agents such as planner, coder, or
 reviewer may exist as an orchestration layer above the toolkit and consume the
 same canonical skills. They do not own a copy of the lifecycle.
 
@@ -252,17 +253,20 @@ include::generated/adr-008-skill-decomposition-boundary-traceability.adoc[levelo
 
 === Open Questions
 
-* Should the illustration under `Decision` grow into a maintained example, or
-  does an orchestration layer need nothing further from this repository than the
-  skill names it already reads?
+* None. The illustration under `Decision` stays an illustration: the decision
+  holds without a maintained example, and an orchestration layer needs nothing
+  from this repository beyond the skill names it already reads.
 
 === Review Notes
 
-Confirm before marking this ADR reviewed or accepted:
+Accepted after review of the three questions this decision opened. The `refines`
+relation to xref:adr-005-engine-independent-skills[] was confirmed, the
+independence consequence was recorded as
+xref:r-007-gate-results-lack-independence[], and the role-to-skill binding was
+placed outside this repository.
 
-* the assessment recorded in xref:r-007-gate-results-lack-independence[], which
-  this decision introduces;
-* that no operational rule from this decision has been duplicated into
-  `AGENTS.md` or into the canonical skills;
-* that the separation under `Context` between cut, allocation and agent
-  decomposition matches how role-based agent platforms describe themselves.
+One assessment remains open elsewhere: the rating in
+xref:r-007-gate-results-lack-independence[], which this decision introduces and
+which stays under analysis. Its three remaining relations stay `proposed`,
+because their targets are proposed artifacts and the review confirmed the
+decision rather than those claims.

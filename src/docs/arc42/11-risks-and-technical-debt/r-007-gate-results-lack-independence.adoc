@@ -65,6 +65,16 @@ high because the result is not usually wrong, it is weaker than it reads, and
 human review at the pull request still stands behind it. The rating assumes that
 compensating control keeps working.
 
+Fresh execution of the gate is what would move this rating, and it moves the
+likelihood rather than the impact: it prevents the event instead of softening
+it. The likelihood is high today because nothing requires it. No skill declares
+an execution context, and this repository has no execution layer that could
+enforce one, so the default arrangement is the only arrangement. Once a gate
+skill declares the requirement and a runtime honours it, the likelihood falls to
+the frequency of lapses rather than the frequency of the default. Recording that
+reduction before the requirement exists would put an intention where a control
+belongs.
+
 This has already been observed. On the branch that introduced
 xref:adr-008-skill-decomposition-boundary[], the provisional check reported
 *converged*, and the framing defect corrected in the following commit was found
@@ -72,12 +82,18 @@ by a human reading the ADR rather than by the gate.
 
 === Mitigation Options
 
+Reducing likelihood, by preventing the self-produced run:
+
 * Declare independence as an execution property of the gate skills, so a run
-  states which context produced it.
-* Report execution provenance with every result, so a self-produced result is
-  visible as one instead of silently equivalent to an independent run.
+  states which context it requires.
 * Run the authoritative gate from a fresh context wherever the runtime allows
   it, without requiring a role-based team structure to obtain it.
+
+Reducing impact, by keeping a self-produced run from reading as an independent
+one:
+
+* Report execution provenance with every result, so a self-produced result is
+  visible as one instead of silently equivalent to an independent run.
 * Keep human review at the pull request as the compensating control for as long
   as no execution layer can enforce independence.
 
