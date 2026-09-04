@@ -86,21 +86,90 @@ branches happen to carry an open pull request. A branch with commits and no pull
 request is invisible to all four, and that is the ordinary shape of work in
 progress. So establish the state of the whole repository as well:
 
+The enumeration names the base branch rather than assuming it, prints how far
+each ref is ahead of and behind it, and ends in one verdict. Listing refs is not
+the point — divergence from the base is, and a list of names still leaves the
+comparison to whoever reads it.
+
 ```sh
-git for-each-ref --sort=-committerdate \
-  --format='%(committerdate:short) %(refname:short) %(contents:subject)' \
-  refs/remotes/origin refs/heads
+gap=""
+
+base=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD) ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:base (run git remote set-head origin --auto once)"; exit 1; }
+git fetch --quiet --prune origin ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:fetch"; exit 1; }
+refs=$(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes/origin) ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:refs"; exit 1; }
+names=$(printf '%s\n' "$refs" | sed 's|^origin/||' | sort -u) ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:dedup"; exit 1; }
+
+for name in $names; do
+  case "$name" in "${base#origin/}" | origin | HEAD) continue ;; esac
+  if git show-ref --verify --quiet "refs/heads/$name"; then ref="$name"; else ref="origin/$name"; fi
+  if ! counts=$(git rev-list --left-right --count "$base...$ref" 2>/dev/null); then
+    gap="$gap UNAVAILABLE:divergence($ref)"; continue
+  fi
+  if ! newest=$(git log -1 --format=%cs "$ref" 2>/dev/null); then
+    gap="$gap UNAVAILABLE:date($ref)"; continue
+  fi
+  echo "$ref: $(echo "$counts" | awk '{print $2}') ahead," \
+       "$(echo "$counts" | awk '{print $1}') behind $base, newest $newest"
+done
+
+if [ -n "$gap" ]; then
+  echo "SWEEP: BLOCKED —$gap"
+  exit 1
+fi
+echo "SWEEP: CLEAR (base $base)"
 ```
 
-Read it against the base branch: a ref that is ahead of it carries work this
-session has not seen yet. Without a checkout, the same question is
-`gh api "repos/<owner>/<repo>/branches?per_page=100"` followed by
-`gh api "repos/<owner>/<repo>/compare/<base>...<branch>"`.
+**One entry per branch name, and the local ref wins.** A checkout's local branch
+can be ahead of what was pushed, so reporting the remote copy of it would
+understate the work in front of you. Where only the remote ref exists, that one
+is used. Reporting both is the alternative and it is worse: two lines for one
+branch read as two branches.
+
+Without a checkout, the same question and the same verdict:
+
+```sh
+repo=<owner>/<repo>
+gap=""
+
+base=$(gh api "repos/$repo" --jq .default_branch 2>/dev/null) ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:default-branch"; exit 1; }
+branches=$(gh api "repos/$repo/branches?per_page=100" --jq '.[].name' 2>/dev/null) ||
+  { echo "SWEEP: BLOCKED — UNAVAILABLE:branch-list"; exit 1; }
+
+for b in $branches; do
+  [ "$b" = "$base" ] && continue
+  if line=$(gh api "repos/$repo/compare/$base...$b" --jq \
+      '"\(.ahead_by) ahead, \(.behind_by) behind" +
+       (if (.commits | length) > 0
+        then ", newest \((.commits | last).commit.committer.date[0:10])"
+        else "" end)' 2>/dev/null); then
+    echo "$b: $line"
+  else
+    gap="$gap UNAVAILABLE:compare($b)"
+  fi
+done
+
+if [ -n "$gap" ]; then
+  echo "SWEEP: BLOCKED —$gap"
+  exit 1
+fi
+echo "SWEEP: CLEAR (base $base)"
+```
 
 This is one repository's branches, not other repositories — the multi-project
-view still belongs to the private layer. When the enumeration fails, that is a
-recorded gap and not an empty result; a session that could not list the branches
-has not established that there were none.
+view still belongs to the private layer.
+
+**Both forms are fail-closed, and that is not decoration.** A query that did not
+run says nothing about the branches, so every fetch is tested on its own and a
+failed comparison is collected rather than skipped. Two shapes make this go
+wrong quietly and both are avoided above: a `gh api` or `git` command as the left
+member of a pipeline, whose failure the pipeline swallows, and a `while read` fed
+by a pipe, which runs in a subshell and discards the gaps it collected. A session
+that could not list the branches has not established that there were none.
 
 **2. Delegate to the project's own clock-in skill when it has one.**
 

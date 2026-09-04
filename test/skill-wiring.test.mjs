@@ -141,7 +141,7 @@ test("The Convergence Check result states live in exactly one skill", () => {
 // The branch enumeration clock-out needs is defined in clock-in. Read it from
 // there rather than restating it, for the same reason as above: rename or reword
 // the command and the guard follows it.
-function canonicalBranchEnumeration() {
+function canonicalBranchEnumerationBlock() {
   const text = read(path.join(skillsDir, "clock-in", "SKILL.md"));
   const blocks = [...text.matchAll(/```sh\n([\s\S]*?)```/g)].map((m) => m[1]);
   const sweeps = blocks.filter((block) => block.includes("for-each-ref"));
@@ -150,7 +150,11 @@ function canonicalBranchEnumeration() {
     1,
     `expected one branch enumeration in clock-in, found ${sweeps.length}`,
   );
-  return sweeps[0]
+  return sweeps[0];
+}
+
+function canonicalBranchEnumeration() {
+  return canonicalBranchEnumerationBlock()
     .split("\n")
     .find((line) => line.includes("for-each-ref"))
     .trim();
@@ -178,6 +182,31 @@ test("The repository branch sweep is defined once and deferred to", () => {
     skillReferences(clockOut).includes("../clock-in/SKILL.md"),
     "clock-out no longer reaches the skill that owns the branch enumeration",
   );
+});
+
+test("The branch enumeration reports divergence from the base branch", () => {
+  // Given the branch enumeration clock-in defines
+  const block = canonicalBranchEnumerationBlock();
+
+  // When it is inspected for what it produces
+  //
+  // The wiring test above guards where the command lives. It would pass just as
+  // happily against `git for-each-ref` alone — a list of ref names, with the
+  // comparison left to whoever reads it, which is the version this scenario
+  // exists to reject. So the promise is checked, not the location: a base branch
+  // that is resolved rather than assumed, and a count in both directions.
+  const promises = [
+    ["resolves the base branch", /symbolic-ref/],
+    ["counts commits in both directions", /rev-list --left-right --count/],
+    ["labels the ahead direction", /ahead/],
+    ["labels the behind direction", /behind/],
+  ];
+  const missing = promises
+    .filter(([, pattern]) => !pattern.test(block))
+    .map(([label]) => label);
+
+  // Then it resolves the base branch and counts commits in both directions
+  assert.deepEqual(missing, []);
 });
 
 test("The Convergence Check questions are not copied into a caller", () => {
