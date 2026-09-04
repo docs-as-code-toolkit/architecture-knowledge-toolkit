@@ -153,6 +153,20 @@ function canonicalBranchEnumerationBlock() {
   return sweeps[0];
 }
 
+// The same skill defines a second form for sessions without a checkout. It is
+// found by what only it contains, so neither block has to be located by index.
+function canonicalApiEnumerationBlock() {
+  const text = read(path.join(skillsDir, "clock-in", "SKILL.md"));
+  const blocks = [...text.matchAll(/```sh\n([\s\S]*?)```/g)].map((m) => m[1]);
+  const forms = blocks.filter((block) => block.includes("/compare/"));
+  assert.equal(
+    forms.length,
+    1,
+    `expected one API enumeration in clock-in, found ${forms.length}`,
+  );
+  return forms[0];
+}
+
 function canonicalBranchEnumeration() {
   return canonicalBranchEnumerationBlock()
     .split("\n")
@@ -184,28 +198,31 @@ test("The repository branch sweep is defined once and deferred to", () => {
   );
 });
 
-test("The branch enumeration reports divergence from the base branch", () => {
-  // Given the branch enumeration clock-in defines
-  const block = canonicalBranchEnumerationBlock();
+test("The branch enumeration covers every branch and reports divergence", () => {
+  // Given the two forms of the branch enumeration clock-in defines
+  const checkout = canonicalBranchEnumerationBlock();
+  const api = canonicalApiEnumerationBlock();
 
-  // When it is inspected for what it produces
+  // When they are inspected for what they produce
   //
   // The wiring test above guards where the command lives. It would pass just as
-  // happily against `git for-each-ref` alone — a list of ref names, with the
-  // comparison left to whoever reads it, which is the version this scenario
-  // exists to reject. So the promise is checked, not the location: a base branch
-  // that is resolved rather than assumed, and a count in both directions.
+  // happily against `git for-each-ref` alone, or against an API listing that
+  // stops after the first page — both of which report success while having
+  // looked at part of the repository. So the promise is checked, not the
+  // location.
   const promises = [
-    ["resolves the base branch", /symbolic-ref/],
-    ["counts commits in both directions", /rev-list --left-right --count/],
-    ["labels the ahead direction", /ahead/],
-    ["labels the behind direction", /behind/],
+    ["checkout form resolves the base branch", checkout, /symbolic-ref/],
+    ["checkout form counts both directions", checkout, /rev-list --left-right --count/],
+    ["checkout form labels ahead", checkout, /ahead/],
+    ["checkout form labels behind", checkout, /behind/],
+    ["API form pages the whole list", api, /gh api --paginate/],
   ];
   const missing = promises
-    .filter(([, pattern]) => !pattern.test(block))
+    .filter(([, block, pattern]) => !pattern.test(block))
     .map(([label]) => label);
 
-  // Then it resolves the base branch and counts commits in both directions
+  // Then the checkout form resolves the base branch and counts commits in both
+  // directions, and the API form pages through the whole branch list
   assert.deepEqual(missing, []);
 });
 

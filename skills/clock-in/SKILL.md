@@ -103,17 +103,36 @@ refs=$(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes/orig
 names=$(printf '%s\n' "$refs" | sed 's|^origin/||' | sort -u) ||
   { echo "SWEEP: BLOCKED — UNAVAILABLE:dedup"; exit 1; }
 
+report_ref() {
+  if ! counts=$(git rev-list --left-right --count "$base...$1" 2>/dev/null); then
+    gap="$gap UNAVAILABLE:divergence($1)"; return
+  fi
+  if ! newest=$(git log -1 --format=%cs "$1" 2>/dev/null); then
+    gap="$gap UNAVAILABLE:date($1)"; return
+  fi
+  echo "$1: $(echo "$counts" | awk '{print $2}') ahead," \
+       "$(echo "$counts" | awk '{print $1}') behind $base, newest $newest"
+}
+
 for name in $names; do
   case "$name" in "${base#origin/}" | origin | HEAD) continue ;; esac
-  if git show-ref --verify --quiet "refs/heads/$name"; then ref="$name"; else ref="origin/$name"; fi
-  if ! counts=$(git rev-list --left-right --count "$base...$ref" 2>/dev/null); then
-    gap="$gap UNAVAILABLE:divergence($ref)"; continue
+  git show-ref --verify --quiet "refs/heads/$name" && has_local=yes || has_local=no
+  git show-ref --verify --quiet "refs/remotes/origin/$name" && has_remote=yes || has_remote=no
+
+  if [ "$has_local" = yes ] && [ "$has_remote" = yes ]; then
+    git merge-base --is-ancestor "origin/$name" "$name" 2>/dev/null
+    case $? in
+      0) report_ref "$name" ;;
+      1) echo "$name: origin/$name is not contained in local — both listed"
+         report_ref "$name"
+         report_ref "origin/$name" ;;
+      *) gap="$gap UNAVAILABLE:ancestry($name)" ;;
+    esac
+  elif [ "$has_local" = yes ]; then
+    report_ref "$name"
+  else
+    report_ref "origin/$name"
   fi
-  if ! newest=$(git log -1 --format=%cs "$ref" 2>/dev/null); then
-    gap="$gap UNAVAILABLE:date($ref)"; continue
-  fi
-  echo "$ref: $(echo "$counts" | awk '{print $2}') ahead," \
-       "$(echo "$counts" | awk '{print $1}') behind $base, newest $newest"
 done
 
 if [ -n "$gap" ]; then
@@ -123,11 +142,16 @@ fi
 echo "SWEEP: CLEAR (base $base)"
 ```
 
-**One entry per branch name, and the local ref wins.** A checkout's local branch
-can be ahead of what was pushed, so reporting the remote copy of it would
-understate the work in front of you. Where only the remote ref exists, that one
-is used. Reporting both is the alternative and it is worse: two lines for one
-branch read as two branches.
+**One entry per branch name, except where that would hide something.** A local
+branch and its remote counterpart are the same work in two places only while
+`origin/<name>` is an ancestor of the local ref. Then the local one is ahead of
+it or equal to it, and reporting that one alone loses nothing.
+
+When it is not an ancestor — the local branch is behind what was pushed, or the
+two have diverged — collapsing them discards exactly the commits this sweep
+exists to find. Both refs are listed then, and the pair is named as what it is.
+That is a state of the repository rather than a failed query, so it is reported
+and does not block. Where only one of the two exists, that one is used.
 
 Without a checkout, the same question and the same verdict:
 
@@ -137,7 +161,7 @@ gap=""
 
 base=$(gh api "repos/$repo" --jq .default_branch 2>/dev/null) ||
   { echo "SWEEP: BLOCKED — UNAVAILABLE:default-branch"; exit 1; }
-branches=$(gh api "repos/$repo/branches?per_page=100" --jq '.[].name' 2>/dev/null) ||
+branches=$(gh api --paginate "repos/$repo/branches?per_page=100" --jq '.[].name' 2>/dev/null) ||
   { echo "SWEEP: BLOCKED — UNAVAILABLE:branch-list"; exit 1; }
 
 for b in $branches; do
@@ -159,6 +183,12 @@ if [ -n "$gap" ]; then
 fi
 echo "SWEEP: CLEAR (base $base)"
 ```
+
+`--paginate` is not decoration. Without it the listing stops after the first
+page, and a repository with more than a hundred branches reports `SWEEP: CLEAR`
+having looked at part of itself — the same silent incompleteness this section
+exists to remove, arriving through the door marked "success". The checkout form
+has no such limit; `for-each-ref` enumerates everything.
 
 This is one repository's branches, not other repositories — the multi-project
 view still belongs to the private layer.
