@@ -17,28 +17,28 @@ tags:
 relations:
 - type: refines
   target: ADR-005-engine-independent-skills
-  status: reviewed
+  status: accepted
   rationale: This decision makes the runtime boundary from ADR-005 more specific by placing the agent persona on the runtime side of it.
   evidence: src/docs/arc42/09-architecture-decisions/adr-005-engine-independent-skills.adoc
   reviewed: true
 - type: addresses
   target: QS-005-adapter-boundary
-  status: proposed
+  status: accepted
   rationale: Keeping personas out of canonical skills is one case of keeping runtime assumptions out of them.
   evidence: src/docs/arc42/10-quality-requirements/qs-005-adapter-boundary.adoc
-  reviewed: false
+  reviewed: true
 - type: introduces_risk
   target: R-007-gate-results-lack-independence
-  status: proposed
+  status: accepted
   rationale: A capability cut cannot express who executes a gate, so the implementing context can produce its own authoritative result.
   evidence: src/docs/arc42/11-risks-and-technical-debt/r-007-gate-results-lack-independence.adoc
-  reviewed: false
+  reviewed: true
 - type: mitigates
   target: R-006-unclear-adapter-boundaries
-  status: proposed
+  status: accepted
   rationale: Naming the agent persona as a runtime concern removes one concrete case of boundary ambiguity.
   evidence: src/docs/arc42/11-risks-and-technical-debt/r-006-unclear-adapter-boundaries.adoc
-  reviewed: false
+  reviewed: true
 metadata_version: '1.0'
 ---
 [[adr-008-skill-decomposition-boundary]]
@@ -265,8 +265,10 @@ independence consequence was recorded as
 xref:r-007-gate-results-lack-independence[], and the role-to-skill binding was
 placed outside this repository.
 
+The impact claims recorded as relations were accepted with the decision. Their
+targets remain proposed artifacts in their own right; an accepted relation states
+that the claim holds, not that the artifact it points at has been accepted.
+
 One assessment remains open elsewhere: the rating in
 xref:r-007-gate-results-lack-independence[], which this decision introduces and
-which stays under analysis. Its three remaining relations stay `proposed`,
-because their targets are proposed artifacts and the review confirmed the
-decision rather than those claims.
+which stays under analysis.
