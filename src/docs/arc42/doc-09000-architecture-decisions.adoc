@@ -69,7 +69,7 @@ relations:
 - type: documents
   target: ADR-008-skill-decomposition-boundary
   status: proposed
-  rationale: The chapter links to this proposed ADR detail page.
+  rationale: The chapter links to this ADR detail page.
   evidence: src/docs/arc42/doc-09000-architecture-decisions.adoc
   reviewed: false
 metadata_version: '1.0'
