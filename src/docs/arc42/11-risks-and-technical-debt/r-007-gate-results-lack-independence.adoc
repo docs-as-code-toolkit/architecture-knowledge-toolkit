@@ -78,10 +78,23 @@ default. Recording that reduction before the requirement exists would put an
 intention where a control belongs, so this rating is expected to be revisited
 when that issue closes.
 
-This has already been observed. On the branch that introduced
-xref:adr-008-skill-decomposition-boundary[], the provisional check reported
-*converged*, and the framing defect corrected in the following commit was found
-by a human reading the ADR rather than by the gate.
+This has already been observed, on the branch that introduced
+xref:adr-008-skill-decomposition-boundary[]. Every check run from the context
+that wrote the artifacts reported *converged*. Two runs from a context that had
+not authored the change reported *not converged*, and every finding they raised
+survived inspection. The first defect of all was found by neither: a human
+reading the ADR.
+
+Both records are outside this repository, because the repository holds no
+evidence of how a check was executed — the limitation this risk is about:
+
+* the human-found defect, at
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/issues/86#issuecomment-5539042867[issue 86, comment];
+* the run-by-run outcomes, at
+  https://github.com/docs-as-code-toolkit/architecture-knowledge-toolkit/pull/88#issuecomment-5541512602[pull request 88, comment].
+
+A pull request body is not cited for either: it is rewritten on every re-run and
+its earlier revisions cannot be retrieved, so it cannot carry evidence.
 
 === Mitigation Options
 
