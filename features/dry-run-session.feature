@@ -4,9 +4,11 @@
 # Given/When/Then comment anchors inside the test body. Traceability is a
 # reviewer-verifiable convention, not a build-enforced link.
 #
-# The tests are hermetic. The helper's `check` subcommand deliberately contacts
-# real hosts to prove, on the machine it runs on, that nothing can be published;
-# it is the live counterpart to these scenarios and is not exercised here.
+# The tests are hermetic. They replace the sandbox runtime with a stand-in that
+# records the policy it is given and runs the command unsandboxed, so they
+# specify the policy, not its enforcement. Enforcement is the job of the helper's
+# `check` subcommand, which attempts every write path from inside a real sandbox
+# on the machine it runs on and is not exercised here.
 
 Feature: Dry-run session
   As someone running agent skills against a real repository
@@ -17,6 +19,26 @@ Feature: Dry-run session
     Given a source repository with a remote
     When a dry-run clone is set up from it
     Then the clone exists and the source's push URL and hooks are unchanged
+
+  Scenario: The session runs inside the sandbox runtime
+    Given a dry-run clone
+    When a command runs in the session
+    Then it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and the agent's own state and reaches only the agent's API
+
+  Scenario: GitHub and GitLab stay denied when every domain is allowed
+    Given a dry-run clone and an allowlist opened to every domain
+    When a command runs in the session
+    Then the sandbox policy still denies GitHub and GitLab
+
+  Scenario: Credentials and the clone's guards are out of the session's reach
+    Given a dry-run clone
+    When a command runs in the session
+    Then the sandbox policy denies reading SSH keys and gh, glab and git credential files, and writing the hook, the deny rules and the agent's settings
+
+  Scenario: Without the sandbox runtime no session starts
+    Given a dry-run clone and no sandbox runtime
+    When the session is started
+    Then it fails, names the missing runtime and runs nothing
 
   Scenario: A push to the clone's own remote is refused
     Given a dry-run clone
