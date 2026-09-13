@@ -23,7 +23,7 @@ Feature: Dry-run session
   Scenario: The session runs inside the sandbox runtime
     Given a dry-run clone
     When a command runs in the session
-    Then it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and the agent's own state and reaches only the agent's API
+    Then it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and temporary directories and reaches only the agent's API
 
   Scenario: GitHub and GitLab stay denied when every domain is allowed
     Given a dry-run clone and an allowlist opened to every domain
@@ -33,7 +33,17 @@ Feature: Dry-run session
   Scenario: Credentials and the clone's guards are out of the session's reach
     Given a dry-run clone
     When a command runs in the session
-    Then the sandbox policy denies reading SSH keys and gh, glab and git credential files, and writing the hook, the deny rules and the agent's settings
+    Then the sandbox policy denies reading SSH keys, gh, glab and git credential files and Claude Code state outside the dry run, and writing the hook and the deny rules
+
+  Scenario: Claude Code keeps the session's state in the clone
+    Given a dry-run clone and a Claude Code configuration directory in the calling environment
+    When a command runs in the session
+    Then CLAUDE_CONFIG_DIR points to an existing directory inside the clone's git directory
+
+  Scenario: Logging in is the only session that may bind a local port
+    Given a dry-run clone and a stand-in for Claude Code
+    When logging in, and running a regular session
+    Then only the login runs claude auth login with a policy that allows local binding
 
   Scenario: Without the sandbox runtime no session starts
     Given a dry-run clone and no sandbox runtime

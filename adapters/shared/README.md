@@ -137,7 +137,7 @@ an instruction to the agent.
 
 - The [Anthropic Sandbox Runtime](https://github.com/anthropics/sandbox-runtime):
   `npm install -g @anthropic-ai/sandbox-runtime`, which provides `srt`. Without
-  it, `start` and `check` refuse to run.
+  it, `start`, `login` and `check` refuse to run.
 - Node.js, which writes the sandbox policy (it is already there once `srt` is).
 - On macOS, `ripgrep`. On Linux, `bubblewrap`, `socat` and `ripgrep`; see the
   runtime's documentation for distribution-specific notes.
@@ -146,6 +146,7 @@ an instruction to the agent.
 
 ```bash
 ./dry-run-session.sh setup <source> [target]      # clone into a locked-down directory
+./dry-run-session.sh login <target>               # log Claude Code in, once per clone
 ./dry-run-session.sh check <target>               # prove the boundary on this machine
 ./dry-run-session.sh start <target>               # run Claude Code inside the session
 ./dry-run-session.sh start <target> -- <cmd ...>  # ... or any other command
@@ -158,25 +159,28 @@ the session inherits it.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `DRY_RUN_ALLOWED_DOMAINS` | `api.anthropic.com *.anthropic.com claude.ai` | Domains the session may reach, separated by spaces. Set it for an agent other than Claude Code. |
+| `DRY_RUN_ALLOWED_DOMAINS` | `api.anthropic.com *.anthropic.com claude.ai claude.com *.claude.com` | Domains the session may reach, separated by spaces. Set it for an agent other than Claude Code. |
 | `DRY_RUN_SESSION_SRT` | `srt` | The sandbox runtime to use. |
 
 ### Behavior
 
 - **A process sandbox around the whole session.** `start` runs the command
   through `srt` with a policy written for this session, outside every writable
-  path. The session writes only to the clone, to the temporary directories of
-  `srt` and Claude Code (`/tmp/claude`, `/tmp/claude-<uid>` and `/tmp/claude-*`),
-  and to Claude Code's own state in `~/.claude` and `~/.claude.json`.
-  It cannot read `~/.ssh`, the `gh` and `glab` configuration, `~/.netrc` or
-  `~/.git-credentials`, and it reaches only the allowed domains. GitHub and
-  GitLab are denied explicitly, and a denial wins over an allowance, so they stay
-  unreachable even with `DRY_RUN_ALLOWED_DOMAINS="*"`.
+  path. The session writes only to the clone and to the temporary directories of
+  `srt` and Claude Code (`/tmp/claude`, `/tmp/claude-<uid>` and `/tmp/claude-*`).
+  It cannot read `~/.ssh`, the `gh` and `glab` configuration, `~/.netrc`,
+  `~/.git-credentials`, `~/.claude` or `~/.claude.json`, and it reaches only the
+  allowed domains. GitHub and GitLab are denied explicitly, and a denial wins over
+  an allowance, so they stay unreachable even with `DRY_RUN_ALLOWED_DOMAINS="*"`.
+- **Claude Code state stays with the clone.** The session runs with
+  `CLAUDE_CONFIG_DIR` set to `.git/dry-run-session/claude` inside the clone.
+  Settings, hooks, history and `.claude.json` written during a dry run live there
+  and are discarded with the clone; no session outside the dry run reads them.
+  Claude Code ties its login to that directory, so log in once per clone with
+  `login`. The login is the only run allowed to bind a local port, which the
+  OAuth callback needs.
 - **The session cannot loosen its guards.** The sandbox keeps the clone's hook
-  directory, its `.git/config` and `.claude/settings.local.json` unwritable, and
-  so is everything in `~/.claude` that would change a later session outside the
-  dry run: `settings.json`, `settings.local.json`, `CLAUDE.md`, `hooks`, `skills`,
-  `agents`, `commands` and `plugins`.
+  directory, its `.git/config` and `.claude/settings.local.json` unwritable.
 - **A clone of its own.** The original checkout is never touched. The clone's
   push URL is unusable, and a `pre-push` hook installed through a clone-local
   `core.hooksPath` rejects every push, including a push to an explicitly named
@@ -192,11 +196,13 @@ the session inherits it.
   session it pushes to `origin` and to a local repository, with and without the
   hook, writes outside the clone, changes the clone's git configuration and hook,
   pushes over HTTPS with the credential helpers restored and over SSH with SSH
-  restored, to GitHub and to GitLab, calls `gh` with its own configuration, and
-  reads `~/.ssh`. Every target either does not exist or is thrown away, so even a
-  failing boundary publishes nothing. Each probe must fail for the right reason:
-  one that fails only because a remote answered without the target or the key is
-  reported as `OPEN`. Use a clone only when `check` ends with `RESULT: tight`.
+  restored, to GitHub and to GitLab, calls `gh` with its own configuration, reads
+  `~/.ssh`, and writes to and reads `~/.claude`. Every target either does not
+  exist or is thrown away, so even a failing boundary publishes nothing. Each
+  probe must fail for the right reason: one that fails only because a remote
+  answered without the target or the key is reported as `OPEN`. `check` also
+  reports whether Claude Code is logged in for the clone. Use a clone only when
+  `check` ends with `RESULT: tight`.
 
 The clone guards, the credential removal and the deny rules are each something a
 determined agent could undo from inside an unsandboxed session: `git push
@@ -213,17 +219,21 @@ clear message; the guarantee rests on the sandbox.
 - **The macOS login keychain stays readable**, because Claude Code keeps its
   login there. A credential found in it cannot reach GitHub or GitLab, but it
   could reach an allowed domain.
-- **Session state persists.** `~/.claude.json` stays writable, and so do session
-  transcripts and history in `~/.claude`; a later session outside the dry run
-  reads them. Claude Code's temporary directory `/tmp/claude-<uid>` is shared
-  with the user's other Claude Code sessions and writable as well.
+- **User-level Claude Code configuration does not apply.** Settings, skills,
+  agents and `CLAUDE.md` from `~/.claude` are not available inside a dry run; the
+  project's own configuration is.
+- **The login run can bind local ports**, and on macOS that also lets it reach
+  services on the loopback interface. It runs only `claude auth login`; log in
+  right after `setup`, before a session has written to the clone.
+- **Claude Code's temporary directory `/tmp/claude-<uid>`** is shared with the
+  user's other Claude Code sessions and stays writable.
 - **GitHub and GitLab are not readable either.** `gh`, `glab` and the public APIs
   are unreachable from inside the session. Put the text of an issue into the
   prompt, or into a file before `start`.
 - **It is verified on macOS only**, with version 0.0.76 of the runtime and
-  Claude Code 2.1.270, whose Bash tool runs inside the sandbox. The policy is
-  written for Linux as well, but the runtime supports path globs only on macOS;
-  run `check` before relying on it. Windows is not supported.
+  Claude Code 2.1.270. The policy is written for Linux as well, but the runtime
+  supports path globs only on macOS; run `check` before relying on it. Windows is
+  not supported.
 - A `check` result holds for the machine it ran on.
 - Local commits and file changes inside the clone are not blocked. That is the
   point: the clone can act freely and be discarded afterwards.

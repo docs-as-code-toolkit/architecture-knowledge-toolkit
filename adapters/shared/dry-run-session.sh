@@ -6,15 +6,19 @@
 #   ./dry-run-session.sh setup <source> [target]      # clone into a locked-down directory
 #   ./dry-run-session.sh check <target>               # prove the boundary on this machine
 #   ./dry-run-session.sh start <target> [-- cmd ...]  # run a command in the session (default: claude)
+#   ./dry-run-session.sh login <target>               # log Claude Code in, once per clone
 #
 # <source> is a local checkout or a clone URL; <target> defaults to
-# <name>-dry-run in the current directory. `start` and `check` need the
+# <name>-dry-run in the current directory. `start`, `login` and `check` need the
 # Anthropic Sandbox Runtime (`srt`, npm package @anthropic-ai/sandbox-runtime).
 #
 # The boundary is a process sandbox around the whole session (srt). The session
-# writes only to the clone and to the agent's own state, cannot read SSH keys or
-# gh, glab and git credential files, and reaches only the agent's API. GitHub and
-# GitLab stay denied even when more domains are allowed.
+# writes only to the clone and to temporary directories, cannot read SSH keys,
+# gh, glab and git credential files or Claude Code's own state, and reaches only
+# the agent's API. GitHub and GitLab stay denied even when more domains are
+# allowed. Claude Code keeps the session's state inside the clone's git
+# directory, so nothing a session leaves behind reaches a session outside the
+# dry run. Log in once per clone with the login subcommand.
 #
 # Further layers, each of which a determined agent could undo on its own:
 #   - A clone of its own with an unusable push URL and a pre-push hook installed
@@ -32,12 +36,13 @@ SELF="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
 PUSH_URL_DISABLED="PUSH-DISABLED-dry-run-session"
 HOOK_MESSAGE="dry-run-session: pushing is disabled in this clone"
 SETTINGS=".claude/settings.local.json"
+CLAUDE_STATE=".git/dry-run-session/claude"
 SRT="${DRY_RUN_SESSION_SRT:-srt}"
-DEFAULT_DOMAINS="api.anthropic.com *.anthropic.com claude.ai"
+DEFAULT_DOMAINS="api.anthropic.com *.anthropic.com claude.ai claude.com *.claude.com"
 PROBE_REPOSITORY="dry-run-session-probe/does-not-exist.git"
 
 usage() {
-  sed -n '3,12p' "$SELF" >&2
+  sed -n '3,13p' "$SELF" >&2
   exit 2
 }
 
@@ -55,7 +60,7 @@ setup() {
   cd "$dst"
 
   git remote set-url --push origin "$PUSH_URL_DISABLED"
-  mkdir -p .git/dry-run-hooks
+  mkdir -p .git/dry-run-hooks "$CLAUDE_STATE"
   printf '#!/bin/sh\necho "%s" >&2\nexit 1\n' "$HOOK_MESSAGE" >.git/dry-run-hooks/pre-push
   chmod +x .git/dry-run-hooks/pre-push
   git config core.hooksPath .git/dry-run-hooks
@@ -89,6 +94,7 @@ JSON
 
   echo "set up: $dst"
   echo "  check: $SELF check \"$dst\""
+  echo "  login: $SELF login \"$dst\"   (once per clone)"
   echo "  start: $SELF start \"$dst\""
 }
 
@@ -104,12 +110,12 @@ require_sandbox() {
   fi
 }
 
-# write_policy <clone> <file>: the srt settings for one session. The file lies
-# outside every writable path, so the session cannot loosen its own policy.
+# write_policy <clone> <file> [login]: the srt settings for one session. The file
+# lies outside every writable path, so the session cannot loosen its own policy.
 write_policy() {
   # The node program is single-quoted on purpose; it reads its input from the environment.
   # shellcheck disable=SC2016
-  DRY_RUN_CLONE="$1" DRY_RUN_POLICY="$2" DRY_RUN_UID="$(id -u)" \
+  DRY_RUN_CLONE="$1" DRY_RUN_POLICY="$2" DRY_RUN_MODE="${3:-}" DRY_RUN_UID="$(id -u)" \
     DRY_RUN_DOMAINS="${DRY_RUN_ALLOWED_DOMAINS:-$DEFAULT_DOMAINS}" \
     node -e '
 const fs = require("node:fs");
@@ -131,30 +137,19 @@ const policy = {
       "github.com", "*.github.com", "githubusercontent.com", "*.githubusercontent.com",
       "gitlab.com", "*.gitlab.com",
     ],
+    // Only the login binds a local port, for the OAuth callback.
+    allowLocalBinding: process.env.DRY_RUN_MODE === "login",
   },
   filesystem: {
-    denyRead: ["~/.ssh", "~/.config/gh", "~/.config/glab-cli", "~/.netrc", "~/.git-credentials"],
-    // The clone, the temporary directories srt and Claude Code use, and Claude Code state.
-    allowWrite: [
-      clone,
-      ...temporary,
-      "~/.claude",
-      "~/.claude.json",
-      ...(macOS ? ["~/.claude.json.*"] : []),
+    // Credentials, and Claude Code state outside the dry run.
+    denyRead: [
+      "~/.ssh", "~/.config/gh", "~/.config/glab-cli", "~/.netrc", "~/.git-credentials",
+      "~/.claude", "~/.claude.json",
     ],
-    // The clone guards, and everything that would change a later session.
-    denyWrite: [
-      `${clone}/.git/dry-run-hooks`,
-      `${clone}/.claude/settings.local.json`,
-      "~/.claude/settings.json",
-      "~/.claude/settings.local.json",
-      "~/.claude/CLAUDE.md",
-      "~/.claude/hooks",
-      "~/.claude/skills",
-      "~/.claude/agents",
-      "~/.claude/commands",
-      "~/.claude/plugins",
-    ],
+    // The clone, which also holds the Claude Code state of this session, and the temporary directories.
+    allowWrite: [clone, ...temporary],
+    // The clone guards.
+    denyWrite: [`${clone}/.git/dry-run-hooks`, `${clone}/.claude/settings.local.json`],
   },
 };
 fs.writeFileSync(process.env.DRY_RUN_POLICY, JSON.stringify(policy, null, 2) + "\n");
@@ -162,16 +157,30 @@ fs.writeFileSync(process.env.DRY_RUN_POLICY, JSON.stringify(policy, null, 2) + "
 }
 
 start() {
-  local dst="${1:-}" cfg clone
+  local dst="${1:-}"
   [ -n "$dst" ] || usage
   shift
   if [ "${1:-}" = "--" ]; then shift; fi
   if [ "$#" -eq 0 ]; then set -- claude; fi
+  session "$dst" "" "$@"
+}
+
+login() {
+  local dst="${1:-}"
+  [ -n "$dst" ] || usage
+  session "$dst" login claude auth login
+}
+
+# session <target> <mode> <command...>: run the command inside the sandbox.
+session() {
+  local dst="$1" mode="$2" cfg clone
+  shift 2
   require_sandbox
   clone="$(cd "$dst" && pwd -P)"
   cfg="$(mktemp -d)"
-  write_policy "$clone" "$cfg/srt-settings.json"
+  write_policy "$clone" "$cfg/srt-settings.json" "$mode"
   mkdir -p /tmp/claude 2>/dev/null || true
+  mkdir -p "$clone/$CLAUDE_STATE"
   cd "$clone"
   exec env \
     -u GH_TOKEN -u GITHUB_TOKEN -u GH_ENTERPRISE_TOKEN \
@@ -181,11 +190,12 @@ start() {
     GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=credential.helper GIT_CONFIG_VALUE_0= \
     GIT_TERMINAL_PROMPT=0 GIT_ASKPASS=false SSH_ASKPASS=false \
     GIT_SSH_COMMAND=false \
+    CLAUDE_CONFIG_DIR="$clone/$CLAUDE_STATE" \
     "$SRT" --settings "$cfg/srt-settings.json" -- "$@"
 }
 
 check() {
-  local dst="${1:-}" out scratch bare refs api code rc=0
+  local dst="${1:-}" out scratch bare refs api code login rc=0
   [ -n "$dst" ] || usage
   require_sandbox
   out="$(mktemp)"
@@ -215,6 +225,7 @@ check() {
   local restore_ssh=(env "GIT_SSH_COMMAND=ssh -o BatchMode=yes -o ConnectTimeout=10")
   local denied="Operation not permitted|Permission denied|Read-only file system"
   local unreachable="CONNECT tunnel failed|Could not resolve host|Operation not permitted|Connection refused"
+  local claude_probe="$HOME/.claude/dry-run-session-probe"
 
   echo "Write paths (each must fail, and for the right reason):"
   probe "push to origin" "$PUSH_URL_DISABLED|does not appear to be a git repository" \
@@ -248,12 +259,23 @@ check() {
   else
     echo "  blocked  read SSH keys (there is no ~/.ssh)"
   fi
+  if [ -d "$HOME/.claude" ]; then
+    probe "write Claude Code state outside the dry run" "$denied" touch "$claude_probe"
+    probe "read Claude Code state outside the dry run" "$denied" ls "$HOME/.claude"
+  else
+    echo "  blocked  Claude Code state outside the dry run (there is no ~/.claude)"
+  fi
 
   refs="$(git -C "$bare" for-each-ref | wc -l | tr -d ' ')"
   echo "  refs in the probe repository afterwards: $refs (must be 0)"
   [ "$refs" = 0 ] || rc=1
   if [ -e "$scratch/outside" ]; then
     echo "  a file was written outside the clone"
+    rc=1
+  fi
+  if [ -e "$claude_probe" ]; then
+    echo "  a file was written to ~/.claude; it has been removed"
+    rm -f "$claude_probe"
     rc=1
   fi
 
@@ -274,6 +296,10 @@ check() {
       rc=1
     fi
   fi
+  if command -v claude >/dev/null 2>&1; then
+    login="$("$SELF" start "$dst" -- claude auth status --text 2>&1 </dev/null | grep -v '^Proxy:' | head -n 1 || true)"
+    echo "  info     Claude Code login in this clone: ${login:-no answer}"
+  fi
 
   rm -rf "$out" "$scratch"
   if [ "$rc" = 0 ]; then
@@ -287,6 +313,7 @@ check() {
 case "${1:-}" in
   setup) shift; setup "$@" ;;
   start) shift; start "$@" ;;
+  login) shift; login "$@" ;;
   check) shift; check "$@" ;;
   *) usage ;;
 esac
