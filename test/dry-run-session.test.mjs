@@ -149,16 +149,17 @@ test("The session runs inside the sandbox runtime", (t) => {
   // When: a command runs in the session
   const { result, policy } = inSession(t, clone, ["pwd", "-P"]);
 
-  // Then: it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and the agent's own state and reaches only the agent's API
+  // Then: it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and temporary directories and reaches only the agent's API
   assert.equal(result.stdout.trim(), real);
-  // Besides the clone: /tmp/claude, /tmp/claude-<uid> and /tmp/claude-* (also under
-  // /private), ~/.claude and ~/.claude.json.
-  const agentState = /^(?:(?:\/private)?\/tmp\/claude(?:-(?:\d+|\*))?|~\/\.claude(?:\.json(?:\.\*)?)?)$/;
+  // Besides the clone: /tmp/claude, /tmp/claude-<uid> and /tmp/claude-*, also under /private.
+  const temporary = /^(?:\/private)?\/tmp\/claude(?:-(?:\d+|\*))?$/;
   assert.ok(policy.filesystem.allowWrite.includes(real));
   for (const entry of policy.filesystem.allowWrite) {
-    assert.ok(entry === real || agentState.test(entry), `unexpected writable path ${entry}`);
+    assert.ok(entry === real || temporary.test(entry), `unexpected writable path ${entry}`);
   }
-  assert.deepEqual(policy.network.allowedDomains, ["api.anthropic.com", "*.anthropic.com", "claude.ai"]);
+  assert.deepEqual(policy.network.allowedDomains, [
+    "api.anthropic.com", "*.anthropic.com", "claude.ai", "claude.com", "*.claude.com",
+  ]);
 });
 
 test("GitHub and GitLab stay denied when every domain is allowed", (t) => {
@@ -183,18 +184,54 @@ test("Credentials and the clone's guards are out of the session's reach", (t) =>
   // When: a command runs in the session
   const { policy } = inSession(t, clone, ["true"]);
 
-  // Then: the sandbox policy denies reading SSH keys and gh, glab and git credential files, and writing the hook, the deny rules and the agent's settings
-  for (const entry of ["~/.ssh", "~/.config/gh", "~/.config/glab-cli", "~/.netrc", "~/.git-credentials"]) {
+  // Then: the sandbox policy denies reading SSH keys, gh, glab and git credential files and Claude Code state outside the dry run, and writing the hook and the deny rules
+  for (const entry of [
+    "~/.ssh", "~/.config/gh", "~/.config/glab-cli", "~/.netrc", "~/.git-credentials",
+    "~/.claude", "~/.claude.json",
+  ]) {
     assert.ok(policy.filesystem.denyRead.includes(entry), `${entry} stays readable`);
   }
-  for (const entry of [
-    `${real}/.git/dry-run-hooks`,
-    `${real}/.claude/settings.local.json`,
-    "~/.claude/settings.json",
-    "~/.claude/hooks",
-  ]) {
+  for (const entry of [`${real}/.git/dry-run-hooks`, `${real}/.claude/settings.local.json`]) {
     assert.ok(policy.filesystem.denyWrite.includes(entry), `${entry} stays writable`);
   }
+});
+
+test("Claude Code keeps the session's state in the clone", (t) => {
+  // Given: a dry-run clone and a Claude Code configuration directory in the calling environment
+  const { clone } = dryRunClone(t);
+  const real = fs.realpathSync(clone);
+
+  // When: a command runs in the session
+  const { result } = inSession(t, clone, ["sh", "-c", 'printf "%s" "$CLAUDE_CONFIG_DIR"'], {
+    CLAUDE_CONFIG_DIR: path.join(os.tmpdir(), "outside-claude-config"),
+  });
+
+  // Then: CLAUDE_CONFIG_DIR points to an existing directory inside the clone's git directory
+  const state = path.join(real, ".git/dry-run-session/claude");
+  assert.equal(result.stdout, state);
+  assert.ok(fs.statSync(state).isDirectory());
+});
+
+test("Logging in is the only session that may bind a local port", (t) => {
+  // Given: a dry-run clone and a stand-in for Claude Code
+  const { dir, clone } = dryRunClone(t);
+  const bin = path.join(dir, "bin");
+  fs.mkdirSync(bin);
+  fs.writeFileSync(path.join(bin, "claude"), '#!/bin/sh\nprintf "claude %s" "$*"\n', { mode: 0o755 });
+  const loginPolicy = path.join(dir, "login-policy.json");
+
+  // When: logging in, and running a regular session
+  const login = run(["login", clone], {
+    PATH: `${bin}${path.delimiter}${process.env.PATH}`,
+    DRY_RUN_STUB_POLICY: loginPolicy,
+  });
+  const { policy: sessionPolicy } = inSession(t, clone, ["true"]);
+
+  // Then: only the login runs claude auth login with a policy that allows local binding
+  assert.equal(login.status, 0, login.stderr);
+  assert.equal(login.stdout, "claude auth login");
+  assert.equal(JSON.parse(fs.readFileSync(loginPolicy, "utf8")).network.allowLocalBinding, true);
+  assert.equal(sessionPolicy.network.allowLocalBinding, false);
 });
 
 test("Without the sandbox runtime no session starts", (t) => {
