@@ -124,3 +124,57 @@ Because the CLI installs every discovered skill, this also vendors the `grilling
 helper (which the installer above filters out via `adapter_expose`) — so prefer
 `npx skills add <source> --list` to preview, then pick exposed skills with
 `--skill`.
+
+## Dry-Run Session (`dry-run-session.sh`)
+
+Cross-engine helper that runs an agent session which can **read a repository
+but cannot publish anything**, so skills that push branches or create issues can
+act for real — in a demonstration, a workshop, or a first look at an unfamiliar
+project. The guarantee comes from the environment, not from an instruction to
+the agent.
+
+### Usage
+
+```bash
+./dry-run-session.sh setup <source> [target]      # clone into a locked-down directory
+./dry-run-session.sh check <target>               # prove that nothing gets out
+./dry-run-session.sh start <target>               # run Claude Code inside the session
+./dry-run-session.sh start <target> -- <cmd ...>  # ... or any other command
+```
+
+`<source>` is a local checkout or a clone URL; `<target>` defaults to
+`<name>-dry-run` in the current directory. Set `ARCHITECTURE_KNOWLEDGE_TOOLKIT`
+before `start` when the clone lives outside the toolkit's parent directory, so
+the session inherits it.
+
+### Behavior
+
+- **A clone of its own.** The original checkout is never touched. The clone's
+  push URL is unusable, and a `pre-push` hook installed through a clone-local
+  `core.hooksPath` rejects every push — including a push to an explicitly named
+  URL, which an unusable push URL alone would not stop.
+- **A session without credentials.** `start` removes `GH_TOKEN`, `GITHUB_TOKEN`,
+  `GH_ENTERPRISE_TOKEN`, `GITLAB_TOKEN`, `GLAB_TOKEN` and the SSH agent socket,
+  points `gh` and `glab` at empty configuration, sets `GIT_SSH_COMMAND=false`,
+  resets every git credential helper, and disables terminal prompts.
+- **Deny rules for Claude Code**, written to `.claude/settings.local.json` when
+  that file does not exist yet. This layer is soft — it matches commands as they
+  are written — and an existing file is reported and left untouched, never
+  merged. The guarantee rests on the two layers above.
+- **`check` requires the right reason.** It attempts a push to `origin`, to a
+  local repository, and over SSH and HTTPS to GitHub and GitLab, plus an
+  authenticated `gh` call — always against targets that do not exist, so even a
+  failing layer publishes nothing. A probe that fails only because its target is
+  missing is reported as `OPEN`, not as blocked. Use a clone only when `check`
+  ends with `RESULT: tight`.
+
+### What it does not do
+
+- `gh` reads nothing inside the session, not even public issues. Read them
+  through the public REST API — 60 unauthenticated requests per hour per IP — or
+  paste the text into the prompt.
+- The deny rules apply to Claude Code only; other agents get the two hard
+  layers.
+- A `check` result holds for the machine it ran on.
+- Local commits and file changes inside the clone are not blocked. That is the
+  point: the clone can act freely and be discarded afterwards.
