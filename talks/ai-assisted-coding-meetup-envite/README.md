@@ -55,6 +55,14 @@ docker run --rm \
 
 Then open `http://localhost:8000/index.html`.
 
+## Running the demo against a real repository
+
+To let the demo's skills act for real without publishing anything, run them in a
+dry-run session: see [`adapters/shared/dry-run-session.sh`](../../adapters/shared/dry-run-session.sh)
+and its documentation in [`adapters/shared/README.md`](../../adapters/shared/README.md).
+The helper is part of the toolkit and licensed under the repository's MIT
+License, not under this talk's license.
+
 ## Source
 
 The first proposal is based on
