@@ -430,6 +430,15 @@ into the chosen root (project by default, `-g`/`--global` for user-wide,
 `remove` to uninstall), and skips helper skills marked
 `adapter_expose: false`. See `adapters/shared/README.md`.
 
+### Dry-run sessions
+
+To let skills act for real against a repository — push a branch, create an
+issue — without anything being published, run them in a dry-run session.
+`adapters/shared/dry-run-session.sh` clones the repository into a locked-down
+directory and starts the agent without credentials; its `check` subcommand
+proves on the current machine that no write path gets out. See
+`adapters/shared/README.md`.
+
 ### Private journal
 
 `clock-in` and `clock-out` work across two layers: the project the agent is
