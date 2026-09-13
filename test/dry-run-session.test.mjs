@@ -1,13 +1,16 @@
 // Behaviour specification for adapters/shared/dry-run-session.sh, the helper that
-// runs an agent session which can read a repository but cannot publish anything.
+// runs an agent session on a clone of a repository that cannot publish anything.
 //
-// The tests are hermetic: every repository is a throwaway directory, and no probe
-// needs the network. The helper's `check` subcommand is the live counterpart on a
-// user's machine — it contacts real hosts on purpose — and is not exercised here.
+// The tests are hermetic: every repository is a throwaway directory, no probe
+// needs the network, and the sandbox runtime is replaced by a stand-in that
+// records the policy it is given and runs the command unsandboxed. The tests
+// therefore specify the policy, not its enforcement. The helper's `check`
+// subcommand is the live counterpart on a user's machine — it attempts every
+// write path inside a real sandbox — and is not exercised here.
 //
 // Bridged from: features/dry-run-session.feature
 
-import { test } from "node:test";
+import { after, test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
@@ -26,7 +29,28 @@ const helper = path.join(repoRoot, "adapters/shared/dry-run-session.sh");
 // Claude Code users — would otherwise keep that file out of the source
 // repository one scenario commits it to, and the test would depend on the
 // machine it runs on.
+// Stands in for srt: records the policy passed with --settings to the file named
+// by DRY_RUN_STUB_POLICY, then runs the command after -- without a sandbox.
+const stubDir = fs.mkdtempSync(path.join(os.tmpdir(), "dry-run-session-srt-"));
+after(() => fs.rmSync(stubDir, { recursive: true, force: true }));
+const stubSrt = path.join(stubDir, "srt");
+fs.writeFileSync(
+  stubSrt,
+  [
+    "#!/bin/sh",
+    '[ "$1" = "--settings" ] || { echo "stub srt: expected --settings" >&2; exit 97; }',
+    '[ -z "$DRY_RUN_STUB_POLICY" ] || cp "$2" "$DRY_RUN_STUB_POLICY"',
+    // Without --, srt would read a command's own options, such as claude -c, as its own.
+    '[ "$3" = "--" ] || { echo "stub srt: expected -- before the command" >&2; exit 98; }',
+    "shift 3",
+    'exec "$@"',
+    "",
+  ].join("\n"),
+  { mode: 0o755 },
+);
+
 const hermetic = {
+  DRY_RUN_SESSION_SRT: stubSrt,
   GIT_AUTHOR_NAME: "Dry Run",
   GIT_AUTHOR_EMAIL: "dry-run@example.invalid",
   GIT_COMMITTER_NAME: "Dry Run",
@@ -70,11 +94,21 @@ function sourceRepository(dir, files = { "README.md": "source\n" }) {
 }
 
 function run(args, env = {}) {
+  const merged = { ...process.env, ...hermetic, ...env };
+  if (!("DRY_RUN_ALLOWED_DOMAINS" in env)) delete merged.DRY_RUN_ALLOWED_DOMAINS;
   return spawnSync("bash", [helper, ...args], {
     cwd: repoRoot,
     encoding: "utf8",
-    env: { ...process.env, ...hermetic, ...env },
+    env: merged,
   });
+}
+
+// Runs a command in the session and returns the result with the recorded policy.
+function inSession(t, clone, command, env = {}) {
+  const record = path.join(workspace(t), "policy.json");
+  const result = run(["start", clone, "--", ...command], { ...env, DRY_RUN_STUB_POLICY: record });
+  assert.equal(result.status, 0, result.stderr);
+  return { result, policy: JSON.parse(fs.readFileSync(record, "utf8")) };
 }
 
 function dryRunClone(t, files) {
@@ -105,6 +139,78 @@ test("Setting up clones into a directory of its own", (t) => {
     spawnSync("git", ["config", "--get", "core.hooksPath"], { cwd: src }).status,
     1,
   );
+});
+
+test("The session runs inside the sandbox runtime", (t) => {
+  // Given: a dry-run clone
+  const { clone } = dryRunClone(t);
+  const real = fs.realpathSync(clone);
+
+  // When: a command runs in the session
+  const { result, policy } = inSession(t, clone, ["pwd", "-P"]);
+
+  // Then: it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and the agent's own state and reaches only the agent's API
+  assert.equal(result.stdout.trim(), real);
+  // Besides the clone: /tmp/claude, /tmp/claude-<uid> and /tmp/claude-* (also under
+  // /private), ~/.claude and ~/.claude.json.
+  const agentState = /^(?:(?:\/private)?\/tmp\/claude(?:-(?:\d+|\*))?|~\/\.claude(?:\.json(?:\.\*)?)?)$/;
+  assert.ok(policy.filesystem.allowWrite.includes(real));
+  for (const entry of policy.filesystem.allowWrite) {
+    assert.ok(entry === real || agentState.test(entry), `unexpected writable path ${entry}`);
+  }
+  assert.deepEqual(policy.network.allowedDomains, ["api.anthropic.com", "*.anthropic.com", "claude.ai"]);
+});
+
+test("GitHub and GitLab stay denied when every domain is allowed", (t) => {
+  // Given: a dry-run clone and an allowlist opened to every domain
+  const { clone } = dryRunClone(t);
+
+  // When: a command runs in the session
+  const { policy } = inSession(t, clone, ["true"], { DRY_RUN_ALLOWED_DOMAINS: "*" });
+
+  // Then: the sandbox policy still denies GitHub and GitLab
+  assert.deepEqual(policy.network.allowedDomains, ["*"]);
+  for (const domain of ["github.com", "*.github.com", "gitlab.com", "*.gitlab.com"]) {
+    assert.ok(policy.network.deniedDomains.includes(domain), `${domain} is not denied`);
+  }
+});
+
+test("Credentials and the clone's guards are out of the session's reach", (t) => {
+  // Given: a dry-run clone
+  const { clone } = dryRunClone(t);
+  const real = fs.realpathSync(clone);
+
+  // When: a command runs in the session
+  const { policy } = inSession(t, clone, ["true"]);
+
+  // Then: the sandbox policy denies reading SSH keys and gh, glab and git credential files, and writing the hook, the deny rules and the agent's settings
+  for (const entry of ["~/.ssh", "~/.config/gh", "~/.config/glab-cli", "~/.netrc", "~/.git-credentials"]) {
+    assert.ok(policy.filesystem.denyRead.includes(entry), `${entry} stays readable`);
+  }
+  for (const entry of [
+    `${real}/.git/dry-run-hooks`,
+    `${real}/.claude/settings.local.json`,
+    "~/.claude/settings.json",
+    "~/.claude/hooks",
+  ]) {
+    assert.ok(policy.filesystem.denyWrite.includes(entry), `${entry} stays writable`);
+  }
+});
+
+test("Without the sandbox runtime no session starts", (t) => {
+  // Given: a dry-run clone and no sandbox runtime
+  const { dir, clone } = dryRunClone(t);
+  const marker = path.join(dir, "ran");
+
+  // When: the session is started
+  const result = run(["start", clone, "--", "touch", marker], {
+    DRY_RUN_SESSION_SRT: path.join(dir, "no-such-srt"),
+  });
+
+  // Then: it fails, names the missing runtime and runs nothing
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /sandbox runtime/);
+  assert.ok(!fs.existsSync(marker), "the command ran without a sandbox");
 });
 
 test("A push to the clone's own remote is refused", (t) => {

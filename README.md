@@ -411,10 +411,11 @@ into the chosen root (project by default, `-g`/`--global` for user-wide,
 
 To let skills act for real against a repository — push a branch, create an
 issue — without anything being published, run them in a dry-run session.
-`adapters/shared/dry-run-session.sh` clones the repository into a locked-down
-directory and starts the agent without credentials; its `check` subcommand
-proves on the current machine that no write path gets out. See
-`adapters/shared/README.md`.
+`adapters/shared/dry-run-session.sh` clones the repository into a directory of
+its own and starts the agent inside a process sandbox that writes only to the
+clone and reaches only the agent's API; its `check` subcommand attempts every
+write path from inside the sandbox and proves on the current machine that none
+gets out. It needs the Anthropic Sandbox Runtime. See `adapters/shared/README.md`.
 
 ### Private journal
 
