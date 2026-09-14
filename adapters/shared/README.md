@@ -178,7 +178,11 @@ the session inherits it.
   and are discarded with the clone; no session outside the dry run reads them.
   Claude Code ties its login to that directory, so log in once per clone with
   `login`. The login is the only run allowed to bind a local port, which the
-  OAuth callback needs.
+  OAuth callback needs; its token lands in that directory as
+  `.credentials.json`.
+- **Only dry-run clones.** `start`, `login` and `check` refuse a directory that
+  `setup` did not prepare, recognized by its disabled push URL and its hook, so a
+  session never runs in an original checkout.
 - **The session cannot loosen its guards.** The sandbox keeps the clone's hook
   directory, its `.git/config` and `.claude/settings.local.json` unwritable.
 - **A clone of its own.** The original checkout is never touched. The clone's
@@ -222,6 +226,10 @@ clear message; the guarantee rests on the sandbox.
 - **User-level Claude Code configuration does not apply.** Settings, skills,
   agents and `CLAUDE.md` from `~/.claude` are not available inside a dry run; the
   project's own configuration is.
+- **The login token is a file in the clone.** A session can read it, although it
+  reaches only the allowed domains. End the login with
+  `start <target> -- claude auth logout` before deleting a clone, and do not copy
+  a clone that is logged in.
 - **The login run can bind local ports**, and on macOS that also lets it reach
   services on the loopback interface. It runs only `claude auth login`; log in
   right after `setup`, before a session has written to the clone.
@@ -231,7 +239,7 @@ clear message; the guarantee rests on the sandbox.
   are unreachable from inside the session. Put the text of an issue into the
   prompt, or into a file before `start`.
 - **It is verified on macOS only**, with version 0.0.76 of the runtime and
-  Claude Code 2.1.270. The policy is written for Linux as well, but the runtime
+  Claude Code 2.1.270, including a complete login. The policy is written for Linux as well, but the runtime
   supports path globs only on macOS; run `check` before relying on it. Windows is
   not supported.
 - A `check` result holds for the machine it ran on.
