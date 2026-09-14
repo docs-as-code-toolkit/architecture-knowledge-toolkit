@@ -50,6 +50,11 @@ Feature: Dry-run session
     When the session is started
     Then it fails, names the missing runtime and runs nothing
 
+  Scenario: A directory that is not a dry-run clone is refused
+    Given an ordinary checkout that setup did not prepare, and a stand-in for Claude Code
+    When a session is started in it, and logging in there
+    Then both fail, say it is not a dry-run clone, run nothing and leave no Claude Code state behind
+
   Scenario: A push to the clone's own remote is refused
     Given a dry-run clone
     When the session pushes to origin
