@@ -18,7 +18,8 @@
 # the agent's API. GitHub and GitLab stay denied even when more domains are
 # allowed. Claude Code keeps the session's state inside the clone's git
 # directory, so nothing a session leaves behind reaches a session outside the
-# dry run. Log in once per clone with the login subcommand.
+# dry run. Log in once per clone with the login subcommand. Sessions run only
+# in clones prepared by setup, never in an original checkout.
 #
 # Further layers, each of which a determined agent could undo on its own:
 #   - A clone of its own with an unusable push URL and a pre-push hook installed
@@ -110,6 +111,19 @@ require_sandbox() {
   fi
 }
 
+# require_clone <target>: refuse anything setup did not prepare, recognized by the
+# disabled push URL and the hook, so no session runs in an original checkout.
+require_clone() {
+  local dst="$1"
+  if [ ! -d "$dst" ] ||
+    [ "$(git -C "$dst" config --get remote.origin.pushurl 2>/dev/null)" != "$PUSH_URL_DISABLED" ] ||
+    [ "$(git -C "$dst" config --get core.hooksPath 2>/dev/null)" != ".git/dry-run-hooks" ] ||
+    [ ! -x "$dst/.git/dry-run-hooks/pre-push" ]; then
+    echo "dry-run-session: $dst is not a dry-run clone; prepare one with: $SELF setup <source> [target]" >&2
+    exit 1
+  fi
+}
+
 # write_policy <clone> <file> [login]: the srt settings for one session. The file
 # lies outside every writable path, so the session cannot loosen its own policy.
 write_policy() {
@@ -175,6 +189,7 @@ login() {
 session() {
   local dst="$1" mode="$2" cfg clone
   shift 2
+  require_clone "$dst"
   require_sandbox
   clone="$(cd "$dst" && pwd -P)"
   cfg="$(mktemp -d)"
@@ -197,6 +212,7 @@ session() {
 check() {
   local dst="${1:-}" out scratch bare refs api code login rc=0
   [ -n "$dst" ] || usage
+  require_clone "$dst"
   require_sandbox
   out="$(mktemp)"
   scratch="$(mktemp -d)"
