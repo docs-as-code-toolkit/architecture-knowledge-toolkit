@@ -250,6 +250,29 @@ test("Without the sandbox runtime no session starts", (t) => {
   assert.ok(!fs.existsSync(marker), "the command ran without a sandbox");
 });
 
+test("A directory that is not a dry-run clone is refused", (t) => {
+  // Given: an ordinary checkout that setup did not prepare, and a stand-in for Claude Code
+  const dir = workspace(t);
+  const src = sourceRepository(dir);
+  const bin = path.join(dir, "bin");
+  fs.mkdirSync(bin);
+  fs.writeFileSync(path.join(bin, "claude"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
+  const marker = path.join(dir, "ran");
+  const env = { PATH: `${bin}${path.delimiter}${process.env.PATH}` };
+
+  // When: a session is started in it, and logging in there
+  const started = run(["start", src, "--", "touch", marker], env);
+  const login = run(["login", src], env);
+
+  // Then: both fail, say it is not a dry-run clone, run nothing and leave no Claude Code state behind
+  for (const result of [started, login]) {
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /is not a dry-run clone/);
+  }
+  assert.ok(!fs.existsSync(marker), "the command ran in an ordinary checkout");
+  assert.ok(!fs.existsSync(path.join(src, ".git/dry-run-session")), "Claude Code state was created");
+});
+
 test("A push to the clone's own remote is refused", (t) => {
   // Given: a dry-run clone
   const { clone } = dryRunClone(t);
