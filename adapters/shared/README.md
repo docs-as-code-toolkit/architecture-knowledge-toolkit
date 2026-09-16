@@ -172,6 +172,18 @@ the session inherits it.
   `~/.git-credentials`, `~/.claude` or `~/.claude.json`, and it reaches only the
   allowed domains. GitHub and GitLab are denied explicitly, and a denial wins over
   an allowance, so they stay unreachable even with `DRY_RUN_ALLOWED_DOMAINS="*"`.
+- **A socket directory of its own.** Claude Code listens for messages from other
+  local agent sessions in `$XDG_RUNTIME_DIR/cc-socks`, by default `/tmp/cc-socks`
+  — next to the sockets of sessions that do not run in a dry run. The runtime's
+  `allowUnixSockets` opens binding *and* connecting for a whole path, so opening
+  that directory would let the dry run message a session outside it. `start`
+  instead points `XDG_RUNTIME_DIR` at a short directory created for the session,
+  opens Unix sockets only there, removes it when the session ends, and does not
+  pass on `CLAUDE_CODE_MESSAGING_SOCKET` or `CLAUDE_CODE_MESSAGING_TOKEN`.
+- **Terminal control only for an interactive session.** Claude Code has to put
+  its terminal into raw mode, or the prompt shows escape sequences and takes no
+  input. `start` from a terminal therefore runs with the runtime's `allowPty`;
+  `login`, `check` and a `start` without a terminal on standard input do not.
 - **Claude Code state stays with the clone.** The session runs with
   `CLAUDE_CONFIG_DIR` set to `.git/dry-run-session/claude` inside the clone.
   Settings, hooks, history and `.claude.json` written during a dry run live there
@@ -201,7 +213,8 @@ the session inherits it.
   hook, writes outside the clone, changes the clone's git configuration and hook,
   pushes over HTTPS with the credential helpers restored and over SSH with SSH
   restored, to GitHub and to GitLab, calls `gh` with its own configuration, reads
-  `~/.ssh`, and writes to and reads `~/.claude`. Every target either does not
+  `~/.ssh`, writes to and reads `~/.claude`, and connects to a stand-in for another
+  agent session's message socket. Every target either does not
   exist or is thrown away, so even a failing boundary publishes nothing. Each
   probe must fail for the right reason: one that fails only because a remote
   answered without the target or the key is reported as `OPEN`. `check` also
@@ -235,13 +248,26 @@ clear message; the guarantee rests on the sandbox.
   right after `setup`, before a session has written to the clone.
 - **Claude Code's temporary directory `/tmp/claude-<uid>`** is shared with the
   user's other Claude Code sessions and stays writable.
+- **Other terminals are not isolated.** The runtime grants `allowPty` for every
+  `/dev/ttys*`, not only the session's own. An interactive session can open the
+  user's other terminals for writing, and any session can open them for reading
+  — with or without `allowPty` — and so compete for what is typed there.
+  Injecting input into another terminal with `TIOCSTI` is refused. While a dry
+  run is open, keep no other terminal with a shell or an agent session outside
+  the dry run.
+- **Claude Code's version lock under `~/.local/state/claude` stays closed.**
+  Opening it, or `~/.local/share/claude/versions`, would let a session change the
+  Claude Code that later sessions outside the dry run execute. Claude Code logs
+  the failed lock as non-fatal and runs.
 - **GitHub and GitLab are not readable either.** `gh`, `glab` and the public APIs
   are unreachable from inside the session. Put the text of an issue into the
   prompt, or into a file before `start`.
-- **It is verified on macOS only**, with version 0.0.76 of the runtime and
-  Claude Code 2.1.270, including a complete login. The policy is written for Linux as well, but the runtime
-  supports path globs only on macOS; run `check` before relying on it. Windows is
-  not supported.
+- **It is verified on macOS only**: with version 0.0.76 of the runtime and
+  Claude Code 2.1.270, including a complete login, and with version 1.0.0 and
+  Claude Code 2.1.273, including an interactive session. The policy is written for
+  Linux as well, but the runtime supports path globs only on macOS and blocks Unix
+  sockets there altogether, so a session cannot listen for messages from other
+  agent sessions; run `check` before relying on it. Windows is not supported.
 - A `check` result holds for the machine it ran on.
 - Local commits and file changes inside the clone are not blocked. That is the
   point: the clone can act freely and be discarded afterwards.
