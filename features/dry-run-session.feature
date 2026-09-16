@@ -45,6 +45,16 @@ Feature: Dry-run session
     When logging in, and running a regular session
     Then only the login runs claude auth login with a policy that allows local binding
 
+  Scenario: The session listens for messages only in a socket directory of its own
+    Given a dry-run clone and the message socket of an agent session outside the dry run in the calling environment
+    When a command runs in the session
+    Then the policy opens Unix sockets only in that directory, the outside socket is not handed over, and the directory is gone afterwards
+
+  Scenario: Only an interactive session may control its terminal
+    Given a dry-run clone and a pseudo-terminal
+    When a session starts from a terminal, one starts without, and logging in
+    Then only the session started from a terminal is allowed to control it
+
   Scenario: Without the sandbox runtime no session starts
     Given a dry-run clone and no sandbox runtime
     When the session is started

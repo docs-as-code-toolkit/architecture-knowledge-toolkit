@@ -151,8 +151,9 @@ test("The session runs inside the sandbox runtime", (t) => {
 
   // Then: it runs in the clone through the sandbox runtime, whose policy allows writes only to the clone and temporary directories and reaches only the agent's API
   assert.equal(result.stdout.trim(), real);
-  // Besides the clone: /tmp/claude, /tmp/claude-<uid> and /tmp/claude-*, also under /private.
-  const temporary = /^(?:\/private)?\/tmp\/claude(?:-(?:\d+|\*))?$/;
+  // Besides the clone: /tmp/claude, /tmp/claude-<uid> and /tmp/claude-*, also under
+  // /private, and the session's own socket directory.
+  const temporary = /^(?:\/private)?\/tmp\/(?:claude(?:-(?:\d+|\*))?|dry-run-session\.[A-Za-z0-9]+)$/;
   assert.ok(policy.filesystem.allowWrite.includes(real));
   for (const entry of policy.filesystem.allowWrite) {
     assert.ok(entry === real || temporary.test(entry), `unexpected writable path ${entry}`);
@@ -232,6 +233,68 @@ test("Logging in is the only session that may bind a local port", (t) => {
   assert.equal(login.stdout, "claude auth login");
   assert.equal(JSON.parse(fs.readFileSync(loginPolicy, "utf8")).network.allowLocalBinding, true);
   assert.equal(sessionPolicy.network.allowLocalBinding, false);
+});
+
+test("The session listens for messages only in a socket directory of its own", (t) => {
+  // Given: a dry-run clone and the message socket of an agent session outside the dry run in the calling environment
+  const { clone } = dryRunClone(t);
+
+  // When: a command runs in the session
+  const { result, policy } = inSession(
+    t,
+    clone,
+    ["sh", "-c", 'test -d "$XDG_RUNTIME_DIR" && printf "%s|%s|%s" "$XDG_RUNTIME_DIR" "${CLAUDE_CODE_MESSAGING_SOCKET-unset}" "${CLAUDE_CODE_MESSAGING_TOKEN-unset}"'],
+    {
+      CLAUDE_CODE_MESSAGING_SOCKET: "/tmp/cc-socks/1.sock",
+      CLAUDE_CODE_MESSAGING_TOKEN: "outside-token",
+    },
+  );
+
+  // Then: the policy opens Unix sockets only in that directory, the outside socket is not handed over, and the directory is gone afterwards
+  const [sockets, socket, token] = result.stdout.split("|");
+  assert.deepEqual(policy.network.allowUnixSockets, [sockets]);
+  assert.ok(policy.filesystem.allowWrite.includes(sockets));
+  assert.doesNotMatch(sockets, /cc-socks/);
+  // Claude Code falls back to /tmp/cc-socks-<uid> for a socket path over 103 bytes.
+  assert.ok(Buffer.byteLength(path.join(sockets, "cc-socks", "4194304.sock")) <= 103, sockets);
+  assert.equal(socket, "unset");
+  assert.equal(token, "unset");
+  assert.ok(!fs.existsSync(sockets), "the socket directory outlived the session");
+});
+
+test("Only an interactive session may control its terminal", (t) => {
+  // Given: a dry-run clone and a pseudo-terminal
+  const { dir, clone } = dryRunClone(t);
+  // Node cannot open a pseudo-terminal; Python can, and runs the helper with it as stdin.
+  if (spawnSync("python3", ["-c", "import os; os.openpty()"]).status !== 0) {
+    t.skip("python3 is not available to provide a terminal");
+    return;
+  }
+  const withTerminal = "import os, subprocess, sys; m, s = os.openpty(); sys.exit(subprocess.run(sys.argv[1:], stdin=s).returncode)";
+  const interactivePolicy = path.join(dir, "interactive-policy.json");
+
+  // When: a session starts from a terminal, one starts without, and logging in
+  const interactive = spawnSync("python3", ["-c", withTerminal, "bash", helper, "start", clone, "--", "true"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+    env: { ...process.env, ...hermetic, DRY_RUN_STUB_POLICY: interactivePolicy },
+  });
+  const { policy: detached } = inSession(t, clone, ["true"]);
+  const bin = path.join(dir, "bin");
+  fs.mkdirSync(bin);
+  fs.writeFileSync(path.join(bin, "claude"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
+  const loginPolicy = path.join(dir, "login-policy.json");
+  const login = run(["login", clone], {
+    PATH: `${bin}${path.delimiter}${process.env.PATH}`,
+    DRY_RUN_STUB_POLICY: loginPolicy,
+  });
+
+  // Then: only the session started from a terminal is allowed to control it
+  assert.equal(interactive.status, 0, interactive.stdout + interactive.stderr);
+  assert.equal(login.status, 0, login.stderr);
+  assert.equal(JSON.parse(fs.readFileSync(interactivePolicy, "utf8")).allowPty, true);
+  assert.equal(detached.allowPty, false);
+  assert.equal(JSON.parse(fs.readFileSync(loginPolicy, "utf8")).allowPty, false);
 });
 
 test("Without the sandbox runtime no session starts", (t) => {
