@@ -55,6 +55,11 @@ Feature: Dry-run session
     When a session starts from a terminal, one starts without, and logging in
     Then only the session started from a terminal is allowed to control it
 
+  Scenario: Logging in completes the onboarding
+    Given a dry-run clone and a stand-in for Claude Code whose login leaves the onboarding incomplete
+    When logging in
+    Then the clone's Claude Code state keeps the login and records the onboarding as complete for the installed version
+
   Scenario: Without the sandbox runtime no session starts
     Given a dry-run clone and no sandbox runtime
     When the session is started
