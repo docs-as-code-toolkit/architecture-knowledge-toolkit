@@ -16,10 +16,12 @@
 # writes only to the clone and to temporary directories, cannot read SSH keys,
 # gh, glab and git credential files or Claude Code's own state, and reaches only
 # the agent's API. GitHub and GitLab stay denied even when more domains are
-# allowed. Claude Code keeps the session's state inside the clone's git
-# directory, so nothing a session leaves behind reaches a session outside the
-# dry run. Log in once per clone with the login subcommand. Sessions run only
-# in clones prepared by setup, never in an original checkout.
+# allowed. It listens for messages from other local agent sessions only in a
+# socket directory of its own, and cannot connect to theirs. Claude Code keeps
+# the session's state inside the clone's git directory, so nothing a session
+# leaves behind reaches a session outside the dry run. Log in once per clone
+# with the login subcommand. Sessions run only in clones prepared by setup,
+# never in an original checkout.
 #
 # Further layers, each of which a determined agent could undo on its own:
 #   - A clone of its own with an unusable push URL and a pre-push hook installed
@@ -124,13 +126,15 @@ require_clone() {
   fi
 }
 
-# write_policy <clone> <file> [login]: the srt settings for one session. The file
+# write_policy <clone> <file> <mode> <sockets> <pty>: the srt settings for one
+# session. <mode> is "login" or empty, <sockets> the session's own socket
+# directory, <pty> 1 for an interactive session. The file
 # lies outside every writable path, so the session cannot loosen its own policy.
 write_policy() {
   # The node program is single-quoted on purpose; it reads its input from the environment.
   # shellcheck disable=SC2016
   DRY_RUN_CLONE="$1" DRY_RUN_POLICY="$2" DRY_RUN_MODE="${3:-}" DRY_RUN_UID="$(id -u)" \
-    DRY_RUN_DOMAINS="${DRY_RUN_ALLOWED_DOMAINS:-$DEFAULT_DOMAINS}" \
+    DRY_RUN_DOMAINS="${DRY_RUN_ALLOWED_DOMAINS:-$DEFAULT_DOMAINS}" DRY_RUN_SOCKETS="$4" DRY_RUN_PTY="${5:-}" \
     node -e '
 const fs = require("node:fs");
 const clone = process.env.DRY_RUN_CLONE;
@@ -143,7 +147,12 @@ const uid = process.env.DRY_RUN_UID;
 const temporary = macOS
   ? ["/tmp/claude", "/private/tmp/claude"].flatMap((dir) => [dir, `${dir}-${uid}`, `${dir}-*`])
   : ["/tmp/claude", `/tmp/claude-${uid}`];
+const sockets = process.env.DRY_RUN_SOCKETS;
 const policy = {
+  // An interactive session has to put its terminal into raw mode; without this
+  // the ioctl is denied and the prompt takes no input. srt grants it for every
+  // /dev/ttys*, so only an interactive session gets it (macOS only).
+  allowPty: process.env.DRY_RUN_PTY === "1",
   network: {
     allowedDomains: process.env.DRY_RUN_DOMAINS.split(/\s+/).filter(Boolean),
     // A denial wins over an allowance, so these hold whatever is allowed.
@@ -153,6 +162,12 @@ const policy = {
     ],
     // Only the login binds a local port, for the OAuth callback.
     allowLocalBinding: process.env.DRY_RUN_MODE === "login",
+    // Claude Code listens for messages from other local sessions in
+    // $XDG_RUNTIME_DIR/cc-socks, by default /tmp/cc-socks, next to the sockets of
+    // sessions outside the dry run. An allowance there would let this session
+    // connect to them, so it gets a socket directory of its own, and only that
+    // one. Linux ignores the path and blocks Unix sockets altogether.
+    allowUnixSockets: [sockets],
   },
   filesystem: {
     // Credentials, and Claude Code state outside the dry run.
@@ -161,7 +176,7 @@ const policy = {
       "~/.claude", "~/.claude.json",
     ],
     // The clone, which also holds the Claude Code state of this session, and the temporary directories.
-    allowWrite: [clone, ...temporary],
+    allowWrite: [clone, ...temporary, sockets],
     // The clone guards.
     denyWrite: [`${clone}/.git/dry-run-hooks`, `${clone}/.claude/settings.local.json`],
   },
@@ -187,30 +202,41 @@ login() {
 
 # session <target> <mode> <command...>: run the command inside the sandbox.
 session() {
-  local dst="$1" mode="$2" cfg clone
+  local dst="$1" mode="$2" cfg clone sockets pty="" rc=0
   shift 2
   require_clone "$dst"
   require_sandbox
   clone="$(cd "$dst" && pwd -P)"
   cfg="$(mktemp -d)"
-  write_policy "$clone" "$cfg/srt-settings.json" "$mode"
+  # Short on purpose: Claude Code falls back to /tmp/cc-socks-<uid>, which the
+  # policy does not open, when a socket path exceeds 103 bytes.
+  sockets="$(cd "$(mktemp -d /tmp/dry-run-session.XXXXXX)" && pwd -P)"
+  # No exec, so both directories are gone when the session ends. Expanded now:
+  # the locals no longer exist when the trap runs.
+  # shellcheck disable=SC2064
+  trap "rm -rf $(printf '%q %q' "$cfg" "$sockets")" EXIT
+  if [ -z "$mode" ] && [ -t 0 ]; then pty=1; fi
+  write_policy "$clone" "$cfg/srt-settings.json" "$mode" "$sockets" "$pty"
   mkdir -p /tmp/claude 2>/dev/null || true
   mkdir -p "$clone/$CLAUDE_STATE"
   cd "$clone"
-  exec env \
+  env \
     -u GH_TOKEN -u GITHUB_TOKEN -u GH_ENTERPRISE_TOKEN \
     -u GITLAB_TOKEN -u GLAB_TOKEN -u SSH_AUTH_SOCK \
+    -u CLAUDE_CODE_MESSAGING_SOCKET -u CLAUDE_CODE_MESSAGING_TOKEN \
+    XDG_RUNTIME_DIR="$sockets" \
     GH_CONFIG_DIR="$cfg/gh" GLAB_CONFIG_DIR="$cfg/glab" \
     GIT_CONFIG_NOSYSTEM=1 \
     GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=credential.helper GIT_CONFIG_VALUE_0= \
     GIT_TERMINAL_PROMPT=0 GIT_ASKPASS=false SSH_ASKPASS=false \
     GIT_SSH_COMMAND=false \
     CLAUDE_CONFIG_DIR="$clone/$CLAUDE_STATE" \
-    "$SRT" --settings "$cfg/srt-settings.json" -- "$@"
+    "$SRT" --settings "$cfg/srt-settings.json" -- "$@" || rc=$?
+  return "$rc"
 }
 
 check() {
-  local dst="${1:-}" out scratch bare refs api code login rc=0
+  local dst="${1:-}" out scratch bare refs api code login listener rc=0
   [ -n "$dst" ] || usage
   require_clone "$dst"
   require_sandbox
@@ -282,6 +308,22 @@ check() {
     echo "  blocked  Claude Code state outside the dry run (there is no ~/.claude)"
   fi
 
+  # Stands in for the message socket of an agent session outside the dry run.
+  local foreign="$scratch/session.sock"
+  local connect='const s = require("net").connect(process.argv[1]); s.on("connect", () => process.exit(0)); s.on("error", (e) => { console.error(e.message); process.exit(1); });'
+  node -e 'require("net").createServer().listen(process.argv[1]);' "$foreign" &
+  listener=$!
+  for _ in 1 2 3 4 5 6 7 8 9 10; do [ -S "$foreign" ] && break; sleep 0.2; done
+  if [ -S "$foreign" ] && node -e "$connect" "$foreign" 2>/dev/null; then
+    probe "connect to another agent session's socket" "EPERM|$denied" \
+      node -e "$connect" "$foreign"
+  else
+    echo "  UNCLEAR  connect to another agent session's socket: no stand-in socket to aim at"
+    rc=1
+  fi
+  kill "$listener" 2>/dev/null || true
+  wait "$listener" 2>/dev/null || true
+
   refs="$(git -C "$bare" for-each-ref | wc -l | tr -d ' ')"
   echo "  refs in the probe repository afterwards: $refs (must be 0)"
   [ "$refs" = 0 ] || rc=1
@@ -311,6 +353,14 @@ check() {
       echo "  FAILED   the agent's API ($api is not reachable)"
       rc=1
     fi
+  fi
+  # Claude Code runs without it, so a failure is reported, not counted. Linux
+  # blocks Unix sockets inside the sandbox altogether.
+  # shellcheck disable=SC2016
+  if "$SELF" start "$dst" -- node -e 'const p = require("path").join(process.env.XDG_RUNTIME_DIR, "probe.sock"); require("net").createServer().listen(p, function () { this.close(); });' >/dev/null 2>&1 </dev/null; then
+    echo "  ok       listen in the session's own socket directory"
+  else
+    echo "  info     listening for messages from other agent sessions is not available in this session"
   fi
   if command -v claude >/dev/null 2>&1; then
     login="$("$SELF" start "$dst" -- claude auth status --text 2>&1 </dev/null | grep -v '^Proxy:' | head -n 1 || true)"
