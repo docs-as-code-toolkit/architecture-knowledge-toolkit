@@ -195,9 +195,24 @@ start() {
 }
 
 login() {
-  local dst="${1:-}"
+  local dst="${1:-}" state version
   [ -n "$dst" ] || usage
+  require_clone "$dst"
+  state="$(cd "$dst" && pwd -P)/$CLAUDE_STATE/.claude.json"
   session "$dst" login claude auth login
+  # claude auth login does not complete the onboarding. The first interactive
+  # start would then run it and ask to log in again, which needs the local port
+  # only this run may bind, and stop there.
+  [ -f "$state" ] || return 0
+  version="$(claude --version 2>/dev/null | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+' || true)"
+  DRY_RUN_STATE="$state" DRY_RUN_VERSION="$version" node -e '
+const fs = require("node:fs");
+const file = process.env.DRY_RUN_STATE;
+const state = JSON.parse(fs.readFileSync(file, "utf8"));
+state.hasCompletedOnboarding = true;
+if (process.env.DRY_RUN_VERSION) state.lastOnboardingVersion = process.env.DRY_RUN_VERSION;
+fs.writeFileSync(file, JSON.stringify(state, null, 2) + "\n");
+'
 }
 
 # session <target> <mode> <command...>: run the command inside the sandbox.

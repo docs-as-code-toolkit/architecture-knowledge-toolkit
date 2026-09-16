@@ -297,6 +297,35 @@ test("Only an interactive session may control its terminal", (t) => {
   assert.equal(JSON.parse(fs.readFileSync(loginPolicy, "utf8")).allowPty, false);
 });
 
+test("Logging in completes the onboarding", (t) => {
+  // Given: a dry-run clone and a stand-in for Claude Code whose login leaves the onboarding incomplete
+  const { dir, clone } = dryRunClone(t);
+  const bin = path.join(dir, "bin");
+  fs.mkdirSync(bin);
+  fs.writeFileSync(
+    path.join(bin, "claude"),
+    [
+      "#!/bin/sh",
+      'if [ "$1" = "--version" ]; then echo "9.8.7 (Claude Code)"; exit 0; fi',
+      `printf '{"oauthAccount":{"emailAddress":"dry-run@example.invalid"}}' > "$CLAUDE_CONFIG_DIR/.claude.json"`,
+      "",
+    ].join("\n"),
+    { mode: 0o755 },
+  );
+
+  // When: logging in
+  const login = run(["login", clone], { PATH: `${bin}${path.delimiter}${process.env.PATH}` });
+
+  // Then: the clone's Claude Code state keeps the login and records the onboarding as complete for the installed version
+  assert.equal(login.status, 0, login.stderr);
+  const state = JSON.parse(
+    fs.readFileSync(path.join(fs.realpathSync(clone), ".git/dry-run-session/claude/.claude.json"), "utf8"),
+  );
+  assert.deepEqual(state.oauthAccount, { emailAddress: "dry-run@example.invalid" });
+  assert.equal(state.hasCompletedOnboarding, true);
+  assert.equal(state.lastOnboardingVersion, "9.8.7");
+});
+
 test("Without the sandbox runtime no session starts", (t) => {
   // Given: a dry-run clone and no sandbox runtime
   const { dir, clone } = dryRunClone(t);

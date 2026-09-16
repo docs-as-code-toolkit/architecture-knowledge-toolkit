@@ -191,7 +191,10 @@ the session inherits it.
   Claude Code ties its login to that directory, so log in once per clone with
   `login`. The login is the only run allowed to bind a local port, which the
   OAuth callback needs; its token lands in that directory as
-  `.credentials.json`.
+  `.credentials.json`. `login` then marks Claude Code's onboarding as complete
+  there, because `claude auth login` does not: the first interactive `start`
+  would otherwise run the onboarding, ask to log in again, and fail on the port
+  it may not bind.
 - **Only dry-run clones.** `start`, `login` and `check` refuse a directory that
   `setup` did not prepare, recognized by its disabled push URL and its hook, so a
   session never runs in an original checkout.
