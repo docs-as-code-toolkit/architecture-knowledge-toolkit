@@ -90,6 +90,41 @@ Feature: Metamodel validation
     When the validator runs
     Then it warns that a bidirectional relation was detected
 
+  Scenario: Artifact without validity is treated as active
+    Given an artifact that records no validity
+    When the validator runs
+    Then it reports no errors and the artifact counts as active
+
+  Scenario: Unknown validity value reports an error
+    Given an artifact whose validity is neither active nor retired
+    When the validator runs
+    Then it reports the unknown validity
+
+  Scenario: Retired artifact without a retirement date reports an error
+    Given a retired artifact that records no retirement date
+    When the validator runs
+    Then it reports that a retired artifact must record retired_on
+
+  Scenario: Retirement date before creation reports an error
+    Given a retired artifact whose retirement date precedes its creation date
+    When the validator runs
+    Then it reports that retired_on is earlier than created
+
+  Scenario: Active artifact carrying retirement fields reports an error
+    Given an active artifact that records a retirement date, reason, and note
+    When the validator runs
+    Then it reports that an active artifact must not record retirement fields
+
+  Scenario: Risk retirement reason on another artifact type reports an error
+    Given a retired document that claims the risk-specific reason mitigated
+    When the validator runs
+    Then it reports that the reason applies to Risk artifacts only
+
+  Scenario: Relation to a retired artifact warns and stays valid
+    Given an accepted relation pointing at a retired risk
+    When the validator runs
+    Then it reports no errors and warns that the relation points at a retired artifact
+
   Scenario: Report states validation passed for valid artifacts
     Given a directory of well-formed architecture artifacts
     When the validator prints its report

@@ -830,7 +830,298 @@ class ValidateMetamodelTest < Minitest::Test
     FileUtils.rm_rf(temp_dir) if temp_dir
   end
 
+  # Feature: Metamodel validation -- the validity axis
+
+  def test_artifact_without_validity_is_treated_as_active
+    # Given: an artifact that records no validity
+    temp_dir = ROOT.join('tmp/test-validity-absent')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-open.adoc'), risk_metadata('R-100-open'))
+    write_metadata_artifact(docs_dir.join('adr-100-decision.adoc'), adr_metadata('ADR-100-decision', 'R-100-open'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    artifacts = validator.validate
+    artifacts_by_id = artifacts.each_with_object({}) { |artifact, index| index[artifact.metadata['id']] = artifact }
+    content = ImpactFragmentGenerator.new(root: temp_dir, docs_dir: docs_dir)
+                                     .render(artifacts_by_id.fetch('ADR-100-decision'), artifacts_by_id,
+                                             docs_dir.join('generated/adr-100-decision-impact.adoc'))
+
+    # Then: it reports no errors and the artifact counts as active
+    assert_empty validator.errors
+    assert_includes content, '| mitigates'
+    refute_includes content, RelationValidity::INACTIVE_MARKER
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_unknown_validity_value_reports_an_error
+    # Given: an artifact whose validity is neither active nor retired
+    temp_dir = ROOT.join('tmp/test-validity-unknown')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-open.adoc'),
+                            risk_metadata('R-100-open').merge('validity' => 'closed'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports the unknown validity
+    assert_includes validator.errors.join("\n"), "uses unknown validity 'closed'"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_retired_artifact_without_a_retirement_date_reports_an_error
+    # Given: a retired artifact that records no retirement date
+    temp_dir = ROOT.join('tmp/test-retired-without-date')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'),
+                            risk_metadata('R-100-gone').merge('validity' => 'retired'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports that a retired artifact must record retired_on
+    assert_includes validator.errors.join("\n"), "is retired and must record 'retired_on'"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_retirement_date_before_creation_reports_an_error
+    # Given: a retired artifact whose retirement date precedes its creation date
+    temp_dir = ROOT.join('tmp/test-retired-before-created')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'),
+                            risk_metadata('R-100-gone').merge('validity' => 'retired',
+                                                              'retired_on' => '2026-07-02'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports that retired_on is earlier than created
+    assert_includes validator.errors.join("\n"), "has 'retired_on' 2026-07-02 earlier than 'created' 2026-07-03"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_active_artifact_carrying_retirement_fields_reports_an_error
+    # Given: an active artifact that records a retirement date, reason, and note
+    temp_dir = ROOT.join('tmp/test-active-with-retirement-fields')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-open.adoc'),
+                            risk_metadata('R-100-open').merge('retired_on' => '2026-09-21',
+                                                              'retired_reason' => 'mitigated',
+                                                              'retired_note' => 'Handled.'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports that an active artifact must not record retirement fields
+    assert_includes validator.errors.join("\n"),
+                    'is active but records retirement field(s): retired_note, retired_on, retired_reason'
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_risk_retirement_reason_on_another_artifact_type_reports_an_error
+    # Given: a retired document that claims the risk-specific reason mitigated
+    temp_dir = ROOT.join('tmp/test-reason-wrong-type')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('doc-100-note.adoc'),
+                            risk_metadata('DOC-100-note').merge('type' => 'Document',
+                                                                'validity' => 'retired',
+                                                                'retired_on' => '2026-09-21',
+                                                                'retired_reason' => 'mitigated'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports that the reason applies to Risk artifacts only
+    assert_includes validator.errors.join("\n"),
+                    "uses retirement reason 'mitigated', which applies to Risk artifacts only"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_relation_to_a_retired_artifact_warns_and_stays_valid
+    # Given: an accepted relation pointing at a retired risk
+    temp_dir = ROOT.join('tmp/test-relation-to-retired')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'), retired_risk_metadata('R-100-gone'))
+    write_metadata_artifact(docs_dir.join('adr-100-decision.adoc'), adr_metadata('ADR-100-decision', 'R-100-gone'))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+
+    # Then: it reports no errors and warns that the relation points at a retired
+    # artifact
+    assert_empty validator.errors
+    assert_includes validator.warnings.join("\n"),
+                    'Relation to retired artifact: ADR-100-decision -> R-100-gone'
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  # Feature: Documentation generation -- inactive relations
+
+  def test_impact_fragment_marks_a_relation_to_a_retired_artifact_as_inactive
+    # Given: an ADR whose outgoing relation points at a retired risk
+    temp_dir = ROOT.join('tmp/test-impact-inactive')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'), retired_risk_metadata('R-100-gone'))
+    write_metadata_artifact(docs_dir.join('adr-100-decision.adoc'), adr_metadata('ADR-100-decision', 'R-100-gone'))
+    artifacts = build_validator(temp_dir, docs_dir).validate
+    artifacts_by_id = artifacts.each_with_object({}) { |artifact, index| index[artifact.metadata['id']] = artifact }
+
+    # When: the impact fragment is rendered
+    content = ImpactFragmentGenerator.new(root: temp_dir, docs_dir: docs_dir)
+                                     .render(artifacts_by_id.fetch('ADR-100-decision'), artifacts_by_id,
+                                             docs_dir.join('generated/adr-100-decision-impact.adoc'))
+
+    # Then: the relation is still listed and marked inactive
+    assert_includes content, 'xref:r-100-gone[R-100-gone]'
+    assert_includes content, "| mitigates #{RelationValidity::INACTIVE_MARKER}"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_traceability_fragment_marks_the_relations_of_a_retired_artifact_as_inactive
+    # Given: a retired risk with an incoming relation from an active ADR
+    temp_dir = ROOT.join('tmp/test-traceability-inactive')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'), retired_risk_metadata('R-100-gone'))
+    write_metadata_artifact(docs_dir.join('adr-100-decision.adoc'), adr_metadata('ADR-100-decision', 'R-100-gone'))
+    artifacts = build_validator(temp_dir, docs_dir).validate
+
+    # When: the traceability fragment is rendered for the retired risk
+    generator = TraceabilityFragmentGenerator.new(root: temp_dir, docs_dir: docs_dir)
+    generator.write(artifacts)
+    content = docs_dir.join('generated/r-100-gone-traceability.adoc').read
+
+    # Then: the incoming relation is still listed and marked inactive
+    assert_includes content, '| incoming'
+    assert_includes content, "| mitigates #{RelationValidity::INACTIVE_MARKER}"
+    assert_includes content, 'xref:adr-100-decision[ADR-100-decision]'
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  def test_traceability_matrix_marks_an_inactive_relation
+    # Given: an ADR whose outgoing relation points at a retired risk
+    temp_dir = ROOT.join('tmp/test-matrix-inactive')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-100-gone.adoc'), retired_risk_metadata('R-100-gone'))
+    write_metadata_artifact(docs_dir.join('adr-100-decision.adoc'), adr_metadata('ADR-100-decision', 'R-100-gone'))
+    artifacts = build_validator(temp_dir, docs_dir).validate
+
+    # When: the traceability matrix is rendered
+    content = TraceabilityMatrixGenerator.new(
+      root: temp_dir,
+      docs_dir: docs_dir,
+      output_path: docs_dir.join('generated/traceability-matrix.adoc')
+    ).render(artifacts)
+
+    # Then: the outgoing relation cell carries the inactive marker
+    assert_includes content, "mitigates -> xref:../r-100-gone.adoc#r-100-gone[R-100-gone] " \
+                             "#{RelationValidity::INACTIVE_MARKER}"
+    # The mirror row: the retired risk's incoming relation is inactive too,
+    # which is the "either endpoint" rule seen from the other side.
+    assert_includes content, "xref:../adr-100-decision.adoc#adr-100-decision[ADR-100-decision] -> mitigates " \
+                             "#{RelationValidity::INACTIVE_MARKER}"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
+  # Supporting parity checks. They carry no Gherkin scenario of their own: they
+  # verify that two representations of one rule cannot drift, which is technical
+  # decomposition rather than observable behaviour.
+
+  def test_validity_vocabulary_matches_the_artifact_schema
+    schema = YAML.load_file(ROOT.join('metamodel/artifact.schema.yaml')).fetch('properties')
+
+    assert_equal MetamodelValidator::VALIDITY_VALUES, schema.fetch('validity').fetch('enum')
+    assert_equal MetamodelValidator::RETIREMENT_REASONS, schema.fetch('retired_reason').fetch('enum')
+    assert_equal MetamodelValidator::RETIREMENT_FIELDS.sort,
+                 (MetamodelValidator::RETIREMENT_FIELDS & schema.keys).sort
+    MetamodelValidator::TYPE_RETIREMENT_REASONS.each_value do |reasons|
+      reasons.each { |reason| assert_includes schema.fetch('retired_reason').fetch('enum'), reason }
+    end
+  end
+
+  def test_example_artifact_schema_matches_the_metamodel_schema
+    canonical = YAML.load_file(ROOT.join('metamodel/artifact.schema.yaml'))
+    example = YAML.load_file(ROOT.join('example/metamodel/artifact.schema.yaml'))
+
+    assert_equal canonical.fetch('properties'), example.fetch('properties')
+    assert_equal canonical.fetch('allOf'), example.fetch('allOf')
+  end
+
   private
+
+  def build_validator(temp_dir, docs_dir)
+    MetamodelValidator.new(
+      root: temp_dir,
+      docs_dir: docs_dir,
+      relations_schema: SCHEMA,
+      artifact_schema: ROOT.join('metamodel/artifact.schema.yaml')
+    )
+  end
+
+  def risk_metadata(id)
+    {
+      'id' => id,
+      'type' => 'Risk',
+      'title' => 'Retirement fixture',
+      'status' => 'accepted',
+      'owner' => 'test',
+      'created' => '2026-07-03'
+    }
+  end
+
+  def retired_risk_metadata(id)
+    risk_metadata(id).merge(
+      'validity' => 'retired',
+      'retired_on' => '2026-09-21',
+      'retired_reason' => 'mitigated',
+      'retired_note' => 'Validation now prevents the original failure mode.'
+    )
+  end
+
+  def adr_metadata(id, target)
+    {
+      'id' => id,
+      'type' => 'ADR',
+      'title' => 'Retirement fixture decision',
+      'status' => 'accepted',
+      'owner' => 'test',
+      'created' => '2026-07-03',
+      'relations' => [
+        {
+          'type' => 'mitigates',
+          'target' => target,
+          'status' => 'accepted',
+          'rationale' => 'Fixture relation.'
+        }
+      ]
+    }
+  end
+
+  def write_metadata_artifact(path, metadata)
+    FileUtils.mkdir_p(path.dirname)
+    anchor = metadata.fetch('id').downcase.gsub(/[^a-z0-9]+/, '-').gsub(/\A-+|-+\z/, '')
+    path.write(<<~ADOC)
+      #{metadata.to_yaml.strip}
+      ---
+      [[#{anchor}]]
+      = #{metadata.fetch('title')}
+    ADOC
+  end
 
   def write_artifact(path, id, title, status: 'draft', owner: 'test', created: '2026-07-03')
     FileUtils.mkdir_p(path.dirname)

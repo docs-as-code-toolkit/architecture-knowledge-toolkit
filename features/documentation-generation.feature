@@ -44,6 +44,21 @@ Feature: Documentation generation
     When the metadata attribute fragment is rendered
     Then it exposes the artifact id, status, and derived-from description as AsciiDoc attributes
 
+  Scenario: Impact fragment marks a relation to a retired artifact as inactive
+    Given an ADR whose outgoing relation points at a retired risk
+    When the impact fragment is rendered
+    Then the relation is still listed and marked inactive
+
+  Scenario: Traceability fragment marks the relations of a retired artifact as inactive
+    Given a retired risk with an incoming relation from an active ADR
+    When the traceability fragment is rendered for the retired risk
+    Then the incoming relation is still listed and marked inactive
+
+  Scenario: Traceability matrix marks an inactive relation
+    Given an ADR whose outgoing relation points at a retired risk
+    When the traceability matrix is rendered
+    Then the outgoing relation cell carries the inactive marker
+
   Scenario: Chapter include fragment output is deterministic and sorted by artifact id
     Given an arc42 chapter with two detail documents
     When the chapter include fragment is rendered twice
