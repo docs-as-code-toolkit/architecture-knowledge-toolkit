@@ -51,10 +51,26 @@ drafting was AI-assisted; the acceptance is human.
 
 `relationshipStatus` stays a review state only. Whether an artifact is still
 current is expressed on a separate validity axis in artifact metadata:
-`validity` with the values `active` and `retired`, plus `retired_on` and
-`retired_reason`. A relation to a retired artifact keeps its reviewed status and
-stays visible in generated impact and traceability matrices, marked as
-inactive.
+`validity` with the values `active` and `retired`, plus `retired_on`, the
+machine-readable `retired_reason`, and the free-text `retired_note`. An absent
+`validity` means `active`, and validator and generator implement that reading
+explicitly rather than relying on a schema default, which is an annotation and
+materializes nothing.
+
+A relation is inactive for the current architecture when **either** endpoint is
+retired. An inactive relation keeps the relationship status it was reviewed
+with and stays visible in generated impact and traceability matrices, marked
+inactive, because it remains a true record of what was decided.
+
+Authoring a new relation that points at a retired artifact stays allowed.
+Historical relations such as `documents` or `supersedes` are legitimate and a
+reconstructed traceability link may well target retired knowledge. The
+validator warns about such a relation so an accidental reference to obsolete
+knowledge becomes visible instead of passing silently.
+
+Retirement means the subject is gone, not that it is deliberately carried. A
+residual risk that the team knowingly accepts stays `validity: active`; its
+acceptance belongs in the risk artifact, not on the validity axis.
 
 === Context
 
@@ -116,10 +132,10 @@ on the target's status.
 ==== Option 2: Separate validity axis
 
 Add an optional `validity` field with `active` and `retired`, together with
-`retired_on` and an optional `retired_reason` such as `mitigated`,
-`no-longer-applicable`, `materialized`, or `accepted-as-residual`. `status`
-keeps answering how confirmed an artifact is, `validity` answers whether it
-still holds. The generator keys its inactive marker on the target's validity.
+`retired_on`, a machine-readable `retired_reason`, and a free-text
+`retired_note`. `status` keeps answering how confirmed an artifact is,
+`validity` answers whether it still holds. The generator keys its inactive
+marker on the validity of the relation's endpoints.
 
 ==== Option 3: Prose-only closure note
 
@@ -158,8 +174,11 @@ s| Sum s| -1 s| 4 s| 0
 
 ==== Negative
 
-* The metamodel gains another optional metadata field, which increases the
-  authoring surface tracked by xref:r-004-heavy-metadata-authoring[].
+* The metamodel gains a second axis with four optional fields, which increases
+  the authoring surface tracked by xref:r-004-heavy-metadata-authoring[].
+* Relations to retired artifacts produce validator warnings, and without a way
+  to record a deliberate historical link those warnings can accumulate as
+  permanent noise.
 * An artifact's state must be read from two fields instead of one.
 * Validator, generator, templates, and the `example/metamodel/` schema copy all
   have to learn the second axis, and consuming projects that vendored the
@@ -198,8 +217,8 @@ include::generated/adr-009-artifact-retirement-and-relation-validity-traceabilit
   an agent may only propose it.
 * Reviewers want a retired relation to stay visible as history rather than
   disappear from the matrix.
-* `mitigated`, `no-longer-applicable`, `materialized`, and
-  `accepted-as-residual` cover the practical closure reasons for risks.
+* A small reason vocabulary is enough: `no-longer-applicable` and `removed` for
+  every artifact type, plus `mitigated` and `materialized` for risks.
 
 === Open Questions
 
@@ -207,14 +226,14 @@ These belong to the implementation slice. The decision holds regardless of how
 they are answered; they shape the schema and the rendering, not the axis
 separation.
 
-* Should `validity` be generic for every artifact type, or should risks get
-  their own domain lifecycle field instead?
 * Do `superseded` and `deprecated` remain status values, or migrate to the
-  validity axis?
-* Does a relation count as inactive only when its target is retired, or also
-  when its source is?
-* Should the validator reject a new relation that targets a retired artifact,
-  warn about it, or stay silent?
+  validity axis? This overlaps with the derivation of `superseded_by` from an
+  outgoing `supersedes` relation.
+* How does an author record that a relation to a retired artifact is
+  deliberately historical, so its warning does not become permanent build
+  noise?
+* How does a generated matrix mark an inactive relation, for example a marker
+  column, a footnote, or struck-through text?
 
 === Review Notes
 
@@ -228,8 +247,17 @@ states that the claim holds, not that the artifact it points at has been
 accepted.
 
 Acceptance does not cover the implementation slice.
-`metamodel/artifact.schema.yaml` does not carry `validity`, `retired_on`, or
-`retired_reason` yet, and the generator has no inactive marker. Do not put the
-new fields into artifact metadata before the schema and the validator accept
-them, and decide the migration note for projects that vendored the schema
-before any schema change is released.
+`metamodel/artifact.schema.yaml` carries none of the new fields yet, and the
+generator has no inactive marker. Do not put the new fields into artifact
+metadata before the schema and the validator accept them, and decide the
+migration note for projects that vendored the schema before any schema change
+is released.
+
+Amended after a convergence check against the implementation issue. The
+amendment closed four semantic gaps that the first version had left to the
+implementation: a relation is inactive when either endpoint is retired, not
+only its target; a new relation to a retired artifact is allowed and warned
+about rather than rejected; a deliberately carried residual risk stays active,
+so residual acceptance is not a retirement reason; and the machine-readable
+reason is separated from its explanatory note. The axis separation itself was
+not reopened.
