@@ -93,6 +93,10 @@ Use these templates:
   evidence that they changed.
 - Mark uncertain values as assumptions or open questions.
 - Do not invent accepted relationships.
+- Do not change a relation's status because its target was retired. `rejected`
+  is a verdict about the claim, not about the passage of time. Retirement is a
+  human decision recorded on the target artifact's validity axis; propose it,
+  do not record it as done.
 - Do not create new risk or quality scenario artifacts when a justified relation
   to an existing artifact is sufficient.
 - Keep metadata relation targets as stable artifact IDs; render visible

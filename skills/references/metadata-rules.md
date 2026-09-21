@@ -30,12 +30,36 @@ Use YAML front matter for every source artifact created by this skill.
 
 ## Status Rules
 
+`status` is the review axis: how confirmed the artifact is. Whether it still
+holds is the separate validity axis below. The two are independent, so a
+retired risk can still be `status: accepted`.
+
 - Use `proposed` for AI-created ADRs, risks, quality scenarios, and relations.
 - Use `draft` for incomplete notes or impact reports that are not source
   architecture truth.
 - Keep `accepted`, `reviewed`, `rejected`, `superseded`, and `deprecated` only
   when the repository already records that lifecycle state.
+- Use `deprecated` for something being phased out that can still be
+  encountered, not for an artifact whose subject no longer exists. That is
+  retirement.
 - Do not mark AI output as reviewed.
+
+## Validity Rules
+
+- Omit `validity` while the artifact holds. An absent value means `active`.
+- Set `validity: retired` when the subject no longer exists or no longer
+  applies, and record `retired_on`. `retired_reason` and the free-text
+  `retired_note` are optional but expected.
+- Reasons are `no-longer-applicable` and `removed` for every artifact type,
+  plus `mitigated` and `materialized` for risks.
+- A residual risk the team knowingly carries stays `active`. Its acceptance
+  belongs in the risk artifact, not on the validity axis.
+- Never record a retirement field on an active artifact, and never set
+  `retired_on` earlier than `created`. The validator rejects both.
+- Retirement is a human decision recorded in the repository. Propose it; do not
+  mark an artifact retired on your own judgement.
+- Do not delete a retired artifact and do not rewrite the relations that point
+  at it. Their review status stands, and generated matrices mark them inactive.
 
 ## ID Rules
 

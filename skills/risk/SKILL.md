@@ -100,6 +100,14 @@ Use these templates:
 - Preserve existing accepted statuses unless there is explicit repository
   evidence that they changed.
 - Do not mark a risk accepted unless human acceptance is already recorded.
+- Do not retire a risk on your own judgement. When the risk no longer exists,
+  propose `validity: retired` with `retired_on`, a `retired_reason`, and a
+  `retired_note`, and leave the decision to the risk owner. A residual risk the
+  team knowingly carries stays active; its acceptance belongs in the risk
+  artifact, not on the validity axis.
+- Never delete a risk that stopped applying, and never change the status of a
+  relation that points at it. The relation stays valid history and the
+  generator marks it inactive.
 - Avoid false precision in likelihood, impact, priority, or confidence.
 - Mark uncertainty explicitly instead of pretending evidence is complete.
 - Prefer actionable mitigations with owners.
