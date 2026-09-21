@@ -5,6 +5,7 @@ title: Architecture Metamodel
 status: draft
 owner: architecture-knowledge-toolkit maintainers
 created: '2026-06-25'
+updated: '2026-09-21'
 reviewed: false
 generated: false
 summary: Defines the small metadata and relationship model that enables validated and generated architecture knowledge.
@@ -76,7 +77,7 @@ suggestion until a reviewer accepts it.
 
 | `status`
 | yes
-| Lifecycle state such as `draft`, `proposed`, `accepted`, or `superseded`.
+| Review state of the artifact. See xref:artifact-lifecycle-status[] for the defined values and for the separate validity axis.
 
 | `owner`
 | yes
@@ -154,6 +155,82 @@ traceability between artifacts.
 | `Document`
 | Supporting documentation that participates in traceability.
 |===
+
+[[artifact-lifecycle-status]]
+=== Artifact Lifecycle Status
+
+An artifact carries two independent lifecycle axes. `status` answers how
+confirmed the artifact is, and `validity` answers whether it still holds. Both
+can be true at once: an accepted risk that has been mitigated away is
+`status: accepted` and `validity: retired`. Keeping the axes apart is decided in
+xref:adr-009-artifact-retirement-and-relation-validity[].
+
+`status` is the review axis.
+
+[cols="1,3", options="header"]
+|===
+| Status | Meaning
+
+| `draft`
+| Work in progress. Incomplete notes or an artifact that is not yet a coherent
+proposal. Not architecture truth.
+
+| `proposed`
+| Complete enough to review, but not reviewed. AI-created artifacts start here.
+
+| `reviewed`
+| A human has checked the content without deciding to adopt it.
+
+| `accepted`
+| Adopted as the repository's architecture knowledge. Only reachable through
+human review. For a `Risk` artifact this means the risk description is accepted
+knowledge, not that the risk itself is deliberately carried; that belongs in the
+risk's own acceptance section.
+
+| `rejected`
+| Considered and intentionally not adopted. The artifact stays in the repository
+as the record of an option that was turned down.
+
+| `superseded`
+| Replaced by a newer artifact, which is named in `superseded_by`. The newer
+artifact carries the `supersedes` relation.
+
+| `deprecated`
+| Still in force, but discouraged for new work. Use it where something is being
+phased out and can still be encountered, such as a component, an interface, or a
+concept. Do not use it for an artifact whose subject no longer exists at all;
+that is retirement on the validity axis.
+|===
+
+`validity` is the temporal axis. It is optional and defaults to `active` when
+absent.
+
+[cols="1,3", options="header"]
+|===
+| Validity | Meaning
+
+| `active`
+| The artifact still holds.
+
+| `retired`
+| The artifact's subject no longer exists or no longer applies. The artifact
+stays in the repository with its stable ID and its review status. `retired_on`
+records the date, and `retired_reason` records why. For risks the reasons are
+`mitigated`, `no-longer-applicable`, `materialized`, and
+`accepted-as-residual`.
+|===
+
+Retirement never rewrites the relations that point at the artifact. A relation
+keeps the relationship status it was reviewed with, because it stated something
+that was true when it was made. `rejected` is a verdict about the claim itself,
+for example that a decision never mitigated the risk it named, and not a way to
+express that time has passed. Generated impact and traceability matrices keep
+rendering a relation whose target is retired and mark it inactive.
+
+NOTE: `validity`, `retired_on`, and `retired_reason` are decided but not yet
+implemented. `metamodel/artifact.schema.yaml` rejects unknown metadata fields,
+so do not add them to artifact metadata before the schema and the validator
+accept them.
 
 === Relationship Types and Semantics
 

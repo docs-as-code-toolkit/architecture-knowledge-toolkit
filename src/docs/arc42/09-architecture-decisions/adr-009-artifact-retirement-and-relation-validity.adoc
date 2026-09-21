@@ -1,0 +1,235 @@
+---
+id: ADR-009-artifact-retirement-and-relation-validity
+type: ADR
+title: Artifact Retirement and Relation Validity Over Time
+status: accepted
+owner: architecture
+created: '2026-09-21'
+updated: '2026-09-21'
+reviewed: true
+summary: Accepted decision to keep relationship status a review state and to express artifact retirement on a separate validity axis that generated matrices render as inactive.
+derived_from:
+- type: conversation
+  description: Maintainer question whether a mitigates relation must become rejected once the target risk no longer exists, and whether deprecated is the right status for a risk that is closed rather than discouraged.
+tags:
+- decision
+- metamodel
+- traceability
+relations:
+- type: refines
+  target: DOC-04001-metamodel
+  status: accepted
+  rationale: This ADR adds a validity axis to artifact metadata and fixes the meaning of relationship status when a relation target stops being current.
+  evidence: src/docs/arc42/04-solution-strategy/doc-04001-metamodel.adoc
+  reviewed: true
+- type: addresses
+  target: QS-004-ai-suggestion-reviewability
+  status: accepted
+  rationale: Keeping review maturity separate from temporal validity preserves status as the marker that tells a reviewer whether content is suggested or accepted.
+  evidence: src/docs/arc42/10-quality-requirements/qs-004-ai-suggestion-reviewability.adoc
+  reviewed: true
+- type: introduces_risk
+  target: R-004-heavy-metadata-authoring
+  status: accepted
+  rationale: A second lifecycle axis adds another optional metadata field that authors must understand and maintain.
+  evidence: src/docs/arc42/11-risks-and-technical-debt/r-004-heavy-metadata-authoring.adoc
+  reviewed: true
+metadata_version: '1.0'
+---
+[[adr-009-artifact-retirement-and-relation-validity]]
+== ADR-009: Artifact Retirement and Relation Validity Over Time
+
+=== Status
+
+Accepted (derived).
+
+The rationale was AI-drafted from a maintainer conversation and then reviewed
+and accepted by the accountable owner. The derived marker records that the
+drafting was AI-assisted; the acceptance is human.
+
+=== Decision
+
+`relationshipStatus` stays a review state only. Whether an artifact is still
+current is expressed on a separate validity axis in artifact metadata:
+`validity` with the values `active` and `retired`, plus `retired_on` and
+`retired_reason`. A relation to a retired artifact keeps its reviewed status and
+stays visible in generated impact and traceability matrices, marked as
+inactive.
+
+=== Context
+
+A relation such as `ADR-00X mitigates R-00Y` can outlive its target: the risk
+is mitigated away, stops applying after an architecture change, or is merged
+into another risk. The question is what happens to the relation, and what
+happens to the risk artifact.
+
+`relationshipStatus` is defined in
+xref:architecture-metamodel[the architecture metamodel] as a review state:
+`proposed` is unreviewed, `reviewed` is checked by a human, `accepted` is taken
+into the repository's architecture knowledge, and `rejected` is considered and
+intentionally rejected. `rejected` is therefore a verdict about the claim, not
+about time. Setting an accepted `mitigates` relation to `rejected` because the
+risk is gone would retroactively deny a statement that was true and reviewed
+when it was made.
+
+The artifact `status` enum in `metamodel/artifact.schema.yaml` offers `draft`,
+`proposed`, `reviewed`, `accepted`, `rejected`, `superseded`, and `deprecated`.
+The metamodel document lists these only as examples and never defines the
+individual values, so `deprecated` has no repository-specific meaning; it
+carries its ordinary document and API lifecycle sense of "still present, do not
+use it for new work". A risk that no longer exists is not discouraged for
+future use, it is closed. The enum also mixes two axes: review maturity
+(`draft` through `rejected`) and temporal validity (`superseded`,
+`deprecated`). Replacement is already modelled by `superseded` together with
+the `superseded_by` field; retirement without a replacement has no
+representation at all.
+
+For `Risk` artifacts the mixed axis additionally collides with domain
+vocabulary: `status: accepted` means "accepted as architecture knowledge" in
+this metamodel, while an accepted risk in risk management means "known and
+deliberately carried". Both readings are plausible on the same artifact today.
+
+The generator in `scripts/validate-metamodel.rb` renders an artifact status
+column and relation cells, but has no concept of a relation that was valid and
+is not any more.
+
+=== Decision Drivers
+
+* Keep the history of an accepted relation intact instead of rewriting a
+  statement that was true when it was reviewed.
+* Make retirement machine-readable so generated matrices can mark a relation
+  inactive without hiding it.
+* Keep review maturity and temporal validity separately readable on the same
+  artifact.
+* Avoid status vocabulary that means different things per artifact type.
+* Keep the authoring burden small, because metadata weight is already tracked
+  by xref:r-004-heavy-metadata-authoring[].
+
+=== Considered Options
+
+==== Option 1: Add a closure value to the shared status enum
+
+Add `closed` to the artifact `status` enum and use it for risks that no longer
+exist. One new value, no new field, and the generator keys its inactive marker
+on the target's status.
+
+==== Option 2: Separate validity axis
+
+Add an optional `validity` field with `active` and `retired`, together with
+`retired_on` and an optional `retired_reason` such as `mitigated`,
+`no-longer-applicable`, `materialized`, or `accepted-as-residual`. `status`
+keeps answering how confirmed an artifact is, `validity` answers whether it
+still holds. The generator keys its inactive marker on the target's validity.
+
+==== Option 3: Prose-only closure note
+
+Record closure in the risk body, for example in `=== Decision or Acceptance`,
+and leave metadata untouched.
+
+=== Pugh Matrix
+
+[.pugh-matrix]
+[cols="2,1,1,1", options="header"]
+|===
+| Criterion | Status value | Validity axis | Prose only
+| Generated matrices can mark relations inactive | +1 | +1 | -1
+| Review maturity stays readable after retirement | -1 | +1 | +1
+| No vocabulary collision per artifact type | -1 | +1 | 0
+| Works uniformly for every artifact type | -1 | +1 | 0
+| Small schema and low authoring burden | +1 | -1 | +1
+| Retirement date and reason are validatable | 0 | +1 | -1
+s| Sum s| -1 s| 4 s| 0
+|===
+
+=== Consequences
+
+==== Positive
+
+* An accepted relation stays accepted, so the traceability history remains a
+  truthful record of what was decided and why.
+* Retirement is machine-readable, so generated impact and traceability
+  fragments can render the relation as inactive rather than dropping it.
+* A retired risk keeps its review state, so reviewers can still see whether the
+  risk was ever accepted as architecture knowledge.
+* The axis generalizes beyond risks to retired components, interfaces,
+  constraints, and quality scenarios.
+* A generated risk register can filter open risks without interpreting review
+  vocabulary.
+
+==== Negative
+
+* The metamodel gains another optional metadata field, which increases the
+  authoring surface tracked by xref:r-004-heavy-metadata-authoring[].
+* An artifact's state must be read from two fields instead of one.
+* Validator, generator, templates, and the `example/metamodel/` schema copy all
+  have to learn the second axis, and consuming projects that vendored the
+  schema need a migration note.
+
+==== Neutral or Follow-Up
+
+* `superseded` and `deprecated` stay in the `status` enum for now. A follow-up
+  decision has to say whether they move to the validity axis or keep their
+  document and API lifecycle meaning.
+* How the generator marks an inactive row, for example a marker column, a
+  footnote, or struck-through text, is a rendering decision made when the
+  generator changes.
+* The artifact status table that the metamodel document was missing is written
+  with this decision, so every status value and both lifecycle axes have a
+  defined meaning in xref:architecture-metamodel[].
+
+=== Impact
+
+include::generated/adr-009-artifact-retirement-and-relation-validity-impact.adoc[leveloffset=+2]
+
+=== Traceability
+
+include::generated/adr-009-artifact-retirement-and-relation-validity-attributes.adoc[]
+
+ifdef::derived_from_description[]
+==== Derived from
+{derived_from_description}
+endif::[]
+
+include::generated/adr-009-artifact-retirement-and-relation-validity-traceability.adoc[leveloffset=+2]
+
+=== Assumptions
+
+* Retirement is a human decision recorded in the repository, like acceptance;
+  an agent may only propose it.
+* Reviewers want a retired relation to stay visible as history rather than
+  disappear from the matrix.
+* `mitigated`, `no-longer-applicable`, `materialized`, and
+  `accepted-as-residual` cover the practical closure reasons for risks.
+
+=== Open Questions
+
+These belong to the implementation slice. The decision holds regardless of how
+they are answered; they shape the schema and the rendering, not the axis
+separation.
+
+* Should `validity` be generic for every artifact type, or should risks get
+  their own domain lifecycle field instead?
+* Do `superseded` and `deprecated` remain status values, or migrate to the
+  validity axis?
+* Does a relation count as inactive only when its target is retired, or also
+  when its source is?
+* Should the validator reject a new relation that targets a retired artifact,
+  warn about it, or stay silent?
+
+=== Review Notes
+
+Accepted after review of the decision itself: that review maturity and temporal
+validity are separate axes, and that a relation to a retired artifact keeps its
+reviewed status instead of being rejected.
+
+The impact claims recorded as relations were accepted with the decision. Their
+targets remain proposed artifacts in their own right; an accepted relation
+states that the claim holds, not that the artifact it points at has been
+accepted.
+
+Acceptance does not cover the implementation slice.
+`metamodel/artifact.schema.yaml` does not carry `validity`, `retired_on`, or
+`retired_reason` yet, and the generator has no inactive marker. Do not put the
+new fields into artifact metadata before the schema and the validator accept
+them, and decide the migration note for projects that vendored the schema
+before any schema change is released.
