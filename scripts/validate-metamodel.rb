@@ -188,23 +188,28 @@ class MetamodelValidator
   # artifact is, `validity` says whether it still holds. An absent value means
   # active. The schema carries a `default`, but a JSON Schema default is an
   # annotation and materializes nothing, so the reading is implemented here.
+  #
+  # Presence decides, not blankness -- exactly as in the schema, whose `else`
+  # branch forbids the retirement properties outright. `validity: ""` or
+  # `retired_note: ~` is malformed metadata, not an omission; reading it as
+  # absent would let the build pass what the distributed schema rejects.
   def validate_validity(artifacts, vocabulary)
     artifacts.each do |artifact|
       metadata = artifact.metadata
       next unless metadata
 
       location = relative(artifact.path)
-      validity = metadata['validity']
 
-      if !blank?(validity) && !vocabulary.fetch(:validity).include?(validity)
-        @errors << "#{location} uses unknown validity '#{validity}'"
+      if metadata.key?('validity') && !vocabulary.fetch(:validity).include?(metadata['validity'])
+        @errors << "#{location} uses unknown validity #{quoted(metadata['validity'])}; " \
+                   "omit it or use #{vocabulary.fetch(:validity).join(' or ')}"
         next
       end
 
       if retired?(metadata)
         validate_retirement(metadata, location, vocabulary)
       else
-        recorded = RETIREMENT_FIELDS.select { |field| metadata.key?(field) && !blank?(metadata[field]) }
+        recorded = RETIREMENT_FIELDS.select { |field| metadata.key?(field) }
         next if recorded.empty?
 
         @errors << "#{location} is active but records retirement field(s): #{recorded.sort.join(', ')}"
@@ -214,12 +219,22 @@ class MetamodelValidator
 
   def validate_retirement(metadata, location, vocabulary)
     validate_retirement_date(metadata, location)
+    validate_retirement_reason(metadata, location, vocabulary) if metadata.key?('retired_reason')
+    return unless metadata.key?('retired_note')
 
+    # Mirrors `type: string, minLength: 1` exactly. A whitespace-only note would
+    # be a stricter rule than the schema states, which is drift in the other
+    # direction.
+    note = metadata['retired_note']
+    return if note.is_a?(String) && !note.empty?
+
+    @errors << "#{location} records an empty 'retired_note'; write the explanation or omit the field"
+  end
+
+  def validate_retirement_reason(metadata, location, vocabulary)
     reason = metadata['retired_reason']
-    return if blank?(reason)
-
     unless vocabulary.fetch(:reasons).include?(reason)
-      @errors << "#{location} uses unknown retirement reason '#{reason}'"
+      @errors << "#{location} uses unknown retirement reason #{quoted(reason)}"
       return
     end
 
@@ -227,6 +242,11 @@ class MetamodelValidator
     return if owner.nil? || owner == metadata['type']
 
     @errors << "#{location} uses retirement reason '#{reason}', which applies to #{owner} artifacts only"
+  end
+
+  # A null and an empty string are different mistakes in YAML; name which one.
+  def quoted(value)
+    value.nil? ? 'null' : "'#{value}'"
   end
 
   def validate_retirement_date(metadata, location)

@@ -927,6 +927,31 @@ class ValidateMetamodelTest < Minitest::Test
     FileUtils.rm_rf(temp_dir) if temp_dir
   end
 
+  def test_present_but_empty_validity_metadata_reports_an_error
+    # Given: artifacts that declare validity or retirement fields with an empty
+    # or null value
+    temp_dir = ROOT.join('tmp/test-present-but-empty')
+    docs_dir = temp_dir.join('src/docs')
+    write_metadata_artifact(docs_dir.join('r-101-empty-validity.adoc'),
+                            risk_metadata('R-101-empty-validity').merge('validity' => ''))
+    write_metadata_artifact(docs_dir.join('r-102-null-date.adoc'),
+                            risk_metadata('R-102-null-date').merge('retired_on' => nil))
+    write_metadata_artifact(docs_dir.join('r-103-empty-note.adoc'),
+                            retired_risk_metadata('R-103-empty-note').merge('retired_note' => ''))
+
+    # When: the validator runs
+    validator = build_validator(temp_dir, docs_dir)
+    validator.validate
+    errors = validator.errors.join("\n")
+
+    # Then: it reports each one instead of reading it as omitted
+    assert_includes errors, "r-101-empty-validity.adoc uses unknown validity ''"
+    assert_includes errors, 'r-102-null-date.adoc is active but records retirement field(s): retired_on'
+    assert_includes errors, "r-103-empty-note.adoc records an empty 'retired_note'"
+  ensure
+    FileUtils.rm_rf(temp_dir) if temp_dir
+  end
+
   def test_risk_retirement_reason_on_another_artifact_type_reports_an_error
     # Given: a retired document that claims the risk-specific reason mitigated
     temp_dir = ROOT.join('tmp/test-reason-wrong-type')
@@ -1051,6 +1076,50 @@ class ValidateMetamodelTest < Minitest::Test
                  (MetamodelValidator::RETIREMENT_FIELDS & schema.keys).sort
     MetamodelValidator::TYPE_RETIREMENT_REASONS.each_value do |reasons|
       reasons.each { |reason| assert_includes schema.fetch('retired_reason').fetch('enum'), reason }
+    end
+  end
+
+  # Outcome parity for present-but-blank values. The vocabulary test above
+  # proves both sides name the same values; this one proves they reach the same
+  # verdict on the same metadata. Each expectation is the outcome the artifact
+  # schema prescribes, with the schema rule that decides it. There is no JSON
+  # Schema engine in the pinned toolchain to derive them mechanically, so they
+  # are written out and reviewed instead.
+  SCHEMA_OUTCOMES = [
+    # [description, base, overrides, schema verdict, deciding schema rule]
+    ['no validity',                  :active,  {},                        :valid,   'validity is optional'],
+    ['validity active',              :active,  { 'validity' => 'active' }, :valid,  'validity enum'],
+    ['empty validity',               :active,  { 'validity' => '' },      :invalid, 'validity enum'],
+    ['null validity',                :active,  { 'validity' => nil },     :invalid, 'validity enum'],
+    ['active with null retired_on',  :active,  { 'retired_on' => nil },   :invalid, 'else: retired_on false'],
+    ['active with empty reason',     :active,  { 'retired_reason' => '' }, :invalid, 'else: retired_reason false'],
+    ['active with empty note',       :active,  { 'retired_note' => '' },  :invalid, 'else: retired_note false'],
+    ['complete retirement',          :retired, {},                        :valid,   'then: required retired_on'],
+    ['retired with null retired_on', :retired, { 'retired_on' => nil },   :invalid, 'retired_on type string'],
+    ['retired with empty reason',    :retired, { 'retired_reason' => '' }, :invalid, 'retired_reason enum'],
+    ['retired with null reason',     :retired, { 'retired_reason' => nil }, :invalid, 'retired_reason enum'],
+    ['retired with empty note',      :retired, { 'retired_note' => '' },  :invalid, 'retired_note minLength 1'],
+    ['retired with null note',       :retired, { 'retired_note' => nil }, :invalid, 'retired_note type string'],
+    ['retired with blank-ish note',  :retired, { 'retired_note' => ' ' }, :valid,   'retired_note minLength 1']
+  ].freeze
+
+  def test_blank_and_null_values_reach_the_schema_verdict
+    SCHEMA_OUTCOMES.each_with_index do |(description, base, overrides, verdict, rule), index|
+      temp_dir = ROOT.join("tmp/test-schema-outcome-#{index}")
+      docs_dir = temp_dir.join('src/docs')
+      id = "R-#{200 + index}-case"
+      metadata = (base == :retired ? retired_risk_metadata(id) : risk_metadata(id)).merge(overrides)
+      write_metadata_artifact(docs_dir.join("r-#{200 + index}-case.adoc"), metadata)
+
+      validator = build_validator(temp_dir, docs_dir)
+      validator.validate
+      actual = validator.errors.empty? ? :valid : :invalid
+
+      assert_equal verdict, actual,
+                   "#{description}: the schema says #{verdict} (#{rule}), the validator says #{actual}: " \
+                   "#{validator.errors.join('; ')}"
+    ensure
+      FileUtils.rm_rf(temp_dir) if temp_dir
     end
   end
 
