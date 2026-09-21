@@ -31,8 +31,12 @@ Use YAML front matter for every source artifact created by this skill.
 ## Status Rules
 
 `status` is the review axis: how confirmed the artifact is. Whether it still
-holds is the separate validity axis below. The two are independent, so a
-retired risk can still be `status: accepted`.
+holds is the separate validity axis below, so a retired risk can still be
+`status: accepted`.
+
+Two values are transitional exceptions: `superseded` and `deprecated` are
+temporal statements that still sit on `status`. ADR-009 defers their migration,
+so keep using them as they are and put new temporal information on `validity`.
 
 - Use `proposed` for AI-created ADRs, risks, quality scenarios, and relations.
 - Use `draft` for incomplete notes or impact reports that are not source
