@@ -10,16 +10,28 @@ require 'yaml'
 
 class MetamodelValidator
   REQUIRED_FIELDS = %w[id type title status created].freeze
+  # Fallbacks for the validity vocabulary. The artifact schema owns the values;
+  # these apply only when it cannot be read, and a parity test keeps the two
+  # in step.
+  VALIDITY_VALUES = %w[active retired].freeze
+  RETIREMENT_FIELDS = %w[retired_on retired_reason retired_note].freeze
+  RETIREMENT_REASONS = %w[no-longer-applicable removed mitigated materialized].freeze
+  # Reasons that only make sense for one artifact type; every other reason in
+  # RETIREMENT_REASONS is universal. A risk is mitigated or materializes, an
+  # interface does neither. The schema carries the full value list, so only the
+  # type mapping lives here.
+  TYPE_RETIREMENT_REASONS = { 'Risk' => %w[mitigated materialized] }.freeze
 
   Artifact = Struct.new(:path, :metadata, :document_id, keyword_init: true)
 
   attr_reader :errors, :warnings, :root, :docs_dir
 
-  def initialize(root:, docs_dir:, relations_schema:)
+  def initialize(root:, docs_dir:, relations_schema:, artifact_schema: nil)
     @root = Pathname.new(root).expand_path
     @docs_paths = Array(docs_dir).map { |path| Pathname.new(path).expand_path }
     @docs_dir = @docs_paths.length == 1 ? @docs_paths.first : @docs_paths
     @relations_schema = Pathname.new(relations_schema).expand_path
+    @artifact_schema = Pathname.new(artifact_schema || @root.join('metamodel/artifact.schema.yaml')).expand_path
     @errors = []
     @warnings = []
   end
@@ -37,6 +49,7 @@ class MetamodelValidator
     validate_filename_matches_id(artifacts)
     validate_decimal_classification(artifacts)
     validate_unique_ids(artifacts)
+    validate_validity(artifacts, artifact_vocabulary)
     validate_relations(artifacts, relation_types, relation_keys)
     detect_bidirectional_relations(artifacts)
 
@@ -171,8 +184,101 @@ class MetamodelValidator
     end
   end
 
+  # The validity axis is orthogonal to `status`: `status` says how confirmed an
+  # artifact is, `validity` says whether it still holds. An absent value means
+  # active. The schema carries a `default`, but a JSON Schema default is an
+  # annotation and materializes nothing, so the reading is implemented here.
+  def validate_validity(artifacts, vocabulary)
+    artifacts.each do |artifact|
+      metadata = artifact.metadata
+      next unless metadata
+
+      location = relative(artifact.path)
+      validity = metadata['validity']
+
+      if !blank?(validity) && !vocabulary.fetch(:validity).include?(validity)
+        @errors << "#{location} uses unknown validity '#{validity}'"
+        next
+      end
+
+      if retired?(metadata)
+        validate_retirement(metadata, location, vocabulary)
+      else
+        recorded = RETIREMENT_FIELDS.select { |field| metadata.key?(field) && !blank?(metadata[field]) }
+        next if recorded.empty?
+
+        @errors << "#{location} is active but records retirement field(s): #{recorded.sort.join(', ')}"
+      end
+    end
+  end
+
+  def validate_retirement(metadata, location, vocabulary)
+    validate_retirement_date(metadata, location)
+
+    reason = metadata['retired_reason']
+    return if blank?(reason)
+
+    unless vocabulary.fetch(:reasons).include?(reason)
+      @errors << "#{location} uses unknown retirement reason '#{reason}'"
+      return
+    end
+
+    owner, = TYPE_RETIREMENT_REASONS.find { |_type, reasons| reasons.include?(reason) }
+    return if owner.nil? || owner == metadata['type']
+
+    @errors << "#{location} uses retirement reason '#{reason}', which applies to #{owner} artifacts only"
+  end
+
+  def validate_retirement_date(metadata, location)
+    retired_on = metadata['retired_on']
+    if blank?(retired_on)
+      @errors << "#{location} is retired and must record 'retired_on'"
+      return
+    end
+
+    retired_date = parse_date(retired_on)
+    if retired_date.nil?
+      @errors << "#{location} has an invalid 'retired_on' date '#{retired_on}'"
+      return
+    end
+
+    created = parse_date(metadata['created'])
+    return if created.nil? || retired_date >= created
+
+    @errors << "#{location} has 'retired_on' #{retired_date} earlier than 'created' #{created}"
+  end
+
+  def retired?(metadata)
+    metadata.is_a?(Hash) && metadata['validity'].to_s == 'retired'
+  end
+
+  def parse_date(value)
+    return nil if blank?(value)
+    return value if value.is_a?(Date)
+
+    Date.parse(value.to_s)
+  rescue ArgumentError, TypeError
+    nil
+  end
+
+  # The artifact schema owns the validity vocabulary, exactly as the relation
+  # schema owns the relation types. Reading it here means the two cannot drift;
+  # the constants are only a fallback for a checkout without the schema.
+  def artifact_vocabulary
+    properties = load_yaml(@artifact_schema).fetch('properties')
+
+    {
+      validity: properties.fetch('validity').fetch('enum'),
+      reasons: properties.fetch('retired_reason').fetch('enum')
+    }
+  rescue StandardError
+    { validity: VALIDITY_VALUES, reasons: RETIREMENT_REASONS }
+  end
+
   def validate_relations(artifacts, relation_types, relation_keys)
     known_ids = artifacts.map(&:document_id).compact.to_set
+    retired_ids = artifacts.select { |candidate| retired?(candidate.metadata) }
+                           .map(&:document_id).compact.to_set
 
     artifacts.each do |artifact|
       metadata = artifact.metadata
@@ -210,6 +316,15 @@ class MetamodelValidator
 
         if target && !known_ids.include?(target)
           @errors << "#{location} references unknown artifact id '#{target}'"
+        end
+
+        # A relation to retired knowledge is allowed: `documents` and
+        # `supersedes` legitimately point backwards. It is warned about so an
+        # accidental reference to something that no longer exists is visible
+        # instead of silent.
+        if target && retired_ids.include?(target)
+          @warnings << "Relation to retired artifact: #{artifact.document_id} -> #{target}. " \
+                       'It stays valid as history; check that it is not an accidental reference.'
         end
       end
     end
@@ -326,7 +441,29 @@ class MetamodelValidator
   end
 end
 
+# A relation is inactive for the current architecture when either endpoint is
+# retired. It is still rendered, because it remains a true record of what was
+# decided and reviewed; the marker says only that it no longer describes the
+# system as it is now.
+module RelationValidity
+  INACTIVE_MARKER = '[.relation-inactive]#(inactive)#'
+
+  def retired_metadata?(metadata)
+    metadata.is_a?(Hash) && metadata['validity'].to_s == 'retired'
+  end
+
+  def inactive_relation?(source_metadata, target_metadata)
+    retired_metadata?(source_metadata) || retired_metadata?(target_metadata)
+  end
+
+  def mark_inactive(text, inactive)
+    inactive ? "#{text} #{INACTIVE_MARKER}" : text
+  end
+end
+
 class TraceabilityMatrixGenerator
+  include RelationValidity
+
   DEFAULT_OUTPUT = 'generated/traceability-matrix.adoc'
 
   def initialize(root:, docs_dir:, output_path: nil)
@@ -370,8 +507,8 @@ class TraceabilityMatrixGenerator
       lines << "| #{cell(metadata['type'])}"
       lines << "| #{cell(metadata['title'])}"
       lines << "| #{cell(metadata['status'])}"
-      lines << "| #{relations_cell(metadata['relations'] || [], artifacts_by_id, :outgoing)}"
-      lines << "| #{relations_cell(incoming.fetch(id, []), artifacts_by_id, :incoming)}"
+      lines << "| #{relations_cell(metadata['relations'] || [], artifacts_by_id, :outgoing, metadata)}"
+      lines << "| #{relations_cell(incoming.fetch(id, []), artifacts_by_id, :incoming, metadata)}"
       lines << ''
     end
 
@@ -391,7 +528,7 @@ class TraceabilityMatrixGenerator
     end
   end
 
-  def relations_cell(relations, artifacts_by_id, direction)
+  def relations_cell(relations, artifacts_by_id, direction, self_metadata = nil)
     return '-' if relations.empty?
 
     sorted = relations.sort_by do |relation|
@@ -400,11 +537,15 @@ class TraceabilityMatrixGenerator
     end
 
     sorted.map do |relation|
-      if direction == :outgoing
-        "#{cell(relation['type'])} -> #{artifact_ref(relation['target'], artifacts_by_id)}"
-      else
-        "#{artifact_ref(relation['source'], artifacts_by_id)} -> #{cell(relation['type'])}"
-      end
+      other_id = direction == :outgoing ? relation['target'] : relation['source']
+      inactive = inactive_relation?(self_metadata, artifacts_by_id[other_id]&.metadata)
+
+      text = if direction == :outgoing
+               "#{cell(relation['type'])} -> #{artifact_ref(relation['target'], artifacts_by_id)}"
+             else
+               "#{artifact_ref(relation['source'], artifacts_by_id)} -> #{cell(relation['type'])}"
+             end
+      mark_inactive(text, inactive)
     end.join(" +\n")
   end
 
@@ -663,6 +804,8 @@ class OpenQuestionsIndexGenerator
 end
 
 class TraceabilityFragmentGenerator
+  include RelationValidity
+
   attr_reader :output_paths
 
   def initialize(root:, docs_dir:)
@@ -708,15 +851,17 @@ class TraceabilityFragmentGenerator
       lines << ''
     else
       outgoing.sort_by { |relation| [relation['type'].to_s, relation['target'].to_s] }.each do |relation|
+        inactive = inactive_relation?(metadata, artifacts_by_id[relation['target']]&.metadata)
         lines << '| outgoing'
-        lines << "| #{helper.cell(relation['type'])}"
+        lines << "| #{mark_inactive(helper.cell(relation['type']), inactive)}"
         lines << "| #{helper.artifact_ref(relation['target'], artifacts_by_id)}"
         lines << ''
       end
 
       incoming.sort_by { |relation| [relation['type'].to_s, relation['source'].to_s] }.each do |relation|
+        inactive = inactive_relation?(metadata, artifacts_by_id[relation['source']]&.metadata)
         lines << '| incoming'
-        lines << "| #{helper.cell(relation['type'])}"
+        lines << "| #{mark_inactive(helper.cell(relation['type']), inactive)}"
         lines << "| #{helper.artifact_ref(relation['source'], artifacts_by_id)}"
         lines << ''
       end
@@ -756,6 +901,8 @@ class TraceabilityFragmentGenerator
 end
 
 class ImpactFragmentGenerator
+  include RelationValidity
+
   attr_reader :output_paths
 
   def initialize(root:, docs_dir:)
@@ -800,8 +947,9 @@ class ImpactFragmentGenerator
       lines << ''
     else
       outgoing.sort_by { |relation| [relation['type'].to_s, relation['target'].to_s] }.each do |relation|
+        inactive = inactive_relation?(metadata, artifacts_by_id[relation['target']]&.metadata)
         lines << "| #{helper.artifact_ref(relation['target'], artifacts_by_id)}"
-        lines << "| #{helper.cell(relation['type'])}"
+        lines << "| #{mark_inactive(helper.cell(relation['type']), inactive)}"
         lines << "| #{helper.cell(relation['rationale'])}"
         lines << ''
       end

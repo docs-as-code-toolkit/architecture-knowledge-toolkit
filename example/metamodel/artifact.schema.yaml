@@ -42,7 +42,9 @@ properties:
     minLength: 1
   status:
     type: string
-    description: Lifecycle state of the artifact.
+    description: >-
+      Review axis: how confirmed the artifact is. Whether it still holds is the
+      separate validity axis.
     enum:
       - draft
       - proposed
@@ -51,6 +53,39 @@ properties:
       - rejected
       - superseded
       - deprecated
+  validity:
+    type: string
+    description: >-
+      Temporal axis: whether the artifact still holds. An absent value means
+      active. The default below is a schema annotation and materializes
+      nothing, so validator and generator implement that reading explicitly.
+    enum:
+      - active
+      - retired
+    default: active
+  retired_on:
+    type: string
+    format: date
+    description: >-
+      Date of retirement. Required while validity is retired, rejected while
+      the artifact is active, and never earlier than created.
+  retired_reason:
+    type: string
+    description: >-
+      Machine-readable retirement reason, for filtering and generated views.
+      'no-longer-applicable' and 'removed' apply to every artifact type;
+      'mitigated' and 'materialized' apply to Risk artifacts only, which the
+      validator enforces.
+    enum:
+      - no-longer-applicable
+      - removed
+      - mitigated
+      - materialized
+  retired_note:
+    type: string
+    description: >-
+      Free text explaining the retirement to a human reader. The reason is for
+      machines, the note is for people; neither replaces the other.
   owner:
     type: string
     minLength: 1
@@ -134,6 +169,22 @@ properties:
   metadata_version:
     type: string
     default: "1.0"
+allOf:
+  - if:
+      properties:
+        validity:
+          const: retired
+      required:
+        - validity
+    then:
+      required:
+        - retired_on
+    else:
+      properties:
+        retired_on: false
+        retired_reason: false
+        retired_note: false
+
 examples:
   - id: DOC-09001-adr-index
     type: Document
