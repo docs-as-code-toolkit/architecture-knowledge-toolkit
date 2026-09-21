@@ -231,9 +231,12 @@ separation.
   outgoing `supersedes` relation.
 * How does an author record that a relation to a retired artifact is
   deliberately historical, so its warning does not become permanent build
-  noise?
+  noise? Deferred until the first retirements make the warning volume
+  observable.
 * How does a generated matrix mark an inactive relation, for example a marker
-  column, a footnote, or struck-through text?
+  column, a footnote, or struck-through text? Answered by the implementation:
+  an `(inactive)` marker on the relation type cell, carrying the
+  `relation-inactive` role. See xref:artifact-lifecycle-status[].
 
 === Review Notes
 
