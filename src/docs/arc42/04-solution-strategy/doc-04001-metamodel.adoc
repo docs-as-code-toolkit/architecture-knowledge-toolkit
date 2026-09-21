@@ -159,13 +159,20 @@ traceability between artifacts.
 [[artifact-lifecycle-status]]
 === Artifact Lifecycle Status
 
-An artifact carries two independent lifecycle axes. `status` answers how
-confirmed the artifact is, and `validity` answers whether it still holds. Both
-can be true at once: an accepted risk that has been mitigated away is
-`status: accepted` and `validity: retired`. Keeping the axes apart is decided in
+An artifact carries two lifecycle axes. `status` answers how confirmed the
+artifact is, and `validity` answers whether it still holds. Both can be true at
+once: an accepted risk that has been mitigated away is `status: accepted` and
+`validity: retired`. Keeping the axes apart is decided in
 xref:adr-009-artifact-retirement-and-relation-validity[].
 
-`status` is the review axis.
+The separation is not complete yet. `superseded` and `deprecated` are temporal
+statements that still sit on the review axis, and ADR-009 deliberately left
+them there instead of migrating them with the same decision, because that
+migration overlaps with deriving `superseded_by` from an outgoing `supersedes`
+relation. Read them as transitional values: every other `status` value is a
+review verdict, and new temporal information belongs on `validity`.
+
+`status` is the review axis, apart from those two transitional values.
 
 [cols="1,3", options="header"]
 |===
@@ -192,14 +199,14 @@ risk's own acceptance section.
 as the record of an option that was turned down.
 
 | `superseded`
-| Replaced by a newer artifact, which is named in `superseded_by`. The newer
-artifact carries the `supersedes` relation.
+| Transitional, temporal. Replaced by a newer artifact, which is named in
+`superseded_by`. The newer artifact carries the `supersedes` relation.
 
 | `deprecated`
-| Still in force, but discouraged for new work. Use it where something is being
-phased out and can still be encountered, such as a component, an interface, or a
-concept. Do not use it for an artifact whose subject no longer exists at all;
-that is retirement on the validity axis.
+| Transitional, temporal. Still in force, but discouraged for new work. Use it
+where something is being phased out and can still be encountered, such as a
+component, an interface, or a concept. Do not use it for an artifact whose
+subject no longer exists at all; that is retirement on the validity axis.
 |===
 
 `validity` is the temporal axis. It is optional, and an absent value means
