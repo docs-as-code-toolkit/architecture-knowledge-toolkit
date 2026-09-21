@@ -115,6 +115,11 @@ Feature: Metamodel validation
     When the validator runs
     Then it reports that an active artifact must not record retirement fields
 
+  Scenario: Present but empty validity metadata reports an error
+    Given artifacts that declare validity or retirement fields with an empty or null value
+    When the validator runs
+    Then it reports each one instead of reading it as omitted
+
   Scenario: Risk retirement reason on another artifact type reports an error
     Given a retired document that claims the risk-specific reason mitigated
     When the validator runs

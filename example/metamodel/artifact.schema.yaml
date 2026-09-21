@@ -85,9 +85,11 @@ properties:
       - materialized
   retired_note:
     type: string
+    minLength: 1
     description: >-
       Free text explaining the retirement to a human reader. The reason is for
-      machines, the note is for people; neither replaces the other.
+      machines, the note is for people; neither replaces the other. Omit it
+      rather than leaving it empty.
   owner:
     type: string
     minLength: 1
