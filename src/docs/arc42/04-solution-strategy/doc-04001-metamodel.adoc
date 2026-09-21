@@ -202,35 +202,64 @@ concept. Do not use it for an artifact whose subject no longer exists at all;
 that is retirement on the validity axis.
 |===
 
-`validity` is the temporal axis. It is optional and defaults to `active` when
-absent.
+`validity` is the temporal axis. It is optional, and an absent value means
+`active`. Validator and generator implement that reading explicitly; a schema
+`default` is an annotation and materializes nothing.
 
 [cols="1,3", options="header"]
 |===
 | Validity | Meaning
 
 | `active`
-| The artifact still holds.
+| The artifact still holds. This includes a risk that the team knowingly
+carries: a deliberately accepted residual risk is still present, so it stays
+active and records its acceptance in the risk artifact.
 
 | `retired`
 | The artifact's subject no longer exists or no longer applies. The artifact
-stays in the repository with its stable ID and its review status. `retired_on`
-records the date, and `retired_reason` records why. For risks the reasons are
-`mitigated`, `no-longer-applicable`, `materialized`, and
-`accepted-as-residual`.
+stays in the repository with its stable ID and its review status.
 |===
 
-Retirement never rewrites the relations that point at the artifact. A relation
+A retired artifact records when and why:
+
+[cols="1,3", options="header"]
+|===
+| Field | Meaning
+
+| `retired_on`
+| Date of retirement, on or after `created`.
+
+| `retired_reason`
+| Machine-readable reason, for filtering and generated views.
+`no-longer-applicable` and `removed` apply to every artifact type. `Risk`
+artifacts add `mitigated` and `materialized`.
+
+| `retired_note`
+| Free text that explains the retirement to a human reader. The reason is for
+machines, the note is for people; neither replaces the other.
+|===
+
+The three fields belong to retirement and are absent while an artifact is
+active.
+
+Retirement never rewrites the relations that touch the artifact. A relation
 keeps the relationship status it was reviewed with, because it stated something
 that was true when it was made. `rejected` is a verdict about the claim itself,
 for example that a decision never mitigated the risk it named, and not a way to
-express that time has passed. Generated impact and traceability matrices keep
-rendering a relation whose target is retired and mark it inactive.
+express that time has passed.
 
-NOTE: `validity`, `retired_on`, and `retired_reason` are decided but not yet
+A relation is inactive for the current architecture when either endpoint is
+retired, not only its target. Generated impact and traceability matrices keep
+rendering an inactive relation and mark it as such. Authoring a new relation to
+a retired artifact stays allowed, because a historical link such as `documents`
+or `supersedes` is legitimate; the validator warns about it so an accidental
+reference to obsolete knowledge becomes visible.
+
+NOTE: The validity axis is decided in
+xref:adr-009-artifact-retirement-and-relation-validity[] but not yet
 implemented. `metamodel/artifact.schema.yaml` rejects unknown metadata fields,
-so do not add them to artifact metadata before the schema and the validator
-accept them.
+so do not add `validity`, `retired_on`, `retired_reason`, or `retired_note` to
+artifact metadata before the schema and the validator accept them.
 
 === Relationship Types and Semantics
 
