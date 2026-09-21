@@ -257,16 +257,12 @@ express that time has passed.
 
 A relation is inactive for the current architecture when either endpoint is
 retired, not only its target. Generated impact and traceability matrices keep
-rendering an inactive relation and mark it as such. Authoring a new relation to
-a retired artifact stays allowed, because a historical link such as `documents`
-or `supersedes` is legitimate; the validator warns about it so an accidental
-reference to obsolete knowledge becomes visible.
-
-NOTE: The validity axis is decided in
-xref:adr-009-artifact-retirement-and-relation-validity[] but not yet
-implemented. `metamodel/artifact.schema.yaml` rejects unknown metadata fields,
-so do not add `validity`, `retired_on`, `retired_reason`, or `retired_note` to
-artifact metadata before the schema and the validator accept them.
+rendering an inactive relation and mark it with `(inactive)` in the relation
+type cell, carrying the `relation-inactive` role so a renderer can style it.
+Authoring a new relation to a retired artifact stays allowed, because a
+historical link such as `documents` or `supersedes` is legitimate; the
+validator warns about it so an accidental reference to obsolete knowledge
+becomes visible.
 
 === Relationship Types and Semantics
 

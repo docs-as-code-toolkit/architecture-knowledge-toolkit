@@ -9,6 +9,12 @@ reviewed: false
 summary: Proposed risk summary.
 tags:
   - risk
+# When the risk no longer exists, retire it instead of deleting it. Keep the
+# status it was reviewed with; a risk the team knowingly carries stays active.
+# validity: retired
+# retired_on: YYYY-MM-DD
+# retired_reason: mitigated
+# retired_note: One sentence for a human reader.
 relations:
   - type: depends_on
     target: ADR-000-short-title

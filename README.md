@@ -232,6 +232,29 @@ the lookup order in the project's `AGENTS.md`.
   `skills/**/SKILL.md`, `features/`, and the toolkit's own contract text. Agents
   resolve these from the toolkit at need.
 
+### Schema change: the artifact validity axis
+
+`metamodel/artifact.schema.yaml` gained a second lifecycle axis. `status` stays
+the review axis — how confirmed an artifact is — and the new optional
+`validity` (`active` | `retired`), with `retired_on`, `retired_reason`, and
+`retired_note`, says whether the artifact still holds. A relation touching a
+retired artifact keeps its reviewed status and is rendered as inactive rather
+than dropped. The decision is ADR-009; the model is described in the metamodel
+document.
+
+For a project that vendored the schema:
+
+- Re-copy `metamodel/artifact.schema.yaml` **and**
+  `scripts/validate-metamodel.rb` together. The validator reads the validity
+  vocabulary from the schema, exactly as it reads relation types from
+  `relations.schema.yaml`.
+- The change is additive. Existing artifacts stay valid: an absent `validity`
+  means active, and nothing has to be backfilled.
+- A new schema beside an old validator is the one combination to avoid: the
+  fields validate but nothing enforces the invariants, so a retired artifact
+  without `retired_on` passes unnoticed. An old schema beside a new validator is
+  safe — the validator falls back to its built-in vocabulary.
+
 ### Local skills and contracts extend, they do not duplicate
 
 A consuming project may add its own `skills/**/SKILL.md` and task contracts for

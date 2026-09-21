@@ -63,6 +63,18 @@ hierarchical or dependency relationships, not as a reciprocal for other relation
 - **Never add reciprocal relations manually.** Incoming relations appear only in
   generated documentation, not in source metadata.
 
+## Retired Endpoints
+
+- A relation is inactive for the current architecture when either endpoint is
+  retired. It stays in the metadata with the status it was reviewed with, and
+  the generator marks it inactive.
+- Never change a relation's status because its target stopped existing.
+  `rejected` means the claim was considered and turned down, not that time has
+  passed.
+- Pointing a new relation at a retired artifact is allowed, because
+  `documents` and `supersedes` legitimately point backwards. The validator
+  warns, so check that the reference is deliberate rather than accidental.
+
 ## Impact Rules
 
 - Link a proposed ADR to quality scenarios it addresses or constrains.
