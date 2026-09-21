@@ -44,7 +44,9 @@ properties:
     type: string
     description: >-
       Review axis: how confirmed the artifact is. Whether it still holds is the
-      separate validity axis.
+      separate validity axis. 'superseded' and 'deprecated' are transitional
+      exceptions that still carry temporal meaning here; ADR-009 defers their
+      migration.
     enum:
       - draft
       - proposed
