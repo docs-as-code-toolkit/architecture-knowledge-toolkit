@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:v1.3.1}"
+DOCS_TOOLBOX_IMAGE="${DOCS_TOOLBOX_IMAGE:-ghcr.io/docs-as-code-toolkit/docs-toolbox:v1.5.0}"
 SOURCE_DOC="${1:-}"
 OUTPUT_DIR="${2:-}"
 REVEALJSDIR="${REVEALJSDIR:-https://cdn.jsdelivr.net/npm/reveal.js@5.1.0}"
