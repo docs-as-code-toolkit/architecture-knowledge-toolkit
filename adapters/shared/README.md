@@ -195,6 +195,13 @@ the session inherits it.
   there, because `claude auth login` does not: the first interactive `start`
   would otherwise run the onboarding, ask to log in again, and fail on the port
   it may not bind.
+- **Log in with `login`, not with `claude auth login`.** Which state Claude Code
+  uses depends on `CLAUDE_CONFIG_DIR`, not on the directory you stand in. Run by
+  hand inside the clone, `claude auth login` succeeds and re-authenticates your
+  real Claude Code state, the clone stays logged out, and nothing says so. To see
+  that the login reached the clone, look for the token with
+  `ls -a <clone>/.git/dry-run-session/claude`: it is a dotfile below `.git`, so a
+  plain `ls` in the clone shows nothing. `check` reports the login as well.
 - **Only dry-run clones.** `start`, `login` and `check` refuse a directory that
   `setup` did not prepare, recognized by its disabled push URL and its hook, so a
   session never runs in an original checkout.
