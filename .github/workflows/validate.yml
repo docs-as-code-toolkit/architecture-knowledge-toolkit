@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # All tasks run through build.sh in the docs-toolbox container image, so
       # CI uses the same toolchain (Ruby, Node.js, Asciidoctor) as local runs.
