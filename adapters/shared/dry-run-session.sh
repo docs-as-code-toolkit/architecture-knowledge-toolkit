@@ -49,6 +49,21 @@ usage() {
   exit 2
 }
 
+# link_on_path <relative path>: true if a symbolic link lies anywhere on the path,
+# the last component included, even one that points nowhere.
+link_on_path() {
+  local rest="$1" part=""
+  while [ -n "$rest" ]; do
+    part="${part:+$part/}${rest%%/*}"
+    if [ -L "$part" ]; then return 0; fi
+    case "$rest" in
+      */*) rest="${rest#*/}" ;;
+      *) rest="" ;;
+    esac
+  done
+  return 1
+}
+
 setup() {
   local src="${1:-}" dst name
   [ -n "$src" ] || usage
@@ -68,7 +83,11 @@ setup() {
   chmod +x .git/dry-run-hooks/pre-push
   git config core.hooksPath .git/dry-run-hooks
 
-  if [ -e "$SETTINGS" ]; then
+  # The project decides what its checkout contains, and this runs outside the
+  # sandbox: a link here would carry the write out of the clone.
+  if link_on_path "$SETTINGS"; then
+    echo "  $SETTINGS lies behind a symbolic link; nothing was written through it, so this clone has no deny rules for Claude Code" >&2
+  elif [ -e "$SETTINGS" ]; then
     echo "  $SETTINGS already exists and was left untouched; add the deny rules by hand" >&2
   else
     mkdir -p .claude
@@ -198,24 +217,47 @@ start() {
 }
 
 login() {
-  local dst="${1:-}" state version
+  local dst="${1:-}" clone
   [ -n "$dst" ] || usage
   require_clone "$dst"
-  state="$(cd "$dst" && pwd -P)/$CLAUDE_STATE/.claude.json"
+  clone="$(cd "$dst" && pwd -P)"
   session "$dst" login claude auth login
   # claude auth login does not complete the onboarding. The first interactive
   # start would then run it and ask to log in again, which needs the local port
   # only this run may bind, and stop there.
-  [ -f "$state" ] || return 0
-  version="$(claude --version 2>/dev/null | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+' || true)"
-  DRY_RUN_STATE="$state" DRY_RUN_VERSION="$version" node -e '
+  #
+  # An earlier session could write to this state, and could have replaced the
+  # file with a link to anything on the host. So this step runs in a sandbox of
+  # its own, without the local port, like any other session. The check below only
+  # turns a denied write into a clear message.
+  # The node program is single-quoted on purpose; it reads its input from the environment.
+  # shellcheck disable=SC2016
+  "$SELF" start "$clone" -- node -e '
 const fs = require("node:fs");
-const file = process.env.DRY_RUN_STATE;
+const path = require("node:path");
+const { execFileSync } = require("node:child_process");
+const file = path.join(process.env.CLAUDE_CONFIG_DIR, ".claude.json");
+let stat;
+try {
+  stat = fs.lstatSync(file);
+} catch (error) {
+  if (error.code === "ENOENT") process.exit(0);
+  throw error;
+}
+if (!stat.isFile()) {
+  console.error(`dry-run-session: ${file} is not a regular file, so an earlier session replaced it; throw this clone away and set up a new one`);
+  process.exit(1);
+}
+let version = "";
+try {
+  const output = execFileSync("claude", ["--version"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+  version = (output.match(/^\d+\.\d+\.\d+/) || [""])[0];
+} catch {}
 const state = JSON.parse(fs.readFileSync(file, "utf8"));
 state.hasCompletedOnboarding = true;
-if (process.env.DRY_RUN_VERSION) state.lastOnboardingVersion = process.env.DRY_RUN_VERSION;
+if (version) state.lastOnboardingVersion = version;
 fs.writeFileSync(file, JSON.stringify(state, null, 2) + "\n");
-'
+' </dev/null
 }
 
 # session <target> <mode> <command...>: run the command inside the sandbox.
@@ -225,6 +267,12 @@ session() {
   require_clone "$dst"
   require_sandbox
   clone="$(cd "$dst" && pwd -P)"
+  # An earlier session could write here. A link would point this session's Claude
+  # Code state at something outside the clone.
+  if (cd "$clone" && link_on_path "$CLAUDE_STATE"); then
+    echo "dry-run-session: $CLAUDE_STATE in $dst contains a symbolic link, so an earlier session replaced it; throw this clone away and set up a new one" >&2
+    exit 1
+  fi
   cfg="$(mktemp -d)"
   # Short on purpose: Claude Code falls back to /tmp/cc-socks-<uid>, which the
   # policy does not open, when a socket path exceeds 103 bytes.
@@ -236,7 +284,6 @@ session() {
   if [ -z "$mode" ] && [ -t 0 ]; then pty=1; fi
   write_policy "$clone" "$cfg/srt-settings.json" "$mode" "$sockets" "$pty"
   mkdir -p /tmp/claude 2>/dev/null || true
-  mkdir -p "$clone/$CLAUDE_STATE"
   cd "$clone"
   env \
     -u GH_TOKEN -u GITHUB_TOKEN -u GH_ENTERPRISE_TOKEN \
