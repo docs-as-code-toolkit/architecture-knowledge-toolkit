@@ -70,6 +70,11 @@ Feature: Dry-run session
     When a session is started in it, and logging in there
     Then both fail, say it is not a dry-run clone, run nothing and leave no Claude Code state behind
 
+  Scenario: A missing directory is reported as missing
+    Given a path where no directory exists
+    When a session is started there, logging in there, and checking it
+    Then all three fail, say the directory does not exist instead of calling it not a dry-run clone, and create nothing
+
   Scenario: A push to the clone's own remote is refused
     Given a dry-run clone
     When the session pushes to origin
