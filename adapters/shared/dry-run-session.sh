@@ -117,8 +117,11 @@ require_sandbox() {
 # disabled push URL and the hook, so no session runs in an original checkout.
 require_clone() {
   local dst="$1"
-  if [ ! -d "$dst" ] ||
-    [ "$(git -C "$dst" config --get remote.origin.pushurl 2>/dev/null)" != "$PUSH_URL_DISABLED" ] ||
+  if [ ! -d "$dst" ]; then
+    echo "dry-run-session: $dst does not exist; check the path, or prepare a clone with: $SELF setup <source> [target]" >&2
+    exit 1
+  fi
+  if [ "$(git -C "$dst" config --get remote.origin.pushurl 2>/dev/null)" != "$PUSH_URL_DISABLED" ] ||
     [ "$(git -C "$dst" config --get core.hooksPath 2>/dev/null)" != ".git/dry-run-hooks" ] ||
     [ ! -x "$dst/.git/dry-run-hooks/pre-push" ]; then
     echo "dry-run-session: $dst is not a dry-run clone; prepare one with: $SELF setup <source> [target]" >&2

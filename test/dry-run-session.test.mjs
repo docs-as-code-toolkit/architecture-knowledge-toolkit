@@ -365,6 +365,27 @@ test("A directory that is not a dry-run clone is refused", (t) => {
   assert.ok(!fs.existsSync(path.join(src, ".git/dry-run-session")), "Claude Code state was created");
 });
 
+test("A missing directory is reported as missing", (t) => {
+  // Given: a path where no directory exists
+  const dir = workspace(t);
+  const missing = path.join(dir, "no-such-clone");
+
+  // When: a session is started there, logging in there, and checking it
+  const results = [
+    run(["start", missing, "--", "true"]),
+    run(["login", missing]),
+    run(["check", missing]),
+  ];
+
+  // Then: all three fail, say the directory does not exist instead of calling it not a dry-run clone, and create nothing
+  for (const result of results) {
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /does not exist/);
+    assert.doesNotMatch(result.stderr, /is not a dry-run clone/);
+  }
+  assert.ok(!fs.existsSync(missing), "a missing directory was created");
+});
+
 test("A push to the clone's own remote is refused", (t) => {
   // Given: a dry-run clone
   const { clone } = dryRunClone(t);
