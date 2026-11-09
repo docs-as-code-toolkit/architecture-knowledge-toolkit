@@ -30,7 +30,8 @@ const helper = path.join(repoRoot, "adapters/shared/dry-run-session.sh");
 // repository one scenario commits it to, and the test would depend on the
 // machine it runs on.
 // Stands in for srt: records the policy passed with --settings to the file named
-// by DRY_RUN_STUB_POLICY, then runs the command after -- without a sandbox.
+// by DRY_RUN_STUB_POLICY, or a later run's to that name plus .next, then runs the
+// command after -- without a sandbox.
 const stubDir = fs.mkdtempSync(path.join(os.tmpdir(), "dry-run-session-srt-"));
 after(() => fs.rmSync(stubDir, { recursive: true, force: true }));
 const stubSrt = path.join(stubDir, "srt");
@@ -39,10 +40,14 @@ fs.writeFileSync(
   [
     "#!/bin/sh",
     '[ "$1" = "--settings" ] || { echo "stub srt: expected --settings" >&2; exit 97; }',
-    '[ -z "$DRY_RUN_STUB_POLICY" ] || cp "$2" "$DRY_RUN_STUB_POLICY"',
+    'if [ -n "$DRY_RUN_STUB_POLICY" ]; then',
+    '  if [ -e "$DRY_RUN_STUB_POLICY" ]; then cp "$2" "$DRY_RUN_STUB_POLICY.next"; else cp "$2" "$DRY_RUN_STUB_POLICY"; fi',
+    "fi",
     // Without --, srt would read a command's own options, such as claude -c, as its own.
     '[ "$3" = "--" ] || { echo "stub srt: expected -- before the command" >&2; exit 98; }',
     "shift 3",
+    // Stands in for a sandbox that denies this command's writes: it does not run.
+    'if [ -n "$DRY_RUN_STUB_DENY" ] && [ "$1" = "$DRY_RUN_STUB_DENY" ]; then exit 0; fi',
     'exec "$@"',
     "",
   ].join("\n"),
@@ -232,6 +237,7 @@ test("Logging in is the only session that may bind a local port", (t) => {
   assert.equal(login.status, 0, login.stderr);
   assert.equal(login.stdout, "claude auth login");
   assert.equal(JSON.parse(fs.readFileSync(loginPolicy, "utf8")).network.allowLocalBinding, true);
+  assert.equal(JSON.parse(fs.readFileSync(`${loginPolicy}.next`, "utf8")).network.allowLocalBinding, false);
   assert.equal(sessionPolicy.network.allowLocalBinding, false);
 });
 
@@ -324,6 +330,72 @@ test("Logging in completes the onboarding", (t) => {
   assert.deepEqual(state.oauthAccount, { emailAddress: "dry-run@example.invalid" });
   assert.equal(state.hasCompletedOnboarding, true);
   assert.equal(state.lastOnboardingVersion, "9.8.7");
+});
+
+// A stand-in for Claude Code that answers --version and otherwise leaves the state alone.
+function idleClaude(dir) {
+  const bin = path.join(dir, "bin");
+  fs.mkdirSync(bin);
+  fs.writeFileSync(
+    path.join(bin, "claude"),
+    '#!/bin/sh\nif [ "$1" = "--version" ]; then echo "9.8.7 (Claude Code)"; fi\n',
+    { mode: 0o755 },
+  );
+  return { PATH: `${bin}${path.delimiter}${process.env.PATH}` };
+}
+
+test("The onboarding is recorded from inside the sandbox", (t) => {
+  // Given: a dry-run clone with a Claude Code state and a sandbox that denies the write
+  const { dir, clone } = dryRunClone(t);
+  const env = idleClaude(dir);
+  const file = path.join(clone, ".git/dry-run-session/claude/.claude.json");
+  const before = '{"oauthAccount":{}}\n';
+  fs.writeFileSync(file, before);
+
+  // When: logging in
+  const login = run(["login", clone], { ...env, DRY_RUN_STUB_DENY: "node" });
+
+  // Then: the state is not changed, because nothing outside the sandbox writes it
+  assert.equal(login.status, 0, login.stderr);
+  assert.equal(fs.readFileSync(file, "utf8"), before);
+});
+
+test("Logging in does not follow a state file an earlier session replaced", (t) => {
+  // Given: a dry-run clone whose state file is a link to a file on the host
+  const { dir, clone } = dryRunClone(t);
+  const env = idleClaude(dir);
+  const host = path.join(dir, "host.json");
+  const before = '{"mine":true}\n';
+  fs.writeFileSync(host, before);
+  fs.symlinkSync(host, path.join(clone, ".git/dry-run-session/claude/.claude.json"));
+
+  // When: logging in again
+  const login = run(["login", clone], env);
+
+  // Then: the login fails, says why, and the file on the host is not changed
+  assert.notEqual(login.status, 0);
+  assert.match(login.stderr, /is not a regular file/);
+  assert.equal(fs.readFileSync(host, "utf8"), before);
+});
+
+test("A state directory an earlier session replaced is refused", (t) => {
+  // Given: a dry-run clone whose state directory leads out of the clone through a link
+  const { dir, clone } = dryRunClone(t);
+  const outside = path.join(dir, "outside");
+  fs.mkdirSync(outside);
+  const parent = path.join(clone, ".git/dry-run-session");
+  fs.rmSync(parent, { recursive: true });
+  fs.symlinkSync(outside, parent);
+  const marker = path.join(dir, "ran");
+
+  // When: a session is started there
+  const result = run(["start", clone, "--", "touch", marker]);
+
+  // Then: it fails, the command does not run, and nothing is created outside the clone
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /contains a symbolic link/);
+  assert.ok(!fs.existsSync(marker), "the command ran");
+  assert.deepEqual(fs.readdirSync(outside), []);
 });
 
 test("Without the sandbox runtime no session starts", (t) => {
@@ -490,6 +562,37 @@ test("A local settings file the project already has is left untouched", (t) => {
   // Then: the file is not changed and the setup says so
   assert.equal(fs.readFileSync(path.join(clone, ".claude/settings.local.json"), "utf8"), own);
   assert.match(result.stderr, /left untouched/);
+});
+
+test("Setting up writes nothing through a symbolic link", (t) => {
+  // Given: source repositories whose .claude links to an outside directory, or whose settings file is a dangling link
+  const dir = workspace(t);
+  const outside = path.join(dir, "outside");
+  fs.mkdirSync(outside);
+  const dangling = path.join(dir, "dangling.json");
+  const linkedDirectory = path.join(dir, "linked-directory");
+  const linkedFile = path.join(dir, "linked-file");
+  for (const src of [linkedDirectory, linkedFile]) fs.mkdirSync(src);
+  fs.symlinkSync(outside, path.join(linkedDirectory, ".claude"));
+  fs.mkdirSync(path.join(linkedFile, ".claude"));
+  fs.symlinkSync(dangling, path.join(linkedFile, ".claude/settings.local.json"));
+  for (const src of [linkedDirectory, linkedFile]) {
+    git(src, "init", "--quiet", "-b", "main");
+    git(src, "add", "-A");
+    git(src, "commit", "--quiet", "-m", "initial");
+  }
+
+  // When: a dry-run clone is set up from each
+  const results = [linkedDirectory, linkedFile].map((src) => run(["setup", src, `${src}-clone`]));
+
+  // Then: nothing is written outside the clone, and the setup says the clone has no deny rules
+  for (const result of results) {
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stderr, /lies behind a symbolic link/);
+    assert.match(result.stderr, /no deny rules/);
+  }
+  assert.deepEqual(fs.readdirSync(outside), []);
+  assert.ok(!fs.existsSync(dangling), "the dangling link was followed");
 });
 
 test("A target that already exists is refused", (t) => {

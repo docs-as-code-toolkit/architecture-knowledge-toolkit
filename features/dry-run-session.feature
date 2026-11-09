@@ -60,6 +60,21 @@ Feature: Dry-run session
     When logging in
     Then the clone's Claude Code state keeps the login and records the onboarding as complete for the installed version
 
+  Scenario: The onboarding is recorded from inside the sandbox
+    Given a dry-run clone with a Claude Code state and a sandbox that denies the write
+    When logging in
+    Then the state is not changed, because nothing outside the sandbox writes it
+
+  Scenario: Logging in does not follow a state file an earlier session replaced
+    Given a dry-run clone whose state file is a link to a file on the host
+    When logging in again
+    Then the login fails, says why, and the file on the host is not changed
+
+  Scenario: A state directory an earlier session replaced is refused
+    Given a dry-run clone whose state directory leads out of the clone through a link
+    When a session is started there
+    Then it fails, the command does not run, and nothing is created outside the clone
+
   Scenario: Without the sandbox runtime no session starts
     Given a dry-run clone and no sandbox runtime
     When the session is started
@@ -104,6 +119,11 @@ Feature: Dry-run session
     Given a source repository that already contains .claude/settings.local.json
     When a dry-run clone is set up from it
     Then the file is not changed and the setup says so
+
+  Scenario: Setting up writes nothing through a symbolic link
+    Given source repositories whose .claude links to an outside directory, or whose settings file is a dangling link
+    When a dry-run clone is set up from each
+    Then nothing is written outside the clone, and the setup says the clone has no deny rules
 
   Scenario: A target that already exists is refused
     Given a directory already exists at the target path

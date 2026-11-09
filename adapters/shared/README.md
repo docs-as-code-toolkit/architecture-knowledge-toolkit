@@ -194,7 +194,10 @@ the session inherits it.
   `.credentials.json`. `login` then marks Claude Code's onboarding as complete
   there, because `claude auth login` does not: the first interactive `start`
   would otherwise run the onboarding, ask to log in again, and fail on the port
-  it may not bind.
+  it may not bind. It writes that mark from inside the sandbox, because a session
+  can write to this directory and leave a link to any file on the host. If the
+  state file or a directory on the way to it has been replaced with a link, `login`
+  and `start` refuse: throw the clone away.
 - **Log in with `login`, not with `claude auth login`.** Which state Claude Code
   uses depends on `CLAUDE_CONFIG_DIR`, not on the directory you stand in. Run by
   hand inside the clone, `claude auth login` succeeds and re-authenticates your
@@ -217,7 +220,9 @@ the session inherits it.
   resets every git credential helper, and disables terminal prompts.
 - **Deny rules for Claude Code**, written to `.claude/settings.local.json` when
   that file does not exist yet. An existing file is reported and left untouched,
-  never merged.
+  never merged. `setup` runs outside the sandbox and writes nothing through a
+  symbolic link the project brings along, at `.claude` or at the file itself. It
+  reports that the clone has no deny rules; the sandbox holds regardless.
 - **`check` tests the sandbox, not the layers around it.** From inside the
   session it pushes to `origin` and to a local repository, with and without the
   hook, writes outside the clone, changes the clone's git configuration and hook,
