@@ -89,7 +89,7 @@ function runContainerTaskWithEngineStubs(t, env) {
   const log = path.join(parent, "invocations.log");
   for (const engine of ["podman", "docker"]) {
     const stub = path.join(binDir, engine);
-    fs.writeFileSync(stub, `#!/bin/sh\necho "${engine} $1" >> "$STUB_LOG"\n`);
+    fs.writeFileSync(stub, `#!/bin/sh\necho "${engine} $1" >> "$STUB_LOG"\necho "${engine} args: $*" >> "$STUB_LOG"\n`);
     fs.chmodSync(stub, 0o755);
   }
 
@@ -127,3 +127,18 @@ test("DOCS_TOOLBOX_ENGINE overrides detection", (t) => {
   assert.match(invocations, /^docker run$/m);
   assert.doesNotMatch(invocations, /^podman run$/m);
 });
+
+// Java ignores HOME and reads user.home from the passwd entry. Under Podman with
+// --userns=keep-id that entry points at the mounted project, so the JVM in the
+// image (PlantUML) wrote its font cache to .java/ in the project (issue #114).
+for (const engine of ["podman", "docker"]) {
+  test(`container mode passes user.home=/tmp to the JVM under ${engine}`, (t) => {
+    const { invocations } = runContainerTaskWithEngineStubs(t, {
+      DOCS_TOOLBOX_ENGINE: engine,
+    });
+    assert.match(
+      invocations,
+      new RegExp(`^${engine} args: run .*-e JAVA_TOOL_OPTIONS=-Duser\\.home=/tmp `, "m"),
+    );
+  });
+}
