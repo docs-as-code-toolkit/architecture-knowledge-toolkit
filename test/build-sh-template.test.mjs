@@ -5,6 +5,8 @@
 // documented, not exercised, elsewhere. These tests check that it is at least
 // syntactically valid and that its local-mode dispatch invokes the expected
 // vendored tool for each task, using stub `ruby`/`node` on PATH.
+//
+// Bridged from: features/container-build.feature (the user.home tests below).
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -132,10 +134,13 @@ test("DOCS_TOOLBOX_ENGINE overrides detection", (t) => {
 // --userns=keep-id that entry points at the mounted project, so the JVM in the
 // image (PlantUML) wrote its font cache to .java/ in the project (issue #114).
 for (const engine of ["podman", "docker"]) {
-  test(`container mode passes user.home=/tmp to the JVM under ${engine}`, (t) => {
+  test(`Container build keeps the JVM home out of the project (${engine})`, (t) => {
+    // Given a consuming project with the task runner and the container engine
+    // When a documentation task runs in container mode
     const { invocations } = runContainerTaskWithEngineStubs(t, {
       DOCS_TOOLBOX_ENGINE: engine,
     });
+    // Then the JVM in the container gets /tmp as its home directory
     assert.match(
       invocations,
       new RegExp(`^${engine} args: run .*-e JAVA_TOOL_OPTIONS=-Duser\\.home=/tmp `, "m"),
