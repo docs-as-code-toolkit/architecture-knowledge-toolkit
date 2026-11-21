@@ -66,6 +66,9 @@ run_render() {
 # Map file ownership so rendered files stay owned by the invoking user on native
 # Linux: Docker runs as root by default (explicit user + writable HOME), rootless
 # Podman maps container root to the host user with --userns=keep-id.
+# Java ignores HOME and takes user.home from the passwd entry, which keep-id
+# points at the mounted project (/app). Without JAVA_TOOL_OPTIONS the JVM in
+# the image (PlantUML) would write its font cache to .java/ in the project.
 run_in_container() {
   engine="$1"
   case "$engine" in
@@ -75,6 +78,7 @@ run_in_container() {
         -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER=1 \
         -e REVEALJSDIR="$REVEALJSDIR" \
         -e HOME=/tmp \
+        -e JAVA_TOOL_OPTIONS=-Duser.home=/tmp \
         -v "$PWD":/app \
         -w /app \
         "$DOCS_TOOLBOX_IMAGE" \
@@ -86,6 +90,7 @@ run_in_container() {
         -e ARCHITECTURE_KNOWLEDGE_TOOLKIT_PRESENTATION_IN_CONTAINER=1 \
         -e REVEALJSDIR="$REVEALJSDIR" \
         -e HOME=/tmp \
+        -e JAVA_TOOL_OPTIONS=-Duser.home=/tmp \
         -v "$PWD":/app \
         -w /app \
         "$DOCS_TOOLBOX_IMAGE" \

@@ -162,6 +162,9 @@ run_local() {
 # owned by the invoking user on native Linux. Docker runs as root by default, so
 # pass an explicit user plus a writable HOME. Rootless Podman maps container root
 # to the host user with --userns=keep-id.
+# Java ignores HOME and takes user.home from the passwd entry, which keep-id
+# points at the mounted project (/app). Without JAVA_TOOL_OPTIONS the JVM in
+# the image (PlantUML) would write its font cache to .java/ in the project.
 run_in_container() {
   ENGINE="$1"
   shift
@@ -174,6 +177,7 @@ run_in_container() {
         -e BUILD_DIR="$BUILD_DIR" \
         -e SOURCE_DOC="$SOURCE_DOC" \
         -e HOME=/tmp \
+        -e JAVA_TOOL_OPTIONS=-Duser.home=/tmp \
         -v "$PWD":/app \
         -w /app \
         "$DOCS_TOOLBOX_IMAGE" \
@@ -186,6 +190,7 @@ run_in_container() {
         -e BUILD_DIR="$BUILD_DIR" \
         -e SOURCE_DOC="$SOURCE_DOC" \
         -e HOME=/tmp \
+        -e JAVA_TOOL_OPTIONS=-Duser.home=/tmp \
         -v "$PWD":/app \
         -w /app \
         "$DOCS_TOOLBOX_IMAGE" \
